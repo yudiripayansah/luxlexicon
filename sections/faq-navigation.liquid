@@ -1,0 +1,185 @@
+{% comment %} Luxlexicon Theme - Yudi {% endcomment %}
+{% assign el_id = 'faq-navigation-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+<style>
+  #{{el_id}} {
+    margin: 0;
+  }
+  #{{el_id}} .nav-link-mobile{
+    opacity:0.5;
+  }
+  #{{el_id}} .nav-link-mobile.active{
+    opacity:1;
+    font-weight:500;
+  }
+  #{{el_id}} .global-select-div .options li{
+    padding:8px 20px;
+  }
+  #{{el_id}} .global-select-div .options li:first-child{
+    padding-top:20px;
+  }
+  #{{el_id}} .global-select-div .options li:last-child{
+    padding-bottom: 20px;
+  }
+  @media(min-width: 768px) {
+    #{{el_id}} .global-select-div .options li{
+      padding:8px 30px;
+    }
+  }
+  @media(min-width: 1024px) {
+    #{{el_id}} .nav-each{
+        display: block;
+    }
+    #{{el_id}} .nav-each .nav-item {
+        opacity: .3;
+        cursor: pointer;
+    }
+    #{{el_id}} .nav-each .nav-item.active {
+        opacity: 1;
+    }
+  }
+  #{{el_id}} ul.options{
+    max-height:unset;
+  }
+</style>
+
+<section id="{{el_id}}" class="faq-navigation">
+  <div class="hide-m show-d">
+    {% for block in section.blocks %}
+      <a
+        href="#{{block.settings.section_id}}"
+        onclick="changeSection(event)"
+        class="flex p2 nav-each {% unless forloop.first == true %}mt-16{% endunless %} {%if forloop.first%}c-black{% else %}c-grey40{% endif %}"
+        data-tag="{{block.settings.section_id}}"
+      >
+        {{- block.settings.title }}
+      </a>
+    {% endfor %}
+  </div>
+
+  <div class="hide-d show-m">
+    <div class="global-select-div pt-20 pb-20 pl-20 pr-20 t-pl-30 t-pr-30 bb-1 b-border">
+      <div class="inner relative">
+        <div class="text p2 selected-div-text tl">
+          {{ section.blocks[0].settings.title }}
+        </div>
+        <div class="icons">
+          <div class="icon icon-caret">{{ settings.icon_select }}</div>
+        </div>
+      </div>
+      <ul class="options bt-1 bb-1 b-border bg-white tl">
+        {% for block in section.blocks %}
+          <li>
+            {%- assign href = 'javascript:void(0)' -%}
+            <a
+              onclick="switchSections{{ section.id | replace: '-', '' }}(event)"
+              data-sections="{{ block.settings.section_id }}"
+              data-title="{{ block.settings.title }}"
+              href="{{ href }}"
+              rel="nofollow"
+              class="nav-link-mobile nav-handler show-m-inline-block p2 c-black {%if forloop.first%}active{% endif %}"
+            >
+              {{- block.settings.title -}}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+    const selectElement = document.querySelector("#{{el_id}} select");
+    //for mobile
+    function switchSections{{ section.id | replace: '-', '' }}(event){
+        event.preventDefault();
+        let target = event.target
+        document.querySelector(".nav-link-mobile.active").classList.remove("active");
+        target.classList.add("active");
+        let tag_id = target.getAttribute("data-sections");
+        const curr_title = target.getAttribute('data-title');
+        let selectedFaq = document.querySelector(`#${tag_id}`);
+        //selectedFaq.scrollIntoView({behavior: 'smooth'})
+        
+        var offset = document.querySelector('#{{el_id}} .global-select-div').clientHeight + document.querySelector('#site-header').clientHeight;
+        var elementPosition = selectedFaq.getBoundingClientRect().top;
+        var offsetPosition = elementPosition + window.pageYOffset - offset;
+        
+        const dropdown_label = document.querySelector(`#{{el_id}} .selected-div-text`);
+        dropdown_label.innerHTML = curr_title;
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });
+    };
+    //for desktop
+    let scrollToPosition = 0
+    function changeSection(e){
+        e.preventDefault();
+        let target = e.target
+        let tag_id = target.getAttribute("data-tag");
+        let navItem =  document.querySelectorAll(".nav-each");
+        navItem.forEach(ni => {
+          ni.classList.remove("c-black");
+          ni.classList.add("c-grey40");
+        })
+        target.classList.remove("c-grey40");
+        target.classList.add("c-black");
+        let selectedFaq = document.querySelector(`#${tag_id}`);
+        let header = document.querySelector("#site-header");
+        var targetPosition = selectedFaq.getBoundingClientRect().top + window.pageYOffset;
+        var offset = header.clientHeight;
+        if(targetPosition > scrollToPosition) {
+          offset = 0
+        }
+        scrollToPosition = targetPosition - offset - 100;
+        window.scrollTo({ top: scrollToPosition, behavior: 'smooth' });
+    }
+</script>
+{% schema %}
+{
+  "name": "FAQ Navigation",
+  "settings": [
+    {
+      "type": "select",
+      "id": "content_type",
+      "label": "Content Type",
+      "options": [
+        {
+          "value": "salon",
+          "label": "Salon"
+        },
+        {
+          "value": "medical",
+          "label": "Medical"
+        }
+      ],
+      "default": "medical"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "section_id",
+          "label": "Section ID"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Navigation",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

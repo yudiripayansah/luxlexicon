@@ -1,0 +1,339 @@
+{% comment %} Luxlexicon - Yudi {% endcomment %}
+{% liquid
+  assign el_id = 'icons-grid-' | append: section.id
+  assign ss = section.settings
+  assign sb = section.blocks
+  render 'section-padding', el_id: el_id, section: section
+%}
+<style>
+  #{{el_id}} {
+    background-color: {{ ss.bg_color }};
+  }
+  #{{el_id}} .flex-wrapper{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: center;
+  }
+  #{{el_id}} .flex-wrapper-each{
+    width:100%;
+    max-width: 247px;
+  }
+  #{{el_id}} .text-container{
+    width: 100%;
+  }
+  {% if ss.title_text_color != blank %}
+    #{{el_id}} .section-title {
+      color: {{ ss.title_text_color }};
+    }
+  {% endif %}
+  #{{el_id}} .text-container > .h3 {
+    {% if ss.title_text_color != blank %}
+      color: {{ ss.title_text_color }};
+    {% endif %}
+  }
+  #{{el_id}} .ig-wrap {
+    flex-direction: column;
+  }
+
+  @media(min-width: 768px) {
+    #{{el_id}} .flex-wrapper-each{
+        justify-content: center;
+        align-items: center;
+    }
+    #{{el_id}} .flex-wrapper-each.hip-50 {
+        width: 50%;
+        max-width: unset;
+    }
+    #{{el_id}} .flex-wrapper-each .flex-wrap {
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
+    #{{el_id}} .text-container{
+        width: 100%;
+    }
+    #{{el_id}} .text-container.text-container-width{
+        width: 100%;
+    }
+  }
+
+  @media(min-width: 1024px) {
+    #{{el_id}} .ig-wrap {
+      flex-direction: row;
+    }
+    #{{el_id}} .flex-wrapper-each{
+      max-width: 228px;
+      justify-content: center;
+      align-items: center;
+    }
+    #{{el_id}} .flex-wrapper.above-4 .flex-wrapper-each.hip-50 {
+      width: 25%;
+      max-width: 192px;
+    }
+  }
+</style>
+
+<section id="{{el_id}}" class="icons-grid">
+  <div class="container overflow">
+    {% if ss.title != blank %}
+      <{{ ss.title_dom_type }} class="section-title {{ ss.title_size }} max-300 t-max-650 d-max-600 hhd-max-1000 mr-auto ml-auto tc">
+        {{- ss.title -}}
+      </{{ ss.title_dom_type }}>
+    {% endif %}
+    <div class="ig-wrap flex w-full d-max-1120 jc-between ai-center d-ai-start ml-auto mr-auto t-mt-56">
+      {% for block in sb %}
+        <style>
+          #{{el_id}} .icon-container{
+              {% if block.settings.icon_size contains 'big' %}
+              width:56px;
+              {% else %}
+              width: 28px;
+              {% endif %}
+              font-size: 0;
+          }
+          @media(min-width: 1024px) {
+              #{{el_id}} .icon-container{
+                  {% if block.settings.icon_size contains 'big' %}
+                  width: 56px;
+                  {% else %}
+                  width: 28px;
+                  {% endif %}
+              }
+          }
+        </style>
+        <div class="flex-wrapper-each d-max-228 mt-36 d-mt-0">
+          <div class="flex flex-wrap align-center jc-center tc">
+            {% if block.settings.icon_image != blank %}
+              <div class="icon-container">
+                  {% if block.settings.icon_image != blank %}
+                    {%- assign image_id = 'homepage-icon-' | append: block.id -%}
+                    {%- render 'global-image-wrapper',
+                      image_id: image_id,
+                      image: block.settings.icon_image,
+                      additional_class: 'no-bg'
+                    %}
+                  {% endif %}
+              </div>
+            {% endif %}
+            <div class="text-container d-mt-12 mt-16">
+              {%- if block.settings.title != blank -%}
+                <div class="h3 {{ block.settings.title_weight }} c-black">{{ block.settings.title }}</div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Icons Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "default": "h3",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "default": "h3",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "color",
+      "id": "title_text_color",
+      "label": "Title Text Color"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon (Image)"
+        },
+        {
+          "type": "select",
+          "id": "icon_size",
+          "label": "Icon Size",
+          "options": [
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "big",
+              "label": "Big"
+            }
+          ],
+          "default": "big"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icons Grid",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

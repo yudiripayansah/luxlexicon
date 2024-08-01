@@ -1,0 +1,30 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "header_links_text_tXiRie": {
+      "type": "header-links-text",
+      "settings": {
+        "top_padding_m": 30,
+        "bottom_padding_m": 0,
+        "top_padding_t": 30,
+        "bottom_padding_t": 0,
+        "top_padding": 50,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "title": "Information",
+        "title_size": "h2",
+        "title_dom_type": "h1",
+        "menu_1": "dev-side-menu-1",
+        "menu_2": "dev-side-menu-2",
+        "link_default_active": "",
+        "show_nav_mobile": true
+      }
+    }
+  },
+  "order": [
+    "header_links_text_tXiRie"
+  ]
+}

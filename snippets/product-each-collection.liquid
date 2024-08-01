@@ -1,0 +1,53 @@
+{% if custom %}
+{%- assign show_info = true -%}
+{%- if template.suffix contains 'all' -%}
+{%- assign show_info = false -%}
+{%- endif -%}
+<div class="item-box pb-10 t-pb-20 d-pb-20 mb-10 t-mb-20 d-mb-30 pl-10 pr-10 relative {{ class }}">
+    <div class="inner-ctn">
+        {%- assign hdl = block.settings.url | split: "/" | last | strip | handleize -%}
+        {% if block.settings.url_type == 'collection' %}
+            {%- assign total = collections[hdl].all_products_count -%}
+            {%- if total == '' -%}
+                {%- assign total = 0 -%}
+            {%- endif -%}
+        {% else %}
+            {%- assign total = 1 -%}
+        {% endif %}
+        <a href="{{ block.settings.url }}" class="w-full h-full flex jc-between flex-column">
+            <div class="imgbox">
+                {%- render 'global-image-wrapper', image: block.settings.image, additional_class: 'no-bg' -%}
+            </div>
+            <div class="infobox">
+                <div class="title">
+                    <h6 class="h6 bold-700 c-black">{{ block.settings.title }}</h6>
+                </div>
+                {%- if show_info -%}
+                <div class="info">
+                    <p class="p2 c-border-light">( {{ total }} {{ total | pluralize: 'model', 'models' }} )</p>
+                </div>
+                {%- endif -%}
+            </div>
+        </a>
+    </div>
+</div>
+{% else %}
+<div class="item-box pb-10 t-pb-20 d-pb-20 mb-10 t-mb-20 d-mb-30 pl-10 pr-10 relative {{ class }}">
+    <div class="inner-ctn">
+        <a href="{{ product.url }}" class="w-full h-full flex jc-between flex-column">
+            <div class="imgbox">
+                {%- render 'global-image-wrapper', image:product.featured_image, additional_class: 'no-bg' -%}
+            </div>
+            <div class="infobox">
+                <div class="title">
+                    <h5 class="p3 c-border-light pb-5 t-pb-5 d-pb-5">{{ product.vendor }}</h5>
+                    <h6 class="h6 bold-700 c-black">{{ product.title }}</h6>
+                </div>
+                <div class="info">
+                    <h6 class="p2 c-comfort-black">from &nbsp;{%- render 'product-price', product:product -%}</h6>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+{% endif %}

@@ -1,0 +1,162 @@
+<style>
+.collection-feature {
+    background: {% if section.settings.bg_color != blank %}{{ section.settings.bg_color }} {% else %}transparent{% endif %};
+}
+</style>
+{%- assign el_id = 'collection-feature-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+<div id="{{ el_id }}" class="w-full collection-feature">
+    <div class="container">
+        {%- if section.settings.title != blank or section.settings.text != blank -%}
+            {% render 'collection-feature-heading', title: section.settings.title, text: section.settings.text %}
+        {%- endif -%}
+        {%- assign ldata = section.blocks | where: 'type', 'left' -%}
+        {%- assign rdata = section.blocks | where: 'type', 'right' -%}
+        {% assign kitchen_products = products | where: "type", "kitchen" %}
+        <div class="row flex flex-row flex-wrap jc-between ai-start">
+            <div class="flex flex-column col-12 col-t-6 col-d-6">
+                {% for block in ldata %}
+                    {% render 'each-collection-feature', block: block %}
+                {% endfor %}
+            </div>
+            <div class="col-12 col-t-6 col-d-6">
+                {% for block in rdata %}
+                    {% render 'each-collection-feature', block: block %}
+                {% endfor %}
+            </div>
+        </div>
+        {%- if section.settings.title_bottom != blank or section.settings.text_bottom != blank -%}
+            {% render 'collection-feature-heading', title: section.settings.title_bottom, text: section.settings.text_bottom %}
+        {%- endif -%}
+    </div>
+</div>
+{% schema %}
+{
+	"name": "Collection Feature",
+	"settings": [
+        {
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "number",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)",
+            "default": 0
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)",
+            "default": 0
+		},
+		{
+			"type": "number",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)",
+            "default": 0
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)",
+            "default": 0
+		},
+		{
+			"type": "number",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)",
+            "default": 0
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)",
+            "default": 0
+		},
+        {
+            "type": "header",
+            "content": "Banner Section"
+        },
+        {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background Color"
+        },
+        {
+            "type" : "textarea",
+            "id" : "title",
+            "label" : "Title"
+        },
+        {
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Title DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"},
+                {"value":"h6","label":"H6"}
+            ],
+            "default": "h2"
+        },
+        {
+            "type" : "textarea",
+            "id" : "text",
+            "label" : "Text"
+        },
+        {
+            "type" : "textarea",
+            "id" : "title_bottom",
+            "label" : "Title Bottom"
+        },
+        {
+            "type" : "textarea",
+            "id" : "text_bottom",
+            "label" : "Text Bottom"
+        }
+	],
+    "blocks": [
+        {
+            "type": "left",
+            "name": "Image Left",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                },
+                {
+                    "type": "textarea",
+                    "id": "text",
+                    "label": "Text"
+                }
+            ]
+        },
+        {
+            "type": "right",
+            "name": "Image Right",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                },
+                {
+                    "type": "textarea",
+                    "id": "text",
+                    "label": "Text"
+                }
+            ]
+        }
+    ],
+	"presets": [
+		{
+			"name": "Collection Feature",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

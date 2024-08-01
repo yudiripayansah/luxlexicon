@@ -1,0 +1,425 @@
+{% comment %} JCO Theme - junio-done {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+<style>
+  #shopify-section-{{ section.id }} {
+    {%- if section.settings.enable_border_bottom -%}
+      border-bottom: 1px solid #dbdbdb;
+    {% endif %}
+  }
+  #shopify-section-{{ section.id }} .inner-container {
+    position: relative;
+  }
+  #shopify-section-{{ section.id }} .swiper-slide{
+    width: 74.368%;
+    flex: 0 0 74.368%;
+    padding: 0 5px;
+  }
+  #shopify-section-{{ section.id }} .carousel-wrapper{
+    margin: 0 -5px;
+  }
+  #shopify-section-{{ section.id }} .swiper-container{
+    overflow: visible!important;
+    clip-path: inset(-100vw -100vw -100vw -100vw);
+  }
+  #shopify-section-{{ section.id }} .review-star {
+    margin-bottom: -10px;
+  }
+  #shopify-section-{{ section.id }} .review-star svg {
+    width: 14px;
+  }
+  #shopify-section-{{ section.id }} .product-each-wrapper {
+    position: relative;
+  }
+  #shopify-section-{{ section.id }} .somi-text {
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    height: 40px;
+    max-width: 0;
+    transition: .5s;
+    white-space: nowrap;
+    padding: 0;
+    margin-left: -20px;
+  }
+  #shopify-section-{{ section.id }} .somi-btn {
+    border-radius: 100px;
+    min-width: 40px;
+    cursor: pointer;
+  }
+  #shopify-section-{{ section.id }} .somi-icon {
+    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+  }
+  #shopify-section-{{ section.id }} .somi-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+  #shopify-section-{{ section.id }} .shop-our-muses-popup {
+    transition: .5s;
+    opacity: 0;
+    visibility: hidden;
+  }
+  #shopify-section-{{ section.id }} .somp-overlay {
+    background: rgba(38,38,38,.6);
+  }
+  #shopify-section-{{ section.id }} .sompbh-close,
+  #shopify-section-{{ section.id }} .sompbh-close svg {
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+  }
+  #shopify-section-{{ section.id }} .somp-box {
+    transform: translateX(100%);
+    transition: .5s;
+  }
+  #shopify-section-{{ section.id }} .shop-our-muses-popup.show .somp-box {
+    transform: translateX(0);
+  }
+  #shopify-section-{{ section.id }} .shop-our-muses-popup.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  #shopify-section-{{ section.id }} .sompb-body {
+    overflow-y: auto;
+    height: calc(100% - 60px);
+  }
+  #shopify-section-{{ section.id }} .swiper {
+    overflow: visible !important;
+    clip-path: inset(-100vw -100vw -100vw -100vw);
+  }
+  #shopify-section-{{ section.id }} .som-tags a.active {
+    opacity: 1;
+  }
+  #shopify-section-{{ section.id }} .som-title,
+  #shopify-section-{{ section.id }} .som-subtitle {
+    width: 100%;
+    max-width: 250px;
+  }
+  #shopify-section-{{ section.id }} .som-tags-mobile {
+    overflow-x: auto !important;
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  #shopify-section-{{ section.id }} .som-tags-mobile::-webkit-scrollbar {
+    width: 0; /* Remove scrollbar width */
+    height: 0; /* Remove scrollbar height */
+    display: none; /* Hide scrollbar */
+  }
+  @media screen and (min-width: 600px) {
+    #shopify-section-{{ section.id }} .somi-btn:hover .somi-text {
+      max-width: 200px;
+      padding-left: 20px;
+      padding-right: 15px;
+    }
+    #shopify-section-{{ section.id }} .swiper-slide{
+      width: 48.567%;
+      flex: 0 0 48.567%;
+      padding: 0 7.5px;
+    }
+    #shopify-section-{{ section.id }} .carousel-wrapper{
+      margin: 0 -7.5px;
+    }
+  }
+  @media(min-width: 1024px) {
+      #shopify-section-{{ section.id }} .swiper {
+        position: unset;
+      }
+      #shopify-section-{{ section.id }} .swiper-slide{
+        display: flex;
+        width: 48.567%;
+        flex: 0 0 48.567%;
+      }
+      #shopify-section-{{ section.id }} .swiper-slide .product-each-wrapper,
+      #shopify-section-{{ section.id }} .swiper-slide .text-content-wrapper{
+        width: 50%;
+      }
+      #shopify-section-{{ section.id }} .swiper-slide .text-content-wrapper{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+  }
+</style>
+
+<section id="{{ section.id }}" class="homepage-tabbed overflow">
+  <div class="container">
+    <div class="inner-container">
+      <div class="outer-wrapper">
+        <div class="carousel-wrapper">
+          <div
+            id="slider-{{ el_id }}"
+            class="swiper swiper-container"
+          >
+            <div class="swiper-wrapper">
+              {%- for product in section.blocks -%}
+                <div class="swiper-slide">
+                  <div class="product-each-wrapper">
+                    <div class="relative">
+                      {% assign image_id = 'homepage-essential' | append: forloop.index %}
+                      {%- render 'global-image-wrapper-responsive',
+                        image_id: image_id,
+                        desktop_image: product.settings.desktop_image,
+                        mobile_image: product.settings.mobile_image
+                      %}
+                      <div
+                        class="somi-btn absolute bottom-15 left-15 flex ai-center overflow"
+                        data-target="{{forloop.index}}"
+                        onclick="togglePopupSom({{forloop.index}})"
+                      >
+                        <span class="somi-icon bg-white flex ai-center jc-center relative zi-2">
+                          {{ settings.icon_cart }}
+                        </span>
+                        <div class="bg-white regular-400 somi-text p4 uppercase spacing-1 pr-15 flex ai-center">
+                          {{ product.settings.btn_label }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-content-wrapper d-pl-30 d-pr-30">
+                    {%- if product.settings.reviewrating != blank -%}
+                      <div class="review-star pt-15 d-pt-10">
+                        {%- for i in (1..product.settings.reviewrating) -%}
+                          {{ settings.icon_pink_star }}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                    <p class="p3 pt-13">{{ product.settings.review }}</p>
+                    <p class="p3 pt-10">{{ product.settings.reviewname }}</p>
+                    <p class="p4">{{ product.settings.reviewlocation }}</p>
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% comment %} popup {% endcomment %}
+    <div class="shop-our-muses-popup fixed top-0 left-0 right-0 h-full flex jc-end zi-4">
+      <div class="somp-overlay absolute left-0 top-0 w-full h-full zi-1" onclick="togglePopupSom()"></div>
+      <div class="somp-box w-full d-max-395 bg-white h-full relative zi-2">
+        <div class="sompb-heading d-p-25 p-20 flex ai-center jc-between">
+          <h6 class="h6 spacing-1 uppercase">{{ section.settings.popup_title }}</h6>
+          <span class="sompbh-close" onclick="togglePopupSom()">
+            {{ settings.icon_close }}
+          </span>
+        </div>
+        <div class="sompb-body d-pl-25 d-pr-25 pl-20 pr-20">
+          {% for block in section.blocks %}
+            {% assign bs = block.settings %}
+            <div
+              class="row hide-m pb-10 d-pb-15 sompb-product-list flex flex-wrap"
+              id="sompb-product-list-{{forloop.index}}"
+            >
+              {% for product in bs.products %}
+                <div class="col-6 col-d-6 d-mb-20 mb-10">
+                  {% render 'product-each', product: product, disable_hover: true %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- assign function_name = el_id | replace: '-', '_' -%}
+{%- assign prefix = el_id | replace: '-', '_' | append: '_prefix' -%}
+<script>
+  var {{ prefix }}Init= false;
+  var {{ prefix }}Slider = Swiper;
+  function sliderInit{{ function_name }}() {
+      const el_id = '#{{ el_id }}';
+      if(!{{ prefix }}Init) {
+          {{ prefix }}Init = true;
+          {{ prefix }}Slider = new Swiper('#slider-{{ el_id }}', {
+              {%if section.settings.enable_autoslide%}
+              autoplay: {
+                  delay: {{section.settings.delay_autoslide}}
+              },
+              {%endif%}
+              slidesPerView: 'auto',
+              spaceBetween: 0,
+              loop: false,
+              a11y: false,
+              noSwipingSelector: '#slider-{{ el_id }} .variant-each-button',
+              pagination: {
+                  el: ".{{ el_id }}-pagination",
+                  clickable: true
+              },
+              navigation: {
+                  nextEl: '#slider-{{ el_id }} .swiper-arrow.right',
+                  prevEl: '#slider-{{ el_id }} .swiper-arrow.left'
+              },
+              on: {
+                  init: function() {
+                      $360.lazyLoadInstance.update();
+                  },
+                  slideChange: function() {
+                      $360.lazyLoadInstance.update();
+                  },
+                  resize: function() {
+                      $360.lazyLoadInstance.update();
+                  }
+              }
+          });
+      }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+      sliderInit{{ function_name }}();
+      //window.addEventListener("resize", sliderInit{{ function_name }});
+  });
+  document.addEventListener('shopify:section:load', () => { {{ prefix }}Init= false;sliderInit{{function_name}}() });
+  function togglePopupSom(target = 0) {
+    let body = document.querySelector('body');
+    let popup = document.querySelector('.shop-our-muses-popup');
+    let pl = document.querySelector('#sompb-product-list-' + target);
+    let pla = document.querySelectorAll('.sompb-product-list');
+    popup.classList.toggle('show');
+    body.classList.toggle('overflow');
+    pla.forEach(function (item) {
+      item.classList.add('hide-m');
+      item.classList.remove('flex');
+    });
+    pl.classList.remove('hide-m');
+    pl.classList.add('flex');
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Highlighted Reviews",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hd",
+        "label": "Top padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hd",
+        "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Setting"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_border_bottom",
+      "label": "Enable Border Bottom"
+    },
+    {
+      "type": "textarea",
+      "id": "popup_title",
+      "label": "Popup Title"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "reviewname",
+          "label": "Review Name"
+        },
+        {
+          "type": "textarea",
+          "id": "reviewlocation",
+          "label": "Review Location"
+        },
+        {
+          "type": "number",
+          "id": "reviewrating",
+          "label": "Review Rating"
+        },
+        {
+          "type": "textarea",
+          "id": "review",
+          "label": "Review"
+        },
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Cart Button Label"
+        },
+        {
+          "type": "product_list",
+          "id": "products",
+          "label": "Products"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Highlighted Reviews",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

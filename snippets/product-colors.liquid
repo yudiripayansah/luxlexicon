@@ -1,0 +1,23 @@
+<div class="product-colors-wrapper mt-20 relative w-full">
+    {%- assign coll = '' -%}
+    {%- for collection in product.collections -%}
+        {%- if collection.template_suffix == 'set' -%}
+            {%- assign coll = collection -%}
+        {%- endif -%}
+    {%- endfor -%}
+
+    <p class="p2 color-name">{{ product.metafields.info.color_name }}</p>
+    <ul class="color-swatch-wrapper mt-8 pb-5">
+        {%- for pro in coll.products -%}  
+            <li>
+                <a href="#" rel="nofollow" onclick="productVariantsVue.switchColor(event)" class="color-swatch-each {% if product.handle == pro.handle %} active {% endif %}" data-color-name="{{ pro.metafields.info.color_name }}" data-product-handle="{{ pro.handle }}" style="background-color: {{ pro.metafields.info.color_hex }};">
+                    {%- if pro.metafields.info.color_image != blank -%}
+                        {%- render 'global-image-wrapper',
+                            image: pro.metafields.info.color_image.value
+                        -%}
+                    {%- endif -%}
+                </a>
+            </li>
+        {%- endfor -%}
+    </ul>
+</div>

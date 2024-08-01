@@ -1,0 +1,170 @@
+{%- assign el_id = 'intro-text-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{%- render 'intro-text',
+    el_id: el_id,
+    bg_color: section.settings.bg_color, 
+    heading_size: section.settings.heading_size,
+    heading: section.settings.heading, 
+    description: section.settings.description,
+	label: section.settings.label,
+	url:section.settings.url,
+	blocks: section.blocks
+-%}
+
+{% schema %}
+{
+	"name": "Intro Text",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		},
+		{
+			"type": "header",
+			"content": "General Settings"
+		},
+        {
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background Color"
+		},
+		{
+			"type": "textarea",
+			"id": "heading",
+			"label": "Heading"
+		},
+		{
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Heading DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"}
+            ],
+            "default": "h3"
+        },
+        {
+            "type": "select",
+            "id": "heading_size",
+            "label": "Heading Size",
+            "options": [
+				{
+                    "value": "smaller",
+                    "label": "Smaller"
+                },
+                {
+                    "value": "normal",
+                    "label": "Normal"
+                },
+                {
+                    "value": "big",
+                    "label": "Big"
+                }
+            ],
+            "default": "normal"
+        },
+        {
+			"type": "textarea",
+			"id": "description",
+			"label": "Description"
+		},
+		{
+			"type": "text",
+			"id": "label",
+			"label": "Button label"
+		},
+		{
+			"type": "url",
+			"id": "url",
+			"label": "Button URL"
+		}
+	],
+	"blocks": [
+		{
+			"type": "entry",
+			"name": "Entry",
+			"settings": [
+				{
+					"type": "textarea",
+					"id": "title",
+					"label": "Heading"
+				},
+				{
+					"type": "select",
+					"id": "title_size",
+					"label": "Heading Size",
+					"options": [
+						{
+							"value": "smaller",
+							"label": "Smaller"
+						},
+						{
+							"value": "normal",
+							"label": "Normal"
+						},
+						{
+							"value": "big",
+							"label": "Big"
+						}
+					],
+					"default": "normal"
+				},
+				{
+					"type": "textarea",
+					"id": "description",
+					"label": "Description"
+				},
+				{
+					"type": "text",
+					"id": "label",
+					"label": "Button label"
+				},
+				{
+					"type": "url",
+					"id": "url",
+					"label": "Button URL"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Intro Text",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

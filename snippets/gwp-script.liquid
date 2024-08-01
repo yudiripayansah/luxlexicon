@@ -1,0 +1,169 @@
+<script>
+    const dsx = new xxv();
+    const $360_gwp = {
+        enabled: false,
+        cg_enabled: false,
+        checkGWP: function(callback) {
+            axios.get('/cart.js')
+            .then(function(response) {
+                const cart = response.data;
+                const cart_items = cart.items;
+                const total_price = Number(cart.total_price)/100;
+
+                //start original gwp
+                if($360_gwp.enabled){
+                    let cart_amount_num = 0;
+                    let gwp_pro = [];
+                    let gwp_pro_remove = {
+                        'updates': {}
+                    };
+                    let gwp_pro_remove_count = 0;
+                    let curr_item_var_id,args,curr_item,gwp_pro_qty,disc_msg;
+
+                    {%- for i in (1..3) -%}
+                        {%- assign cart_amount_temp = 'gwp_cart_amount_' | append: i -%}
+                        {%- assign cart_amount = settings[cart_amount_temp] -%}
+
+                        {%- assign disc_amt_temp = 'gwp_value_' | append: i -%}
+                        {%- assign disc_amt = settings[disc_amt_temp] -%}
+
+                        {%- assign disc_type_temp = 'gwp_value_type_' | append: i -%}
+                        {%- assign disc_type = settings[disc_type_temp] -%}
+
+                        {%- assign disc_msg_temp = 'gwp_disc_message_' | append: i -%}
+                        {%- assign disc_msg = settings[disc_msg_temp] -%}
+
+                        {%- assign gwp_pro = 'gwp_product_' | append: i -%}
+                        {%- assign gwp_pro_obj = settings[gwp_pro] -%}
+                        {%- assign gwp_pro_id = gwp_pro_obj.id -%}
+                        {%- assign gwp_pro_variant_id = gwp_pro_obj.selected_or_first_available_variant.id -%}
+
+                        {%- assign gwp_pro_qty_temp = 'gwp_product_qty_' | append: i -%}
+                        {%- assign gwp_pro_qty = settings[gwp_pro_qty_temp] -%}
+
+                        {%- if settings[cart_amount_temp] != blank and settings[cart_amount_temp] > 0 -%}
+                            cart_amount_num = Number('{{ cart_amount }}');
+                            curr_item_var_id = Number('{{ gwp_pro_variant_id }}');
+                            disc_msg = dsx.ccw(`{{ disc_msg | base64_encode }}`);
+
+                            if(total_price >= cart_amount_num) {
+                                curr_item = cart_items.filter((item) => item.id == curr_item_var_id);
+                                if(curr_item.length <= 0) {
+                                    args = {
+                                        varId: curr_item_var_id,
+                                        qty: `{{ gwp_pro_qty }}`,
+                                        properties: {
+                                            "_isGWP": true,
+                                            "_katwipigxsvw": `{{ gwp_pro_id }}`,
+                                            "_xlviwlsph": `{{ cart_amount }}`,
+                                            "_uxc": `{{ gwp_pro_qty }}`,
+                                            "_xcti": `{{ disc_type }}`,
+                                            "_eqsyrx": `{{ disc_amt }}`,
+                                            "_qwk": disc_msg
+                                        }
+                                    }
+                                    gwp_pro.push(args);
+                                }
+                            }
+                        {%- endif -%}
+                    {%- endfor -%}
+
+                    if(gwp_pro.length > 0) {
+                        $360.addToCartMultiple({
+                            products: gwp_pro,
+                            callback: callback
+                        });
+                    } else {
+                        {%- for i in (1..3) reversed -%}
+                            {%- assign cart_amount_temp = 'gwp_cart_amount_' | append: i -%}
+                            {%- assign cart_amount = settings[cart_amount_temp] -%}
+                            {%- assign gwp_pro = 'gwp_product_' | append: i -%}
+                            {%- assign gwp_pro_obj = settings[gwp_pro] -%}
+                            {%- assign gwp_pro_variant_id = gwp_pro_obj.selected_or_first_available_variant.id -%}
+
+                            {%- if settings[cart_amount_temp] != blank and settings[cart_amount_temp] > 0 -%}
+                                cart_amount_num = Number('{{ cart_amount }}');
+                                curr_item_var_id = Number('{{ gwp_pro_variant_id }}');
+
+                                if(total_price < cart_amount_num) {
+                                    curr_item = cart_items.filter((item) => item.id == curr_item_var_id);
+                                    if(curr_item.length) {
+                                        if(curr_item[0].properties != null && curr_item[0].properties._isGWP != null) {
+                                            if(curr_item[0].properties._isGWP === true) {
+                                                gwp_pro_remove_count += 1;
+                                                gwp_pro_remove['updates'][curr_item_var_id] = 0;
+                                            }
+                                        }
+                                    }
+                                }
+                            {%- endif -%}
+                        {%- endfor -%}
+
+                        if(gwp_pro_remove_count > 0) {
+                            axios.post('/cart/update.js', gwp_pro_remove)
+                            .then(function(response) {
+                                $360.showHeaderCart({update: true}); 
+                                $360.refreshCartPage();
+                            })
+                            .catch(function(error) {
+                                console.log(error.response.data.message)
+                            });
+                        }
+                    }
+                }
+                // end original gwp
+                
+                // start complimentary gift
+                let cg_product_already_in_cart = false;
+                let cg_product_already_in_cart_index = null;
+
+                if($360_gwp.cg_enabled){
+                    for(i = 0 ; i < cart.items.length ; i++){
+                        {%if settings.cart_cg_product != blank%}
+                            if(cart.items[i].variant_id == "{{settings.cart_cg_product.variants[0].id}}"){
+                                cg_product_already_in_cart = true;
+                                cg_product_already_in_cart_index = i;
+                                console.log("cart has cg already");
+                            }
+                        {%endif%}    
+                    }
+
+                    if(cg_product_already_in_cart){
+                        const cart_cg_free_value = Number("{{settings.cart_cg_free}}");
+                        console.log("cart_cg_free_value");
+                        console.log(cart_cg_free_value);
+                        console.log("total_price");
+                        console.log(total_price);
+                        if(total_price < cart_cg_free_value){
+                            $360.updateItemQty({
+                                index: cg_product_already_in_cart_index+1,
+                                qty: 0
+                            },function() { 
+                                $360_gwp.checkGWP(function(){
+                                    $360.showHeaderCart({update: true}); 
+                                    $360.refreshCartPage();
+                                });
+                            }); 
+                        }
+                    }
+                    if(callback){
+                        callback();
+                    }
+                    
+                }
+                // end complimentary gift
+            })
+            .catch(function(error) {
+                console.log(error)
+            });
+        }
+    };
+
+    {%- if settings.gwp_enable -%}
+        $360_gwp.enabled = true;
+    {%- endif -%}
+
+    {%- if settings.cart_enable_cg_info -%}
+        $360_gwp.cg_enabled = true;
+    {%- endif -%}
+</script>

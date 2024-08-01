@@ -1,0 +1,365 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+<style>
+    #shopify-section-{{ section.id }} .swiper-custom-arrow{
+        box-shadow: 0 1px 7px 0px rgba(0,0,0,.26);
+        -webkit-box-shadow: 0 1px 7px 0px rgba(0,0,0,.26);
+        -moz-box-shadow: 0 1px 7px 0px rgba(0,0,0,.26);
+        display:none;
+    }
+    #shopify-section-{{ section.id }} .swiper-custom-arrow.left{
+        left:-10px;
+    }
+    #shopify-section-{{ section.id }} .swiper-custom-arrow.right{
+        right:-10px;
+    }
+    #shopify-section-{{ section.id }} .swiper-slide{
+        width: 70%;
+        flex: 0 0 70%;
+        padding: 0 7.5px;
+    }
+    #shopify-section-{{ section.id }} .swiper-wrapper{
+        {% comment %} padding: 0 10px; {% endcomment %}
+    }
+    #shopify-section-{{ section.id }} .carousel-wrapper{
+        margin: 0 -7.5px;
+    }
+    #shopify-section-{{ section.id }} .swiper-button{
+        display:none;
+    }
+    #shopify-section-{{ section.id }} .swiper-container{
+        overflow: visible!important;
+        clip-path: inset(-100vw -100vw -100vw -100vw);
+    }
+    #shopify-section-{{ section.id }} .flex-wrapper{
+        display:flex;
+        position:absolute;
+        padding:0 20px;
+        bottom:15px;
+        width:100%;
+    }
+    #shopify-section-{{ section.id }} .flex-wrapper .text{
+        {% comment %} width:calc(100% - 17px); {% endcomment %}
+    }
+    #shopify-section-{{ section.id }} .flex-wrapper .icon{
+        {% comment %} width:17px; {% endcomment %}
+    }
+    #shopify-section-{{ section.id }} .flex-wrapper .icon svg{
+        width:17px;
+        height:17px;
+    }
+    .collection-category-popup-wrapper{
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(108,108,108,.8);
+        z-index: 1000000;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: .5s ease all;
+        overflow-y: auto;
+    }
+    .collection-category-popup-wrapper.show{
+        opacity: 1;
+    }
+
+    .collection-category-popup-wrapper .tooltip-popup{
+        width: 100%;
+        max-width: 355px;
+        background: #fff;
+        padding:30px 40px 70px 40px;
+        display:none;
+    }
+    
+    .collection-category-popup-wrapper .tooltip-popup.active{
+        display:block;
+    }
+    .collection-category-popup-wrapper .tooltip-popup .btn-close {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        z-index: 2;
+    }
+    @media(min-width: 768px) {
+        #shopify-section-{{ section.id }} .swiper-slide{
+            width: 33.3333%;
+            flex: 0 0 33.3333%;
+        }
+    }
+    @media(min-width: 1024px) {
+        #shopify-section-{{ section.id }} .flex-wrapper{
+            padding: 0 15px;
+        }
+        .collection-category-popup-wrapper .tooltip-popup .btn-close {
+            top: 30px;
+            right: 30px;
+        }
+        .collection-category-popup-wrapper .tooltip-popup{
+            padding:70px 50px;
+        }
+        #shopify-section-{{ section.id }} .title-container{
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:space-between;
+            align-items: baseline;
+        }
+        #shopify-section-{{ section.id }} .swiper-slide{
+            width: 20%;
+            flex: 0 0 20%;
+            padding: 0 10px;
+        }
+        #shopify-section-{{ section.id }} .swiper-wrapper{
+            {% comment %} padding: 0 14px; {% endcomment %}
+        }
+        #shopify-section-{{ section.id }} .carousel-wrapper{
+            margin: 0 -10px;
+        }
+        #shopify-section-{{ section.id }} .swiper-custom-arrow{
+            display:inline-flex;
+        }
+        #shopify-section-{{ section.id }} .swiper-custom-arrow.left{
+            left:-14px;
+        }
+        #shopify-section-{{ section.id }} .swiper-custom-arrow.right{
+            right:-14px;
+        }
+    }
+</style>
+
+<section id="{{ section.id }}" class="collection-category overflow">
+    <div class="container">
+        <div class="outer-wrapper">
+            <div class="carousel-wrapper">
+                <div id="slider-{{ el_id }}" class="swiper swiper-container">
+                    <div class="swiper-wrapper">
+                        {%- for block in section.blocks -%}
+                            <div class="swiper-slide">
+                                <div class="category-each relative">
+                                    {%- if block.settings.url != blank -%}
+                                        <a href="{{block.settings.url}}">
+                                    {%- endif -%}
+                                    {%- render 'global-image-wrapper',
+                                        image: block.settings.image,
+                                        additional_class:"collection-category-image"
+                                    %}
+                                    {%- if block.settings.url != blank -%}
+                                        </a>
+                                    {%- endif -%}
+                                    <div class="flex-wrapper">
+                                        {%- if block.settings.title != blank -%}
+                                            <a href="{{block.settings.url}}" class="text"><div class="h11 pr-10">{{block.settings.title}}</div></a>
+                                        {%- endif -%}
+                                        <div @click="togglePopup($event)" class="icon cursor circle-container" data-index="{{forloop.index}}" data-category="category-{{forloop.index}}">{{settings.icon_tooltip}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {%- endfor -%}
+                    </div>
+
+                    <div class="swiper-custom-arrow left">{{ settings.icon_slide_left }}</div>
+                    <div class="swiper-custom-arrow right">{{ settings.icon_slide_right }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <Teleport to="body">
+        <div v-if="showPopup" @click="closePopup()" class="collection-category-popup-wrapper" :class="{ 'show': showPopupFade }">
+            {%- for block in section.blocks -%}
+                <div class="tooltip-popup tc relative" data-category="category-{{forloop.index}}">
+                    <div>
+                        <div @click="closePopup()" class="btn-close cursor">{{settings.icon_close}}</div>
+                        {%- render 'global-image-wrapper',
+                            image: block.settings.image_popup,
+                            additional_class:""
+                        %}
+                        <div class="h11 pt-20">{{block.settings.title}}</div>
+                        <div class="p2 pt-10">{{block.settings.info}}</div>
+                    </div>
+                </div>
+            {%- endfor -%}
+        </div>
+    </Teleport>
+</section>
+
+
+{%- assign function_name = el_id | replace: '-', '_' -%}
+{%- assign prefix = 'collection_category' -%}
+<script>
+
+var {{ prefix }}Init= false;
+var {{ prefix }}Slider = Swiper;
+function sliderInit{{ function_name }}() {
+    const el_id = '#{{ el_id }}';
+    if(!{{ prefix }}Init) {
+        {{ prefix }}Init = true;
+        {{ prefix }}Slider = new Swiper('#slider-{{ el_id }}', {
+            {%if section.settings.enable_autoslide%}
+            autoplay: {
+                delay: {{section.settings.delay_autoslide}}
+            },
+            {%endif%}
+            slidesPerView: 'auto',
+            spaceBetween: 0,
+            loopedSlides: {{ section.blocks.size }},
+            loop: false,
+            preloadImages: false,
+            lazy: true,
+            centeredSlides: false,
+            pagination: {
+                el: ".{{ el_id }}-pagination",
+                clickable: true
+            },
+            navigation: {
+                nextEl: '#slider-{{ el_id }} .swiper-custom-arrow.right',
+                prevEl: '#slider-{{ el_id }} .swiper-custom-arrow.left'
+            },
+            on: {
+                init: function() {
+                    $360.lazyLoadInstance.update();
+                },
+                slideChange: function() {
+                    $360.lazyLoadInstance.update();
+                },
+                resize: function() {
+                    $360.lazyLoadInstance.update();
+                }
+            }
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    sliderInit{{ function_name }}();
+    //window.addEventListener("resize", sliderInit{{ function_name }});
+});
+document.addEventListener('shopify:section:load', () => { {{ prefix }}Init= false;sliderInit{{function_name}}() });
+</script>
+
+{%- assign varName = section.id | replace: '-', '_' | append: 'Vue' -%}
+<script>
+    const {{ varName }} = Vue.createApp({
+        delimiters: ['${','}'],
+        data() {
+            return {
+                showPopup: false,
+                showPopupFade: false
+            }
+        },
+        mounted() {
+            
+        },
+        methods: {
+            togglePopup(e) {
+                this.showPopup = !this.showPopup;
+                const btn = e.target.closest('.circle-container');
+                
+                if (this.showPopup) {
+                    setTimeout(() => {
+                        this.showPopupFade = true;
+                        $360.lazyLoadInstance.update();
+                        if(document.querySelector('.collection-category-popup-wrapper .tooltip-popup[data-category="'+btn.getAttribute('data-category')+'"]')){
+                            document.querySelector('.collection-category-popup-wrapper .tooltip-popup[data-category="'+btn.getAttribute('data-category')+'"]').classList.add('active');
+                        }
+                    }, 100); // Delay of 1 second
+                } else {
+                    this.showPopupFade = false;
+                }
+            },
+            closePopup() {
+                const tooltips = document.querySelectorAll('.collection-category-popup-wrapper .tooltip-popup');
+                tooltips.forEach(tooltip => {
+                    tooltip.classList.remove('active');
+                });
+                this.showPopupFade = false;
+                this.showPopup = false;
+            }
+        }
+    }).mount('#{{ section.id }}');
+</script>
+
+{% schema %}
+    {
+        "name": "Collection Category",
+        "settings": [
+        {
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		}
+        ],
+        "blocks": [
+            {
+                "type": "entry",
+                "name": "Entry",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "info",
+                        "label": "Info"
+                    },
+                    {
+                        "type": "url",
+                        "id": "url",
+                        "label": "URL"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Image"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "image_popup",
+                        "label": "Image Popup"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+        {
+            "name": "Collection Category",
+            "blocks": []
+        }
+        ]
+    }
+{% endschema %}

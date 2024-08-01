@@ -1,0 +1,21 @@
+{% assign s = customer.orders | size %}
+{% if s > 0 %}
+<ul class="account-orders">
+	{% for order in customer.orders limit:account-orders %}
+	<li>
+		<a href="{{ order.customer_url }}" class='rte'>
+			<div class="tab number">{{ order.name }}</div>
+			<div class="tab">{{ order.created_at | date: "%d %b %Y" }}</div>
+			<div class="tab">{{ order.total_price | money_with_currency }}</div>
+			<div class="tab status">{{ order.financial_status | camelcase }}</div>
+		</a>
+	</li>
+	{% endfor %}
+</ul>
+{% else %}
+<div class="rte">
+	<p>
+		No orders yet.
+	</p>
+</div>
+{% endif %}

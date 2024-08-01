@@ -1,0 +1,16 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "404_A6LkyD": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 30,
+        "top_padding_t": 30,
+        "top_padding": 50
+      }
+    }
+  },
+  "order": [
+    "404_A6LkyD"
+  ]
+}

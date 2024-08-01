@@ -1,0 +1,168 @@
+{% comment %} In Good Company Theme - Adi on progress {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<div class="stores">
+    <div class="container">
+        <div class="global-flex flex-wrap width-100">
+        {% for block in section.blocks %}
+        
+        <div class="col-12 col-t-6 pl-0 pr-0 {% cycle 't-pl-0', 't-pr-0' %} {% unless forloop.last %}mb-50{% endunless %} t-mb-0">
+                {% assign preload = '' %}
+                {% if block.settings.disable_lazyload %}
+                {% assign preload = true %}
+                {% endif %}
+                {%- assign image_id = "store-listing-" | append: block.id -%}
+                {%- render 'global-image-wrapper',
+                    image_id: image_id,
+                    image: block.settings.image,
+                    preload: preload
+                %}
+                <div class="pt-25 flex flex-column jc-between d-flex-row">  
+                  <div class="stores-detail-left col-d-6 d-pl-0 tl">
+                    {% if block.settings.title != blank %}
+                    <h3 class="p1 d-pb-2">{{ block.settings.title }}</h3>
+                    {% endif %}
+                    {% if block.settings.text != blank %}
+                    <p class="p1 pb-8 c-grey">{{ block.settings.text }}</p>
+                    {% endif %}
+                  </div>
+                  <div class="stores-detail-right col-d-6 d-pr-0 tl d-tr">
+                    {% if block.settings.address != blank %}
+                    <p class="p2 address-text">{{ block.settings.address | newline_to_br }}</p>
+                    {% endif %}
+                    {% if block.settings.open_hour != blank or block.settings.phone != blank %}
+                    <div class="pt-10 pb-10">
+                      {% if block.settings.open_hour != blank %}
+                      <p class="p2 address-text ">{{ block.settings.open_hour | newline_to_br }}</p>
+                      {% endif %}
+                      {% if block.settings.phone != blank %}
+                      <p class="p2 address-text">{{ block.settings.phone | newline_to_br }}</p>
+                      {% endif %}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.button_url != blank and block.settings.button_label != blank %} 
+                    <a href='{{block.settings.button_url}}' class="p2 link3">{{ block.settings.button_label }}</a>
+                    {% endif %}
+                  </div>
+                </div>
+            
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% schema %}
+  {
+    "name": "Stores",
+    "max_blocks": 2,
+    "settings": [
+      {
+        "type": "header",
+        "content": "Padding Settings"
+      }, {
+        "type": "number",
+        "id": "top_padding_m",
+        "label": "Top Padding (Mobile)"
+      }, {
+        "type": "number",
+        "id": "bottom_padding_m",
+        "label": "Bottom Padding (Mobile)"
+      }, {
+        "type": "number",
+        "id": "top_padding_t",
+        "label": "Top Padding (Tablet)"
+      }, {
+        "type": "number",
+        "id": "bottom_padding_t",
+        "label": "Bottom Padding (Tablet)"
+      }, {
+        "type": "number",
+        "id": "top_padding",
+        "label": "Top Padding (Desktop)"
+      }, {
+        "type": "number",
+        "id": "bottom_padding",
+        "label": "Bottom Padding (Desktop)"
+      },
+      {
+        "type": "text",
+        "id": "top_padding_hd",
+        "label": "Top padding (HD)"
+      },
+      {
+        "type": "text",
+        "id": "bottom_padding_hd",
+        "label": "Bottom padding (HD)"
+      },
+      {
+        "type": "text",
+        "id": "top_padding_hhd",
+        "label": "Top padding (HHD)"
+      },
+      {
+        "type": "text",
+        "id": "bottom_padding_hhd",
+        "label": "Bottom padding (HHD)"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Store",
+        "type": "text",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "textarea",
+            "id": "address",
+            "label": "Address"
+          },
+          {
+            "type": "textarea",
+            "id": "open_hour",
+            "label": "Open Hour"
+          },
+          {
+            "type": "textarea",
+            "id": "phone",
+            "label": "Phone"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "checkbox",
+            "id": "disable_lazyload",
+            "label": "Disable Lazy Load"
+          },
+          {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button Label"
+          },
+          {
+            "type": "url",
+            "id": "button_url",
+            "label": "Button URL"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Stores"
+      }
+    ]
+  }
+{% endschema %}

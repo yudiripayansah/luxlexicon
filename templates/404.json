@@ -1,0 +1,23 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "404_A6LkyD": {
+      "type": "404",
+      "settings": {
+        "bg_color": "#8a8264",
+        "title": "Oops, we can’t find that page.",
+        "title_size": "h1",
+        "title_dom_type": "h1",
+        "text": "Sorry, the page you’re looking for does not exist.",
+        "btn_label": "Go BACK",
+        "btn_url": "\/",
+        "btn_bg_color": "",
+        "btn_text_color": "",
+        "btn_border_color": "#ffffff"
+      }
+    }
+  },
+  "order": [
+    "404_A6LkyD"
+  ]
+}

@@ -1,0 +1,349 @@
+{% comment %} JCO Theme - Junio - done {% endcomment %}
+
+{%- if section.blocks.size > 0 -%}
+  {%- assign el_id = 'uspc-' | append: section.id -%}
+  {%- render 'section-padding', el_id: el_id, section: section -%}
+  <style>
+    #{{el_id}} .uspc-container {
+      white-space: nowrap;
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      display: inline-block;
+      line-height: .8;
+    }
+    #{{el_id}} .uspc-container span {
+      margin-left:0;
+    }
+    #{{el_id}} .uspc-container > div {
+      line-height: 0;
+      display: flex;
+    }
+    #{{el_id}} .uspc-item {
+      display: inline-flex;
+    }
+    #{{el_id}} .container.range-con {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    #{{ el_id }} .container {
+      max-width: 100%;
+    }
+    #{{el_id}} .uspc-item {
+      width: 195px;
+    }
+    #{{el_id}} .uspc-overlay {
+      background: transparent linear-gradient(180deg, #FFFFFF 0%, #808080 100%) 0% 0% no-repeat padding-box;
+      mix-blend-mode: multiply;
+      opacity: 1;
+      height: 50%;
+      width: calc(100%);
+    }
+    @media screen and (min-width: 1024px) {
+      #{{el_id}} .text-con {
+        max-width: {{ section.settings.content_max_width }}px;
+      }
+      #{{el_id}} .uspc-item svg{
+        width:15px;
+        height:15px;
+      }
+      #{{el_id}} .uspc-item {
+        width: 300px;
+      }
+    }
+    @media screen and (min-width: 1366px) {
+      {% if section.settings.content_max_width_hd != blank %}
+      #{{el_id}} .text-con {
+        max-width: {{ section.settings.content_max_width_hd }}px;
+      }
+      {% endif %}
+    }
+    @media screen and (min-width: 1920px) {
+      {% if section.settings.content_max_width_hhd != blank %}
+      #{{el_id}} .text-con {
+        max-width: {{ section.settings.content_max_width_hhd }}px;
+      }
+      {% endif %}
+    }
+    @keyframes scrollText {
+      from {
+        transform: translateX(0%);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+  <div id="{{ el_id }}" style="background-color:{{ section.settings.bg_color }};">
+    <div class="container pb-30 d-pb-60">
+      <div class="text-con tc ml-auto mr-auto t-max-355">
+        <{{ section.settings.title_dom_type }} class="{{ section.settings.title_size }} c-black title tc spacing-2">
+          {{section.settings.title}}
+        </{{ section.settings.title_dom_type }}>
+        {% if section.settings.text != blank %}
+        <div class="p3 rte tc pt-10 {%if section.settings.link_label != blank or section.settings.button_label != blank%} pb-15 {% endif %} c-black">
+          {{section.settings.text | newline_to_br}}
+        </div>
+        {% endif %}
+        {% if section.settings.link_label != blank %}
+          <a href="{{section.settings.link_url}}" class="link2 tc d-pb-20 pb-10">{{ section.settings.link_label }}</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="container range-con overflow font-0">
+      
+      <div class="uspc-container" id="smarquee">
+        {%- for block in section.blocks -%}
+          {% if block.settings.url != blank %}
+            <a 
+            href="{{block.settings.url}}"
+            target="_blank"
+            class="ai-center uspc-item ml-5 mr-5 relative">
+            {% else %}
+            <div
+            class="ai-center uspc-item ml-5 mr-5 relative">
+          {% endif %}
+            {%assign image_id = "cta-image-text_" | append: section.id%}
+            {%- render 'global-image-wrapper-responsive',
+                image_id: image_id,
+                desktop_image: block.settings.desktop_image,
+                mobile_image: block.settings.mobile_image,
+                additional_class: 'no-bg'
+            %}
+            {% if section.settings.enable_overlay %}
+            <div class="absolute uspc-overlay zi-2 bottom-0 left-0"></div>
+            {% endif %}
+            <div class="p3 c-white absolute d-bottom-15 d-left-20 left-15 bottom-10 zi-3">
+              {{block.settings.caption}}
+            </div>
+            {% if block.settings.url != blank %}
+            </a>
+            {% else %}
+            </div>
+            {% endif %}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+  <script>
+    !function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.Smarquee=e():t.Smarquee=e()}(window,function(){return function(t){var e={};function n(i){if(e[i])return e[i].exports;var a=e[i]={i:i,l:!1,exports:{}};return t[i].call(a.exports,a,a.exports,n),a.l=!0,a.exports}return n.m=t,n.c=e,n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:i})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var a in t)n.d(i,a,function(e){return t[e]}.bind(null,a));return i},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=0)}([function(t,e,n){"use strict";function i(t,e){t.style.setProperty("--playState",e)}n.r(e),n.d(e,"default",function(){return a});class a{constructor(t={}){var e,n;this.defaults={selector:"#smarquee",element:null,velocity:50,styleOptions:{scrollingTitleMargin:24,animationName:"marquee",timingFunction:"linear",iterationCount:"infinite",pausePercent:30,fillMode:"none",playState:"running",delay:"0s"},onAnimationStart(){},onAnimationIterate(){},onAnimationEnd(){},onAnimationCancel(){},onClick(){}},this.animationCalculations={distance:0,animatedDistance:0,time:0},this.id=null,this.marqueeContainer=null,this.scrollWrapper=null,this.originalMarqueeContent="",this.styleBlock=null,this.id=String.fromCharCode(65+Math.floor(26*Math.random()))+Math.random().toString(36).substring(2,15),this.assignSettings(t),this.setupMarqueeContainer(),this.styleBlock=function(t,e){var n=document.createElement("style");return n.id=e,n.appendChild(document.createTextNode(t)),document.head.appendChild(n),document.head.querySelector(`#${e}`)}((e=this.id,n=this.settings.styleOptions,`\n  ${function(t,e){return`.Smarquee--${t} {\n    --time: 15s;\n    --distance: 0;\n    --timingFunction: ${e.timingFunction};\n    --iterationCount: ${e.iterationCount};\n    --fillMode: ${e.fillMode};\n    --playState: ${e.playState};\n    --delay: ${e.delay};\n    overflow: hidden;\n    white-space: nowrap;\n  }`}(e,n)}\n\n  ${function(t,e){return`.Smarquee--${t} [data-smarquee-scroll-title] {\n    margin-left: ${e.scrollingTitleMargin}px;\n  }`}(e,n)}\n  \n  ${function(t,e){return`.Smarquee--${t} .animate {\n    animation-name: ${e.animationName};\n    animation-duration: var(--time);\n    animation-delay: var(--delay);\n    animation-timing-function: var(--timingFunction);\n    animation-iteration-count: var(--iterationCount);\n    animation-direction: forwards;\n    animation-fill-mode: var(--fillMode);\n    animation-play-state: var(--playState);\n  }`}(e,n)}\n  \n  ${function(t){return`@keyframes ${t.animationName} {\n    0% {\n      transform: translate3d(0px, 0, 0);\n    }\n    ${100-t.pausePercent}% {\n      transform: translate3d(var(--distance), 0, 0);\n    }\n    100% {\n      transform: translate3d(var(--distance), 0, 0);\n    }`}(n)}\n  `),this.id)}get needsMarquee(){return this.marqueeContainer.scrollWidth>=this.marqueeContainer.clientWidth}assignSettings(t){this.settings=Object.assign({},this.defaults,t),this.settings.styleOptions=Object.assign({},this.defaults.styleOptions,t.hasOwnProperty("styleOptions")?t.styleOptions:{})}setupMarqueeContainer(){this.settings.element?this.marqueeContainer=this.settings.element:this.marqueeContainer=document.querySelector(this.settings.selector),this.marqueeContainer.classList.add("Smarquee",`Smarquee--${this.id}`),this.originalMarqueeContent=this.marqueeContainer.innerHTML}init(t=!0){!1!==this.needsMarquee&&(this.createScrollTitle(),this.setupEventListeners(),this.calculateAnimationProperties(),this.setAnimationProperties(),t&&this.activate())}createScrollTitle(){var t,e,n;this.scrollWrapper=(t=this.originalMarqueeContent,e=this.marqueeContainer,n=`<div data-smarquee-scroll-wrapper>${t}<span data-smarquee-scroll-title>${t}</span></div>`,e.innerHTML=n,e.querySelector("[data-smarquee-scroll-wrapper]"))}setupEventListeners(){this.scrollWrapper.addEventListener("animationstart",this.settings.onAnimationStart),this.scrollWrapper.addEventListener("animationiteration",this.settings.onAnimationIterate),this.scrollWrapper.addEventListener("animationend",this.settings.onAnimationEnd),this.scrollWrapper.addEventListener("animationcancel",this.settings.onAnimationCancel),this.scrollWrapper.addEventListener("click",this.settings.onClick)}calculateAnimationProperties(){this.animationCalculations=function(t,e,n=0){return{distance:t,animatedDistance:t/2+n/2,time:t/e}}(this.marqueeContainer.scrollWidth,this.settings.velocity,this.settings.styleOptions.scrollingTitleMargin)}setAnimationProperties(){var t,e,n;t=this.marqueeContainer,e=this.animationCalculations.time,n=this.animationCalculations.animatedDistance,t.style.setProperty("--time",`${e}s`),t.style.setProperty("--distance",`-${n}px`)}activate(){this.scrollWrapper.classList.add("animate")}deactivate(){this.scrollWrapper.classList.remove("animate")}restart(){this.deactivate(),setTimeout(()=>{this.activate()},500)}play(){i(this.marqueeContainer,"running")}pause(){i(this.marqueeContainer,"paused")}updateText(t,e=0,n=!0){setTimeout((t,e)=>{this.deactivate(),this.originalMarqueeContent=this.marqueeContainer.innerHTML=t,this.init(e)},e,t,n)}updateIterationCount(t){var e,n;e=this.marqueeContainer,n=isNaN(t)?"infinite":t,e.style.setProperty("--iterationCount",n)}updateFillMode(t){var e,n;e=this.marqueeContainer,n=t,e.style.setProperty("--fillMode",n)}updateDelay(t){var e,n;e=this.marqueeContainer,n=t,e.style.setProperty("--delay",n)}updateTimingFunction(t){var e,n;e=this.marqueeContainer,n=t,e.style.setProperty("--timingFunction",n)}resetStyleProperties(){var t;(t=this.marqueeContainer).style.removeProperty("--playState"),t.style.removeProperty("--iterationCount"),t.style.removeProperty("--fillMode"),t.style.removeProperty("--timingFunction"),t.style.removeProperty("--delay")}deInit(){this.deactivate(),this.marqueeContainer.innerHTML=this.originalMarqueeContent,this.scrollWrapper=null}destroy(){this.deInit(),this.originalMarqueeContent="",this.marqueeContainer=null,this.styleBlock.parentNode.removeChild(this.styleBlock),this.styleBlock=null}}}]).default});
+    
+    const smarquee = new Smarquee({
+      selector: '#{{el_id}} #smarquee',
+      velocity: 100,
+      styleOptions: {
+        timingFunction: 'linear',
+        iterationCount: 'infinite',
+        fillMode: 'none',
+        pausePercent: 0,
+      },
+    });
+    smarquee.init();
+  </script>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Slider Grid",
+  "settings": [
+    {
+      "type": "number",
+      "id": "content_max_width",
+      "label": "Content Max Width (desktop)",
+      "default": 500
+    },
+    {
+      "type": "number",
+      "id": "content_max_width_hd",
+      "label": "Content Max Width (1366)"
+    },
+    {
+      "type": "number",
+      "id": "content_max_width_hhd",
+      "label": "Content Max Width (1920)"
+    },
+    {
+        "type": "select",
+        "id": "title_dom_type",
+        "label": "Title DOM Type",
+        "options": [
+            {"value":"h1","label":"H1"},
+            {"value":"h2","label":"H2"},
+            {"value":"h3","label":"H3"},
+            {"value":"h4","label":"H4"},
+            {"value":"h5","label":"H5"}
+        ],
+        "default": "h2"
+    },
+    {
+    "type": "select",
+    "id": "title_size",
+    "label": "Title Size",
+    "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" },
+        { "value": "h8", "label": "H8" },
+        { "value": "h9", "label": "H9" }
+    ]
+    },
+    {
+        "type": "textarea",
+        "id": "title",
+        "label": "Title"
+    },
+    {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text"
+    },
+    {
+        "type": "text",
+        "id": "custom_lh_mobile",
+        "label": "Custom Heading Line Height (mobile)",
+        "info": "Leave it empty for default. Input example: 1.2 or 40px"
+    },
+    {
+        "type": "text",
+        "id": "custom_lh_tablet",
+        "label": "Custom Heading Line Height (tablet)",
+        "info": "Leave it empty for default. Input example: 1.2 or 40px"
+    },
+    {
+        "type": "text",
+        "id": "custom_lh_desktop",
+        "label": "Custom Heading Line Height (desktop)",
+        "info": "Leave it empty for default. Input example: 1.2 or 40px"
+    },
+    {
+        "type": "text",
+        "id": "link_label",
+        "label": "Link Label"
+    },
+    {
+        "type": "url",
+        "id": "link_url",
+        "label": "Link URL"
+    },
+    {
+        "type": "select",
+        "id": "link_target",
+        "label": "Link Target",
+        "options": [
+            {"value":"","label":"Same Window"},
+            {"value":"_blank","label":"New Tab"}
+        ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_overlay",
+      "label": "Enable Overlay"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hd",
+        "label": "Bottom padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hhd",
+        "label": "Top padding (HHD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hhd",
+        "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "range",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "mobile_image",
+            "label": "Mobile Image"
+        },
+        {
+            "type": "text",
+            "id": "caption",
+            "label": "Caption"
+        },
+        {
+            "type": "url",
+            "id": "url",
+            "label": "Link Url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slider Grid",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

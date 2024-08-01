@@ -1,0 +1,113 @@
+{%- comment -%}
+Description:
+Snippet for displaying image and text content
+
+Variables:
+- el_id: Element id
+- background: Background color hex
+- wrapper_class: The wrapper class name
+- image_mobile: Image for mobile
+- image: Image for desktop
+- image_position: Image position. left, right
+- title: Title text
+- title_class: class name for title
+- text: Text content
+- text_class: String. class for the text
+- text_style: String. plain or html
+- link_url: Link URL
+- link_label: Link label
+- btn_class: String. Class for the button
+- acc: If image from accentuate
+{%- endcomment -%}
+<style>
+#{{ el_id }} br {
+    content: "";
+    margin: .6em;
+    display: block;
+}
+@media only screen and (min-width: 1201px) {
+    #{{ el_id }} .max-pl-325 {
+        padding-left: 32.5px;
+    }
+    #{{ el_id }} .max-pr-325 {
+        padding-right: 32.5px;
+    }
+}
+</style>
+{%- if btn_class == blank -%}
+    {%- assign btn_class = 'btn1' -%}
+{%- endif -%}
+
+{%- assign image_class = '' -%}
+{%- assign text_class = '' -%}
+{%- assign image_class2 = '' -%}
+{%- assign text_class2 = '' -%}
+{%- if image_position == 'right' -%}
+    {%- assign image_class = 'push-t-7 push-d-5' -%}
+    {%- assign text_class = 'pull-t-5 pull-d-7' -%}
+    {%- assign image_class2 = 'max-pl-325' -%}
+    {%- assign text_class2 = 'max-pr-325' -%}
+{%- else -%}
+    {%- assign image_class2 = 'max-pr-325' -%}
+    {%- assign text_class2 = 'max-pl-325' -%}
+{%- endif -%}
+<div id="{{ el_id }}" class="image-text relative {{ wrapper_class }}" {% if background != blank %}style="background-color: {{ background }};"{% endif %}>
+	<div class="container">
+        <div class="row inner t-flex t-ai-center d-flex d-ai-center fade">
+			<div class="col-12 col-t-5 col-d-7 {{ image_class }} {{ image_class2 }}">
+				{%- if link_url != blank -%}
+                    <a href="{{ link_url }}" title="{{ title | escape }}">
+                {%- endif -%}
+                    {%- if image_mobile == blank -%}
+                        {%- if acc == blank -%}
+                            {%- render 'global-image-wrapper', image: image, additional_class: 'rounded-20 t-rounded-20 d-rounded-24' -%}
+                        {%- else -%}
+                            {%- render 'global-image-wrapper', image: image, acc: true, additional_class: 'rounded-20 t-rounded-20 d-rounded-24' -%}
+                        {%- endif -%}
+                    {%- else -%}
+                        {%- assign image_id = "image-text-image-" | append: el_id -%}
+                        {%- if acc == blank -%}
+                            {%- render 'global-image-wrapper-responsive',
+                                desktop_image: image,
+                                mobile_image: image_mobile,
+                                image_id: image_id,
+                                additional_class: 'rounded-20 t-rounded-20 d-rounded-24'
+                            -%}
+                        {%- else -%}
+                            {%- render 'global-image-wrapper-responsive',
+                                desktop_image: image,
+                                mobile_image: image_mobile,
+                                image_id: image_id,
+                                mobile_acc: true,
+                                desktop_acc: true,
+                                additional_class: 'rounded-20 t-rounded-20 d-rounded-24'
+                            -%}
+                        {%- endif -%}
+                    {%- endif -%}
+                {%- if link_url != blank -%}
+                    </a>
+                {%- endif -%}
+			</div>
+			<div class="col-12 col-t-7 col-d-5 pt-20 t-pt-20 d-pt-20 pb-0 t-pb-0 d-pb-0 {{ text_class }} {{ text_class2 }}">
+                {%- if title != blank -%}
+                    <h5 class="title h5 mb-10 t-mb-10 d-mb-10 c-greenb2">{{ title }}</h5>
+                {%- endif -%}
+                {%- if text != blank -%}
+                    {%- if text_style == 'html' -%}
+                        <div class="text rte p1">{{ text }}</div>
+                    {%- else -%}
+                        <div class="text p1">{{ text | newline_to_br }}</div>
+                    {%- endif -%}
+                {%- endif -%}
+                {%- if info != blank -%}
+                <div class="rte mt-10 t-mt-10 d-mt-15 tl p3 c-grey">{{ info | newline_to_br }}</div>
+                {%- endif -%}
+                {%- if link_url != blank and link_label != blank -%}
+                    <div class="mt-25">
+                        <a href="{{ link_url }}" class="btn1" title="{{ link_label | escape }}">{{ link_label }}</a>
+                    </div>
+                {%- endif -%}
+			</div>
+		</div>
+	</div>
+</div>

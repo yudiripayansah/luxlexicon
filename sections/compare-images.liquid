@@ -1,0 +1,168 @@
+{%- assign el_id = 'compare-images-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{%- render 'compare-images',
+    el_id: el_id,
+    background: section.settings.bg_color,
+    heading: section.settings.heading,
+	heading_size: section.settings.heading_size,
+    heading_desc: section.settings.heading_desc,
+	heading_label: section.settings.heading_label,
+	heading_url: section.settings.heading_url,
+    title: section.settings.title,
+    text: section.settings.text,
+    btn_label: section.settings.btn_label,
+    btn_url: section.settings.btn_url,
+    image_left: section.settings.image_left,
+    image_right: section.settings.image_right,
+    blocks: section.blocks
+-%}
+
+{% schema %}
+{
+	"name": "Compare Images",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		},
+		{
+			"type": "header",
+			"content": "Content Settings"
+		},
+		{
+			"type": "textarea",
+			"id": "heading",
+			"label": "Heading"
+		},
+		{
+			"type": "select",
+			"id": "title_dom_type",
+			"label": "Heading DOM Type",
+			"options": [
+				{"value":"h1","label":"H1"},
+				{"value":"h2","label":"H2"},
+				{"value":"h3","label":"H3"},
+				{"value":"h4","label":"H4"},
+				{"value":"h5","label":"H5"},
+				{"value":"h6","label":"H6"}
+			],
+			"default": "h2"
+		},
+        {
+            "type": "select",
+            "id": "heading_size",
+            "label": "Heading Size",
+            "options": [
+                {
+                    "value": "normal",
+                    "label": "Normal"
+                },
+                {
+                    "value": "big",
+                    "label": "Big"
+                }
+            ],
+            "default": "normal"
+        },
+        {
+			"type": "textarea",
+			"id": "heading_desc",
+			"label": "Heading Description"
+		},
+		{
+			"type": "text",
+			"id": "heading_label",
+			"label": "Heading Button label"
+		},
+		{
+			"type": "url",
+			"id": "heading_url",
+			"label": "Heading Button URL"
+		},
+		{
+			"type": "textarea",
+			"id": "title",
+			"label": "Title"
+		},
+        {
+			"type": "textarea",
+			"id": "text",
+			"label": "Text"
+		},
+        {
+			"type": "text",
+			"id": "btn_label",
+			"label": "Button label"
+		},
+        {
+			"type": "url",
+			"id": "btn_url",
+			"label": "Button URL"
+		},
+        {
+            "type": "image_picker",
+            "id": "image_left",
+            "label": "Left Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "image_right",
+            "label": "Right Image"
+        }
+	],
+	"blocks" : [
+        {
+			"type": "icon",
+			"name": "Icon",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "icon",
+					"label": "Icon image"
+				},
+                {
+					"type": "textarea",
+					"id": "title",
+					"label": "Title"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Compare Images",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

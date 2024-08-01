@@ -1,0 +1,10 @@
+<div class="flex flex-column jc-center ai-center mb-20 t-mb-30 d-mb-40">
+    <div class="relative d-max-750 tc">
+        {%- if title != blank -%}
+        <{{ section.settings.title_dom_type }} class="h3 c-greenb2 mb-10 t-mb-10 d-mb-10">{{ title }}</{{ section.settings.title_dom_type }}>
+        {%- endif -%}
+        {%- if text != blank -%}
+        <p class="p1 c-comfort-black">{{ text | newline_to_br }}</p>
+        {%- endif -%}
+    </div>
+</div>

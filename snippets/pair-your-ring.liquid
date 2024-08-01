@@ -1,0 +1,536 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{%- if product.metafields.pair.enable != blank -%}
+    <div id="pdp-pair-your-ring" class="pair-your-ring pt-30 d-pt-40 bt-1 b-silver mt-30 d-mt-40">
+        <h6 class="h11 bold-600 uppercase spacing-1">{{ product.metafields.pair.section_title }}</h6>
+        {%- if product.metafields.pair.section_desc != blank -%}
+            <p class="p2 mt-5 d-mt-10 c-grey">{{ product.metafields.pair.section_desc }}</p>
+        {%- endif -%}
+
+        <div class="pair-wrapper relative width-100 mt-20 d-mt-25">
+            {%- for i in (1..10) -%}
+                {%- assign pro = 'product_' | append: i -%}
+                {%- assign pair_pro = product.metafields.pair[pro].value -%}
+                {%- assign main_index = forloop.index0 -%}
+
+                {%- if pair_pro != blank -%}
+                    <div class="pair-each bg-lightgrey {% unless forloop.first %} mt-10 d-mt-15 {% endunless %}">
+                        <div class="outer-wrapper global-flex ai-center">
+                            <div class="image-container">
+                                {%- render 'global-image-wrapper',
+                                    image: pair_pro.featured_image,
+                                    size: '300x'
+                                -%}
+                            </div>
+                            <div class="text-container">
+                                <p class="p2 bold-500">{{ pair_pro.title }}</p>
+                                <a href="javascript:void(0)"
+                                    @click="togglePopup($event,{{ forloop.index0 }})"
+                                    data-pair-image="{{ pair_pro.featured_image | image_url: width: '800x' }}" 
+                                    class="preview-stacked mt-15">
+                                    <span class="icon-preview">{{ settings.icon_preview }}</span>
+                                    <span class="p3 c-grey spacing-2 uppercase bold-600">PREVIEW STACKED</span>
+                                    <span class="icon-arrow">{{ settings.icon_btn_right }}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {%- comment -%} Popup element {%- endcomment -%}
+                    <div id="pair-your-ring-popup">
+                        <teleport to="body">
+                            <div id="pair-{{ main_index }}" data-main-index="{{ main_index }}" data-product-id="{{ pair_pro.id }}" v-if="showPopup[{{ forloop.index0 }}]" class="pair-popup-wrapper pl-0 pr-0 t-pl-30 t-pr-30 d-pl-60 d-pr-60" :class="{ 'show': showPopupFade[{{ forloop.index0 }}] }">
+                                <div class="popup-inner-wrapper global-flex flex-wrap">
+                                    <a @click="togglePopup($event,'{{ main_index }}')" href="javascript:void(0)" class="close-popup">{{ settings.icon_close }}</a>
+                                    <div class="image-wrapper col-12 pl-0 pr-0 col-d-6 d-pl-0 d-pr-0 bg-lightgrey">
+                                        <div class="carousel-wrapper">
+                                            <div class="swiper">
+                                                <div class="swiper-wrapper">
+                                                    <div class="swiper-slide first-image">
+                                                        <div class="first-image-wrapper">
+                                                            <div class="width-100 relative inner-wrapper">
+                                                                <div class="main-product">
+                                                                    {%- assign pro_variant = product.selected_or_first_available_variant -%}
+                                                                    {%- assign pair_opt1 = 'Pair ' | append: pro_variant.option1 | handleize -%}
+                                                                    {%- assign pair_opt2 = 'Pair ' | append: pro_variant.option2 | handleize -%}
+                                                                    {%- assign pair_opt3 = 'Pair ' | append: pro_variant.option3 | handleize -%}
+
+                                                                    {%- for img in product.images -%}
+                                                                        {%- assign handleize_alt = img.alt | handleize -%}
+                                                                        {%- if pair_opt1 == handleize_alt or pair_opt2 == handleize_alt or pair_opt3 == handleize_alt -%}
+                                                                            {%- render 'global-image-wrapper',
+                                                                                image: img,
+                                                                                size: '800x',
+                                                                                additional_class: 'no-bg'
+                                                                            -%}
+                                                                        {%- endif -%}
+                                                                    {%- endfor -%}
+                                                                </div>
+                                                                <div class="pair-product">
+                                                                    {%- assign pro_variant = pair_pro.selected_or_first_available_variant -%}
+                                                                    {%- assign pair_opt1 = 'Pair ' | append: pro_variant.option1 | handleize -%}
+                                                                    {%- assign pair_opt2 = 'Pair ' | append: pro_variant.option2 | handleize -%}
+                                                                    {%- assign pair_opt3 = 'Pair ' | append: pro_variant.option3 | handleize -%}
+                                                                    
+                                                                    {%- for img in pair_pro.images -%}
+                                                                        {%- assign handleize_alt = img.alt | handleize -%}
+                                                                        {%- if pair_opt1 == handleize_alt or pair_opt2 == handleize_alt or pair_opt3 == handleize_alt -%}
+                                                                            {%- render 'global-image-wrapper',
+                                                                                image: img,
+                                                                                size: '800x',
+                                                                                additional_class: 'no-bg'
+                                                                            -%}
+                                                                        {%- endif -%}
+                                                                    {%- endfor -%}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {%- assign val_index = main_index | plus: 1 -%}
+                                                    {%- assign mood_images = "mood_image_" | append: val_index -%}
+                                                    {%- assign mood_images = product.metafields.pair[mood_images] -%}
+
+                                                    {%- if mood_images != blank -%}
+                                                        {%- for mood_image in mood_images -%}
+                                                            <div class="swiper-slide">
+                                                                {%- render 'global-image-wrapper',
+                                                                    image: mood_image,
+                                                                    size: '800x',
+                                                                    acc: true
+                                                                -%}
+                                                            </div>
+                                                        {%- endfor -%}
+                                                    {%- endif -%}
+                                                </div>
+
+                                                <div class="swiper-pagination"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-wrapper col-12 pl-20 pr-20 pt-30 pb-30 t-p-30 col-d-6 d-pl-45 d-pr-45 d-pt-50 d-pb-50">
+                                        <p class="p3 uppercase c-darkgreen spacing-2 bold-600">PAIR YOUR RING WITH</p>
+                                        <h6 class="p1 bold-500 mt-15 d-mt-20">{{ pair_pro.title }}</h6>
+
+                                        {%- if pair_pro.options_with_values.size > 0 and pair_pro.options_with_values[0].name != "Title" -%}
+                                            <p
+                                                class="p2 bold-500 mt-5 variant-label">  
+                                                {%- if pair_pro.metafields.additional_info.num_diamonds != blank -%}
+                                                    <span class="p2 c-black bold-500">{{ pair_pro.metafields.additional_info.num_diamonds }}</span>
+                                                {%- endif -%}
+
+                                                {%- if pair_pro.metafields.additional_info.num_carats != blank -%}
+                                                    <span class="p2 c-black bold-500 num-carats"> - {{ pair_pro.metafields.additional_info.num_carats }}, </span>
+                                                {%- endif -%}
+                                                
+                                                {%- for i in (1..3) -%}
+                                                    {%- assign option = 'option' | append: i -%}
+                                                    {%- assign option_val = pair_pro.selected_or_first_available_variant[option] -%}
+
+                                                    {%- unless option_val == blank or option_val contains 'ct' or option_val == 'Default Title' -%}{%- unless forloop.first -%},&nbsp;{%- endunless -%}{%- endunless -%}
+                                                    {%- if pair_pro.options[forloop.index0] == "Ring Size" and option_val != blank -%}
+                                                        Size: <span class="variant-label-{{ forloop.index0 }}">{{ option_val }}</span>
+                                                    {%- else -%}
+                                                        {%- unless option_val == blank or option_val contains 'ct' or option_val == 'Default Title' -%}
+                                                            <span class="variant-label-{{ forloop.index0 }}">{{ option_val }}</span>
+                                                        {%- endunless -%}
+                                                    {%- endif -%}
+                                                {%- endfor -%}
+                                            </p>
+                                        {%- endif -%}
+                                        
+                                        <div
+                                            class="product-info-price mt-15 h11">
+                                            {%- render 'product-price', product: pair_pro -%}
+                                        </div>
+                                        
+                                        <div {% if pair_pro.variants.size == 1 and pair_pro.variants[0].title == "Default Title" %}class="hide-m"{% else %}class="pair-variant-picker mt-15"{% endif %}>
+                                            {%- for option in pair_pro.options_with_values -%}
+                                                {%- assign index = forloop.index -%}
+                                                {%- assign index_0 = forloop.index0 -%}
+                                                {%- assign option_id = "select-" | append: pair_pro.id | append: '-' | append: index -%}
+                                
+                                                <div class="variant-each {% unless forloop.last %} mb-20 d-mb-15 {% endunless %}"> 
+                                                    <div class="option-wrapper">
+                                                        <div class="global-flex ai-center jc-between">
+                                                            <p class="p2 bold-500">{{ option.name }}:</p>
+                                
+                                                            {%- if option.name == 'Ring Size' -%}
+                                                                <div class="show-m">
+                                                                    {%- assign link_id = "link-size-guide" -%}
+                                                                    {% render 'link-icon', 
+                                                                        id: link_id,
+                                                                        label: 'Size Guide',
+                                                                        url: 'javascript:void(0)',
+                                                                        text_class: 'p3 uppercase c-grey spacing-2 bold-600',
+                                                                        icon_color: '#6C6C6C',
+                                                                        icon_svg: settings.icon_btn_right,
+                                                                        load_inside_vue: true
+                                                                    %}
+                                                                </div>
+                                                            {%- endif -%} 
+                                                        </div>
+                                
+                                                        {%- if option.name == 'Colour' or option.name == 'Color' -%}
+                                                            <div class="swatch-wrapper variant-each-wrapper mt-5">
+                                                                {%- assign current_option = 'option' | append: index -%}
+                                                                {%- for option in option.values -%}
+                                                                    <div @click="changeVariantValue($event,'{{ main_index }}','pair-{{ main_index }}','{{ pair_pro.id }}')" class="swatch variant-each-button {% if pair_pro.selected_or_first_available_variant[current_option] == option %} active {% endif %}" data-value="{{ option }}">
+                                                                        <div class="swatch-inner swatch-{{ option | handleize }}"></div>
+                                                                    </div>
+                                                                {%- endfor -%} 
+                                
+                                                                <div class="swatch-label variant-each-label p2 bold-500 show-d-inline-flex">{{ pair_pro.selected_or_first_available_variant[current_option] }}</div>
+                                                            </div>
+                                                        {%- else -%}
+                                                            <div class="variant-each-wrapper">
+                                                                {%- assign current_option = 'option' | append: index -%}
+                                                                {%- for option in option.values -%}
+                                                                    <div @click="changeVariantValue($event,'{{ main_index }}','pair-{{ main_index }}','{{ pair_pro.id }}')" class="pointer variant-each-button p2 bold-500 box mt-10 mr-10 pt-10 pb-10 pl-15 pr-15 b-1 b-silver show-m-inline-block {% if pair_pro.selected_or_first_available_variant[current_option] == option %} active {% endif %}" data-value="{{ option }}">
+                                                                        {{ option }}
+                                                                    </div>
+                                                                {%- endfor -%}
+                                                            </div>
+                                                        {%- endif -%}
+                                                    </div>
+                                                    <select class="hide-m" name="{{ option_id }}" id="{{ option_id }}">
+                                                        {%- for option in option.values -%}
+                                                            {%- assign option_value = option -%}
+                                                            <option value="{{ option_value | escape }}" {% if pair_pro.selected_or_first_available_variant[current_option] == option %} selected="selected" {% endif %}>{{ option }}</option>
+                                                        {%- endfor -%}
+                                                    </select>
+                                                </div>
+                                            {%- endfor -%}
+                                        </div>
+
+                                        <div class="can-add-wrapper hide-m">
+                                            <div class="width-100 mt-20 pt-15 pb-15 pl-20 pr-20 d-p-20 bg-pale20">
+                                                <p class="p3 uppercase c-grey bold-600 spacing-2">YOU ARE PAIRING IT WITH</p>
+                                                <div class="product-wrapper global-flex ai-start jc-between mt-5">
+                                                    <p class="p2 bold-500 d-pr-40">{{ product.title }}</p>
+                                                    <span class="p2 bold-500 total-diamond-price">{{ product.selected_or_first_available_variant.price | money_with_currency }}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="width-100 relative mt-15">
+                                                <a @click="addBothToBag($event)" href="javascript:void(0)" class="btn1 add-to-cart width-100 w-full tc relative">ADD BOTH TO BAG</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="cannot-add-wrapper">
+                                            <div class="width-100 mt-20 pt-15 pb-15 pl-20 pr-20 d-p-20 bg-pale20">
+                                                <p class="p2 bold-500">Please select a diamond first!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </teleport>
+                    </div>
+                    {%- comment -%} end Popup element {%- endcomment -%}
+                {%- endif -%}
+            {%- endfor -%}
+        </div>
+    </div>
+
+    <script>
+        const pairYourRingVue = Vue.createApp({
+            delimiters: ['${','}'],
+            data() {
+                return {
+                    showPopup: [false,false,false,false,false,false,false,false,false,false],
+                    showPopupFade: [false,false,false,false,false,false,false,false,false,false],
+                    variantId: null,
+                    product: [],
+                    options: [null, null, null]
+                }
+            },
+            mounted() {
+                /* set pair products */
+                {%- for i in (1..10) -%}
+                    {%- assign pro = 'product_' | append: i -%}
+                    {%- assign pair_pro = product.metafields.pair[pro].value -%}
+                    
+                    {%- if pair_pro != blank -%}
+                        this.product[{{ forloop.index0 }}] = {{pair_pro | json}};
+                    {%- endif -%}
+                {%- endfor -%}                
+            },
+            methods: {
+                checkSelectedDiamond() {
+                    if($diamondFilter.diamondVariantId != 0) {
+                        document.querySelector('.pair-popup-wrapper .can-add-wrapper').classList.remove('hide-m');
+                        document.querySelector('.pair-popup-wrapper .cannot-add-wrapper').classList.add('hide-m');
+
+                        //-- set total diamond price
+                        const price_elem = document.querySelector('.pair-popup-wrapper .total-diamond-price');
+                        const total_price = $diamondFilter.productPrice + $diamondFilter.diamondPrice;
+                        price_elem.innerHTML = $diamondFilter.formatMoney(total_price);
+                    }
+                },
+                formatMoney(num) {
+                    return Shopify.formatMoney(num, '{% raw %}${{amount}}{% endraw %}');
+                },
+                changeVariantValue(e,index,id,pro_id) {
+                    const clicked_variant_each = e.target.closest('.variant-each-button');
+                    const active_variant_each = e.target.closest('.variant-each-wrapper').querySelector('.variant-each-button.active');
+                    const variant_each_label = e.target.closest('.variant-each-wrapper').querySelector('.variant-each-label');
+                    const active_value = clicked_variant_each.getAttribute('data-value');
+                    const variant_each_select = e.target.closest('.variant-each').querySelector('select.hide-m');
+
+                    active_variant_each.classList.remove('active');
+                    clicked_variant_each.classList.add('active');
+                    variant_each_select.value = active_value;
+                    
+                    if(variant_each_label !== null) {
+                        variant_each_label.innerHTML = active_value;
+                    }
+
+                    this.checkAvailableVariant(false,index,id,pro_id);
+                },
+                checkAvailableVariant(first_load,index,id,pro_id) {	
+                    const price_elem = document.querySelector(`#${id} .product-price`);
+
+                    if(document.querySelector(`#${id} #select-${pro_id}-1`) !== null ) {
+                        this.options[0] = document.querySelector(`#${id} #select-${pro_id}-1`).value;
+                    }
+
+                    if(document.querySelector(`#${id} #select-${pro_id}-2`) !== null ) {
+                        this.options[1] = document.querySelector(`#${id} #select-${pro_id}-2`).value;
+                    }
+
+                    if(document.querySelector(`#${id} #select-${pro_id}-3`) !== null ) {
+                        this.options[2] = document.querySelector(`#${id} #select-${pro_id}-3`).value;
+                    }
+                    
+                    let variant;
+                    const allVariants = this.product[index].variants;
+                    const variants = allVariants.filter((v) => v.option1 == this.options[0] && v.option2 == this.options[1] && v.option3 == this.options[2]);
+                    if(variants.length) {
+                        variant = variants[0];
+                        this.variantId = variant.id;
+                    } else {
+                        variant = this.product[index].variants[0];
+                        this.variantId = variant.id;
+                    }
+
+                    //-- update copy below product title
+                    const pro_options = variant.options;
+                    pro_options.forEach((opt, index) => {
+                        if(document.querySelector(`#${id} .variant-label-${index}`) != null) {
+                            document.querySelector(`#${id} .variant-label-${index}`).innerHTML = opt;
+                        }
+                    });
+
+                    //-- change pair image
+                    const pair_opt1 = $360.handleize(`Pair ${variant.option1}`).replace('-null','');
+                    const pair_opt2 = $360.handleize(`Pair ${variant.option2}`).replace('-null','');
+                    const pair_opt3 = $360.handleize(`Pair ${variant.option3}`).replace('-null','');
+                    let product_imgs; 
+                    let curr_featured_image = "";
+                    let pair_img;                      
+
+                    if(this.product[index].media != null) {
+                        product_imgs = this.product[index].media;
+
+                        product_imgs.forEach(function(img, index) {
+                            if(img.alt != null) {
+                                if($360.handleize(img.alt) == pair_opt1 || $360.handleize(img.alt) == pair_opt2 || $360.handleize(img.alt) == pair_opt3) {
+                                    curr_featured_image = img.src;
+                                }
+                            }
+                        });
+                    }
+
+                    if(document.querySelector(`#${id} .pair-product img`) != null) {
+                        pair_img = document.querySelector(`#${id} .pair-product img`);
+                        pair_img.setAttribute('data-src','');
+                        pair_img.setAttribute('data-srcset','');
+                        pair_img.setAttribute('srcset','');
+                        pair_img.setAttribute('src',curr_featured_image);
+                        pair_img.classList.remove('loading');
+                        pair_img.classList.add('loaded');
+                    }
+                   
+                    //-- update price
+                    let price_html = "0";
+                    let price_num = Number(variant.price);
+                    let compare_at_price_num = Number(variant.compare_at_price);
+                    
+                    if(compare_at_price_num > price_num) {
+                        price_html = `<span class="onsale bold-600 mr-10">${this.formatMoney(price_num)}</span><strike>${this.formatMoney(compare_at_price_num)}</strike>`;
+                    } else {
+                        price_html = `<span class="bold-600">${this.formatMoney(price_num)}</span>`;
+                    }
+
+                    //-- update buttton  
+                    let is_available = variant.available;
+                    let add_to_cart_elem = document.querySelector(`#${id} a.add-to-cart`);
+                    if(!is_available) {
+                        add_to_cart_elem.setAttribute('disabled','disabled');
+                        add_to_cart_elem.innerHTML = "Not Available";
+                    } else {
+                        add_to_cart_elem.removeAttribute('disabled');
+                        add_to_cart_elem.innerHTML = "Add both to bag"; 
+                    }
+
+                    price_elem.innerHTML = price_html;
+                },
+                togglePopup(e,index) {
+                    if(!this.showPopup[index]) {
+                        this.showPopup[index] = true;
+
+                        setTimeout(() => {
+                            this.showPopupFade[index] = true;
+                            $360.lazyLoadInstance.update();
+                            function initSwiperTp(){
+                                //-- activate swiper carousel
+                                let pair_carousel = new Swiper(`#pair-${index} .swiper`, {
+                                    direction: 'horizontal',
+                                    slidesPerView: 1,
+                                    watchSlidesProgress: true,
+                                    loop: false,
+                                    pagination: {
+                                        el: `#pair-${index} .swiper .swiper-pagination`,
+                                        clickable: true
+                                    },
+                                    on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+                                });
+                            }
+                            initSwiperTp()
+                            document.addEventListener('shopify:section:load', () => { initSwiperTp() });
+
+                            //-- check available variant
+                            const curr_popup_elem = document.querySelector(`#pair-${index}`);
+                            const pro_id = curr_popup_elem.getAttribute('data-product-id');
+                            this.checkAvailableVariant(true,index,`pair-${index}`,pro_id);
+
+                            //-- check selected diamond
+                            {% if product.tags contains 'collection:LVC Precieux' %}
+                                this.checkSelectedDiamond();
+                            {% else %}
+                                document.querySelector('.pair-popup-wrapper .can-add-wrapper').classList.remove('hide-m');
+                                document.querySelector('.pair-popup-wrapper .cannot-add-wrapper').classList.add('hide-m');
+
+                                const price_elem = document.querySelector('.pair-popup-wrapper .total-diamond-price');
+                                const product_price = document.querySelector('#product-page-top .product-price .bold-600').innerHTML;
+                                price_elem.innerHTML = product_price;
+                            {% endif %}
+                        }, 100);
+                    } else {
+                        this.showPopupFade[index] = false;
+
+                        setTimeout(() => {
+                            this.showPopup[index] = false;
+                        }, 500);
+                    }
+                },
+                addBothToBag(e) {
+                    const button = e.target.closest('.add-to-cart');
+                    const this_obj = this;
+                    if(button.getAttribute('disabled') != "disabled") {
+                        /* check if parent product already added */
+                        const main_pro_id = Number('{{ product.id }}');
+
+                        axios.get(`/cart.js`)
+                            .then(function (response) {
+                                const line_items = response.data.items;
+                                const product_found = line_items.filter(function(product){
+                                    return product.product_id == main_pro_id;
+                                });
+
+                                if(product_found.length > 0) {
+                                    $360.addToCart({
+                                        qty: 1,
+                                        variantId: this_obj.variantId,
+                                        button: button
+                                    },function(){
+                                        const close_button = document.querySelector('.pair-popup-wrapper .close-popup');
+                                        close_button.click();
+                                    });
+                                } else {
+                                    {%- if product.tags contains "collection:LVC Precieux" -%} 
+                                        let args = [];
+                                        const nonce = new Date().getTime() + Math.floor(Math.random() * 100000);
+
+                                        /*-- main product --*/
+                                        let args_temp = {
+                                            varId: productVariantsVue.variantId,
+                                            qty: 1,
+                                            properties: {
+                                                "_group_id": nonce,
+								                "_group_parent": true
+                                            }
+                                        };
+                                        args.push(args_temp);
+
+                                        /*-- diamond product --*/
+                                        args_temp = {
+                                            varId: $diamondFilter.diamondVariantId,
+                                            qty: 1,
+                                            properties: {
+                                                "_group_id": nonce,
+                                                "Main Product": '{{ product.title }}'
+                                            }
+                                        }
+                                        args.push(args_temp);
+
+                                        /*-- additional product --*/
+                                        args_temp = {
+                                            varId: this_obj.variantId,
+                                            qty: 1
+                                        }
+                                        args.push(args_temp);
+
+                                        $360.addToCartMultiple({
+                                            products: args,
+                                            button: button
+                                        }, function(){
+                                            const close_button = document.querySelector('.pair-popup-wrapper .close-popup');
+                                            close_button.click();
+                                        });
+                                    {%- else -%}
+                                        let args = [];
+                                        /*-- main product --*/
+                                        let args_temp = {
+                                            varId: productVariantsVue.variantId,
+                                            qty: productVariantsVue.qty
+                                        };
+                                        args.push(args_temp);
+
+                                        /*-- additional product --*/
+                                        args_temp = {
+                                            varId: this_obj.variantId,
+                                            qty: 1
+                                        }
+                                        args.push(args_temp);
+
+                                        $360.addToCartMultiple({
+                                            products: args,
+                                            button: button
+                                        }, function(){
+                                            const close_button = document.querySelector('.pair-popup-wrapper .close-popup');
+                                            close_button.click();
+                                        });
+                                    {%- endif -%}
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            }
+                        );
+                    }
+                }
+            }
+        }).mount('#pdp-pair-your-ring');
+    </script>
+{%- endif -%}

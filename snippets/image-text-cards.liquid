@@ -1,0 +1,193 @@
+{%- comment -%}
+Description:
+Snippet for displaying image and text content
+
+Variables:
+- el_id: Element id
+- background: Background color hex
+- title: Title text
+- subtitle: Subtitle text
+- text: Text content
+- slide_desktop: Enable/disable slide for desktop
+- slide_desktop_no: View per slide in desktop
+- slide_mobile: Enable/disable slide for mobile
+- slide_mobile_no: View per slide in mobile
+- more_btn: Enable/disable more button
+- more_btn_label: Label for more button
+- more_btn_url: More button URL
+- blocks: blocks data
+{%- endcomment -%}
+<style>
+{%- if background != blank -%}
+
+#{{ el_id }} {
+    background-color: {{ background }};
+}
+{%- endif -%}
+{%- if text_color != blank -%}
+#{{ el_id }} .title,
+#{{ el_id }} .text {
+    color: {{ text_color }};
+}
+{%- endif -%}
+#{{ el_id }} .rte a {
+    font-weight: 400;
+}
+</style>
+
+<div id="{{ el_id }}" class="image-text relative {{ wrapper_class }}">
+    {%- if title != blank or subtitle != blank or text != blank -%}
+    <div class="container flex jc-center ai-center pb-25 t-pb-30 d-pb-30">
+        <div class="max-750 tc">
+            {%- if title != blank -%}
+                {%- if title_size == 'big' -%}
+                    <{{ section.settings.title_dom_type }} class="h2 c-greenb2 tc">{{ title | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- elsif title_size == 'normal' -%}
+                    <{{ section.settings.title_dom_type }} class="h3 c-greenb2 tc">{{ title | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- else -%}
+                    <{{ section.settings.title_dom_type }} class="h5 c-greenb2 tc">{{ title | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- endif -%}
+            {%- endif -%}
+            {%- if subtitle != blank -%}
+            <h4 class="h5 c-comfort-black bold-500 tc pt-10 t-pt-10 d-pt-10">{{ subtitle }}</h5>
+            {%- endif -%}
+            {%- if text != blank -%}
+            <div class="w-full p1 c-comfort-black tc pt-10 t-pt-10 d-pt-10">{{ text }}</div>
+            {%- endif -%}
+        </div>
+    </div>
+    {%- endif -%}
+
+    {% comment %} DESKTOP {% endcomment %}
+    {%- assign class_box = '' -%}
+    {%- assign class_item = '' -%}
+    {% if slide_desktop %}
+        {%- assign class_box = 'swiper-wrapper' -%}
+        {%- assign class_item = 'swiper-slide' -%}
+    {% endif %}
+    <div id="dslider-{{ el_id }}" class="container hide-m show-t swiper">
+        <div class="row {{ class_box }}">
+            {%- for block in blocks -%}
+                {%- assign image_id = "d-text-cards-image-" | append: el_id | append: forloop.index0 -%}
+                {% render 'each-image-text-cards-desktop', block: block, image_id: image_id, additional_class: class_item, perrow: perrow, index: forloop.index, total: blocks.size, slider: slide_desktop %}
+            {%- endfor -%}
+        </div>
+        {%- if slide_desktop and pagination_desktop -%}
+        <div class="w-full tc pt-30 t-pt-40 d-pt-40 relative">
+            <div id="dpagination-{{ el_id }}" class="swiper-pagination mt-5 t-mt-5 d-mt-5"></div>
+        </div>
+        {%- endif -%}
+        {%- if more_btn and more_btn_label != blank and more_btn_url != blank -%}
+        <div class="w-full tc pt-30 t-pt-40 d-pt-40">
+            <a href="{{ more_btn_url }}" class="btn3" title="{{ block.settings.btn_label | escape }}">{{ more_btn_label }}</a>
+        </div>
+        {%- endif -%}
+    </div>
+    {% comment %} END DESKTOP {% endcomment %}
+
+    {% comment %} MOBILE {% endcomment %}
+    {%- assign m_class_box = 'row' -%}
+    {%- assign m_class_item = 'col-12' -%}
+    {% if slide_mobile %}
+        {%- assign m_class_box = 'w-full swiper-wrapper' -%}
+        {%- assign m_class_item = 'w-full swiper-slide' -%}
+    {% endif %}
+    <div id="mslider-{{ el_id }}" class="container show-m hide-t hide-d swiper">
+        <div class="{{ m_class_box }}">
+            {%- for block in blocks -%}
+                {%- assign image_id = "m-text-cards-image-" | append: el_id | append: forloop.index0 -%}
+                {% render 'each-image-text-cards-mobile', block: block, image_id: image_id, additional_class: m_class_item, perrow: perrow, index: forloop.index, total: blocks.size, slider: slide_mobile %}
+            {%- endfor -%}
+        </div>
+        {%- if slide_mobile and pagination_mobile -%}
+        <div class="w-full tc pt-30 t-pt-40 d-pt-40 relative">
+            <div id="mpagination-{{ el_id }}" class="swiper-pagination mt-5 t-mt-5 d-mt-5"></div>
+        </div>
+        {%- endif -%}
+        {%- if more_btn and more_btn_label != blank and more_btn_url != blank -%}
+        <div class="w-full tc pt-30 t-pt-40 d-pt-40">
+            <a href="{{ more_btn_url }}" class="btn3" title="{{ block.settings.btn_label | escape }}">{{ more_btn_label }}</a>
+        </div>
+        {%- endif -%}
+    </div>
+    {% comment %} END MOBILE {% endcomment %}
+</div>
+{%- assign function_name = el_id | replace: '-', '_' -%}
+{%- assign prefix = function_name -%}
+
+<script>
+{%- if slide_desktop -%}
+function dSlider{{ function_name }}() {
+    new Swiper('#dslider-{{ el_id }}', {
+        slidesPerView: {{ slide_desktop_no }},
+        loop: true,
+        preloadImages: true,
+        lazy: true,
+        loopedSlides: {{ blocks.size }},
+        centeredSlides: false,
+        spaceBetween: 0,
+        {% if pagination_desktop %}
+        pagination: {
+            el: "#dpagination-{{ el_id }}",
+            clickable: true
+        },
+        {% endif %}
+        on: {
+            init: function() {
+                $360.lazyLoadInstance.update();
+            },
+            slideChange: function() {
+                $360.lazyLoadInstance.update();
+            },
+            resize: function() {
+                $360.lazyLoadInstance.update();
+            }
+        }
+    });
+}
+document.addEventListener('shopify:section:load', () => { dSlider() });
+{%- endif -%}
+
+{%- if slide_mobile -%}
+function mSlider{{ function_name }}() {
+    new Swiper('#mslider-{{ el_id }}', {
+        slidesPerView: {{ slide_mobile_no }},
+        loop: true,
+        preloadImages: true,
+        lazy: true,
+        loopedSlides: {{ blocks.size }},
+        centeredSlides: false,
+        spaceBetween: 16,
+        {% if pagination_mobile %}
+        pagination: {
+            el: "#mpagination-{{ el_id }}",
+            clickable: true
+        },
+        {% endif %}
+        on: {
+            init: function() {
+                $360.lazyLoadInstance.update();
+            },
+            slideChange: function() {
+                $360.lazyLoadInstance.update();
+            },
+            resize: function() {
+                $360.lazyLoadInstance.update();
+            }
+        }
+    });
+}
+document.addEventListener('shopify:section:load', () => { mSlider() });
+{%- endif -%}
+document.addEventListener('DOMContentLoaded', function() {
+    {%- if slide_desktop -%}
+    dSlider{{ function_name }}();
+    window.addEventListener("resize", dSlider{{ function_name }});
+    {% endif %}
+
+    {%- if slide_mobile -%}
+    mSlider{{ function_name }}();
+    window.addEventListener("resize", mSlider{{ function_name }});
+    {% endif %}
+});
+</script>

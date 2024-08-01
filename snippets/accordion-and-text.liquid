@@ -1,0 +1,52 @@
+{%- comment -%}
+Love&Co Theme
+
+Description:
+Snippet for displaying text with accordion side by side
+
+Variables:
+- el_id: String. Element ID
+- title: String. Text title
+- text: String. Long text
+- button_label: String. Button label
+- button_url: String. Button url
+- accordion_identifier: String lowercase no spacing.
+- accordion_contents: array of identifier|question|answer separated by pipe
+{%- endcomment -%}
+
+<style>
+    #{{ el_id }} {
+        background: rgb(250,224,199);
+        background: linear-gradient(
+            0deg, 
+            rgba(250,224,199,1) 0%, 
+            rgba(250,224,199,1) 43%, 
+            rgba(255,245,235,1) 71%, 
+            rgba(255,255,255,1) 100%
+        );
+    }
+    </style>
+    
+    <div id="{{ el_id }}" class="acc-and-text fade">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-t-4 col-max-3 push-max-1">
+                    <h2 class="h2 c-darkblue mb-15">{{ title }}</h2>
+                    <p class="p2 mb-30 t-mb-15">{{ text }}</p>
+                    <div class="hide-m show-t">
+                        <a href="{{ button_url }}" class="btn1 rounded" title="{{ button_label | escape }}">{{ button_label }}</a>
+                    </div>
+                </div>
+                <div class="col-12 col-t-8 col-max-6 push-max-2">
+                    {%- render 'accordion', 
+                        identifier: accordion_identifier,
+                        wrapper_index: 0,
+                        contents: accordion_contents
+                    -%}
+                    <div class="hide-t mt-30">
+                        <a href="{{ button_url }}" class="btn1 rounded" title="{{ button_label | escape }}">{{ button_label }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

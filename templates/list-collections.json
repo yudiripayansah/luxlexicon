@@ -1,0 +1,38 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "bde3b569-6979-4f98-9beb-8a80bb014adf": {
+      "type": "store-detail",
+      "blocks": {
+        "3bff641f-2e00-4e93-b06d-d667ca76be49": {
+          "type": "images",
+          "settings": {}
+        },
+        "c6734a47-f473-4856-b2c4-f7a271722333": {
+          "type": "images",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "3bff641f-2e00-4e93-b06d-d667ca76be49",
+        "c6734a47-f473-4856-b2c4-f7a271722333"
+      ],
+      "disabled": true,
+      "settings": {
+        "bg_color": "#c8e7d9",
+        "advanced_background_color": "",
+        "title": "Jurong Point",
+        "title_dom_type": "h1",
+        "address": "1 Jurong West Central 2, #01-27\/28 Jurong Point, Singapore 648886",
+        "google_map_link": "",
+        "phone": "+65 6904 9733",
+        "open_hours": "Mon – Sun: 11:00am – 09:30pm",
+        "btn_label": "BOOK AN APPOINTMENT",
+        "btn_url": "#"
+      }
+    }
+  },
+  "order": [
+    "bde3b569-6979-4f98-9beb-8a80bb014adf"
+  ]
+}

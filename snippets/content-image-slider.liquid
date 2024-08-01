@@ -1,0 +1,177 @@
+{%- comment -%}
+Description:
+Snippet for displaying products slide
+
+Variables:
+- el_id: Element id
+- bg_color: String. hex color.
+- title: Title text
+- title_class: String. Title text class.
+- use_handle: Boolean. Use product handle
+- handles: Product handles array
+- products: products array (if not use product handle)
+- limit: products limit (if not use product handle)
+- button_label: Bottom button label
+- button_url: Bottom button url
+- exclude_product_id: Numeric, exclude this product
+{%- endcomment -%}
+
+<style>
+#{{ el_id }} .the-title.tc {
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#{{ el_id }} .link-icon.link1 .icon{
+    width: 10px;
+    height: 10px;
+}
+#{{ el_id }} .ctn-img-slide__main {
+    margin-left: auto;
+    margin-right: auto;
+}
+#{{ el_id }} .navigation {
+    display: none;
+}
+#{{ el_id }} .swiper-slide {
+    width: 250px;
+}
+#{{ el_id }} .swiper-pagination.white {
+    bottom: 30%;
+}
+#{{ el_id }} .swiper-pagination.orange {
+    bottom: 0;
+    text-align: left;
+    margin-left: -4px;
+}
+@media only screen and (min-width: 768px) {
+    #{{ el_id }} .swiper-pagination.white {
+        bottom: 20%;
+    }
+    #{{ el_id }} .the-title {
+        max-width: 75%;
+    }
+    #{{ el_id }} .the-title.tc {
+        max-width: unset;
+        width: 100%;
+    }
+    #{{ el_id }} .right-side {
+        flex: 1;
+        justify-content: flex-end;
+    }
+    #{{ el_id }} .ctn-img-slide__main {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #{{ el_id }} .title-con .the-title {
+        max-width: 70%;
+    }
+    #{{ el_id }} .navigation {
+        display: flex;
+        align-items: center;
+    }
+    #{{ el_id }} .swiper-button-prev,
+    #{{ el_id }} .swiper-button-next {
+        position: relative;
+        top: 0;
+        margin-top: 0;
+    }
+    #{{ el_id }} .swiper-button-prev {
+        left: 0;
+    }
+    #{{ el_id }} .swiper-button-next {
+        right: 0;
+    }
+    #{{ el_id }} .ctn-img-slide__main {
+        margin-left: 0;
+        margin-right: calc(50% - 60vw);
+    }
+}
+@media only screen and (min-width: 1400px) {
+    #{{ el_id }} .ctn-img-slide__main {
+        margin-left: 0;
+        margin-right: calc(50% - 60vw);
+    }
+}
+</style>
+
+<div id="{{ el_id }}" class="w-full ctn-img-slide fade overflow" {% if bg_color != blank %}style="background-color: {{ bg_color }}"{% endif %}>
+    <div class="container relative">
+        <div class="row ctn-img-slide__top t-flex t-jc-end t-ai-stretch mb-30 t-mb-30 d-mb-30">
+            <div class="col-12 t-col-6">
+                <{{ section.settings.title_dom_type }} class="h3 c-greenb2 bold-700">{{ title }}</{{ section.settings.title_dom_type }}>
+            </div>
+            <div class="col-12 t-col-6 t-flex t-jc-end t-ai-end">
+                <div class="navigation ml-20">
+                    <div class="{{ el_id }}-navigation swiper-button-prev">{{ settings.icon_slide_left }}</div>
+                    <div class="{{ el_id }}-navigation swiper-button-next ml-10">{{ settings.icon_slide_right }}</div>
+                </div>
+            </div>
+        </div>
+        <div id="slider-{{ el_id }}" class="relative ctn-img-slide__main swiper pb-25">
+            <div class="swiper-wrapper">
+                {%- for block in blocks -%}
+                    <div class="swiper-slide">
+                        {%- render 'each-content-image-slider', block: block -%}
+                    </div>
+                {%- endfor -%}
+            </div>
+            <div class="{{ el_id }}-pagination swiper-pagination orange" v-show="isMobile"></div>
+        </div>
+    </div>
+</div>
+
+{%- assign function_name = el_id | replace: '-', '_' -%}
+<script>
+function productSlideInit{{ function_name }}() {
+    const el_id = '#{{ el_id }}'
+    const side_space = (window.innerWidth - document.querySelector('.header-con__inner').innerWidth) / 2;
+
+    const slider = new Swiper('#slider-{{ el_id }}', {
+        slidesPerView: 'auto',
+        spaceBetween: 30,
+        loopedSlides: {{ blocks.size }},
+        loop: true,
+        preloadImages: false,
+        lazy: true,
+        navigation: {
+            prevEl: '.{{ el_id }}-navigation.swiper-button-prev',
+            nextEl: '.{{ el_id }}-navigation.swiper-button-next',
+        },
+        pagination: {
+            el: ".{{ el_id }}-pagination",
+            clickable: true
+        },
+        breakpoints: {
+            {{ breakpoint_desktop }}: {
+                slidesPerView: {{ slides_desktop }},
+            },
+            {{ breakpoint_tablet }}: {
+                slidesPerView: {{ slides_tablet }},
+            },
+            {{ breakpoint_mobile }}: {
+                slidesPerView: {{ slides_mobile }}
+            }
+        },
+        on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    productSlideInit{{ function_name }}();
+});
+document.addEventListener('shopify:section:load', () => { productSlideInit{{ function_name }}() });
+</script>

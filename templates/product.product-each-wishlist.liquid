@@ -1,0 +1,54 @@
+{% layout none %}
+{%- assign variant = product.selected_or_first_available_variant -%}
+{%- assign s = product.images | size -%}
+
+    <div class="product-each wishlist overflow relative">	
+        <div class="mb-10 hhd-mb-15 relative">
+            <a href="{{ product.url }}" class="image-link product-link">
+                {%- render 'global-image-wrapper',
+                    image: product.featured_image,
+                    preload: true
+                -%}
+            </a>
+
+            <a href="#" rel="nofollow" class="remove-wishlist">{{ settings.icon_wishlist }}</a>
+        </div>
+        <div class="details-con relative">
+            <div class="original-container hd-flex hd-jc-between">
+                <a href="{{ product.url }}" class="p2 title-container product-link" title="{{ product.title | escape }}">{{ product.title }}</a>
+
+                <div class="price-container tl global-flex flex-wrap ai-center jc-between">
+                    <div>
+                        {%if product.price < product.compare_at_price%}
+                            <span class="p2">{{ product.price | money_with_currency }}</span>	
+                        {% else %}
+                            <span class="p2">{{ product.price | money_with_currency }}</span>
+                        {% endif %}
+                        {%- if product.price < product.compare_at_price -%}
+                            <span class="p2 c-grey"><strike>{{ product.compare_at_price | money_with_currency }}</strike></span>
+                        {%- endif -%}
+                    </div>
+                </div>
+            </div>
+
+            <div class="variants-wrapper relative w-full">
+                {%- for var in product.variants -%}
+                    <div data-variant-id="{{ var.id }}" class="relative w-full hide-m">
+                        <p class="p2 c-grey">
+                            {%- if product.metafields.info.color_name != blank -%}
+                                {{ product.metafields.info.color_name }}
+                            {%- endif -%}
+
+                            {%- unless var.title contains 'Default Title' -%}
+                                / {{ var.title }}
+                            {%- endunless -%}
+                        </p>
+                    </div>
+                {%- endfor -%}
+            </div>
+
+            <div class="relative w-full mt-5 pb-3">
+                <a href="#" rel="nofollow" class="add-to-cart h4 hover-underline uppercase reverse">{{ 'products.product.add_to_bag' | t }}</a>
+            </div>
+        </div>
+    </div>

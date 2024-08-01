@@ -1,0 +1,71 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "blog_list_header_ye6wwB": {
+      "type": "blog-list-header",
+      "blocks": {
+        "tag_PTdQDn": {
+          "type": "tag",
+          "settings": {
+            "title": "all",
+            "text": "Immerse yourself in captivating stories, style inspirations, and insider tips that celebrate the essence of our ethos. #1"
+          }
+        },
+        "tag_JjNzUd": {
+          "type": "tag",
+          "settings": {
+            "title": "collaboration",
+            "text": "Immerse yourself in captivating stories, style inspirations, and insider tips that celebrate the essence of our ethos. #2"
+          }
+        },
+        "tag_9gCpRe": {
+          "type": "tag",
+          "settings": {
+            "title": "spotlight",
+            "text": "Immerse yourself in captivating stories, style inspirations, and insider tips that celebrate the essence of our ethos. #3"
+          }
+        },
+        "tag_HxE7cG": {
+          "type": "tag",
+          "settings": {
+            "title": "impact",
+            "text": "Immerse yourself in captivating stories, style inspirations, and insider tips that celebrate the essence of our ethos. #4"
+          }
+        },
+        "tag_C4DFjh": {
+          "type": "tag",
+          "settings": {
+            "title": "a tale of creative bonds",
+            "text": "Immerse yourself in captivating stories, style inspirations, and insider tips that celebrate the essence of our ethos. #5"
+          }
+        }
+      },
+      "block_order": [
+        "tag_PTdQDn",
+        "tag_JjNzUd",
+        "tag_9gCpRe",
+        "tag_HxE7cG",
+        "tag_C4DFjh"
+      ],
+      "settings": {
+        "top_padding_m": 30,
+        "bottom_padding_m": 0,
+        "top_padding": 50,
+        "bottom_padding": 0
+      }
+    },
+    "blog_list_wnDYHk": {
+      "type": "blog-list",
+      "settings": {
+        "bottom_padding_m": 0,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "article_per_page": 9
+      }
+    }
+  },
+  "order": [
+    "blog_list_header_ye6wwB",
+    "blog_list_wnDYHk"
+  ]
+}

@@ -1,0 +1,56 @@
+<style>
+  .fs-timeline-detail {
+    background: rgba(108, 108, 108, 0.8);
+    z-index: 99999999;
+  }
+  #fs-prev-post {
+    box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.26);
+    -webkit-box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.26);
+    -moz-box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.26);
+    padding: 0;
+    width: 45px;
+    height: 45px;
+    position: relative;
+    border-radius: 50%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='47.795' height='47.79' viewBox='0 0 47.795 47.79'%3E%3Cg transform='translate(-1266.207 -1164.5)'%3E%3Cellipse cx='23.897' cy='23.895' rx='23.897' ry='23.895' transform='translate(1266.207 1164.5)' fill='%23fff'/%3E%3Cpath d='M210.275,11794.877l-5.795,5.795,5.795,5.795' transform='translate(1082.727 -10612.377)' fill='none' stroke='%232c2c2c' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .fs-button-inactive {
+    display: none !important;
+  }
+  .fs-detail-nav-bar-arrows {
+    padding-left: 25px;
+    padding-right: 10px;
+  }
+  @media (min-width: 1024px) {
+    .fs-detail-nav-bar-arrows {
+      padding-left: 30px;
+      padding-right: 0;
+    }
+    #fs-prev-post {
+      margin-right: 5px;
+    }
+  }
+  #fs-next-post {
+    box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.26);
+    -webkit-box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.26);
+    -moz-box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.26);
+    padding: 0;
+    width: 47px;
+    height: 47px;
+    position: relative;
+    border-radius: 50%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='47.795' height='47.79' viewBox='0 0 47.795 47.79'%3E%3Cellipse cx='23.897' cy='23.895' rx='23.897' ry='23.895' fill='%23fff'/%3E%3Cpath d='M204.481,11794.877l5.795,5.795-5.795,5.795' transform='translate(-183.48 -11776.877)' fill='none' stroke='%232c2c2c' stroke-width='1'/%3E%3C/svg%3E");
+  }
+  #fs-detail-close {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16.465' height='16.465' viewBox='0 0 16.465 16.465'%3E%3Cg transform='translate(0.354 0.354)'%3E%3Cline x2='15.758' y2='15.758' fill='none' stroke='%232c2c2c' stroke-width='1'/%3E%3Cline x1='15.758' y2='15.758' fill='none' stroke='%232c2c2c' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
+    width: 15px;
+    height: 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #fs-prev-post svg,
+  #fs-next-post svg,
+  #fs-detail-close svg {
+    display: none;
+  }
+</style>

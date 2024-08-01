@@ -1,0 +1,135 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+{%assign translate_y_mobile = 20 | minus: section.settings.top_padding_m%}
+{%assign translate_y_desktop = 30 | minus: section.settings.top_padding%}
+<style>
+    #shopify-section-{{ section.id }} {
+        background-color:{{section.settings.background_color}};
+    }
+    #shopify-section-{{ section.id }} .breadcrumb-wrapper{
+        transform:translate(0,{{translate_y_mobile}}px);
+    }
+    @media(min-width: 1024px) {
+        #shopify-section-{{ section.id }} .breadcrumb-wrapper{
+            transform:translate(0,{{translate_y_desktop}}px);
+        }
+        #shopify-section-{{ section.id }} .flex-wrapper{
+            display:flex;
+            flex-wrap:wrap;
+        }
+        #shopify-section-{{ section.id }} .title-container{
+            width:50%;
+            padding-right:20px;
+        }
+        #shopify-section-{{ section.id }} .text-container{
+            width:50%;
+        }
+    }
+
+</style>
+
+<section id="{{ section.id }}" class="collection-in-main-heading">
+    <div class="container">
+        {%- render 'breadcrumbs',
+            first_text: collection.metafields.breadcrumb.first_text,
+            first_url: collection.metafields.breadcrumb.first_url
+        -%}
+        <div class="flex-wrapper">
+            <div class="title-container">
+                {%if section.settings.title != blank%}
+                    <{{ section.settings.title_dom_type }} class="h3">{{section.settings.title}}</{{ section.settings.title_dom_type }}>
+                {%else%}
+                    <{{ section.settings.title_dom_type }} class="h3">{{collection.title}}</{{ section.settings.title_dom_type }}>
+                {%endif%}
+            </div>
+            <div class="text-container">
+                {%if section.settings.text != blank%}
+                    <div class="p2 c-grey mt-10">{{section.settings.text}}</div>
+                {%else%}
+                    <div class="p2 c-grey mt-10">{{collection.description}}</div>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+    {
+        "name": "Collection Main Heading",
+        "settings": [
+        {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Color"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "info": "Leave this empty to use the default collection title"
+        },
+        {
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Title DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"},
+                {"value":"h6","label":"H6"}
+            ],
+            "default": "h2"
+        },
+        {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text",
+            "info": "Leave this empty to use the default collection description"
+        },
+        {
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		}
+        ],
+        "presets": [
+        {
+            "name": "Collection Main Heading",
+            "blocks": []
+        }
+        ]
+    }
+{% endschema %}

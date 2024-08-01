@@ -1,0 +1,856 @@
+{% comment %} Luxlexicon Theme - on progress : Adi {% endcomment %}
+{%- assign el_id = 'register-' | append: section.id -%}
+{% assign ss = section.settings %}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+<style>
+  #{{el_id}} .account-menu {
+    flex-direction: row;
+  }
+  #{{el_id}} input::-webkit-calendar-picker-indicator{
+    display: none !important;
+  }
+  #{{el_id}} input[type="date"]::-webkit-input-placeholder{ 
+    visibility: hidden !important;
+  }
+  #{{el_id}} .birth_date_wrapper .relative.pb-1,
+  #{{el_id}} .birth_date_wrapper .relative.pb-1 input[type="text"] {
+    cursor: pointer;
+  }
+  #{{el_id}} .datepicker-input.in-edit:active, .datepicker-input.in-edit:focus {
+    box-shadow: none !important;
+  }
+  #{{el_id}} .datepicker-input.in-edit {
+    border-color: #171717 !important;
+  }
+  #{{el_id}} .datepicker-picker {
+    border-radius: 0 !important;
+    border: solid 0.5px #171717 !important;
+    box-shadow: none !important;
+  }
+  #{{el_id}} .datepicker-picker .datepicker-controls .button,
+  #{{el_id}} .datepicker .dow{
+    font-size: 12px !important;
+    font-weight: 500;
+    color: #171717;
+    border-radius: 0 !important;
+  }
+  #{{el_id}} .datepicker-header .datepicker-controls .button:hover {
+    background-color: #f0f0f0 !important;
+  }
+  #{{el_id}} .datepicker-cell.month {
+    border-radius: 0 !important;
+  }
+  #{{el_id}} .datepicker-cell:not(.disabled):hover,
+  #{{el_id}} .datepicker-cell.focused:not(.selected),
+  #{{el_id}} .datepicker-cell.selected,
+  #{{el_id}} .datepicker-cell.selected:hover {
+    background-color: #f0f0f0 !important;
+    color: #171717;
+    border-radius: 0 !important;
+  }
+  #{{el_id}} .datepicker-header .datepicker-controls,
+  #{{el_id}} .datepicker-main {
+    padding-top: 5px;
+  }
+  #{{el_id}} .datepicker-picker .datepicker-grid {
+    font-size: 10px !important;
+  }
+  #{{el_id}}  .datepicker-cell.focused:not(.selected) {
+    border-radius: 0 !important;
+  }
+  #{{el_id}} .field-gender {
+    flex-direction: column;
+  }
+  #{{el_id}} .register-row {
+    margin-left: -7.5px;
+    margin-right: -7.5px;
+  }
+  #{{el_id}} .register-row > div {
+    padding-left: 7.5px;
+    padding-right: 7.5px;
+  }
+  #{{el_id}} .register-row .reg-country, #{{el_id}} .register-row .reg-month {
+    padding-right: 5px;
+  }
+  #{{el_id}} .register-row .reg-phone, #{{el_id}} .register-row .reg-year {
+    padding-left: 5px;
+  }
+  #{{el_id}} input#birthday {
+    padding-right: 0;
+    letter-spacing: 0px;
+    background: url('https://cdn.shopify.com/s/files/1/0875/2047/7484/files/icon-calendar.svg?v=1719567565') top right no-repeat;
+  }
+  #{{el_id}} .global-input {
+    padding-bottom: 8px;
+  }
+  #{{el_id}} .global-select-div .icons .icon svg {
+    width: 8px;
+  }
+ #birth_date_placeholder {
+    position: absolute;
+    padding: 0;
+    width: 50%;
+    background-color: #fff;
+}
+  #birth_date_placeholder span {
+    color:#171717;
+    opacity: 0.3;
+    text-transform: uppercase;
+  }
+  #birthday:after {
+    z-index: 0;
+    content: "";
+    display: block;
+    font-size: 2rem;
+    color: STEELBLUE;
+    background: url('https://cdn.shopify.com/s/files/1/0875/2047/7484/files/icon-calendar.svg?v=1719567565') center no-repeat;
+    width: 11px;
+    height: 12px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
+::-webkit-calendar-picker-indicator {
+  z-index: 1;
+  opacity:0;
+  cursor: pointer;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    box-shadow: 0 0 0px 1000px white inset;
+}
+#{{el_id}} .global-input, #birth_date_placeholder {
+  display: flex;
+  height: 43px;
+  padding: 0px 16px;
+  justify-content: space-between;
+  align-items: center;
+}
+#{{el_id}} .global-select-div {
+  padding: 0px 16px;
+  height: 43px;
+}
+#{{el_id}} .global-select-div .inner {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+#{{el_id}} .global-select-div .options li {
+  padding: 6px 20px;
+}
+#{{el_id}} .global-select-div .options li:first-child {
+  padding-top: 15px;
+}
+#{{el_id}} .global-select-div .options li:last-child {
+  padding-bottom: 15px;
+}
+/*
+#{{el_id}} .global-select-div .options li:before{
+  content: '';
+  display: none;
+  width: 5px;
+  height: 5px;
+  margin-right: 8px;
+  transform: translateY(-25%);
+  background-color: var(--black)
+}
+*/
+#{{el_id}} .global-select-div .options li:hover:before{
+  display: inline-block;
+}
+#{{el_id}} .global-select-div .options li.active:before{
+  display: inline-block;
+}
+#{{el_id}} .options {
+  border-color: var(--black);
+}
+#{{el_id}} .submit-btn {
+  width: 100%;
+}
+#{{el_id}} .global-radio .gr-mark {
+  min-width: 16px;
+  min-height: 16px;
+  max-width: 16px;
+  max-height: 16px;
+  border: 1px solid var(--border);
+}
+#{{el_id}} .global-radio input:checked+.gr-mark:after {
+  background-color: transparent;
+  background-image: url(https://cdn.shopify.com/s/files/1/0551/5670/3321/files/icon.tick.svg?v=1722445998);
+  width: 8px;
+  height: 8px;
+}
+#{{el_id}} .right-16 {
+  right: 16px;
+}
+@media screen and (min-width: 1024px) {
+  #{{el_id}} .datepicker-picker .datepicker-grid {
+    font-size: 11px !important;
+  }
+  #{{el_id}} .account-menu {
+    flex-direction: row;
+  }
+  #{{el_id}} .d-max-438 {
+    max-width: 438px;
+  }
+  #{{el_id}} .field-gender {
+    flex-direction: row;
+  }
+  #{{el_id}} .register-row .reg-country, #{{el_id}} .register-row .reg-month {
+    padding-right: 7.5px;
+  }
+  #{{el_id}} .register-row .reg-phone, #{{el_id}} .register-row .reg-year {
+    padding-left: 7.5px;
+  }
+  #{{el_id}} .submit-btn {
+    width: unset;
+  }
+  #{{el_id}} .global-image-wrapper {
+    height: 100%;
+  }
+  #{{el_id}} .global-image-wrapper .image {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+</style>
+<div id="{{ el_id }}">
+  <div class="">
+    <div class="flex flex-column d-flex-row">
+      <div class="col-d-6 col-12 pl-0 pr-0 d-pl-0 d-pr-0 image-login">
+        {%- assign image_id = 'selection-popup-image-salon-' | append: section.id -%}
+          {%- render 'global-image-wrapper-responsive',
+            image_id: image_id,
+            desktop_image: ss.image_desktop,
+            mobile_image: ss.image_mobile
+          %}
+        
+      </div>
+      
+      <div class="col-d-6 col-12 pl-20 pr-20 d-pl-0 d-pr-0 mt-36 d-mt-100 mb-36 d-mb-100 flex flex-column ai-center jc-center ml-auto mr-auto">
+        <div class="d-max-438 w-full">
+          <div class="content-register">
+            <h1 class="h1 medium-500 pb-12">{{ 'customer.login.register_label' | t }}</h1>
+            <div class="p1 c-grey60 pb-36">{{ 'customer.login.desc' | t }}</div>
+            <div class="mt-30 d-mt-0 mb-24 link-box">
+              <ul class="account-menu flex">
+                <li class="mr-16">
+                  <a href="{{ routes.account_login_url }}" rel="nofollow" class="pb-4 p2  c-grey40 signin-btn" onclick="showForm('login',event)">{{ 'customer.account.sign_in' | t }}</a>
+                </li>
+                <li class="">
+                  <a href="{{ routes.account_register_url }}" class="hover-underline p2 b-black bb-1 c-black">{{ 'customer.login.register_label' | t }}</a>
+                </li>
+              </ul>
+            </div>
+            <div class="mt-30 d-mt-0">
+              {%- form 'create_customer' -%}
+                <div class="register-row row ml-0 mr-0">
+                  <div class="mt-0 col-d-6">
+                    <div class="relative overflow pb-1">
+                      <input
+                        type="text"
+                        name="customer[first_name]"
+                        id="first_name"
+                        class="global-input w-full b-1 b-border p1 c-black"
+                        placeholder="{{ 'customer.register.first_name' | t }}"
+                      >
+                      <div class="global-placeholder absolute right-0 bottom-0 pb-8">{{ 'customer.register.first_name' | t }}</div>
+                    </div>
+                    <div class="p2 mt-5 c-red hide-m error error-first-name pr-50"></div>
+                  </div>
+                  <div class="mt-12 d-mt-0 col-d-6">
+                    <div class="relative overflow pb-1">
+                      <input
+                        type="text"
+                        name="customer[last_name]"
+                        id="last_name"
+                        class="global-input w-full b-1 b-border p1 c-black"
+                        placeholder="{{ 'customer.register.last_name' | t }}"
+                      >
+                      <div class="global-placeholder absolute right-0 bottom-0 pb-8">{{ 'customer.register.last_name' | t }}</div>
+                    </div>
+                    <div class="p2 mt-5 c-red hide-m error error-last-name"></div>
+                  </div>
+                  <div class="mt-12 col-d-12">
+                    <div class="relative overflow pb-1">
+                      <input
+                        type="email"
+                        name="customer[email]"
+                        id="email"
+                        class="global-input w-full b-1 b-border p1 c-black"
+                        placeholder="{{ 'customer.register.email' | t }}"
+                      >
+                      <div class="global-placeholder absolute right-0 bottom-0 pb-8">{{ 'customer.register.email' | t }}</div>
+                    </div>
+                    <div class="p2 mt-5 c-red hide-m error error-email"></div>
+                  </div>
+                  <div class="mt-12 col-d-12">
+                    <div class="relative overflow pb-1">
+                      <input
+                          type="password"
+                          name="customer[password]"
+                          id="password"
+                          class="global-input w-full b-1 b-border p1 c-black"
+                          placeholder="{{ 'customer.login.password' | t }}"
+                      >
+                      
+                      <div onclick="togglePassword()" class="pointer absolute right-16 bottom-0 h-full flex ai-center" id="toggleIcon">
+                          {{ settings.icon_show_password }}
+                      </div>
+                    </div>
+                    <div class="p2 mt-5 c-red hide-m error error-password"></div>
+                  </div>
+                  {% comment %}
+                  <div class="mt-12 col-d-12">
+                    <div class="relative overflow pb-1">
+                      <input
+                        type="password"
+                        name="customer[cpassword]"
+                        id="cpassword"
+                        class="global-input w-full b-1 b-border p1 c-black"
+                        placeholder="{{ 'customer.register.cpassword' | t }}"
+                      >
+                      <div class="global-placeholder absolute right-0 bottom-0 pb-8">{{ 'customer.register.cpassword' | t }}</div>
+                    </div>
+                    <div class="p2 mt-5 c-red hide-m error error-cpassword"></div>
+                  </div>
+                  {% endcomment %}
+
+                  <div class="mt-12 col-12 flex ai-center">
+                    <div class="col-3 pl-0 reg-country">
+                      {% liquid
+                        assign default_value = 'Singapore'
+                        assign default_text = '+65'
+                        assign select_id = 'sidemenu-contact-' | append: section.id
+                        assign values = empty
+                        assign option_values = empty
+                        assign values = '+93,+358,+355,+213),+1684,+376,+244,+1264,+672,+1268,+54,+374,+297,+247,+61,+43,+994,+1242,+973,+880,+1246,+375,+32,+501,+229,+1441,+975,+591,+387,+267,+55,+246,+673,+359,+226,+257,+855,+237,+1,+238,+1345,+236,+235,+56,+86,+57,+269,+242,+682,+506,+385,+53,+357,+420,+243,+45,+253,+1767,+1849,+593,+20,+503,+240,+291,+372,+268,+251,+500,+298,+679,+358,+33,+594,+689,+241,+220,+995,+49,+233,+350,+30,+299,+1473,+590,+1671,+502,+44,+224,+245,+592,+509,+379,+504,+852,+36,+354,+91,+62,+98,+964,+353,+44,+972,+39,+225,+1876,+81,+44,+962,+77,+254,+686,+850,+82,+383,+965,+996,+856,+371,+961,+266,+231,+218,+423,+370,+352,+853,+261,+265,+60,+960,+223,+356,+692,+596,+222,+230,+262,+52,+691,+373,+377,+976,+382,+1664,+212,+258,+95,+264,+674,+977,+31,+599,+687,+64,+505,+227,+234,+683,+672,+389,+1670,+47,+968,+92,+680,+970,+507,+675,+595,+51,+63,+872,+48,+351,+1939,+974,+262,+40,+7,+250,+590,+290,+1869,+1758,+590,+508,+1784,+685,+378,+239,+966,+221,+381,+248,+232,+65,+1721,+421,+386,+677,+252,+27,+500,+211,+34,+94,+249,+597,+47,+46,+41,+963,+886,+992,+255,+66,+670,+228,+690,+676,+1868,+216,+90,+993,+1649,+688,+256,+380,+971,+44,+1,+246,+598,+998,+678,+58,+84,+1284,+1340,+681,+967,+260,+263'
+                        assign option_values = 'Afghanistan,Aland Islands,Albania,Algeria,American Samoa,Andorra,Angola,Anguilla,Antarctica,Antigua and Barbuda,Argentina,Armenia,Aruba,Ascension Island,Australia,Austria,Azerbaijan,Bahamas,Bahrain,Bangladesh,Barbados,Belarus,Belgium,Belize,Benin,Bermuda,Bhutan,Bolivia,Bosnia and Herzegovina,Botswana,Brazil,British Indian Ocean Territory,Brunei Darussalam,Bulgaria,Burkina Faso,Burundi,Cambodia,Cameroon,Canada,Cape Verde,Cayman Islands,Central African Republic,Chad,Chile,China,Colombia,Comoros,Congo,Cook Islands,Costa Rica,Croatia,Cuba,Cyprus,Czech Republic,Democratic Republic of the Congo,Denmark,Djibouti,Dominica,Dominican Republic,Ecuador,Egypt,El Salvador,Equatorial Guinea,Eritrea,Estonia,Eswatini,Ethiopia,Falkland Islands (Malvinas),Faroe Islands,Fiji,Finland,France,French Guiana,French Polynesia,Gabon,Gambia,Georgia,Germany,Ghana,Gibraltar,Greece,Greenland,Grenada,Guadeloupe,Guam,Guatemala,Guernsey,Guinea,Guinea-Bissau,Guyana,Haiti,Holy See (Vatican City State),Honduras,Hong Kong,Hungary,Iceland,India,Indonesia,Iran,Iraq,Ireland,Isle of Man,Israel,Italy,Ivory Coast,Jamaica,Japan,Jersey,Jordan,Kazakhstan,Kenya,Kiribati,Korea, Democratic Peoples Republic of Korea,Korea, Republic of South Korea,Kosovo,Kuwait,Kyrgyzstan,Laos,Latvia,Lebanon,Lesotho,Liberia,Libya,Liechtenstein,Lithuania,Luxembourg,Macau,Madagascar,Malawi,Malaysia,Maldives,Mali,Malta,Marshall Islands,Martinique,Mauritania,Mauritius,Mayotte,Mexico,Micronesia, Federated States of Micronesia,Moldova,Monaco,Mongolia,Montenegro,Montserrat,Morocco,Mozambique,Myanmar,Namibia,Nauru,Nepal,Netherlands,Netherlands Antilles,New Caledonia,New Zealand,Nicaragua,Niger,Nigeria,Niue,Norfolk Island,North Macedonia,Northern Mariana Islands,Norway,Oman,Pakistan,Palau,Palestine,Panama,Papua New Guinea,Paraguay,Peru,Philippines,Pitcairn,Poland,Portugal,Puerto Rico,Qatar,Reunion,Romania,Russia,Rwanda,Saint Barthelemy,Saint Helena, Ascension and Tristan Da Cunha,Saint Kitts and Nevis,Saint Lucia,Saint Martin,Saint Pierre and Miquelon,Saint Vincent and the Grenadines,Samoa,San Marino,Sao Tome and Principe,Saudi Arabia,Senegal,Serbia,Seychelles,Sierra Leone,Singapore,Sint Maarten,Slovakia,Slovenia,Solomon Islands,Somalia,South Africa,South Georgia and the South Sandwich Islands,South Sudan,Spain,Sri Lanka,Sudan,Suriname,Svalbard and Jan Mayen,Sweden,Switzerland,Syrian Arab Republic,Taiwan,Tajikistan,Tanzania, United Republic of Tanzania,Thailand,Timor-Leste,Togo,Tokelau,Tonga,Trinidad and Tobago,Tunisia,Turkey,Turkmenistan,Turks and Caicos Islands,Tuvalu,Uganda,Ukraine,United Arab Emirates,United Kingdom,United States,United States Minor Outlying Islands,Uruguay,Uzbekistan,Vanuatu,Venezuela, Bolivarian Republic of Venezuela,Vietnam,Virgin Islands, British,Virgin Islands, U.S.,Wallis and Futuna,Yemen,Zambia,Zimbabwe'
+                        assign values = values | split: ','
+                        assign option_values = option_values | split: ','
+                      %}
+                      {%- render 'global-select',
+                        default_value: default_value,
+                        default_text: default_text,
+                        values: values,
+                        option_values: option_values,
+                        field_name: 'customer[country]'
+                        id: select_id,
+                        selected_text_class: 'p1',
+                        global_select_class: 'b-1 b-border'
+                      -%}
+                    </div>
+                  
+                    <div class="col-11 pr-0 reg-phone">
+                      <div class="relative overflow pb-1" style="line-height: 1.2;">
+                        <input
+                          type="text"
+                          name="customer[mobile_no]"
+                          id="first_name"
+                          class="global-input w-full b-1 b-border p1 c-black"
+                          placeholder="{{ 'contact.form.phone' | t }}*"
+                        >
+                        {% comment %}
+                        <div class="global-placeholder absolute right-0 bottom-0 pb-8">{{ 'customer.register.mobile_no' | t }}</div>
+                        {% endcomment %}
+                      </div>
+                      <div class="p2 mt-5 c-red hide-m error error-mobile-no"></div>
+                    </div>
+                  </div>
+                  
+                  <div class="mt-12 col-12">
+                    {% liquid
+                      assign g_not_to_say = 'customer.register.g_not_to_say' | t
+                      assign g_male = 'customer.register.g_male' | t
+                      assign g_female = 'customer.register.g_female' | t
+                      
+                      assign default_value = 'customer.register.gender' | t
+                      assign default_text_translated = 'customer.register.gender' | t
+                      assign default_text = '<span class="c-grey40">' | append: default_text_translated | append: '</span>'
+                      assign select_id = 'customer-gender-' | append: section.id
+                      
+                      assign values = g_not_to_say | append: ',' | append: g_male | append: ',' | append: g_female
+                      assign option_values = g_not_to_say | append: ',' | append: g_male | append: ',' | append: g_female
+                      
+                      assign values = values | split: ','
+                      assign option_values = option_values | split: ','
+                    %}
+                  
+                    {%- render 'global-select',
+                      default_value: default_value,
+                      default_text: default_text,
+                      values: values,
+                      option_values: option_values,
+                      id: select_id,
+                      field_name: 'customer[gender]',
+                      selected_text_class: 'p1',
+                      global_select_class: 'b-1 b-border'
+                    -%}
+                    <div class="p2 mt-5 c-red hide-m error error-gender"></div>
+                  </div>
+                  
+                  <div class="mt-12 col-12">
+                    <div class="col-6 pl-0 reg-month">
+                      {% liquid
+                        assign months = 'January,February,March,April,May,June,July,August,September,October,November,December' | split: ','
+                        assign current_year = 'now' | date: "%Y" | plus: 0
+                        assign start_year = current_year | minus: 100
+                        assign years = (start_year..current_year) | reverse
+                        assign birthday_month_translated = 'customer.account.birth_month' | t
+                        assign birthday_month = '<span class="c-grey40">' | append: birthday_month_translated | append: '</span>'
+                        assign birthday_year_translated = 'customer.account.birth_year' | t
+                        assign birthday_year = '<span class="c-grey40">' | append: birthday_year_translated | append: '</span>'
+                       
+                      %}
+                    
+                      {%- render 'global-select',
+                        default_value: '',
+                        default_text: birthday_month,
+                        values: months,
+                        option_values: months,
+                        id: 'birthday-month',
+                        field_name: 'customer[birthday_month]',
+                        selected_text_class: 'p1',
+                        global_select_class: 'b-1 b-border'
+                      -%}
+                      
+                      <div class="p2 mt-5 c-red hide-m error error-birthday-month"></div>
+                    </div>
+                    
+                    <div class="col-6 pr-0 reg-year">
+                      {%- render 'global-select',
+                        default_value: '',
+                        default_text: birthday_year,
+                        values: years,
+                        option_values: years,
+                        id: 'birthday-year',
+                        field_name: 'customer[birthday_year]',
+                        selected_text_class: 'p1',
+                        global_select_class: 'b-1 b-border'
+                      -%}
+                      
+                      <div class="p2 mt-5 c-red hide-m error error-birthday-year"></div>
+                    </div>
+                  </div>
+                  {% comment %}
+                  <div class="mt-18 col-d-12 relative birth_date_wrapper">
+                    <div class="relative pb-1 b-1 b-border">
+                      <div id="birth_date_placeholder">
+                        <span class="p1">DD / MM / YYYY</span>
+                      </div>
+                      <input
+                        type="text"
+                        name="customer[note][Birth]"
+                        class="global-input w-full p1 c-black"
+                        id="birthday"
+                        onkeydown="stopProp(event)"
+                      >
+                    </div>
+                    <!-- Hidden input field -->
+                    <input type="hidden" id="customer_tags" name="customer[tags]" value="customerTags">
+                    <div class="p2 mt-5 c-red hide-m error error-dob"></div>
+                  </div>
+                  
+
+                  <div class="mt-12 col-d-12 flex jc-between field-gender">
+                    <div class="p1">{{ 'customer.register.gender' | t }}</div>
+                    <div class="flex d-jc-end ai-center mt-10 d-mt-0">
+                      <label class="global-radio flex ai-center">
+                        <input type="radio" name="customer[gender]" value="{{ 'customer.register.g_not_to_say' | t }}" checked>
+                        <div class="gr-mark mr-8"></div>
+                        <div class="p1">{{ 'customer.register.g_not_to_say' | t }}</div>
+                      </label>
+                      <label class="global-radio flex ai-center ml-15">
+                        <input type="radio" name="customer[gender]" value="{{ 'customer.register.g_male' | t }}">
+                        <div class="gr-mark mr-8"></div>
+                        <div class="p1">{{ 'customer.register.g_male' | t }}</div>
+                      </label>
+                      <label class="global-radio flex ai-center ml-15">
+                        <input type="radio" name="customer[gender]" value="{{ 'customer.register.g_female' | t }}">
+                        <div class="gr-mark mr-8"></div>
+                        <div class="p1">{{ 'customer.register.g_female' | t }}</div>
+                      </label>
+                    </div>
+                  </div>
+                  {% endcomment %}
+                  
+                  <div class="mt-12 col-12 flex ai-center">
+                    <div class="flex ai-center mr-8">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none">
+                        <path d="M7 0.5L8.8525 4.2575L13 4.8575L10 7.7825L10.705 11.915L7 9.965L3.295 11.915L4 7.7825L1 4.8575L5.1475 4.2575L7 0.5Z" stroke="#8A8264" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <div class="p2 c-olive1 pt-2">{{ 'customer.register.reward_text' | t }}</div>
+                  </div>
+
+                  <div class="mt-36 col-12">
+                    <div class="p2 c-grey60 mb-24">{{ 'customer.register.newsletter' | t }}</div>
+                    <label class="global-radio flex ai-start">
+                      <input onclick="newsletterSetValue(event)" type="checkbox" name="customer[newsletter]" value="true" checked>
+                      <div class="gr-mark mr-12 mt-2"></div>
+                      <div class="p2 c-grey60 max-400">{{ 'customer.register.newsletter_checkbox_text' | t }}</div>
+                    </label>
+                  </div>
+                  {% comment %}
+                  <div class="mt-15 col-12 register-interest">
+                    <div class="pl-20">
+                      <div class="p1">{{ 'customer.register.interest' | t }}</div>
+                      <div class="flex ai-center mt-12">
+                        <label class="global-radio flex ai-center">
+                          <input type="radio" name="customer[interest]" value="{{ 'customer.register.i_women' | t }}">
+                          <div class="gr-mark mr-8"></div>
+                          <div class="p1">{{ 'customer.register.i_women' | t }}</div>
+                        </label>
+                        <label class="global-radio flex ai-center ml-15">
+                          <input type="radio" name="customer[interest]" value="{{ 'customer.register.i_men' | t }}">
+                          <div class="gr-mark mr-8"></div>
+                          <div class="p1">{{ 'customer.register.i_men' | t }}</div>
+                        </label>
+                        <label class="global-radio flex ai-center ml-15">
+                          <input type="radio" name="customer[interest]" value="{{ 'customer.register.i_women_and_men' | t }}" checked>
+                          <div class="gr-mark mr-8"></div>
+                          <div class="p1">{{ 'customer.register.i_women_and_men' | t }}</div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  {% endcomment %}
+                  <div class="col-d-12">
+                    <button type="button" class="btn6 mt-24 submit-btn" onclick="validate(event,true)">{{ 'customer.register.submit' | t }}</button>
+                    <p class="p2 success-message mt-10 hide-m"></p>
+                    {% comment %}
+                    <div>
+                      <div class="p4 mt-20 d-mt-10">
+                        {{ 'customer.register.sign_in_text_html' | t }}
+                        <a href="{{ routes.account_login_url }}" class="link3">{{ 'customer.login.submit' | t }}</a>
+                      </div>
+                    </div>
+                    {% endcomment %}
+                    <input type="hidden" name="return_to" value="{{ routes.account_url }}">
+                  </div>
+                </div>
+              {%- endform -%}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+{{ 'jquery-ajax-module.js' | asset_url | script_tag }}
+<script>
+  function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggleIcon');
+    const passwordType = passwordInput.type === 'password' ? 'text' : 'password';
+    passwordInput.type = passwordType;
+    
+    const iconShowPassword = `{{ settings.icon_show_password }}`;
+    const iconHidePassword = `{{ settings.icon_hide_password }}`;
+    
+    toggleIcon.innerHTML = passwordType === 'password' ? iconShowPassword : iconHidePassword;
+  }
+  function validateEmail(email) {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
+  }
+  function newsletterSetValue(e) {
+    const this_elem = e.target;
+    if(this_elem.checked) {
+      this_elem.value = "true";
+      document.querySelector('.register-interest').classList.remove('hide-m');
+    } else {
+      this_elem.value = "false";
+      document.querySelector('.register-interest').classList.add('hide-m');
+    }
+  }
+  function getUrlParameter(parameterName) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(parameterName);
+  }
+  function dateConverter(e) {
+    let dateContent = e.split(' / ');
+    return `${dateContent[2]}-${dateContent[1]}-${dateContent[0]}`
+  }
+  function stopProp(e){
+    e.preventDefault();
+  }
+  function validate(e,submit = false) {
+    e.preventDefault()
+    let form = e.target.closest('form')
+    let error_email = "{{ 'customer.register.required_field' | t }}"
+    let error_password = "{{ 'customer.register.required_field' | t }}"
+    let error_cpassword = "{{ 'customer.register.required_field' | t }}"
+    let error_salutation = "{{ 'customer.register.required_field' | t }}"
+    let error_firstName = "{{ 'customer.register.required_field' | t }}"
+    let error_lastName = "{{ 'customer.register.required_field' | t }}"
+    let error_dob = "{{ 'customer.register.required_field' | t }}"
+    let error_mobileNo = "{{ 'customer.register.required_field' | t }}"
+    let email = form.querySelector('input[name="customer[email]"]')
+    let password = form.querySelector('input[name="customer[password]"]')
+    let cpassword = form.querySelector('input[name="customer[cpassword]"]')
+    let salutation = form.querySelector('select[name="customer[note][salutation]"]')
+    let firstName = form.querySelector('input[name="customer[first_name]"]')
+    let lastName = form.querySelector('input[name="customer[last_name]"]')
+    let dob = form.querySelector('input[name="customer[note][Birth]"]')
+    let mobileNo = form.querySelector('input[name="customer[mobile_no]"]')
+    let interest = form.querySelector('input[name="customer[interest]"]:checked')
+    let gender = form.querySelector('input[name="customer[gender]"]:checked')
+    let newsletter = form.querySelector('input[name="customer[newsletter]"]')
+    let country = form.querySelector('select[name="customer[country]"]')
+    let elErroremail = form.querySelector('.error-email')
+    let elErrorpassword = form.querySelector('.error-password')
+    let elErrorcpassword = form.querySelector('.error-cpassword')
+    let elErrorsalutation = form.querySelector('.error-gender')
+    let elErrorfirstName = form.querySelector('.error-first-name')
+    let elErrorlastName = form.querySelector('.error-last-name')
+    let elErrordob = form.querySelector('.error-dob')
+    let elErrormobileNo = form.querySelector('.error-mobile-no')
+    let submitBtn = form.querySelector('.submit-btn')
+    let allOk = true
+
+    if(email.value != '' && password.value != '' && cpassword.value != '' && firstName.value != '' && lastName.value != '' && dob.value != '' && mobileNo.value != '') {
+      if(!validateEmail(email.value)) {
+        error_email = "{{ 'customer.register.error_valid_email' | t }}"
+        elErroremail.innerText = error_email
+        elErroremail.classList.remove('hide-m')
+        allOk = false
+      }
+      if(password.value != cpassword.value){
+        error_cpassword = "{{ 'customer.register.error_valid_password' | t }}"
+        elErrorcpassword.innerHTML = error_cpassword
+        elErrorcpassword.classList.remove('hide-m')
+        allOk = false
+      }
+      if(allOk){
+        elErroremail.classList.add('hide-m')
+        elErrorpassword.classList.add('hide-m')
+        elErrorcpassword.classList.add('hide-m')
+        elErrorsalutation.classList.add('hide-m')
+        elErrorfirstName.classList.add('hide-m')
+        elErrorlastName.classList.add('hide-m')
+        elErrordob.classList.add('hide-m')
+        elErrormobileNo.classList.add('hide-m')
+        
+        if(submit){
+          let prevText = submitBtn.innerHTML;
+          const btnLoading = '<span class="btn-loading"></span>';
+          submitBtn.style.height = `${submitBtn.offsetHeight}px`;
+          submitBtn.style.width = `${submitBtn.offsetWidth}px`;
+          submitBtn.innerHTML = btnLoading;
+          /*
+          form.submit()
+          */
+          {% comment %} start BE integration {% endcomment %}
+          let submit_data = `action=register-customer&customer[email]=${encodeURIComponent(email.value)}&customer[password]=${encodeURIComponent(password.value)}&customer[cpassword]=${encodeURIComponent(cpassword.value)}&customer[note][salutation]=${encodeURIComponent(salutation.value)}&customer[first_name]=${encodeURIComponent(firstName.value)}&customer[last_name]=${encodeURIComponent(lastName.value)}&customer[note][Birth]=${encodeURIComponent(dateConverter(dob.value))}&customer[interest]=${encodeURIComponent(interest.value)}&customer[gender]=${encodeURIComponent(gender.value)}&customer[country]=${encodeURIComponent(country.value)}&customer[mobile_no]=${encodeURIComponent(mobileNo.value)}&customer[newsletter]=${newsletter.value}`;
+          if(getUrlParameter('outlet') != '' && getUrlParameter('outlet') != null) {
+            submit_data += `&customer[outlet]=${getUrlParameter('outlet')}`;
+          }
+
+            $.ajax({
+              type: "POST",
+              url: "/apps/integration",
+              data: submit_data,
+              dataType: "json",
+              success: function(data) {
+                submitBtn.innerHTML = prevText;
+                const success_message_elem = document.querySelector('.success-message');
+                if(success_message_elem != null) {
+                  if(data.api) {
+                    success_message_elem.innerHTML = data.msg;
+                    success_message_elem.classList.remove('c-red');
+                    success_message_elem.classList.add('c-green');
+                    success_message_elem.classList.remove('hide-m');
+
+                    const delay = setTimeout(() => {
+                      window.location = '{{ routes.root_url }}account/login';
+
+                      clearTimeout(delay);
+                    }, 3000);
+                  } else {
+                    success_message_elem.innerHTML = data.msg;
+                    success_message_elem.classList.add('c-red');
+                    success_message_elem.classList.remove('c-green');
+                    success_message_elem.classList.remove('hide-m');
+                  }
+                }
+              }, 
+              error: function(e) {
+                submitBtn.innerHTML = prevText;
+                console.log(e);
+              }
+            });
+          {% comment %} end start BE integration {% endcomment %}
+        }
+      }
+    } else {
+      allOk = false;
+    }
+
+    if(!allOk) {
+      if(!email.value){
+        elErroremail.innerText = error_email
+        elErroremail.classList.remove('hide-m')
+      } else {
+        elErroremail.classList.add('hide-m')
+      }
+      if(!password.value){
+        elErrorpassword.innerText = error_password
+        elErrorpassword.classList.remove('hide-m')
+      } else {
+        elErrorpassword.classList.add('hide-m')
+      }
+      if(!cpassword.value){
+        elErrorcpassword.innerText = error_cpassword
+        elErrorcpassword.classList.remove('hide-m')
+      } else {
+        elErrorcpassword.classList.add('hide-m')
+      }
+      if(!firstName.value){
+        elErrorfirstName.innerText = error_firstName
+        elErrorfirstName.classList.remove('hide-m')
+      } else {
+        elErrorfirstName.classList.add('hide-m')
+      }
+      if(!lastName.value){
+        elErrorlastName.innerText = error_lastName
+        elErrorlastName.classList.remove('hide-m')
+      } else {
+        elErrorlastName.classList.add('hide-m')
+      }
+      if(!dob.value){
+        elErrordob.innerText = error_dob
+        elErrordob.classList.remove('hide-m')
+      } else {
+        elErrordob.classList.add('hide-m')
+      }
+      if(!mobileNo.value){
+        elErrormobileNo.innerText = error_mobileNo
+        elErrormobileNo.classList.remove('hide-m')
+      } else {
+        elErrormobileNo.classList.add('hide-m')
+      }
+    }
+  }
+
+  const elem = document.querySelector('input[name="customer[note][Birth]"]');
+  const datepicker = new Datepicker(elem, {
+    format: 'dd / mm / yyyy',
+    autohide: true
+  }); 
+
+        const birthDatePlaceholder = document.getElementById('birth_date_placeholder');
+        const birthDatePlaceholderSpan = document.querySelector('#birth_date_placeholder span');
+        const dateInput = document.getElementById('birthday');
+        const customerTags = document.getElementById('customer_tags');
+
+        const thisObj = {
+            birth_date: '',
+
+            updateBirthDate() {
+                customerTags.value = "Birth: " + this.birth_date;
+            },
+
+            showDateInputPlaceholder() {
+                if (!this.birth_date) {
+                    birthDatePlaceholder.style.display = 'flex';
+                }
+            },
+
+            hideDateInputPlaceholder() {
+                birthDatePlaceholder.style.display = 'none';
+            }
+        };
+
+        document.addEventListener('click', function(event) {
+            if (!birthDatePlaceholder.contains(event.target) && event.target !== dateInput) {
+                thisObj.showDateInputPlaceholder();
+            }
+        });
+
+        birthDatePlaceholder.addEventListener('click', function() {
+            // thisObj.hideDateInputPlaceholder();
+            birthDatePlaceholderSpan.style.opacity = '1';
+            dateInput.focus();
+        });
+
+        dateInput.addEventListener('focus', function() {
+          birthDatePlaceholderSpan.style.opacity = '1';
+            // thisObj.hideDateInputPlaceholder();
+        });
+        
+        dateInput.addEventListener('change', function() {
+            thisObj.birth_date = dateConverter(e.target.value);
+            thisObj.updateBirthDate();
+            thisObj.hideDateInputPlaceholder();
+        });
+
+        elem.addEventListener('changeDate', (e) => {
+          thisObj.birth_date = dateConverter(e.target.value);
+          thisObj.updateBirthDate();
+          thisObj.hideDateInputPlaceholder();
+        });
+
+        dateInput.addEventListener('blur', function() {
+            if (!dateInput.value) {
+                thisObj.showDateInputPlaceholder();
+                birthDatePlaceholderSpan.style.opacity = '0.3';
+            }
+        });
+</script>
+{% schema %}
+{
+  "name": "Register",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image (Mobile)"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    }
+  ]
+}
+{% endschema %}

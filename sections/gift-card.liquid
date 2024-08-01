@@ -1,0 +1,239 @@
+{% comment %} in-good-company {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% assign ss = section.settings %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+{%- assign formatted_initial_value = gift_card.initial_value | money_without_trailing_zeros -%}
+{%- assign formatted_initial_value_stripped = formatted_initial_value | strip_html -%}
+{%- if gift_card.recipient -%}
+  {%- if gift_card.customer -%}
+    {%- if gift_card.customer.name != blank -%}
+      {%- assign sender_name = gift_card.customer.name -%}
+    {%- elsif gift_card.customer.email != blank -%}
+      {%- assign sender_name = gift_card.customer.email -%}
+    {%- else -%}
+      {%- assign sender_name = gift_card.customer.phone -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- assign sender_name = shop.name -%}
+  {%- endif -%}
+
+  {%- if gift_card.recipient.nickname != blank -%}
+    {%- assign recipient_name = gift_card.recipient.nickname -%}
+  {%- elsif gift_card.recipient.name != blank -%}
+    {%- assign recipient_name = gift_card.recipient.name -%}
+  {%- else -%}
+    {%- assign recipient_name = gift_card.recipient.email -%}
+  {%- endif -%}
+{%- endif -%}
+
+<style>
+    #{{ el_id }} .max-width {
+        max-width: {{ ss.max_width }}px;
+        margin: 0 auto;
+    }
+    #{{ el_id }} .logo-wrapper {
+        width: 70px;
+        height: auto;
+    }
+    #{{ el_id }} .button-wrapper {
+        column-gap: 15px;
+    }
+
+    @media all and (min-width: 1024px) {
+        #{{ el_id }} .logo-wrapper {
+            width: 85px;
+        }
+    }
+</style>
+
+<section>
+    <div class="container">
+        <div class="max-width">
+            <div class="header relative w-full tc">
+                <div class="logo-wrapper relative show-m-inline-block">{{ ss.logo_svg }}</div>
+            </div>
+
+            <div class="content-container relative w-full mt-20 d-mt-25">
+                {%- if recipient_name != blank -%}
+                    <p class="p2 tc mb-10">Hi, {{ recipient_name }}</p>
+                {%- endif -%}
+
+                <h1 class="h2 tc mt-10">You’ve received a gift card {% if sender_name != blank %}from {{sender_name}}{% endif %}</h1>
+
+                <div class="image-wrapper relative w-full mt-30">
+                    <div class="mx-auto max-285">
+                        {%- for var in gift_card.product.variants -%}
+                            {%- if gift_card.initial_value == var.price -%}
+                                {%- assign var_img = var.featured_image -%}
+                            {%- endif -%}
+                        {%- endfor -%}
+
+                        {%- unless request.design_mode -%}
+                            {%- render 'global-image-wrapper',
+                                image: var_img,
+                                preload: true
+                            -%}
+                        {%- endunless -%}
+                    </div>
+                </div>
+
+                {%- if gift_card.message != blank -%}
+                    <h2 class="h2 tc mt-30">{{ gift_card.message }}</h2>
+                {%- endif -%}
+
+                <div style="print-color-adjust: exact;" class="code-wrapper global-flex ai-center jc-between mt-15 d-mt-20 relative w-full pt-10 pb-10 pl-15 d-pl-20 pr-15 bg-lightgrey">
+                    <input type="text" id="textToCopy" class="p1" value="{{ gift_card.code | format_code }}" />
+                    <button class="bg-white c-grey p-10 tc h4 uppercase" id="copyButton">{{ ss.copy_label }}</button>
+                </div>
+
+                <div class="redeem-text mt-15 d-mt-20">
+                    {%- if ss.redeem_text != blank -%}
+                        <p class="p2 tc">{{ ss.redeem_text | newline_to_br }}</p>
+                    {%- endif -%}
+
+                    {%- if gift_card.expires_on -%}
+                        <p class="p2 tc">Expires on {{ gift_card.expires_on | date: '%d/%m/%Y' }}</p>
+                    {%- endif -%}
+                </div>
+
+                <div class="button-wrapper global-flex mt-20">
+                    <a href="#" rel="nofollow" onclick="window.print()" class="btn1 w-full tc" style="display: flex; align-items: center; justify-content: center;"><span style="transform: translateY(1px);">{{ ss.print_label }}</span></a>
+                    <a href="{{ shop.url }}" class="btn1 w-full tc" style="display: flex; align-items: center; justify-content: center;"><span style="transform: translateY(1px);">{{ ss.shop_label }}</span></a>
+                </div>
+
+                {%- if ss.tc_text != blank -%}
+                    <div class="mt-20 relative w-full tc">
+                        <div class="rte p2 c-grey">{{ ss.tc_text }}</div>
+                    </div>
+                {%- endif -%}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById('copyButton').addEventListener('click', function() {
+        var textToCopy = document.getElementById('textToCopy').value;
+        // Use the Clipboard API
+        navigator.clipboard.writeText(textToCopy).then(function() {
+            // Optionally, you can alert the user that the text was copied
+            alert('Text copied to clipboard: ' + textToCopy);
+        }).catch(function(error) {
+            console.error('Error copying text: ', error);
+        });
+    });
+</script>
+
+{% schema %}
+    {
+      "name": "Gift Card",
+      "settings": [
+        {
+            "type": "header",
+            "content": "Section Padding"
+        },
+        {
+            "type": "number",
+            "id": "top_padding_m",
+            "label": "Top padding (Mobile)",
+            "default": 0
+        },
+        {
+            "type": "number",
+            "id": "bottom_padding_m",
+            "label": "Bottom padding (Mobile)",
+            "default": 0
+        },
+        {
+            "type": "number",
+            "id": "top_padding_t",
+            "label": "Top padding (Tablet)",
+            "default": 0
+        },
+        {
+            "type": "number",
+            "id": "bottom_padding_t",
+            "label": "Bottom padding (Tablet)",
+            "default": 0
+        },
+        {
+            "type": "number",
+            "id": "top_padding",
+            "label": "Top padding (Desktop)",
+            "default": 0
+        },
+        {
+            "type": "number",
+            "id": "bottom_padding",
+            "label": "Bottom padding (Desktop)",
+            "default": 0
+        },
+        {
+            "type": "text",
+            "id": "top_padding_hd",
+            "label": "Top padding (HD)"
+        },
+        {
+            "type": "text",
+            "id": "bottom_padding_hd",
+            "label": "Bottom padding (HD)"
+        },
+        {
+            "type": "text",
+            "id": "top_padding_hhd",
+            "label": "Top padding (HHD)"
+        },
+        {
+            "type": "text",
+            "id": "bottom_padding_hhd",
+            "label": "Bottom padding (HHD)"
+        },
+        {
+            "type": "header",
+            "content": "General Settings"
+        },
+        {
+            "type": "number",
+            "id": "max_width",
+            "label": "Max Width",
+            "info": "Input on px",
+            "default": 404
+        },
+        {
+            "type": "textarea",
+            "id": "logo_svg",
+            "label": "Logo (SVG)"
+        },
+        {
+            "type": "text",
+            "id": "copy_label",
+            "label": "Copy Button Label",
+            "default": "Copy Code"
+        },
+        {
+            "type": "textarea",
+            "id": "redeem_text",
+            "label": "Redeem Text"
+        },
+        {
+            "type": "text",
+            "id": "print_label",
+            "label": "Print Button Label",
+            "default": "Print"
+        },
+        {
+            "type": "text",
+            "id": "shop_label",
+            "label": "Shop Button Label",
+            "default": "Shop Now"
+        },
+        {
+            "type": "richtext",
+            "id": "tc_text",
+            "label": "T&C Text"
+        }
+      ],
+      "blocks": []
+    }
+{% endschema %}

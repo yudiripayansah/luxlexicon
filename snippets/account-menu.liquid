@@ -1,0 +1,261 @@
+{% comment %} IGC - Yudi {% endcomment %}
+<style>
+  .link-box {
+    transition: .3s ease all;
+  }
+  .account-menu-popup {
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s ease all;
+  }
+  .amp-overlay {
+    background: rgba(43, 43, 43, .6);
+    cursor: pointer;
+  }
+  .amp-content {
+    transition: 0.5s ease all;
+    transform: translateY(100%);
+  }
+  .account-menu-popup.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  .account-menu-popup.show .amp-content {
+    transform: translateY(0);
+  }
+  .account-menu-mobile .icon {
+    max-width: 8.31px;
+  }
+</style>
+<div class="col-d-3 col-12 mt-30 d-mt-0 link-box show-d sticky top-0 bg-white zi-4" id="account-menu">
+  <ul class="account-menu d-flex hide-m">
+    <li class="mr-20 d-mr-0">
+      <a
+        href="/account?type=account-info"
+        class="am-link {% if active == 'account-info' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+        data-target="account-info"
+      >
+        {{- 'customer.account.account_info' | t -}}
+      </a>
+    </li> 
+    <li class="d-mt-15">
+      <a
+        href="/account?type=account-voucher"
+        class="am-link {% if active == 'account-voucher' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+        data-target="account-voucher"
+      >
+        {{- 'customer.account.vouchers' | t -}}
+      </a>
+    </li>
+    <li class="d-mt-15">
+      <a
+        href="/pages/orders/?type=page-offline-order"
+        class="am-link {% if active == 'offline-order' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+        data-target="page-offline-order"
+      >
+        {{- 'customer.account.offline_orders' | t -}}
+      </a>
+    </li>
+    <li class="d-mt-15">
+      <a
+        href="/pages/orders/?type=page-online-order"
+        class="am-link {% if active == 'online-order' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+        data-target="page-online-order"
+      >
+        {{- 'customer.account.online_orders' | t -}}
+      </a> 
+    </li>
+    <li class="d-mt-15">
+      <a
+        href="/account/addresses"
+        class="am-link {% if active == 'address-book' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+        data-target="address-book"
+      >
+        {{- 'customer.account.address_book' | t -}}
+      </a>
+    </li>
+    <li class="d-mt-15">
+      <a
+        href="/pages/wishlist"
+        class="am-link {% if active == 'wishlist' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+        data-target="wishlist"
+      >
+        {{- 'customer.account.wishlist' | t -}}
+      </a>
+    </li>
+  </ul>
+  <div class="hide-d account-menu-mobile bg-white">
+    <div class="pt-17 pb-17 pl-20 pr-20 b-border bt-1 bb-1 flex ai-center jc-between" onclick="toggleMenu()">
+      {%liquid 
+        case active 
+        when 'account-info'
+        assign default_text = 'customer.account.account_info' | t
+        when 'account-voucher'
+        assign default_text = 'customer.account.vouchers' | t
+        when 'offline-order'
+        assign default_text = 'customer.account.offline_orders' | t
+        when 'online-order'
+        assign default_text = 'customer.account.online_orders' | t
+        when 'address-book'
+        assign default_text = 'customer.account.address_book' | t
+        when 'wishlist'
+        assign default_text = 'customer.account.wishlist' | t
+        endcase
+      %}
+      <div class="h4 c-black medium-500 uppercase amm-text">{{default_text}}</div>
+      <div class="icons">
+        <div class="icon icon-caret">{{ settings.icon_select }}</div>
+      </div>
+    </div>
+  </div>
+  <Teleport to="body">
+    <div class="account-menu-popup fixed top-0 left-0 w-full h-full zi-9 hide-d">
+      <div class="amp-overlay absolute top-0 left-0 w-full h-full" onclick="toggleMenu()"></div>
+      <div class="amp-content absolute bottom-0 left-0 w-full bg-white pt-25 pb-25 pl-20 pr-20">
+        <ul>
+          <li class="">
+            <a
+              href="/account?type=account-info"
+              class="amp-link {% if active == 'account-info' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+              data-target="account-info"
+            >
+              {{- 'customer.account.account_info' | t -}}
+            </a>
+          </li>
+          <li class="mt-25">
+            <a
+              href="/account?type=account-voucher"
+              class="amp-link {% if active == 'account-voucher' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+              data-target="account-voucher"
+            >
+              {{- 'customer.account.vouchers' | t -}}
+            </a>
+          </li>
+          <li class="mt-25">
+            <a
+              href="/pages/orders/?type=page-offline-order"
+              class="amp-link {% if active == 'offline-order' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+              data-target="page-offline-order"
+            >
+              {{- 'customer.account.offline_orders' | t -}}
+            </a>
+          </li>
+          <li class="mt-25">
+            <a
+              href="/pages/orders/?type=page-online-order"
+              class="amp-link {% if active == 'online-order' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+              data-target="page-online-order"
+            >
+              {{- 'customer.account.online_orders' | t -}}
+            </a>
+          </li>
+          <li class="mt-25">
+            <a
+              href="/account/addresses"
+              class="amp-link {% if active == 'address-book' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+              data-target="address-book"
+            >
+              {{- 'customer.account.address_book' | t -}}
+            </a>
+          </li>
+          <li class="mt-25">
+            <a
+              href="/pages/wishlist"
+              class="amp-link {% if active == 'wishlist' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+              data-target="wishlist"
+            >
+              {{- 'customer.account.wishlist' | t -}}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </Teleport>
+</div>
+<script>
+  let lastScrollTop = 0;
+  function toggleMenu() {
+    let menuMobile = document.querySelector('.account-menu-popup')
+    let body = document.querySelector('body')
+    body.classList.toggle('overflow')
+    menuMobile.classList.toggle('show')
+  }
+  function changePage(target,e=false){
+    let theAmLink = document.querySelector('.am-link[data-target="'+target+'"]')
+    let theAmpLink = document.querySelector('.amp-link[data-target="'+target+'"]')
+    let theAmLinkText
+    if(theAmLink){
+      theAmLinkText = theAmLink.innerText
+    }
+    let amm = document.querySelector('.account-menu-mobile')
+    let ammText = amm.querySelector('.amm-text')
+    let accountPage = document.querySelectorAll('.account-page');
+    let amLink = document.querySelectorAll('.am-link');
+    let ampLink = document.querySelectorAll('.amp-link');
+    let thePage = document.querySelector('#'+target)
+    accountPage.forEach((item) => {
+      item.classList.add('hide-m')
+    })
+    if(theAmLink){
+      amLink.forEach((item) => {
+        item.classList.remove('pb-3')
+        item.classList.remove('bb-1')
+        item.classList.remove('b-black')
+        item.classList.add('hover-underline')
+      })
+      ampLink.forEach((item) => {
+        item.classList.remove('pb-3')
+        item.classList.remove('bb-1')
+        item.classList.remove('b-black')
+        item.classList.add('hover-underline')
+      })
+      theAmLink.classList.add('pb-3')
+      theAmLink.classList.add('bb-1')
+      theAmLink.classList.add('b-black')
+      theAmLink.classList.remove('hover-underline')
+      theAmpLink.classList.add('pb-3')
+      theAmpLink.classList.add('bb-1')
+      theAmpLink.classList.add('b-black')
+      theAmpLink.classList.remove('hover-underline')
+      ammText.innerText = theAmLinkText
+    }
+    thePage.classList.remove('hide-m')
+  }
+  function checkPage(){
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('type')) {
+      const paramValue = urlParams.get('type');
+      changePage(paramValue,false)
+      
+    }
+  }
+  function detectScrollDirection() {
+    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const stickyMenu = document.querySelector('.link-box')
+    const scrollTopElement = document.querySelector('.header-con');
+    if (currentScrollTop > lastScrollTop) {
+        // Scrolling down
+        stickyMenu.style.removeProperty('top');
+        stickyMenu.classList.add('top-0')
+    } else if (currentScrollTop < lastScrollTop) {
+        // Scrolling up
+        let scrollTopValue = scrollTopElement.offsetHeight;
+        stickyMenu.style.top = `${scrollTopValue}px`;
+        stickyMenu.classList.remove('top-0')
+    } else {
+        // No scroll (could happen if the user is at the top or bottom of the page)
+    }
+    lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // For Mobile or negative scrolling
+  }
+  window.addEventListener('scroll', detectScrollDirection);
+  document.addEventListener('DOMContentLoaded',function(){
+    checkPage()
+  })
+  const accountMenu = Vue.createApp({
+    delimiters: ['${', '}'],
+    data() {
+      return {};
+    },
+    methods: {},
+  }).mount('#account-menu');
+</script>

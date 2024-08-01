@@ -1,0 +1,935 @@
+[
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "typography",
+        "label": "Scripts for fonts"
+      }
+    ]
+  },
+  {
+    "name": "Icons",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "icon_show_password",
+        "label": "Icon Show Password"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_hide_password",
+        "label": "Icon Hide Password"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_ec_menu",
+        "label": "EC Menu"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_ec_facebook",
+        "label": "EC Facebook"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_ec_twitter",
+        "label": "EC Twitter"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_ec_share",
+        "label": "EC Share"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_facebook_circled",
+        "label": "Icon Facebook with circle"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_twitter_circled",
+        "label": "Icon Twitter with circle"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_share_circled",
+        "label": "Icon Share with circle"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_menu",
+        "label": "Menu"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_search",
+        "label": "Search"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_account",
+        "label": "Account"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_cart",
+        "label": "Cart"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_close",
+        "label": "Close"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_accordion",
+        "label": "Icon used for accordion"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_slide_right",
+        "label": "Right Arrow for slider"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_slide_left",
+        "label": "Left Arrow for slider"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_slide_right_2",
+        "label": "Right Arrow for slider 2"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_slide_left_2",
+        "label": "Left Arrow for slider 2"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_select",
+        "label": "Arrow for select element"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_plus",
+        "label": "Plus"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_minus",
+        "label": "Minus"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_btn_right",
+        "label": "Right Arrow for button"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_btn_left",
+        "label": "Left Arrow for button"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_arrow_up",
+        "label": "Up Arrow"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_circle_right_arrow",
+        "label": "Circle Right Arrow"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_3cols",
+        "label": "Product listing 3 columns"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_2cols",
+        "label": "Product listing 2 columns"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_play",
+        "label": "Play"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_pause",
+        "label": "Pause"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_filter",
+        "label": "Filter"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_grid_merge",
+        "label": "Grid Merge"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_grid_split",
+        "label": "Grid Split"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_info",
+        "label": "Info"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_tooltip",
+        "label": "Tooltip"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_trash",
+        "label": "Trash"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_heart",
+        "label": "Heart"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_phone",
+        "label": "Phone"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_envelope",
+        "label": "Envelope"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_preview",
+        "label": "Preview"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_wishlist",
+        "label": "Wishlist"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_lock",
+        "label": "Lock"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_globe",
+        "label": "Globe"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_tiktok",
+        "label": "Tiktok"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_xhs",
+        "label": "Xhs"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_instagram",
+        "label": "Instagram"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_star",
+        "label": "Star"
+      },
+      {
+        "type": "textarea",
+        "id": "icon_map_point",
+        "label": "Map Point"
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "facebook-icon",
+        "label": "Facebook Icon (SVG)"
+      },
+      {
+        "type": "url",
+        "id": "facebook-url",
+        "label": "Facebook Url"
+      },
+      {
+        "type": "textarea",
+        "id": "pinterest-icon",
+        "label": "Pinterest Icon (SVG)"
+      },
+      {
+        "type": "url",
+        "id": "pinterest-url",
+        "label": "Pinterest Url"
+      },
+      {
+        "type": "textarea",
+        "id": "email-icon",
+        "label": "Email Icon (SVG)"
+      },
+      {
+        "type": "url",
+        "id": "email-url",
+        "label": "Email Url"
+      },
+      {
+        "type": "textarea",
+        "id": "instagram-icon",
+        "label": "Instagram Icon (SVG)"
+      },
+      {
+        "type": "url",
+        "id": "instagram-url",
+        "label": "Instagram Url"
+      },
+      {
+        "type": "textarea",
+        "id": "tiktok-icon",
+        "label": "Tiktok Icon (SVG)"
+      },
+      {
+        "type": "url",
+        "id": "tiktok-url",
+        "label": "Tiktok Url "
+      },
+      {
+        "type": "textarea",
+        "id": "xhs-icon",
+        "label": "Xhs Icon (SVG)"
+      },
+      {
+        "type": "textarea",
+        "id": "xhs-url",
+        "label": "Xhs Url"
+      }
+    ]
+  },
+  {
+    "name": "Complimentary Gift Card",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cart_enable_cg_info",
+        "label": "Enable Module"
+      },
+      {
+        "type": "product",
+        "id": "cart_cg_product",
+        "label": "Complimentary Product"
+      },
+      {
+        "type": "textarea",
+        "id": "cart_cg_after",
+        "label": "Message after milestone is hit"
+      },
+      {
+        "type": "textarea",
+        "id": "cart_cg_before",
+        "label": "Message before milestone is hit"
+      },
+      {
+        "type": "number",
+        "id": "cart_cg_free",
+        "label": "Total amount needed for milestone"
+      }
+    ]
+  },
+  {
+    "name": "Product Labels (Tag)",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "pg_enable_labels",
+        "label": "Enable Labels"
+      },
+      {
+        "type": "text",
+        "id": "pg_tag_1",
+        "label": "Tag 1",
+        "info": "Label will show if the product tags have this tag."
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_bg_1",
+        "label": "Background color for tag 1"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_color_1",
+        "label": "Text color for tag 1"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_border_color_1",
+        "label": "Border color for tag 1"
+      },
+      {
+        "type": "text",
+        "id": "pg_tag_2",
+        "label": "Tag 2",
+        "info": "Label will show if the product tags have this tag."
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_bg_2",
+        "label": "Background color for tag 2"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_color_2",
+        "label": "Text color for tag 2"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_border_color_2",
+        "label": "Border color for tag 2"
+      },
+      {
+        "type": "text",
+        "id": "pg_tag_3",
+        "label": "Tag 3",
+        "info": "Label will show if the product tags have this tag."
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_bg_3",
+        "label": "Background color for tag 3"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_color_3",
+        "label": "Text color for tag 3"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_border_color_3",
+        "label": "Border color for tag 3"
+      },
+      {
+        "type": "text",
+        "id": "pg_tag_4",
+        "label": "Tag 4",
+        "info": "Label will show if the product tags have this tag."
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_bg_4",
+        "label": "Background color for tag 4"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_color_4",
+        "label": "Text color for tag 4"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_border_color_4",
+        "label": "Border color for tag 4"
+      },
+      {
+        "type": "text",
+        "id": "pg_tag_5",
+        "label": "Tag 5",
+        "info": "Label will show if the product tags have this tag."
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_bg_5",
+        "label": "Background color for tag 5"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_color_5",
+        "label": "Text color for tag 5"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_border_color_5",
+        "label": "Border color for tag 5"
+      },
+      {
+        "type": "text",
+        "id": "pg_tag_6",
+        "label": "Tag 6",
+        "info": "Label will show if the product tags have this tag."
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_bg_6",
+        "label": "Background color for tag 6"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_color_6",
+        "label": "Text color for tag 6"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_border_color_6",
+        "label": "Border color for tag 6"
+      },
+      {
+        "type": "text",
+        "id": "pg_tag_7",
+        "label": "Tag 7",
+        "info": "Label will show if the product tags have this tag."
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_bg_7",
+        "label": "Background color for tag 7"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_color_7",
+        "label": "Text color for tag 7"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_border_color_7",
+        "label": "Border color for tag 7"
+      },
+      {
+        "type": "text",
+        "id": "pg_tag_8",
+        "label": "Tag 8",
+        "info": "Label will show if the product tags have this tag."
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_bg_8",
+        "label": "Background color for tag 8"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_color_8",
+        "label": "Text color for tag 8"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_border_color_8",
+        "label": "Border color for tag 8"
+      },
+      {
+        "type": "text",
+        "id": "pg_tag_9",
+        "label": "Tag 9",
+        "info": "Label will show if the product tags have this tag."
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_bg_9",
+        "label": "Background color for tag 9"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_color_9",
+        "label": "Text color for tag 9"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_border_color_9",
+        "label": "Border color for tag 9"
+      },
+      {
+        "type": "text",
+        "id": "pg_tag_10",
+        "label": "Tag 10",
+        "info": "Label will show if the product tags have this tag."
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_bg_10",
+        "label": "Background color for tag 10"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_color_10",
+        "label": "Text color for tag 10"
+      },
+      {
+        "type": "color",
+        "id": "pg_tag_border_color_10",
+        "label": "Border color for tag 10"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Cart Have Items"
+      },
+      {
+        "type": "text",
+        "id": "cart_c_shopping_label",
+        "label": "Continue shopping label"
+      },
+      {
+        "type": "url",
+        "id": "cart_c_shopping_url",
+        "label": "Continue shopping URL"
+      },
+      {
+        "type": "header",
+        "content": "Cart Empty"
+      },
+      {
+        "type": "textarea",
+        "id": "cart_empty_message",
+        "label": "Message"
+      },
+      {
+        "type": "textarea",
+        "id": "cart_empty_sub_message",
+        "label": "Submessage"
+      },
+      {
+        "type": "url",
+        "id": "cart_empty_link_1_url",
+        "label": "Link 1 Url"
+      },
+      {
+        "type": "text",
+        "id": "cart_empty_link_1_label",
+        "label": "Link 1 Label"
+      },
+      {
+        "type": "url",
+        "id": "cart_empty_link_2_url",
+        "label": "Link 2 Url"
+      },
+      {
+        "type": "text",
+        "id": "cart_empty_link_2_label",
+        "label": "Link 2 Label"
+      },
+      {
+        "type": "image_picker",
+        "id": "cart_empty_image",
+        "label": "Image (Desktop)"
+      },
+      {
+        "type": "image_picker",
+        "id": "cart_empty_image_mobile",
+        "label": "Image (Mobile)"
+      },
+      {
+        "type": "textarea",
+        "id": "cart_empty_collection_label_1",
+        "label": "Collection label 1"
+      },
+      {
+        "type": "color",
+        "id": "cart_empty_collection_label_color_1",
+        "label": "Collection label color 1"
+      },
+      {
+        "type": "image_picker",
+        "id": "cart_empty_collection_image_1",
+        "label": "Collection Image 1"
+      },
+      {
+        "type": "url",
+        "id": "cart_empty_collection_url_1",
+        "label": "Collection URL 1"
+      },
+      {
+        "type": "textarea",
+        "id": "cart_empty_collection_label_2",
+        "label": "Collection label 2"
+      },
+      {
+        "type": "color",
+        "id": "cart_empty_collection_label_color_2",
+        "label": "Collection label color 2"
+      },
+      {
+        "type": "image_picker",
+        "id": "cart_empty_collection_image_2",
+        "label": "Collection Image 2"
+      },
+      {
+        "type": "url",
+        "id": "cart_empty_collection_url_2",
+        "label": "Collection URL 2"
+      },
+      {
+        "type": "textarea",
+        "id": "cart_empty_collection_label_3",
+        "label": "Collection label 3"
+      },
+      {
+        "type": "color",
+        "id": "cart_empty_collection_label_color_3",
+        "label": "Collection label color 3"
+      },
+      {
+        "type": "image_picker",
+        "id": "cart_empty_collection_image_3",
+        "label": "Collection Image 3"
+      },
+      {
+        "type": "url",
+        "id": "cart_empty_collection_url_3",
+        "label": "Collection URL 3"
+      },
+      {
+        "type": "textarea",
+        "id": "cart_empty_collection_label_4",
+        "label": "Collection label 4"
+      },
+      {
+        "type": "color",
+        "id": "cart_empty_collection_label_color_4",
+        "label": "Collection label color 4"
+      },
+      {
+        "type": "image_picker",
+        "id": "cart_empty_collection_image_4",
+        "label": "Collection Image 4"
+      },
+      {
+        "type": "url",
+        "id": "cart_empty_collection_url_4",
+        "label": "Collection URL 4"
+      },
+      {
+        "type": "header",
+        "content": "Free shipping info"
+      },
+      {
+        "type": "text",
+        "id": "spend_title",
+        "label": "Spend More Title",
+        "info": "Format: You are [amount] away from free local shipping."
+      },
+      {
+        "type": "textarea",
+        "id": "success_spend_title",
+        "label": "Success Shipping Texts",
+        "info": "Format: You got free local shipping.!"
+      },
+      {
+        "type": "text",
+        "id": "cart_fs_free",
+        "label": "Amount for free shipping",
+        "info": "Input in SGD"
+      },
+      {
+        "type": "textarea",
+        "id": "has_gift_card_msg",
+        "label": "Has Gift Card Message"
+      },
+      {
+        "type": "header",
+        "content": "General Message"
+      },
+      {
+        "type": "textarea",
+        "id": "cart_msg",
+        "label": "Cart General Message"
+      },
+      {
+        "type": "header",
+        "content": "Cart Cross Sell"
+      },
+      {
+        "type": "text",
+        "id": "cart_cross_sell_rec_viewed_title",
+        "label": "Recently Viewed Title"
+      },
+      {
+        "type": "text",
+        "id": "cart_cross_sell_section_title",
+        "label": "Cross Sell Title"
+      },
+      {
+        "type": "product_list",
+        "id": "cart_cross_sell_products",
+        "label": "Cross Sell Products"
+      },
+      {
+        "type": "header",
+        "content": "Product Gift"
+      },
+      {
+        "type": "text",
+        "id": "gift_title",
+        "label": "Title"
+      },
+      {
+        "type": "textarea",
+        "id": "gift_desc",
+        "label": "Description"
+      },
+      {
+        "type": "product",
+        "id": "gift_product",
+        "label": "Product"
+      }
+    ]
+  },
+  {
+    "name": "Product",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Out of Stock Popup"
+      },
+      {
+        "type": "text",
+        "id": "pro_oos_title",
+        "label": "Title",
+        "info": "Insert [variant_name] to replace it with the actual OOS variant name"
+      },
+      {
+        "type": "textarea",
+        "id": "pro_oos_desc",
+        "label": "Description"
+      },
+      {
+        "type": "text",
+        "id": "pro_oos_button_label",
+        "label": "Button Label"
+      },
+      {
+        "type": "textarea",
+        "id": "pro_oos_success_message",
+        "label": "Success Message"
+      },
+      {
+        "type": "header",
+        "content": "Coming Soon Popup"
+      },
+      {
+        "type": "text",
+        "id": "pro_coming_soon_title",
+        "label": "Title"
+      },
+      {
+        "type": "textarea",
+        "id": "pro_coming_soon_desc",
+        "label": "Description"
+      },
+      {
+        "type": "text",
+        "id": "pro_coming_soon_button_label",
+        "label": "Button Label"
+      },
+      {
+        "type": "textarea",
+        "id": "pro_coming_soon_success_message",
+        "label": "Success Message"
+      },
+      {
+        "type": "header",
+        "content": "Shipping & Returns"
+      },
+      {
+        "type": "checkbox",
+        "id": "pro_ship_enable",
+        "label": "Enable Module"
+      },
+      {
+        "type": "text",
+        "id": "pro_ship_title",
+        "label": "Module Title",
+        "default": "SHIPPING & RETURNS"
+      },
+      {
+        "type": "textarea",
+        "id": "pro_ship_icon_1",
+        "label": "Icon SVG #1"
+      },
+      {
+        "type": "text",
+        "id": "pro_ship_title_1",
+        "label": "Title #1"
+      },
+      {
+        "type": "richtext",
+        "id": "pro_ship_desc_1",
+        "label": "Description #1"
+      },
+      {
+        "type": "textarea",
+        "id": "pro_ship_icon_2",
+        "label": "Icon SVG #2"
+      },
+      {
+        "type": "text",
+        "id": "pro_ship_title_2",
+        "label": "Title #2"
+      },
+      {
+        "type": "richtext",
+        "id": "pro_ship_desc_2",
+        "label": "Description #2"
+      },
+      {
+        "type": "textarea",
+        "id": "pro_ship_icon_3",
+        "label": "Icon SVG #3"
+      },
+      {
+        "type": "text",
+        "id": "pro_ship_title_3",
+        "label": "Title #3"
+      },
+      {
+        "type": "richtext",
+        "id": "pro_ship_desc_3",
+        "label": "Description #3"
+      }
+    ]
+  },
+  {
+    "name": "Collection",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "collection_number",
+        "label": "Number of products per page",
+        "default": "24"
+      }
+    ]
+  },
+  {
+    "name": "Blog",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "blog-tags",
+        "label": "Show tags",
+        "info": "This will show the tag filters on the blog page, and the tag above each article"
+      }
+    ]
+  }
+]

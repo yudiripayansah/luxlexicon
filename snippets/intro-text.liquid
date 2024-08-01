@@ -1,0 +1,80 @@
+{% comment %}
+Description:
+Snippet for displaying intro text with heading and normal text
+
+Variables:
+- el_id: String. Element id for the wrapper
+- bg_color: String. Background color
+- heading_size: String. 'big' or 'normal'. Default is normal
+- heading: String. Text for heading
+- description: String. Text for normal text description
+- label: Button Label
+- url: Button url
+- type: Intro text type: single, multiple
+- blocks: section blocks for multiple type
+{% endcomment %}
+<style>
+{%- if bg_color != blank -%}
+    #{{ el_id }} {
+        background-color: {{ bg_color }};
+    }
+{%- endif -%}
+#{{ el_id }} .rte a {
+    font-weight: 400;
+}
+</style>
+
+{%- if heading_size == blank -%}
+    {%- assign heading_size = 'normal' -%}
+{%- endif -%}
+
+{%- if blocks.size > 0 -%}
+{% for block in blocks %}
+    {%- assign title = block.settings.title -%}
+    {%- assign title_size = block.settings.title_size -%}
+    <div id="{{ el_id }}" class="number-{{ forloop.index }}">
+        <div class="container tc">
+            <div class="max-745 t-max-500 d-max-745 mx-auto">
+                {%- if title != blank -%}
+                    {%- if title_size == 'big' -%}
+                        <h2 class="h2 c-greenb2">{{ title | newline_to_br }}</h2>
+                    {%- elsif title_size == 'normal' -%}
+                        <h3 class="h3 c-greenb2">{{ title | newline_to_br }}</h3>
+                    {%- else -%}
+                        <h5 class="h5 c-greenb2">{{ title | newline_to_br }}</h5>
+                    {%- endif -%}
+                {%- endif -%}
+                {%- if block.settings.description != blank -%}
+                    <div class="rte {% if title != blank %}mt-10{% endif %}">{{ block.settings.description | newline_to_br }}</div>
+                {%- endif -%}
+                {%- if block.settings.label != blank and block.settings.url != blank -%}
+                <a href="{{ block.settings.url }}" class="btn1 mt-20 t-mt-20 d-mt-25">{{ block.settings.label }}</a>
+                {%- endif -%}
+            </div>
+        </div>
+    </div>
+{% endfor %}
+{%- else -%}
+<div id="{{ el_id }}">
+    <div class="container tc">
+        <div class="max-745 t-max-500 d-max-745 mx-auto">
+            {%- if heading != blank -%}
+                {%- if heading_size == 'big' -%}
+                    <{{ section.settings.title_dom_type }} class="h2 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- elsif heading_size == 'normal' -%}
+                    <{{ section.settings.title_dom_type }} class="h3 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- else -%}
+                    <{{ section.settings.title_dom_type }} class="h5 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- endif -%}
+            {%- endif -%}
+
+            {%- if description != blank -%}
+                <div class="rte {% if heading != blank %}mt-10{% endif %}">{{ description | newline_to_br }}</div>
+            {%- endif -%}
+            {%- if label != blank -%}
+            <a href="{{ url }}" class="btn1 mt-20 t-mt-20 d-mt-25">{{ label }}</a>
+            {%- endif -%}
+        </div>
+    </div>
+</div>
+{%- endif -%}

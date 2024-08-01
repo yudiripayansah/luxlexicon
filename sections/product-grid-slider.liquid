@@ -1,0 +1,297 @@
+{% comment %} IGC - Refinements Bismocii {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+<style>
+    #shopify-section-{{ section.id }} .swiper-slide:not(.inside-card){
+        margin: 0 12.5px;
+        width: calc(50% - 25px);
+    }
+    #shopify-section-{{ section.id }} .main-swiper-wrapper {
+        row-gap: 20px;
+    }
+    #shopify-section-{{ section.id }} .swiper-wrapper:not(.inside-card){
+        display:flex;
+        flex-wrap:wrap;
+    }
+    #shopify-section-{{ section.id }} .carousel-wrapper{
+        margin: 0 -32.5px;
+    }
+    #shopify-section-{{ section.id }} .swiper-button{
+        display:none;
+    }
+    #shopify-section-{{ section.id }} .swiper-container{
+        overflow: visible!important;
+        clip-path: inset(-100vw -100vw -100vw -100vw);
+    }
+    #shopify-section-{{ section.id }} .link1 span {
+        font-size: 0;
+        width: 11px;
+        height: 8px;
+    }
+    #shopify-section-{{ section.id }} .link1 span svg {
+        display: block;
+        width: 11px;
+        height: 8px;
+    }
+
+    #shopify-section-{{ section.id }} .arrow-container{
+        position: absolute;
+        right:0;
+        top:50%;
+        transform:translate(0,-50%); 
+    }
+
+    #shopify-section-{{ section.id }} .swiper-slide:not(.inside-card):nth-child(n+5){
+        display: none;
+    }
+    #shopify-section-{{ section.id }} .swiper-container.show-all .swiper-slide:not(.inside-card):nth-child(n+5){
+        display: unset;
+    }
+
+    #{{ el_id }} .swiper-slide:nth-child(2n - 1) .details-con {
+        padding-left: 15px;
+    }
+    #{{ el_id }} .swiper-slide:nth-child(2n) .details-con {
+        padding-right: 15px;
+    } 
+
+    @media(min-width: 1024px) {
+        #{{ el_id }} .main-swiper:not(.swiper-initialized) .swiper-slide:not(.inside-card) {
+            width: 25%;
+            padding: 0 25px;
+        }
+        #{{ el_id }} .swiper-slide:nth-child(2n - 1) .details-con {
+            padding-left: unset;
+        }
+        #{{ el_id }} .swiper-slide:nth-child(2n) .details-con {
+            padding-right: unset;
+        } 
+
+        #shopify-section-{{ section.id }} .swiper-slide:not(.inside-card):nth-child(n+5){
+            display:unset;
+        }
+
+        #shopify-section-{{ section.id }} .title-container{
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:space-between;
+            align-items: baseline;
+        }
+        #shopify-section-{{ section.id }} .swiper-slide:not(.inside-card){
+            margin:unset;
+        }
+        #shopify-section-{{ section.id }} .swiper-wrapper:not(.inside-card){
+            margin:unset;
+            flex-wrap:unset;
+        }
+        #shopify-section-{{ section.id }} .carousel-wrapper{
+            margin:unset;
+        }
+    }
+</style>
+
+{%- assign function_name = el_id | replace: '-', '_' -%}
+{%- assign prefix = el_id | replace: '-', '_' | append: '_prefix' -%}
+
+<section id="{{ section.id }}" class="product-grid-slider overflow">
+    <div class="container">
+        <div class="title-container relative">
+            <{{ section.settings.title_dom_type }} class="h4 uppercase">{{section.settings.title}}</{{ section.settings.title_dom_type }}>
+            <div class="arrow-container hide-m d-flex flex-wrap" style="z-index:2">
+                <div class="swiper-grid-arrow left mr-15">{{ settings.icon_slide_left }}</div>
+                <div class="swiper-grid-arrow right">{{ settings.icon_slide_right }}</div>
+            </div>
+        </div>
+        <div class="outer-wrapper mt-20 d-mt-30">
+            <div class="carousel-wrapper">
+                <div id="slider-{{ el_id }}" class="swiper main-swiper swiper-container">
+                    <div class="swiper-wrapper main-swiper-wrapper">
+                        {%- for product in section.settings.collection.products limit: section.settings.number_of_product -%}
+                            <div class="swiper-slide">
+                                <div class="product-each-wrapper">
+                                    {%- render 'product-each', product: product -%}
+                                </div>
+                            </div>
+                        {%- endfor -%}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%if section.settings.link_label != blank and section.settings.collection.products.size > 4%}
+            <div class="hide-d tc">
+                <a href="#" rel="nofollow" onclick="loadMore{{ section.id }}(event)" class="link1 load-more-link mt-20">{{section.settings.link_label}}</a>
+            </div>
+        {%endif%}
+    </div>
+</section>
+
+<script>
+    function loadMore{{ section.id }}(e) {
+        e.preventDefault();
+        
+        const swiper_container_elem = document.querySelector('#shopify-section-{{ section.id }} .swiper-container');
+        if(swiper_container_elem != null) {
+            swiper_container_elem.classList.add('show-all');
+            e.target.remove();
+        }
+
+        return false;
+    }
+        
+    var {{ prefix }}Init= false;
+    var {{ prefix }}Slider = Swiper;
+    function sliderInit{{ function_name }}() {
+        //const el_id = '#{{ el_id }}';
+        if(!{{ prefix }}Init) {
+            {{ prefix }}Init = true;
+            {{ prefix }}Slider = new Swiper('#slider-{{ el_id }}', {
+                {%if section.settings.enable_autoslide%}
+                autoplay: {
+                    delay: {{section.settings.delay_autoslide}}
+                },
+                {%endif%}
+                slidesPerView: 4,
+                spaceBetween: 50,
+                loop: false,
+                a11y: false,
+                noSwipingSelector: '#slider-{{ el_id }} .variant-each-button', 
+                pagination: {
+                    el: ".{{ el_id }}-pagination",
+                    clickable: true
+                },
+                navigation: {
+                    nextEl: '#shopify-section-{{ section.id }} .swiper-grid-arrow.right',
+                    prevEl: '#shopify-section-{{ section.id }} .swiper-grid-arrow.left'
+                },
+                on: {
+                    init: function() {
+                        $360.lazyLoadInstance.update();
+                    },
+                    slideChange: function() {
+                        $360.lazyLoadInstance.update();
+                    },
+                    resize: function() {
+                        $360.lazyLoadInstance.update();
+                    }
+                }
+            });
+        }
+    }
+
+    if(screen.width > 1023) {
+        document.addEventListener('DOMContentLoaded', function() {
+            sliderInit{{ function_name }}();
+        });
+        document.addEventListener('shopify:section:load', () => { {{ prefix }}Init= false;sliderInit{{ function_name }}() });
+    }
+</script>
+
+{% schema %}
+    {
+        "name": "Product Grid + Slider",
+        "settings": [
+        {
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Title DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"}
+            ],
+            "default": "h2"
+        },
+        {
+            "type": "select",
+            "id": "title_position",
+            "label": "Title Position",
+            "options": [
+                {"value":"left","label":"Left"},
+                {"value":"center","label":"Center"}
+            ]
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+        },
+        {
+            "type": "text",
+            "id": "link_label",
+            "label": "Load More Label"
+        },
+        {
+            "type": "number",
+            "id": "number_of_product",
+            "label": "Product to show"
+        },
+        {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+        },
+        {
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		},
+        {
+            "type": "text",
+            "id": "top_padding_hd",
+            "label": "Top padding (HD)"
+        },
+        {
+            "type": "text",
+            "id": "bottom_padding_hd",
+            "label": "Bottom padding (HD)"
+        },
+        {
+            "type": "text",
+            "id": "top_padding_hhd",
+            "label": "Top padding (HHD)"
+        },
+        {
+            "type": "text",
+            "id": "bottom_padding_hhd",
+            "label": "Bottom padding (HHD)"
+        }
+        ],
+        "presets": [
+        {
+            "name": "Product Grid + Slider",
+            "blocks": []
+        }
+        ]
+    }
+{% endschema %}

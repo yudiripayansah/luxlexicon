@@ -1,0 +1,22 @@
+{% comment %}
+Description:
+Snippet to display social links with icon
+
+Variables:
+- additional_class: String. Class for the wrapper
+{% endcomment %}
+<div class="global-social flex {{ additional_class }}">
+  {%- assign social = "facebook,instagram,pinterest,whatsapp" | split: "," -%}
+  {%- for s in social -%}
+    {%- assign icon = s | append: "-icon" -%}
+    {%- assign url = s | append: "-url" -%}
+    {%- if settings[url] != blank -%}
+      <a
+        href="{{ settings[url] }}"
+        class="flex ai-center jc-center {% unless forloop.first %} ml-20 {% endunless %}"
+        target="_blank">
+        {{ settings[icon] }}
+      </a>
+    {%- endif -%}
+  {%- endfor -%}
+</div>

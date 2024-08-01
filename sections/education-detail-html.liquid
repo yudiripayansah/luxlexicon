@@ -1,0 +1,603 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+<style>
+    #shopify-section-{{ section.id }} {
+    }
+    #shopify-section-{{ section.id }} .education-detail-header {
+        background-color:#f9f9f9;
+        width:100%;
+    }
+    #shopify-section-{{ section.id }} .education-detail-body {
+        width:100%;
+    }
+    #shopify-section-{{ section.id }} .tag-item{
+        margin:0 5px;
+    }
+    #shopify-section-{{ section.id }} .tag-item.circle{
+        padding:5px 15px;
+        border:1px solid #dbdbdb;
+        border-radius:17px;
+    }
+    #shopify-section-{{ section.id }}{
+        box-shadow: 0px 3px 6px #0000000D;
+    }
+    #shopify-section-{{ section.id }} .flex-wrapper{
+        display:flex;
+    }
+    #shopify-section-{{ section.id }} .flex-wrapper.scroll{
+        white-space:nowrap;
+        overflow:auto;
+        margin:0 -5px;
+    }
+    #shopify-section-{{ section.id }} .filter-active{
+        color:#2c2c2c;
+        border-bottom:1px solid #dbdbdb;
+    }
+    #shopify-section-{{ section.id }} .flex-each{
+        display:inline-block;
+    }
+    #shopify-section-{{ section.id }} .education-detail-navigation{
+        width:100%;
+        box-shadow: 0px 3px 6px #0000000D;
+    }
+    #shopify-section-{{ section.id }} .special-image{
+        margin: 0 -25px;
+        width: calc(100% + 50px);
+    }
+    #shopify-section-{{ section.id }} .section-image{
+        width:100%;
+    }
+    #shopify-section-{{ section.id }} .section-text{
+        width:100%;
+    }
+    #shopify-section-{{ section.id }} .sticky-nav-mobile{
+        padding:20px 30px;
+        background:#e4f3ec;
+        transition:0.3s all ease;
+        position:sticky;
+        bottom:0;
+    }
+    #shopify-section-{{ section.id }} .toggle-share-mobile{
+        padding:15px 30px 10px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index:1;
+        transform: translate(0, -100%);
+        transition:0.3s all ease;
+    }
+    #shopify-section-{{ section.id }} .toggle-share-mobile.full-height{
+        transform:translate(0);
+        box-shadow: 0 1px 7px 1px rgba(0,0,0,0.15);
+    }
+    #shopify-section-{{ section.id }} .grid-each{
+        padding:30px;
+        width:50%;
+        position:relative;
+    }
+    #shopify-section-{{ section.id }} .grid-view{
+        height:calc(100% - 93px);
+        position:fixed;
+        top:93px;
+        z-index:1;
+        transition:0.3s all ease;
+        overflow:auto;
+    }
+    #shopify-section-{{ section.id }} .grid-view.full-height{
+        height:calc(100% - 60px);
+        top:60px;
+    }
+    #shopify-section-{{ section.id }} .grid-view.hidden{
+        top:-100% !important;
+    }
+    #shopify-section-{{ section.id }} .grid-each:first-child::before{
+        content:"";
+        position:absolute;
+        width:1px;
+        top:15px;
+        right:0;
+        height:calc(100% - 30px);
+        background:#DBDBDB;
+    }
+    #shopify-section-{{ section.id }} .grid-each:first-child::after{
+        content:"";
+        position:absolute;
+        height:1px;
+        bottom:0;
+        left:15px;
+        width:calc(100% - 30px);
+        background:#DBDBDB;
+    }
+    #shopify-section-{{ section.id }} .grid-each:nth-child(2)::before{
+        content:"";
+        position:absolute;
+        width:1px;
+        top:15px;
+        right:0;
+        height:calc(100% - 30px);
+        background:#DBDBDB;
+    }
+    #shopify-section-{{ section.id }} .grid-each:nth-child(2)::after{
+        content:"";
+        position:absolute;
+        height:1px;
+        bottom:0;
+        left:15px;
+        width:calc(100% - 30px);
+        background:#DBDBDB;
+    }
+    #shopify-section-{{ section.id }} .grid-each:nth-child(3)::before{
+        content:"";
+        position:absolute;
+        width:1px;
+        top:15px;
+        right:0;
+        height:calc(100% - 30px);
+        background:#DBDBDB;
+    }
+    #shopify-section-{{ section.id }} .grid-each:nth-child(3)::after{
+        content:"";
+        position:absolute;
+        height:1px;
+        bottom:0;
+        left:15px;
+        width:calc(100% - 30px);
+        background:#DBDBDB;
+    }
+    #shopify-section-{{ section.id }} .global-image-wrapper{
+        height:100%;
+    }
+    #shopify-section-{{ section.id }} .global-image-wrapper .image{
+        height:100%;
+        object-fit:cover;
+    }
+    #shopify-section-{{ section.id }} .copy-notif{
+        background:#81C8A6;
+        color:white;
+        padding:10px 20px;
+        position:absolute;
+        right:25px;
+        opacity:0;
+        transition: 0.3s all ease;
+    }
+    #shopify-section-{{ section.id }} .copy-notif.visible{
+        opacity:1;
+    }
+    #shopify-section-{{ section.id }} .grid-each-inner{
+        height:100%;
+        overflow:auto;
+    }
+    #shopify-section-{{ section.id }} h5{
+        padding-bottom:5px;
+    }
+    #shopify-section-{{ section.id }} .grid-each .btn1{
+        padding:15px 30px;
+    }
+    #shopify-section-{{ section.id }} .toggle-view.active{
+        opacity:0.5;
+    }
+    #shopify-section-{{ section.id }} .toggle-share-mobile .flex-wrap svg,
+    #shopify-section-{{ section.id }} .toggle-share-desktop .flex-wrap svg{
+        width:30px;
+        height:30px;
+    }
+    #shopify-section-{{ section.id }} .toggle-share-mobile .toggle-view svg,
+    #shopify-section-{{ section.id }} .toggle-share-desktop .toggle-view svg{
+        width:23px;
+        height:23px;
+    }
+    @media(min-width: 768px) {
+        #shopify-section-{{ section.id }} .grid-view{
+            height:calc(100% - 83px);
+            top:83px;
+        }
+    }
+    @media(min-width: 1024px) {
+        #shopify-section-{{ section.id }} .copy-notif{
+            right:0;
+            top:-20px;
+        }
+        #shopify-section-{{ section.id }} .grid-each .btn1{
+            padding:15px 40px;
+        }
+        #shopify-section-{{ section.id }} .grid-view{
+            overflow:unset;
+            height:calc(100% - 110px);
+            top:110px;
+        }
+        #shopify-section-{{ section.id }} .grid-each:nth-child(4)::before{
+            content:"";
+            position:absolute;
+            width:1px;
+            top:15px;
+            right:0;
+            height:calc(100% - 30px);
+            background:#DBDBDB;
+        }
+        #shopify-section-{{ section.id }} .grid-each:nth-child(3)::before,
+        #shopify-section-{{ section.id }} .grid-each:nth-child(3)::after{
+            content:none;
+        }
+        
+        #shopify-section-{{ section.id }} .grid-view.full-height{
+            height:100%;
+            top:0;
+        }
+        #shopify-section-{{ section.id }} .grid-each{
+            width:calc(100% / 3);
+            height:50%;
+        }
+        #shopify-section-{{ section.id }} .education-detail-navigation{
+            position:sticky;
+            transform:translate(0, -100%);
+            top:0;
+            z-index:1;
+        }
+        #shopify-section-{{ section.id }} .education-detail-navigation.full-height{
+            transform:translate(0);
+        }
+        #shopify-section-{{ section.id }} .toggle-share-mobile{
+            display:none !important;
+        }
+        #shopify-section-{{ section.id }} .sticky-container{
+            position:sticky;
+            top:80px;
+        }
+        #shopify-section-{{ section.id }} .section-each:nth-child(even){
+            flex-direction:row-reverse;
+        }
+        #shopify-section-{{ section.id }} .section-each:nth-child(odd) .section-image{
+            padding-right:40px;
+        }
+        #shopify-section-{{ section.id }} .section-each:nth-child(even) .section-image{
+            padding-left:40px;
+        }
+        #shopify-section-{{ section.id }} .section-image{
+            width:50%;
+        }
+        #shopify-section-{{ section.id }} .section-text{
+            width:50%;
+        }
+        #shopify-section-{{ section.id }} .special-image{
+            margin:0;
+            width:100%;
+        }
+        #shopify-section-{{ section.id }} .education-detail-header {
+            width:360px;
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            position:sticky;
+            top:110px;
+            transition:0.3s all ease;
+        }
+        #shopify-section-{{ section.id }} .education-detail-header.full-height{
+            top:0;
+        }
+        #shopify-section-{{ section.id }} .education-detail-body,
+        #shopify-section-{{ section.id }} .grid-view {
+            width:calc(100% - 460px);
+        }
+        #shopify-section-{{ section.id }} .sticky-nav-desktop{
+            padding:25px 30px;
+            background:#C8E7D9;
+            margin-top:auto;
+            transition:0.3s all ease;
+            margin-bottom:110px;
+        }
+        #shopify-section-{{ section.id }} .sticky-nav-desktop.full-height{
+            margin-bottom:0;
+        }
+        #shopify-section-{{ section.id }} .sticky-nav-desktop .toggle-share-desktop{
+            padding:20px 30px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transform: translate(0, -100%);
+        }
+        #shopify-section-{{ section.id }} .tag-item.circle:hover{
+            background:#C8E7D9;
+            color:#2c2c2c;
+        }
+    }
+    @media(min-width: 1400px) {
+        #shopify-section-{{ section.id }} .education-detail-header {
+            width:530px;
+        }
+        #shopify-section-{{ section.id }} .education-detail-body,
+        #shopify-section-{{ section.id }} .grid-view {
+            width:calc(100% - 530px);
+        }
+    }
+    #shopify-section-{{ section.id }} .article-content img{
+        margin-bottom:20px;
+    }
+    #shopify-section-{{ section.id }} .article-content h5{
+        font-family: 'Perpetua', serif;
+        font-weight: 400;
+        font-size: 22px;
+        font-size: 1.375rem;
+        line-height: 1.1;
+        letter-spacing: -0.3px;
+    }
+    @media(min-width: 768px) {
+        #shopify-section-{{ section.id }} .article-content h5{
+            font-size: 22px;
+            font-size: 1.375rem;
+            line-height: 1.1;
+            letter-spacing: -0.3px;
+        }
+    }
+    @media(min-width: 1024px) {
+        #shopify-section-{{ section.id }} .article-content h5{
+            font-size: 25px;
+            font-size: 1.5625rem;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+    }
+</style>
+
+<section id="{{ section.id }}" class="education-detail global-content-top-margin">
+    <div class="flex flex-wrap relative">
+        <div class="education-detail-header pt-30 d-pt-40 relative">
+            <div class="container hd-ml-0">
+                <div class="hide-d">
+                    <a href="/pages/education-landing" class="p3 bold-600 spacing-2 c-grey"><span class="mr-10" style="display:inline-flex;">{{settings.icon_btn_left}}</span>EDUCATION CENTER</a>
+                </div>
+                <div class="hide-m show-d">
+                    <a href="/pages/education-landing" class="p4 c-grey">EDUCATION CENTER</a><span class="p4 uppercase c-grey"> / {{blog.title}}</p>
+                </div>
+                <div class="h7 pt-30 d-pt-40">{{article.title}}</div>
+                <div class="p2 pt-10 c-grey pb-30">{{article.excerpt}}</div>
+            </div>
+            <div class="sticky-nav-desktop relative hide-m show-d">
+                <div class="flex jc-between toggle-share-desktop">
+                    <div class="toggle-view cursor" onclick="toggleView()">
+                        {{settings.icon_ec_menu}}
+                    </div>
+                    <div class="flex flex-wrap" style="margin:0 -4px;">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url | url_encode }}{{ article.url | url_encode }}" target="_blank" style="margin:0 4px;">
+                            {{settings.icon_ec_facebook}}
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?text={{ article.title | url_encode }}&amp;url={{ shop.url | url_encode }}{{ article.url | url_encode }}" target="_blank" style="margin:0 4px;">
+                            {{settings.icon_ec_twitter}}
+                        </a>
+                        <a onclick="copyToClipboard(event)" class="copy-to-clipboard cursor" style="margin:0 4px;" >
+                            <input type="text" class="clipboard-value absolute" style="opacity: 0;width:0" value="{{ shop.url }}{{ article.url }}">
+                            {{settings.icon_ec_share}}
+                            <div class="copy-notif p4 bold-500 uppercase">Link copied</div>
+                        </a>
+                    </div>
+                </div>
+                <div class="flex flex-wrap jc-between navigation">
+                    {% if blog.next_article  %}
+                        <a href="{{ blog.next_article.url }}" class="p3 bold-600 spacing-2"><span class="mr-10" style="display:inline-flex;">{{settings.icon_btn_left}}</span>PREVIOUS</a>
+                    {%else%}
+                        <div class="p3 bold-600 spacing-2 c-grey" style="opacity:0.4;"><span class="mr-10" style="display:inline-flex;">{{settings.icon_btn_left}}</span>PREVIOUS</div>
+                    {% endif %}
+
+                    {% if blog.previous_article %}
+                        <a href="{{ blog.previous_article.url }}" class="p3 bold-600 spacing-2">NEXT<span class="ml-10" style="display:inline-flex;">{{settings.icon_btn_right}}</span></a>
+                    {%else%}
+                        <div class="p3 bold-600 spacing-2 c-grey" style="opacity:0.4;">NEXT<span class="ml-10" style="display:inline-flex;">{{settings.icon_btn_right}}</span></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="education-detail-navigation bg-white hide-d">
+            <div class="container">
+                {% comment %} <div class="flex-wrapper scroll pt-20 pb-20 align-flex hide-d">
+                    <div class="flex-each">
+                        <a href="{{collection.url}}">
+                            <div class="p3 bold-500 uppercase tag-item c-grey">JUMP TO SECTION:</div>
+                        </a>
+                    </div>
+                    {%for tag in article.metafields.sections.tag%}
+                        <div class="flex-each">
+                            <div onclick="document.getElementById('{{tag}}').scrollIntoView({ behavior: 'smooth', block: 'center' });">
+                                <div class="p3 bold-500 cursor uppercase tag-item circle c-grey">{{tag}}</div>
+                            </div>
+                        </div>
+                    {%endfor%}
+                </div> {% endcomment %}
+            </div>
+        </div>
+        <div class="education-detail-body relative d-pt-80 pb-40 t-pb-60 d-pb-80">
+            <div class="education-detail-navigation desktop bg-white hide-m show-d">
+                <div class="container">
+                    <div class="d-max-700" style="margin:0 auto;">
+                        {% comment %} <div class="flex-wrapper scroll pt-20 pb-20 align-flex hide-d">
+                            <div class="flex-each">
+                                <a href="{{collection.url}}">
+                                    <div class="p3 bold-500 uppercase tag-item c-grey">JUMP TO SECTION:</div>
+                                </a>
+                            </div>
+                            {%for tag in article.metafields.sections.tag%}
+                                <div class="flex-each">
+                                    <div onclick="document.getElementById('{{tag}}').scrollIntoView({ behavior: 'smooth', block: 'center' });">
+                                        <div class="p3 bold-500 cursor uppercase tag-item circle c-grey">{{tag}}</div>
+                                    </div>
+                                </div>
+                            {%endfor%}
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+            <div class="detail-view pt-35 t-pt-45 d-pt-0">
+                <div class="container">
+                    <div class="d-max-700 article-content" style="margin:0 auto;">
+                        {{article.content}}
+                    </div>
+                </div>
+            </div>
+            <!--grid view-->
+            <div class="grid-view hidden bg-white">
+                <div class="flex flex-wrap" style="height:100%;">
+                    {% for link in linklists.blogs.links %}
+                        {% assign gridblog = link.object %}
+                        <div class="grid-each">
+                            <div class="grid-each-inner">
+                                <div class="h11 pb-15 d-pb-20 uppercase">{{gridblog.title}}</div>
+                                {%for gridarticle in gridblog.articles%}
+                                    {%if gridarticle.title == article.title%}
+                                        <div class="p2 grid-article-title c-darkgreen bold-500 {%unless forloop.last%}pb-10{%endunless%}">{{gridarticle.title}}</div>
+                                    {%else%}
+                                        <a href="{{gridarticle.url}}">
+                                            <div class="p2 grid-article-title {%unless forloop.last%}pb-10{%endunless%}">{{gridarticle.title}}</div>
+                                        </a>
+                                    {%endif%}    
+                                {%endfor%}
+                            </div>
+                        </div>
+                    {%endfor%}
+                    <div class="grid-each relative" style="padding:0;">
+                        {%- render 'global-image-wrapper',
+                            image: section.settings.image,
+                            additional_class:"",
+                            preload: section.settings.preload_image
+                        %}
+                        {%- if section.settings.cta_button_label != blank -%}
+                            <div class="tc width-100 pb-10 d-pb-30" style="position:absolute;bottom:0;">
+                                <a href="{{section.settings.cta_button_url}}" class="btn1">{{section.settings.cta_button_label}}</a>
+                            </div>
+                        {%- endif -%}
+                    </div>
+                </div>
+            </div>
+            <!--end grid view-->
+        </div>
+    </div>
+    <div class="flex jc-between align-flex bg-white toggle-share-mobile hide-d">
+        <div class="toggle-view cursor" onclick="toggleView()">
+            {{settings.icon_ec_menu}}
+        </div>
+        <div class="flex flex-wrap" style="margin:0 -4px;">
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url | url_encode }}{{ article.url | url_encode }}" target="_blank" style="margin:0 4px;">
+                {{settings.icon_facebook_circled}}
+            </a>
+            <a href="https://twitter.com/intent/tweet?text={{ article.title | url_encode }}&amp;url={{ shop.url | url_encode }}{{ article.url | url_encode }}" target="_blank" style="margin:0 4px;">
+                {{settings.icon_twitter_circled}}
+            </a>
+            <a onclick="copyToClipboard(event)" class="copy-to-clipboard" style="margin:0 4px;" >
+                <input type="text" class="clipboard-value absolute" style="opacity: 0;width:0" value="{{ shop.url }}{{ article.url }}">
+                {{settings.icon_share_circled}}
+                <div class="copy-notif p4 bold-500 uppercase">Link copied</div>
+            </a>
+        </div>
+    </div>
+    <div class="sticky-nav-mobile relative hide-d">
+        <div class="flex flex-wrap jc-between navigation">
+            {% if blog.next_article  %}
+                <a href="{{ blog.next_article.url }}" class="p3 bold-600 spacing-2"><span class="mr-10" style="display:inline-flex;">{{settings.icon_btn_left}}</span>PREVIOUS</a>
+            {%else%}
+                <div class="p3 bold-600 spacing-2 c-grey" style="opacity:0.4;"><span class="mr-10" style="display:inline-flex;">{{settings.icon_btn_left}}</span>PREVIOUS</div>
+            {% endif %}
+
+            {% if blog.previous_article %}
+                <a href="{{ blog.previous_article.url }}" class="p3 bold-600 spacing-2">NEXT<span class="ml-10" style="display:inline-flex;">{{settings.icon_btn_right}}</span></a>
+            {%else%}
+                <div class="p3 bold-600 spacing-2 c-grey" style="opacity:0.4;">NEXT<span class="ml-10" style="display:inline-flex;">{{settings.icon_btn_right}}</span></div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<script>
+    function toggleView(){
+        //document.querySelector("#shopify-section-{{ section.id }} .detail-view").classList.toggle("hidden");
+        document.querySelector("#shopify-section-{{ section.id }} .toggle-share-mobile .toggle-view").classList.toggle("active");
+        document.querySelector("#shopify-section-{{ section.id }} .toggle-share-desktop .toggle-view").classList.toggle("active");
+        document.querySelector("#shopify-section-{{ section.id }} .grid-view").classList.toggle("hidden");
+    }
+
+    function copyToClipboard(event){
+        
+        const inputcopy = event.target.closest(".copy-to-clipboard").querySelector(".clipboard-value");
+        document.querySelector("#shopify-section-{{ section.id }} .toggle-share-mobile .copy-to-clipboard .copy-notif").classList.toggle("visible");
+        document.querySelector("#shopify-section-{{ section.id }} .toggle-share-desktop .copy-to-clipboard .copy-notif").classList.toggle("visible");
+
+        inputcopy.select();
+        
+        document.execCommand("copy");
+        console.log("copied");
+
+        setTimeout( function(){
+            document.querySelector("#shopify-section-{{ section.id }} .toggle-share-mobile .copy-to-clipboard .copy-notif").classList.remove("visible");
+            document.querySelector("#shopify-section-{{ section.id }} .toggle-share-desktop .copy-to-clipboard .copy-notif").classList.remove("visible");
+            clearTimeout(this);
+        }, 2000);
+    }
+
+    window.addEventListener('scroll', function() {
+        //console.log(window.scrollY);
+        let footer_insight = document.querySelector("#shopify-section-footer").getBoundingClientRect().top - window.innerHeight > 0 ? false : true;
+        if(document.querySelector("#site-header").classList.contains("hidden")){
+            document.querySelector("#shopify-section-{{ section.id }} .education-detail-header").classList.add("full-height");
+            document.querySelector("#shopify-section-{{ section.id }} .sticky-nav-desktop").classList.add("full-height");
+            document.querySelector("#shopify-section-{{ section.id }} .toggle-share-mobile").classList.add("full-height");
+            document.querySelector("#shopify-section-{{ section.id }} .education-detail-navigation.desktop").classList.add("full-height");
+            document.querySelector("#shopify-section-{{ section.id }} .grid-view").classList.add("full-height");
+        }else{
+            document.querySelector("#shopify-section-{{ section.id }} .toggle-share-mobile").classList.remove("full-height");
+            document.querySelector("#shopify-section-{{ section.id }} .education-detail-navigation.desktop").classList.remove("full-height");
+            document.querySelector("#shopify-section-{{ section.id }} .grid-view").classList.remove("full-height");
+            if(!footer_insight){
+                document.querySelector("#shopify-section-{{ section.id }} .education-detail-header").classList.remove("full-height");
+                document.querySelector("#shopify-section-{{ section.id }} .sticky-nav-desktop").classList.remove("full-height");
+            }
+        }
+    });
+</script>
+
+{% schema %}
+    {
+        "name": "Education Detail",
+        "settings": [
+        {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Color"
+        },
+        {
+            "type": "text",
+            "id": "advanced_background_color",
+            "label": "Advanced Background Color"
+        },
+        {
+            "type": "header",
+            "content": "CTA"
+        },
+        {
+            "type": "text",
+            "id": "cta_button_label",
+            "label": "CTA Button Label"
+        },
+        {
+            "type": "url",
+            "id": "cta_button_url",
+            "label": "CTA Button URL"
+        },
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "cta_image"
+        },
+        {
+            "type": "checkbox",
+            "id": "preload_image",
+            "label": "Preload Image"
+        }
+        ],
+        "presets": [
+        {
+            "name": "Education Detail (HTML)",
+            "blocks": []
+        }
+        ]
+    }
+{% endschema %}

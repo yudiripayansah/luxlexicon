@@ -1,0 +1,90 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "information_bzGD3w": {
+      "type": "information",
+      "blocks": {
+        "entry_KM3CqY": {
+          "type": "entry",
+          "settings": {
+            "title": "What is your Returns & Exchanges policy?",
+            "description": "<u>For orders purchased online:<\/u>\n<p>\nWe accept returns and exchanges within 30 days of purchase on all regular-priced items.\n<\/p><p>\nItem(s) must be unworn, unwashed, undamaged and unaltered – attached with any original tags and packaging.\n<\/p><p>\nSale item(s) are strictly non-exchangeable or refundable.\n<\/p><p>\nOrders with a minimum spend promotion applied cannot be returned and will only be eligible for exchanges at stores.\n<\/p><p><\/p><p>\n<u>For in-store purchases:<\/u><\/p><p>\nWe do not accept refunds but exchanges will be allowed within 30 days of purchase on all regular-priced items.<\/p>"
+          }
+        },
+        "entry_9XJF6z": {
+          "type": "entry",
+          "settings": {
+            "title": "How can I return my online order?",
+            "description": "Here are the ways you can return your online purchase:\n\n\n1\/ Return by Mail\nOn your invoice, mark ‘X’ in the Return column, as well as the Reason-of-Return Code beside the item(s) that you wish to return. Mail back your package with your invoice to the address below:\n\nM38, 38 Jalan Pemimpin\n#05-01\/02 M38\nSingapore 577178\n+65 6358 2018\nAll shipping charges, inclusive of custom duties and taxes (if applicable), will be at your expense.\n\n\n2\/ Store Drop-off (for customers in Singapore)\nVisit our standalone store at ION Orchard with your invoice and the item(s) you wish to return within 30 days from the date of purchase.\n\nRefunds will be issued to the original method of payment within 14 business days."
+          }
+        },
+        "entry_QcANED": {
+          "type": "entry",
+          "settings": {
+            "title": "How and when will I receive my refund?",
+            "description": "Refunds will be issued to the original method of payment within 14 business days of us receiving the returned item(s).\n<p><\/p><p>\nYou will receive an email notification as soon as the refund is processed<\/p>"
+          }
+        },
+        "entry_naEbgY": {
+          "type": "entry",
+          "settings": {
+            "title": "How can I exchange my online order?",
+            "description": "The best way to exchange your online order is to return it for a refund and make a new purchase online.\n\n\nFor customers in Singapore, you have the option to drop by our standalone store at ION Orchard with your item(s) and invoice within 30 days of purchase. Our retail team will be able to facilitate your exchange on the spot.\n\n\nIf your order is exchanged for item(s) of a lower value, we regret that we are unable to refund the balance and the amount will be automatically forfeited.\n\n\nEach order is only valid for a one-time exchange."
+          }
+        },
+        "entry_ejFFiX": {
+          "type": "entry",
+          "settings": {
+            "title": "What if I receive a defective or incorrect item(s)?",
+            "description": "We apologize for sending you a defective\/incorrect item.\n\n\nKindly email us at customerservice@ingoodcompany.asia with your Order Number and we will assist you from there."
+          }
+        },
+        "entry_yPrVdp": {
+          "type": "entry",
+          "settings": {
+            "title": "Can I return or exchange a Sale item?",
+            "description": "Sale items are not eligble for returns or exchanges.\n\n\nKindly check the product measurements of each item to ascertain their fit before making your purchase."
+          }
+        },
+        "entry_FVgGMM": {
+          "type": "entry",
+          "settings": {
+            "title": "Can I get a refund on my used Shopping Perks?",
+            "description": "Shopping Perks cannot be reinstated or refunded once they have been utilized.\n\n\nWe would advise on an exchange instead in order to retain the discount value."
+          }
+        }
+      },
+      "block_order": [
+        "entry_KM3CqY",
+        "entry_9XJF6z",
+        "entry_QcANED",
+        "entry_naEbgY",
+        "entry_ejFFiX",
+        "entry_yPrVdp",
+        "entry_FVgGMM"
+      ],
+      "settings": {
+        "top_padding_m": 0,
+        "bottom_padding_m": 0,
+        "top_padding_t": 0,
+        "bottom_padding_t": 0,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "title": "",
+        "title_size": "h1",
+        "title_dom_type": "h1",
+        "menu_1": "dev-side-menu-1",
+        "menu_2": "dev-side-menu-2",
+        "accordion_bb": true,
+        "accordion_ttl_space": true
+      }
+    }
+  },
+  "order": [
+    "information_bzGD3w"
+  ]
+}

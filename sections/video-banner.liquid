@@ -1,0 +1,283 @@
+{% comment %} JCO Revamp - Adi - on progress {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{%- assign ss = section.settings -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+
+<style>
+    #{{ el_id }} .container {
+        row-gap: 50px;
+    }
+    #{{ el_id }} video {
+        width: 100%;
+    }
+    #{{ el_id }} .global-image-wrapper.global-video-wrapper iframe, #{{ el_id }} .global-image-wrapper.global-video-wrapper video {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    #{{ el_id }} .global-image-wrapper.global-video-wrapper iframe {
+        opacity: 0;
+    }
+    #{{ el_id }} .video-wrapper {
+        position: relative;
+    }
+    #{{ el_id }} .video-wrapper .video-control {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+    #{{ el_id }} .video-wrapper .video-control .cv-pauseButton {
+        opacity: 0;
+        transition: .5s;
+    }
+    #{{ el_id }} .video-wrapper .video-control .video-control-button {
+        width: 50px;
+        height: 50px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+    }
+    #{{ el_id }} .video-wrapper .video-control .video-control-button.hide-m {
+        display: none;
+    }
+    #{{ el_id }} .video-wrapper .video-control .video-control-button svg {
+        width: 13px;
+        height: 13px;
+    }
+    #{{ el_id }} .video-wrapper .video-control:hover .cv-pauseButton {
+        opacity: 1;
+    }
+
+    #{{ el_id }} .video-wrapper .inner-wrapper {
+        background: var(--bg);
+    }
+</style>
+
+<section class="video-banner">
+    <div class="global-flex flex-wrap">
+            <div class="col-12 pl-0 pr-0">
+                    <div class="video-wrapper">
+                            {%- assign youtube_iframe = ss.youtube_embed_code -%}
+                            <div class="col-12 pl-0 pr-0 ">
+                                <div class="inner-wrapper overflow relative w-full">
+                                    <div class="video-wrapper overflow">
+                                        {% if ss.video_d != blank or youtube_iframe != blank %}
+                                        {%- assign video_id = 'video_banner_' | append: el_id -%}
+                                        {%- assign video_type_desktop = '' -%}
+                                        {%- assign video_url_desktop = '' -%}
+                                        {%- for vid_source in ss.video_d.sources -%}
+                                            {%- if vid_source.mime_type == 'video/mp4' -%}
+                                            {%- assign video_url_desktop = vid_source.url -%}
+                                            {%- endif -%}
+                                        {%- endfor -%}
+                                        {% assign autoplay = false %}
+                                        {% assign muted = false %}
+                                        {%- if ss.autoplay -%}
+                                        {%- assign autoplay = true -%}
+                                        {% assign muted = true %}
+                                        {%- endif -%}
+                                        {% assign preload = false %}
+                                        {% if section.index == 1 %}
+                                        {% assign preload = true %}
+                                        {% endif %}
+
+                                        {%- assign video_type_mobile = '' -%}
+                                        {%- assign video_url_mobile = '' -%}
+                                        {%- for vid_source in ss.video_m.sources -%}
+                                            {%- if vid_source.mime_type == 'video/mp4' -%}
+                                                {%- assign video_url_mobile = vid_source.url -%}
+                                            {%- endif -%}
+                                        {%- endfor -%}
+
+                                        {%- render 'global-video-wrapper-responsive',
+                                            desktop_image: ss.image_d,
+                                            mobile_image: ss.image_m,
+                                            desktop_video_url: video_url_desktop,
+                                            mobile_video_url: video_url_mobile,
+                                            video_id: video_id,
+                                            autoplay: autoplay,
+                                            preload: preload,
+                                            muted: muted,
+                                            loop: true,
+                                            load_inside_vue: true,
+                                            youtube_iframe: youtube_iframe
+                                        -%}
+                                            {%- if ss.autoplay == blank -%}
+                                            <div class="video-control flex ai-center jc-center h-full w-full ab-middle-left">
+                                                <div @click="playVid('{{video_id}}',$event)" class="cv-playButton video-control-button flex ai-center jc-center">
+                                                    {%- if ss.icon_play != blank -%}
+                                                    {{ ss.icon_play }}
+                                                    {%- else -%}
+                                                    {{ settings.icon_play }}
+                                                    {%- endif -%}
+                                                </div>
+                                                
+                                                <div @click="pauseVid('{{video_id}}',$event)" class="cv-pauseButton video-control-button flex ai-center jc-center hide-m">
+                                                    {%- if ss.icon_pause != blank -%}
+                                                    {{ ss.icon_pause }}
+                                                    {%- else -%}
+                                                    {{ settings.icon_pause }}
+                                                    {%- endif -%}
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</section>
+
+<script>
+      var supportFaqVue = Vue.createApp({
+          delimiters: ['${','}'],
+          data() {
+              return {
+                  activeIndex:1
+              }
+          },
+          methods: {
+              playVid(id,e) {
+                  const parent = e.target.closest('.video-wrapper');
+                  const video_parent_elem = document.querySelector(`#${id}.global-video-wrapper`);
+                  e.target.closest('.video-control-button').classList.add('hide-m');
+
+                  if(video_parent_elem.classList.contains('youtube')) {
+                    const iframe_elem = video_parent_elem.querySelector('iframe');
+                    const iframe_src = iframe_elem.getAttribute('src');
+
+                    let url_char = '&';
+                    if(iframe_src.indexOf('?') < 0) {
+                        url_char = '?';
+                    }
+
+                    iframe_elem.style.opacity = 1;
+                    iframe_elem.style.zIndex = 10;
+                    iframe_elem.setAttribute('src',`${iframe_src}${url_char}autoplay=1`);
+                  } else {
+                    const video_elem = document.querySelector(`#${id}.global-video-wrapper video`);
+                    if(video_elem != null) {
+                        video_elem.play();
+                    }
+
+                    parent.querySelector('.cv-pauseButton').classList.remove('hide-m');
+                  }                  
+              },
+              pauseVid(id,e) {
+                  const parent = e.target.closest('.video-wrapper');
+                  const video_elem = document.querySelector(`#${id}.global-video-wrapper video`);
+                  if(video_elem != null) {
+                    video_elem.pause();
+                  }
+
+                  e.target.closest('.video-control-button').classList.add('hide-m');
+                  parent.querySelector('.cv-playButton').classList.remove('hide-m');
+              }
+          }
+      }).mount('#{{ el_id }} .video-banner');
+</script>
+
+{% schema %}
+    {
+        "name": "Video Banner",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Section Padding"
+            },
+            {
+                "type": "number",
+                "id": "top_padding_m",
+                "label": "Top padding (Mobile)",
+                "default": 0
+            },
+            {
+                "type": "number",
+                "id": "bottom_padding_m",
+                "label": "Bottom padding (Mobile)",
+                "default": 0
+            },
+            {
+                "type": "number",
+                "id": "top_padding_t",
+                "label": "Top padding (Tablet)",
+                "default": 0
+            },
+            {
+                "type": "number",
+                "id": "bottom_padding_t",
+                "label": "Bottom padding (Tablet)",
+                "default": 0
+            },
+            {
+                "type": "number",
+                "id": "top_padding",
+                "label": "Top padding (Desktop)",
+                "default": 0
+            },
+            {
+                "type": "number",
+                "id": "bottom_padding",
+                "label": "Bottom padding (Desktop)",
+                "default": 0
+            },
+            {
+                "type": "header",
+                "content": "Content"
+            },
+            {
+                "type": "checkbox",
+                "id": "autoplay",
+                "label": "Autoplay"
+            },
+            {
+                "type": "image_picker",
+                "id": "image_d",
+                "label": "Poster Image Desktop"
+            },
+            {
+                "type": "image_picker",
+                "id": "image_m",
+                "label": "Poster Image Mobile"
+            },
+            {
+                "type": "video",
+                "id": "video_d",
+                "label": "Video Desktop"
+            },
+            {
+                "type": "video",
+                "id": "video_m",
+                "label": "Video Mobile"
+            },
+            {
+                "type": "html",
+                "id": "youtube_embed_code",
+                "label": "Yotube Embed Code"
+            },
+            {
+                "type": "textarea",
+                "id": "icon_play",
+                "label": "Play icon"
+            },
+            {
+                "type": "textarea",
+                "id": "icon_pause",
+                "label": "Pause icon"
+            }
+            
+        ],
+        "presets": [
+            {
+                "name": "Video Banner",
+                "blocks": []
+            }
+        ]
+    }
+{% endschema %}

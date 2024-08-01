@@ -1,0 +1,370 @@
+{% comment %} Luxlexicon Theme {% endcomment %}
+{%- assign el_id = 'shopify-section-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+
+<style>
+	{%- if section.settings.bg_color != blank -%}
+		#{{ el_id }} {
+			background-color: {{ section.settings.bg_color }};
+		}
+	{%- endif -%}
+
+	#shopify-section-{{ section.id }} .swiper {
+        overflow: visible!important;
+        clip-path: inset(-100vw -100vw -100vw -100vw);
+    }
+	#shopify-section-{{ section.id }} .swiper .swiper-slide {
+		width: 60%;
+	}
+	#shopify-section-{{ section.id }} .swiper-grid-arrow, #shopify-section-{{ section.id }} .swiper-grid-arrow svg {
+		width: 36px;
+		height: 36px;
+	}
+	#shopify-section-{{ section.id }} .link2 {
+		color: #fff;
+	}
+	#shopify-section-{{ section.id }} .brand-overlay {
+		background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 50%, rgba(0, 0, 0, 0.40) 100%), #d3d3d300 50% / cover no-repeat;
+	}
+  #shopify-section-{{ section.id }} .link-icon .text {
+    line-height: 1.2;
+    margin-right: 0;
+  }
+  #shopify-section-{{ section.id }} .link-icon .icon {
+    
+    display: flex;
+    align-items: center;
+  }
+  
+  #shopify-section-{{ section.id }} .link2:before {
+    height: 0;
+  }
+	@media screen and (min-width: 600px) {
+		#shopify-section-{{ section.id }} .swiper .swiper-slide {
+			width: 45%;
+		}
+	}
+
+	@media screen and (min-width: 1024px) {
+		#shopify-section-{{ section.id }} .swiper .swiper-slide {
+			width: 25%;
+		}
+	}
+</style>
+
+<div {% if section.settings.section_id != blank %}id="{{ section.settings.section_id }}" {% endif %}class="image-text-slider relative overflow">
+	
+		<div class="container">
+			<div class="show-d-flex ai-center ai-center jc-between mb-40 d-mb-48">
+				{% assign ss = section.settings %}
+				<{{ ss.title_dom_type }} class="{{section.settings.title_size}} c-black title">
+					{{- ss.title -}}
+				</{{ ss.title_dom_type }}>
+				{%- if section.blocks.size > 4 -%}
+				<div class="arrow-container global-flex ai-center hide-m show-d-flex">
+					<div class="swiper-grid-arrow left mr-15">{{ settings.icon_slide_left }}</div>
+					<div class="swiper-grid-arrow right">{{ settings.icon_slide_right }}</div>
+				</div>
+				{%- endif -%}
+			</div>
+		</div>
+	
+    
+	<div class="container">
+		<div class="row">
+			<div class="swiper">
+				<div class="swiper-wrapper">
+					{%- for block in section.blocks -%}
+						{% assign bs = block.settings %}
+						<div class="swiper-slide col-12 col-d-3">
+							<div class="content-wrapper relative">
+								{%- if block.settings.url != blank -%}
+									<a href="{{ block.settings.url }}" class="show-m">
+								{%- endif -%}
+								{%- assign image_id = "image-text-slider-" | append: block.id -%}
+								{%- render 'global-image-wrapper-responsive',
+									desktop_image: block.settings.image,
+									mobile_image: block.settings.image_mobile,
+									image_id: image_id
+								-%}
+								{%- if block.settings.url != blank -%}
+									</a>
+								{%- endif -%}
+
+								{%- if block.settings.title != blank -%}
+									<div class="absolute bottom-0 w-full h-full brand-overlay">
+										<div class="absolute bottom-0 w-full p-20 d-p-28">
+										
+											<h3 class="h1 c-white {% if bs.link_label != blank %}pb-16{% endif %}">{{ bs.title }}</h3>
+											{%- if bs.link_label != blank -%}
+                        {% assign text_class = 'link2 c-white' %}
+                        {% render 'link-icon', 
+                          id: block.id,
+                          label: bs.link_label, 
+                          url: bs.url,
+                          text_class: text_class,
+                          icon_svg: settings.icon_btn_right,
+                          right_icon: true,
+                          icon_width: 8,
+                          icon_height: 9
+                        %}
+											{%- endif -%}
+										
+										</div>
+									</div>
+								{%- endif -%}
+							</div>
+						</div>
+					{%- endfor -%}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% if section.blocks.size > 1 %}
+{%- assign function_name = el_id | replace: '-', '_' -%}
+	<script>
+        function initSwiper{{function_name}}(){
+            new Swiper('#{{ el_id }} .swiper', {
+                slidesPerView: 'auto',
+                navigation: {
+                    nextEl: '#{{ el_id }} .swiper-grid-arrow.right',
+                    prevEl: '#{{ el_id }} .swiper-grid-arrow.left'
+                },
+                on: {
+					init: function() {
+						$360.lazyLoadInstance.update();
+					},
+					slideChange: function() {
+						$360.lazyLoadInstance.update();
+					},
+					resize: function() {
+						$360.lazyLoadInstance.update();
+					}
+				}
+            });
+        };
+        initSwiper{{function_name}}();
+        document.addEventListener('shopify:section:load', () => { initSwiper{{function_name}}() });
+	</script>
+{% endif %}
+
+{% schema %}
+{
+	"name": "Brands Carousel",
+	"settings": [
+		{
+			"type" : "text",
+			"id" : "title",
+			"label" : "Title"
+		},
+		{
+			"type": "select",
+			"id": "title_dom_type",
+			"label": "Title DOM Type",
+			"options": [
+				{ "value": "h1", "label": "H1" },
+				{ "value": "h2", "label": "H2" },
+				{ "value": "h3", "label": "H3" },
+				{ "value": "h4", "label": "H4" },
+				{ "value": "h5", "label": "H5" }
+			],
+			"default": "h2"
+		},
+		{
+			"type": "select",
+			"id": "title_size",
+			"label": "Title Size",
+			"options": [
+				{ "value": "h1", "label": "H1" },
+				{ "value": "h2", "label": "H2" },
+				{ "value": "h3", "label": "H3" },
+				{ "value": "h4", "label": "H4" },
+				{ "value": "h5", "label": "H5" },
+				{ "value": "h6", "label": "H6" },
+				{ "value": "h7", "label": "H7" }
+			],
+			"default": "h2"
+		},
+		{
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+		{
+			"type": "header",
+			"content": "General Settings"
+		},
+		{
+		  "type": "text",
+		  "id": "section_id",
+		  "label": "Section ID",
+		  "info": "For anchor link. input example: section-name"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background Color"
+		}
+	],
+    "blocks": [
+        {
+            "type": "entry",
+            "name": "Entry",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image for Desktop"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "image_mobile",
+                    "label": "Image for Mobile"
+                },
+                {
+                    "type" : "textarea",
+                    "id" : "title",
+                    "label" : "Title"
+                },
+				{
+                    "type" : "text",
+                    "id" : "link_label",
+                    "label" : "Link Label"
+                },
+                {
+                    "type" : "url",
+                    "id" : "url",
+                    "label" : "URL"
+                }
+            ]
+        }
+    ],
+	"presets": [
+		{
+			"name": "Brands Carousel",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

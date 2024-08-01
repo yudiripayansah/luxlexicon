@@ -1,0 +1,207 @@
+{% comment %} JCO Theme - Yudi {% endcomment %}
+{% assign el_id = 'header-content-two-col-' | append: section.id %}
+{% assign ss = section.settings %}
+{% assign sb = section.blocks %}
+{% render 'section-padding', section: section, el_id: el_id %}
+<style>
+  #{{el_id}} .hctwr-image,
+  #{{el_id}} .hctwr-image svg {
+    width: 35px;
+    height: 35px;
+    color: #E8A9A7;
+  }
+  #{{el_id}} .hctw-left,
+  #{{el_id}} .hctw-right {
+    width: 100%;
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .hctw-left,
+    #{{el_id}} .hctw-right {
+      width: 50%;
+    }
+    #{{el_id}} .hctwr-image,
+    #{{el_id}} .hctwr-image svg {
+      width: 40px;
+      height: 40px;
+      color: #E8A9A7;
+    }
+  }
+  @media screen and (min-width: 1800px) {
+    .hctw-right .row {
+      margin-left: -10px;
+      margin-right: -10px;
+    }
+    .hctw-right .col-d-6 {
+      padding-left: 10px;
+      padding-left: 10px;
+    }
+  }
+</style>
+<div id="{{el_id}}">
+  <div class="container">
+    <div class="hct-wrap flex flex-wrap">
+      <div class="hctw-left">
+        <{{ section.settings.title_dom_type }} class="{{section.settings.title_size}} spacing-3  hctwl-title uppercase">
+          {{- section.settings.title -}}
+        </{{ section.settings.title_dom_type }}>
+      </div>
+      <div class="hctw-right mt-20 d-mt-0">
+        <div class="row">
+          {% for block in sb %}
+            {% assign bs = block.settings %}
+            <div class="col-d-6 col-t-6 col-12 {% if forloop.index > 2 %}d-mt-35 mt-20{% endif %} {% if forloop.index == 2 %}t-mt-0 mt-20{% endif %}">
+              <div class="flex ai-start w-full">
+                <div class="hctwr-image">
+                  {% if bs.icon_svg != blank %}
+                    {{bs.icon_svg}}
+                  {% else %}
+                    {%- assign image_id = "hctwr-icon-" | append: block.id -%}
+                    {%- render 'global-image-wrapper',
+                      image_id: image_id,
+                      image: bs.icon_image
+                    %}  
+                  {% endif %}
+                </div>
+                <div class="hctwr-text ml-20">
+                  <div class="p2 regular-400">{{ bs.title }}</div>
+                  <div class="p3 light-300 mt-3">{{ bs.text }}</div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Header+Content (2Col)",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hd",
+        "label": "Top padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hd",
+        "label": "Bottom padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hhd",
+        "label": "Top padding (HHD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hhd",
+        "label": "Bottom padding (HHD)"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Entry",
+      "type": "entry",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "icon_svg",
+          "label": "Icon (SVG)"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon (Image)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header+Content (2Col)"
+    }
+  ]
+}
+{% endschema %}

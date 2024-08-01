@@ -1,0 +1,1432 @@
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+{%- comment -%} VERSION: 1.0.0 Please do not delete this line. {%- endcomment -%}
+{%- liquid
+  assign filter_tree_vertical_style = shop.metafields.bc-sf-filter.settings | split: 'general":' | last | split: 'filterTreeVerticalStyle":"' | last | split: '","' | first | strip | escape
+
+  if shop.metafields.bc-sf-filter.settings contains 'filterTreeHorizontalStyle'
+  	assign filter_tree_horizontal_style = shop.metafields.bc-sf-filter.settings | split: 'general":' | last | split: 'filterTreeHorizontalStyle":"' | last | split: '","' | first | strip | escape
+  else
+   assign filter_tree_horizontal_style = 'style1'
+  endif
+
+  if shop.metafields.bc-sf-filter.settings contains 'stickyFilterOnDesktop'
+  	assign enable_filter_sticky_d = shop.metafields.bc-sf-filter.settings | split: 'general":' | last | split: 'stickyFilterOnDesktop":' | last | split: ',' | first | strip | escape
+  else
+   assign enable_filter_sticky_d = false
+  endif
+
+  assign enable_filter_sticky_m = shop.metafields.bc-sf-filter.settings | split: 'general":' | last | split: 'stickyFilterOnMobile":' | last | split: ',' | first |  split: '}}' | first | strip | escape
+
+  assign switch_layout_filter = 'switch_layout_filter_horizontal'
+
+  assign verticalStyleOffCanvas = false
+  if switch_layout_filter == 'switch_layout_filter_vertical' and filter_tree_vertical_style == 'style-off-canvas'
+  assign verticalStyleOffCanvas = true
+  endif
+
+  assign verticalStyleExpand = false
+  if switch_layout_filter == 'switch_layout_filter_vertical' and filter_tree_vertical_style == 'style-expand'
+    assign verticalStyleExpand = true
+  endif
+
+  assign horizontalStyleExpand = false
+  if switch_layout_filter == 'switch_layout_filter_horizontal' and filter_tree_horizontal_style == 'style-expand'
+    assign horizontalStyleExpand = true
+  endif
+
+  assign enable_filter_tree_button_desktop = false
+  if verticalStyleOffCanvas == true or verticalStyleExpand == true or horizontalStyleExpand == true
+    assign enable_filter_tree_button_desktop = true
+  endif
+
+  if shop.metafields.boostpfs-settings.labelTranslations.type != nil
+   assign boost_translations = shop.metafields.boostpfs-settings.labelTranslations.value
+  else
+   assign boost_translations = shop.metafields.boostpfs-settings.labelTranslations
+  endif
+  assign boost_settings = shop.metafields.bc-sf-filter.settings
+	assign boost_in_collection_search = boost_settings | split: 'enableCollectionSearch":' | last | split: ',"' | first | split: '}' | first | strip
+	assign current_locale = request.locale.iso_code
+	assign primary_locale = current_locale
+	for locale in shop.published_locales
+		if locale.primary
+			assign primary_locale = locale.iso_code
+			break
+		endif
+	endfor
+	assign label_toolbar_viewas = boost_translations[current_locale].defaultTheme.toolbarViewAs | default:  boost_translations[primary_locale].defaultTheme.toolbarViewAs | escape
+	assign label_items_with_count_one = boost_translations[current_locale].defaultTheme.toolbarProduct | default:  boost_translations[primary_locale].defaultTheme.toolbarProduct | escape
+	assign label_items_with_count_other = boost_translations[current_locale].defaultTheme.toolbarProducts | default:  boost_translations[primary_locale].defaultTheme.toolbarProducts | escape
+	assign label_sale = boost_translations[current_locale].defaultTheme.productItemSale | default:  boost_translations[primary_locale].defaultTheme.productItemSale | escape
+	assign label_soldout = boost_translations[current_locale].defaultTheme.productItemSoldOut | default:  boost_translations[primary_locale].defaultTheme.productItemSoldOut | escape
+	assign label_from = boost_translations[current_locale].defaultTheme.productItemFrom | default:  boost_translations[primary_locale].defaultTheme.productItemFrom | escape
+  assign label_sale_percent = 'percent' | escape
+
+	assign layout_type = shop.metafields.pfs-default-theme.layout_type | default: 'box'
+  assign show_collection_image = shop.metafields.pfs-default-theme.show_collection_image
+  assign show_collection_des = shop.metafields.pfs-default-theme.show_collection_des
+  assign collection_header_bg = shop.metafields.pfs-default-theme.collection_header_bg | default: ''
+  assign collection_header_text = shop.metafields.pfs-default-theme.collection_header_text | default: ''
+
+	assign show_view_as = shop.metafields.pfs-default-theme.show_view_as
+	assign show_product_count = shop.metafields.pfs-default-theme.show_product_count
+	assign show_sort_by = shop.metafields.pfs-default-theme.show_sort_by
+	assign show_view_as_m = shop.metafields.pfs-default-theme.show_view_as_m
+	assign show_product_count_m = shop.metafields.pfs-default-theme.show_product_count_m
+	assign show_sort_by_m = shop.metafields.pfs-default-theme.show_sort_by_m
+	assign view_as_type = shop.metafields.pfs-default-theme.view_as_type | default: 'view_as_type_list_grid_multi_col'
+
+  assign product_item_type = shop.metafields.pfs-default-theme.product_item_type | default: 'grid'
+  assign product_item_layout = shop.metafields.pfs-default-theme.product_item_layout | default: 'no-border'
+  assign text_alignment = shop.metafields.pfs-default-theme.text_alignment | default: 'left'
+	assign show_vendor = shop.metafields.pfs-default-theme.show_vendor
+	assign show_price = shop.metafields.pfs-default-theme.show_price
+  assign show_product_review = shop.metafields.pfs-default-theme.show_product_review | default: false
+  assign show_detail_when_hover = shop.metafields.pfs-default-theme.show_detail_when_hover | default: false
+  assign active_image_swap = shop.metafields.pfs-default-theme.active_image_swap
+
+  assign aspect_ratio = shop.metafields.pfs-default-theme.aspect_ratio | default: 'auto'
+	assign aspect_ratio_other = shop.metafields.pfs-default-theme.aspect_ratio_other | default: ''
+	assign product_img_crop = shop.metafields.pfs-default-theme.product_img_crop | default: 'none'
+
+  assign products_per_page = shop.metafields.pfs-default-theme.products_per_page | default: 15
+  assign products_per_row = shop.metafields.pfs-default-theme.products_per_row | default: 3
+	assign products_per_row_m = shop.metafields.pfs-default-theme.products_per_row_m | default: 2
+
+  assign product_title_color = shop.metafields.pfs-default-theme.product_title_color
+  assign product_title_font = shop.metafields.pfs-default-theme.product_title_font
+  assign product_title_size = shop.metafields.pfs-default-theme.product_title_size
+  assign product_title_transform = shop.metafields.pfs-default-theme.product_title_transform
+
+  assign product_vendor_color = shop.metafields.pfs-default-theme.product_vendor_color
+  assign product_vendor_font = shop.metafields.pfs-default-theme.product_vendor_font
+  assign product_vendor_size = shop.metafields.pfs-default-theme.product_vendor_size
+  assign product_vendor_transform = shop.metafields.pfs-default-theme.product_vendor_transform
+
+  assign product_price_color = shop.metafields.pfs-default-theme.product_price_color
+  assign product_old_price_color = shop.metafields.pfs-default-theme.product_old_price_color
+  assign product_sale_price_color = shop.metafields.pfs-default-theme.product_sale_price_color
+  assign product_price_font = shop.metafields.pfs-default-theme.product_price_font
+  assign product_price_size = shop.metafields.pfs-default-theme.product_price_size
+
+  assign product_des_color = shop.metafields.pfs-default-theme.product_des_color
+  assign product_des_font = shop.metafields.pfs-default-theme.product_des_font
+  assign product_des_size = shop.metafields.pfs-default-theme.product_des_size
+
+  assign swatch_enable = shop.metafields.pfs-default-theme.swatch_enable
+  assign show_swatch_tooltip = shop.metafields.pfs-default-theme.show_swatch_tooltip
+  assign swatch_change_img = shop.metafields.pfs-default-theme.swatch_change_img | default: 'hover'
+  assign swatch_by_color_apply = shop.metafields.pfs-default-theme.swatch_by_color_apply
+  assign swatch_by_color_apply_name = shop.metafields.pfs-default-theme.swatch_by_color_apply_name
+  assign swatch_by_color_shape = shop.metafields.pfs-default-theme.swatch_by_color_shape | default: 'circle'
+  assign swatch_by_img_apply = shop.metafields.pfs-default-theme.swatch_by_img_apply
+  assign swatch_by_img_apply_name = shop.metafields.pfs-default-theme.swatch_by_img_apply_name
+  assign swatch_by_img_shape = shop.metafields.pfs-default-theme.swatch_by_img_shape | default: 'circle'
+  assign swatch_by_pro_img_apply = shop.metafields.pfs-default-theme.swatch_by_pro_img_apply
+  assign swatch_by_pro_img_apply_name = shop.metafields.pfs-default-theme.swatch_by_pro_img_apply_name
+  assign swatch_by_pro_img_shape = shop.metafields.pfs-default-theme.swatch_by_pro_img_shape | default: 'circle'
+  assign swatch_by_text_apply = shop.metafields.pfs-default-theme.swatch_by_text_apply
+  assign swatch_by_text_apply_name = shop.metafields.pfs-default-theme.swatch_by_text_apply_name
+  assign swatch_by_text_shape = shop.metafields.pfs-default-theme.swatch_by_text_shape | default: 'square'
+  assign swatch_by_text_bg = shop.metafields.pfs-default-theme.swatch_by_text_bg
+  assign swatch_by_text_color = shop.metafields.pfs-default-theme.swatch_by_text_color
+  assign swatch_by_text_border = shop.metafields.pfs-default-theme.swatch_by_text_border
+
+  assign label_position = shop.metafields.pfs-default-theme.label_position | default: 'top_left'
+  assign label_type = shop.metafields.pfs-default-theme.label_type | default: 'rectangle'
+  assign sale_label_enable = shop.metafields.pfs-default-theme.sale_label_enable
+  assign sale_label_display = shop.metafields.pfs-default-theme.sale_label_display | default: 'text'
+  assign sale_label_bg = shop.metafields.pfs-default-theme.sale_label_bg
+  assign sale_label_text = shop.metafields.pfs-default-theme.sale_label_text
+  assign sale_label_img = shop.metafields.pfs-default-theme.sale_label_img
+
+	assign sold_out_enable = shop.metafields.pfs-default-theme.sold_out_enable
+  assign sold_out_display = shop.metafields.pfs-default-theme.sold_out_display | default: 'text'
+  assign sold_out_bg = shop.metafields.pfs-default-theme.sold_out_bg
+  assign sold_out_text = shop.metafields.pfs-default-theme.sold_out_text
+  assign sold_out_img = shop.metafields.pfs-default-theme.sold_out_img
+
+  assign tag_label_enable = shop.metafields.pfs-default-theme.tag_label_enable | default: false
+  assign tag_label_bg = shop.metafields.pfs-default-theme.tag_label_bg
+  assign tag_label_text = shop.metafields.pfs-default-theme.tag_label_text
+-%}
+
+{% capture products_item_settings %}
+	{% if aspect_ratio == 'auto' %}boost-pfs-filter-product-item-equal-height-auto {% endif %} boost-pfs-filter-product-item-label-type-{{ label_type }} boost-pfs-filter-product-item-show-details-{{ show_detail_when_hover }} boost-pfs-filter-product-item-layout-{{ product_item_layout }} boost-pfs-filter-product-item-label-{{ label_position }}  boost-pfs-filter-product-item-text-alignment-{{ text_alignment }}
+{% endcapture %}
+
+{% assign verticalStyleOffCanvas = false %}
+{% if switch_layout_filter == 'switch_layout_filter_vertical' and filter_tree_vertical_style == 'style-off-canvas'%}
+{% assign verticalStyleOffCanvas = true %}
+{% endif %}
+
+{% assign verticalStyleExpand = false %}
+{% if switch_layout_filter == 'switch_layout_filter_vertical' and filter_tree_vertical_style == 'style-expand'%}
+{% assign verticalStyleExpand = true %}
+{% endif %}
+
+{% assign horizontalStyleExpand = false %}
+{% if switch_layout_filter == 'switch_layout_filter_horizontal' and filter_tree_horizontal_style == 'style-expand'%}
+{% assign horizontalStyleExpand = true %}
+{% endif %}
+
+{%- paginate search.results by products_per_page -%}
+
+
+<style>
+  {% if collection_header_text != blank %}
+  .boost-pfs-filter-collection-header-wrapper .boost-pfs-filter-collection-description,
+  .boost-pfs-filter-collection-header-wrapper .boost-pfs-filter-collection-description p,
+  .boost-pfs-filter-collection-header-wrapper .boost-pfs-filter-collection-header,
+  .boost-pfs-search-container .boost-pfs-search-result-header {
+    color: {{ collection_header_text }};
+  }
+  {% endif %}
+
+  {% if collection_header_bg != blank %}
+  .boost-pfs-filter-collection-header-wrapper {
+    background-color: {{ collection_header_bg }};
+  }
+  {% endif %}
+
+  {% if product_title_color != blank or product_title_font != blank or product_title_size != blank or product_title_transform != blank  %}
+    .boost-pfs-filter-product-item-title {
+      {% if product_title_color != blank %}
+          color: {{ product_title_color }};
+      {% endif %}
+
+      {% if product_title_font != blank %}
+      font-family: {{ product_title_font.family }};
+      font-weight: {{ product_title_font.weight }};
+      font-style: {{ product_title_font.style }};
+      {% endif %}
+
+      {% if product_title_transform != blank %}
+      text-transform: {{ product_title_transform }};
+      {% endif %}
+    }
+    {% if product_title_size != blank %}
+      @media (min-width: 768px){
+        .boost-pfs-filter-product-item-title {
+          font-size: {{ product_title_size }}px;
+        }
+      }
+    {% endif %}
+  {% endif %}
+
+  {% if product_vendor_color != blank or product_vendor_size != blank or product_vendor_font != blank or product_vendor_transform != blank  %}
+    .boost-pfs-filter-product-item-vendor {
+      {% if product_vendor_color != blank %}
+      color: {{ product_vendor_color }};
+      {% endif %}
+
+      {% if product_vendor_font != blank %}
+      font-family: {{ product_vendor_font.family }};
+      font-weight: {{ product_vendor_font.weight }};
+      font-style: {{ product_vendor_font.style }};
+      {% endif %}
+
+      {% if product_vendor_transform != blank %}
+      text-transform: {{ product_vendor_transform }};
+      {% endif %}
+    }
+    {% if product_vendor_size != blank %}
+      @media (min-width: 768px){
+        .boost-pfs-filter-product-item-vendor {
+          font-size: {{ product_vendor_size }}px;
+        }
+      }
+    {% endif %}
+  {% endif %}
+  {% if product_price_color != blank or product_price_size != blank or product_price_font != blank or product_price_size != blank   %}
+    .boost-pfs-filter-product-item-price {
+      {% if product_price_color != blank %}
+      color: {{ product_price_color }};
+      {% endif %}
+
+      {% if product_price_font != blank %}
+      font-family: {{ product_price_font.family }};
+      font-weight: {{ product_price_font.weight }};
+      font-style: {{ product_price_font.style }};
+      {% endif %}
+    }
+    {% if product_price_size != blank %}
+      @media (min-width: 768px){
+        .boost-pfs-filter-product-item-price {
+          font-size: {{ product_price_size }}px;
+        }
+      }
+    {% endif %}
+  {% endif %}
+
+  {% if product_old_price_color != blank %}
+  .boost-pfs-filter-product-item-price s {
+    color: {{ product_old_price_color }};
+  }
+  {% endif %}
+
+  {% if product_sale_price_color != blank %}
+  .boost-pfs-filter-product-item-price .boost-pfs-filter-product-item-sale-price {
+    color: {{ product_sale_price_color }};
+  }
+  {% endif %}
+
+  {% if product_des_color != blank or product_des_size != blank or product_des_font != blank %}
+    .boost-pfs-filter-product-item-list .boost-pfs-filter-des {
+      {% if product_des_color != blank %}
+      color: {{ product_des_color }};
+      {% endif %}
+
+      {% if product_des_font != blank %}
+      {% assign product_des_font = product_des_font %}
+      font-family: "{{ product_des_font.family }}";
+      font-weight: {{ product_des_font.weight }};
+      font-style: {{ product_des_font.style }};
+      {% endif %}
+    }
+    {% if product_des_size != blank %}
+      @media (min-width: 768px){
+        .boost-pfs-filter-product-item-list .boost-pfs-filter-des {
+          font-size: {{ product_des_size }}px;
+        }
+      }
+    {% endif %}
+  {% endif %}
+
+  {% if sale_label_bg != blank or sale_label_text != blank %}
+  .boost-pfs-filter-product-item-label .sale {
+    {% if sale_label_bg != blank %}
+    background-color: {{ sale_label_bg }};
+    {% endif %}
+
+    {% if sale_label_text != blank %}
+    color: {{ sale_label_text }};
+    {% endif %}
+  }
+  {% endif %}
+
+  {% if sold_out_bg != blank or sold_out_text != blank %}
+  .boost-pfs-filter-product-item-label .soldout {
+    {% if sold_out_bg != blank %}
+    background-color: {{ sold_out_bg }};
+    {% endif %}
+
+    {% if sold_out_text != blank %}
+    color: {{ sold_out_text }};
+    {% endif %}
+  }
+  {% endif %}
+
+  {% if tag_label_bg != blank or tag_label_text != blank %}
+  .boost-pfs-filter-product-item-label .tag {
+    {% if tag_label_bg != blank %}
+    background-color: {{ tag_label_bg }};
+    {% endif %}
+
+    {% if tag_label_text != blank %}
+    color: {{ tag_label_text }};
+    {% endif %}
+  }
+  {% endif %}
+
+  {% if swatch_by_text_bg != blank or swatch_by_text_color != blank or swatch_by_text_border != blank %}
+  .boost-pfs-filter-item-swatch-type-text>li:not(.boost-pfs-filter-item-swatch-more) {
+    {% if swatch_by_text_bg != blank %}
+    background-color: {{ swatch_by_text_bg }};
+    {% endif %}
+
+    {% if swatch_by_text_color != blank %}
+    color: {{ swatch_by_text_color }};
+    {% endif %}
+
+    {% if swatch_by_text_border != blank %}
+    border-color: {{ swatch_by_text_border }};
+    {% endif %}
+  }
+  {% endif %}
+
+  /** custom styling **/
+  header.site-header.fixed {
+    position: relative;
+  }
+  .collection-con.global-content-top-margin {
+    margin-top: 0 !important;
+  }
+  #shopify-section-{{ section.id }} .filter-outer-wrapper {
+    position: relative;
+    z-index: 8;
+  }
+  #shopify-section-{{ section.id }} .filter-outer-wrapper .filter-outer.is-sticky {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    left: 0;
+    background: #fff;
+    box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-top-sorting-wrapper {
+    display: inline-flex;
+    align-items: center;
+    padding-right: 18px;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-top-sorting-wrapper span span {
+    display: none;
+  }
+  #shopify-section-{{ section.id }} .filter-wrapper .left-side,
+  #shopify-section-{{ section.id }} .filter-wrapper .right-side {
+    display: inline-flex;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .filter-wrapper .left-side {
+    width: 100px;
+  }
+  #shopify-section-{{ section.id }} .change-view-wrapper {
+    height: 25px;
+    display: inline-flex;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .change-view-wrapper svg {
+    width: 15px;
+    height: 15px;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-addtocart-wrapper,
+  #shopify-section-{{ section.id }} .boost-pfs-quickview-btn,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-button::after,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-title::before,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-title::after,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-refine-by-wrapper-h,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-refine-by-wrapper,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3 .boost-pfs-filter-clear-all {
+    display: none !important;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-container-default-box {
+    margin: 0 -5px;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-products {
+    margin: 0;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-product-item {
+    padding: 0 5px;
+    margin-top: 20px;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-product-item:nth-child(1),
+  #shopify-section-{{ section.id }} .boost-pfs-filter-product-item:nth-child(2) {
+    {% comment %} margin-top: 0; {% endcomment %}
+  }
+  #shopify-section-{{ section.id }} .has-cta-bar {
+    width: 100%;
+  }
+  #shopify-section-{{ section.id }} .filter-outer .boost-pfs-filter-option-title *,
+  #shopify-section-{{ section.id }} .filter-outer .boost-pfs-filter-option-content-inner *,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-custom-sorting *,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-filter-dropdown *,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-button *,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3 .boost-pfs-filter-option-item * {
+    font-size: 13px;
+    line-height: 1.3;
+  }
+  #shopify-section-{{ section.id }} .filter-outer .b-radius-5 {
+    border-radius: 5px;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-content {
+    border: 1px solid #dbdbdb;
+    margin-top: 11.5px;
+    padding: 10px 0 0 0;
+	  border-radius:0;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3 .boost-pfs-filter-option-content {
+    border: 0;
+    margin-top: 0;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-content .boost-pfs-filter-option-item {
+    display: inline-flex;
+    align-items: center;
+    padding-left: 25px;
+    width: 100%;
+    flex: 0 0 100%;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-content .boost-pfs-filter-option-item {
+    margin: 12px 0 0;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-content .boost-pfs-filter-option-item:first-child {
+    margin-top: 0;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-content .boost-pfs-filter-option-item:last-child {
+    margin-bottom: 0;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-content .boost-pfs-filter-option-item button {
+    text-align: left;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-content .boost-pfs-filter-option-item button .boost-pfs-check-box {
+    top: 0;
+    left: 0;
+    border-radius: 3px;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-content .boost-pfs-filter-clear {
+    font-size: 10px;
+    color:#6c6c6c;
+    margin-top: 10px;
+    margin-left: 0;
+    height: 28.9px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: 0.3s ease all;
+    text-transform: uppercase;
+	  letter-spacing: 1.7px!important;
+    font-weight: 500;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-content .boost-pfs-filter-clear:hover {
+    color: #79956d;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-content .boost-pfs-filter-option-item-list {
+    margin: 0;
+    font-size: 0;
+    padding-bottom: 0.5px;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-item-list.boost-pfs-filter-option-item-list-multiple-list li.selected .boost-pfs-check-box:before {  
+    content: '';
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    background-size: 11px 11px;
+    background-position: center; 
+    top: 1px;
+    left: 1px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48px' height='48px' viewBox='0 0 48 48' fill='none'%3E%3Crect width='48' height='48' fill='white' fill-opacity='0.01'/%3E%3Cpath d='M43 11L16.875 37L5 25.1818' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-title-heading .boost-pfs-filter-option-title-text::before,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-top-sorting-wrapper > span::before,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-tree-v .boost-pfs-filter-option-title .boost-pfs-filter-option-title-heading:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -2.5px;
+    width: 8px;
+    height: 5px;
+    background-position: center;
+    background-size: 8px 5px;
+    transition: 0.3s ease all;
+    transform: rotate(180deg);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7.5' height='4.288' viewBox='0 0 7.5 4.288'%3E%3Cpath id='Icon_ionic-ios-arrow-down' data-name='Icon ionic-ios-arrow-down' d='M9.939,14.242,12.775,11.4a.534.534,0,0,1,.757,0,.54.54,0,0,1,0,.759l-3.213,3.215a.535.535,0,0,1-.739.016L6.344,12.165a.536.536,0,1,1,.757-.759Z' transform='translate(-6.188 -11.246)' fill='%23272727'/%3E%3C/svg%3E");
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-tree-v .boost-pfs-filter-option-title .boost-pfs-filter-option-title-heading:after {
+    margin-top: -3.5px;
+    display: block !important;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-collapsed .boost-pfs-filter-option-title-heading .boost-pfs-filter-option-title-text::before,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-tree-v .boost-pfs-filter-option-collapsed .boost-pfs-filter-option-title .boost-pfs-filter-option-title-heading:after {
+    transform: rotate(0);
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-top-sorting-wrapper > span::before {
+    right: -18px;
+    transform: rotate(0deg);
+    top: 1px;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-sort-active .boost-pfs-filter-top-sorting-wrapper > span::before {
+    transform: rotate(180deg);
+    top: 0;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-price .boost-pfs-filter-option-content-inner {
+    margin: 0;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-price .boost-pfs-filter-option-range-slider {
+    margin-bottom: 40px;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-range-amount-wrapper input.boost-pfs-filter-option-range-amount-min, 
+  #shopify-section-{{ section.id }} .boost-pfs-filter-option-range-amount-wrapper input.boost-pfs-filter-option-range-amount-max {
+    height: 38px;
+    padding-right: 15px;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-filter-dropdown {
+    border: 1px solid #dbdbdb;
+    border-radius: 0;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-filter-dropdown li {
+    padding: 15px 20px;
+    transition: 0.3s ease all;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-filter-dropdown li:hover {
+    background: #ededed;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-filter-dropdown li a {
+    text-decoration: none;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-button button {
+    padding: 0 0 0 27px;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3 .boost-pfs-filter-mobile-toolbar-header {
+    text-align: left;
+    padding: 20px 15px;
+    display: block;
+    text-transform: capitalize;
+    background: #f9f9f9;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-mobile-footer {
+    padding: 15px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-v {
+    transform: translate(-100%);
+    transition: .3s ease all;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-v.boost-pfs-filter-tree-mobile-open {
+    transform: translate(0);
+  }
+  #shopify-section-{{ section.id }}.simple-view .has-cta-image.boost-pfs-filter-product-item,
+  #shopify-section-{{ section.id }}.simple-view .has-cta-bar.boost-pfs-filter-product-item,
+  #shopify-section-{{ section.id }}.simple-view .product-each .product-labels-container,
+  #shopify-section-{{ section.id }}.simple-view .product-each .content-container,
+  #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-skeleton-meta {
+    display: none;
+  }
+
+  #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-products {
+    margin: 0 15px;
+  }
+  #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item {
+    width: 33.3333%;
+    padding: 0 5px;
+    margin-top: 10px;
+  }
+  #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item:nth-child(1),
+  #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item:nth-child(2),
+  #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item:nth-child(3) {
+    margin-top: 0;
+  }
+  #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-button-label,
+  #shopify-section-{{ section.id }} .boost-pfs-filter-top-sorting * {
+    color: #272727;
+  }
+
+  @media screen and (max-width: 1023px) {
+	#shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-sticky.boost-pfs-filter-tree-v .boost-pfs-filter-option{
+        padding:27px 15px 12px 15px;
+		border-color: #dbdbdb;
+    }
+
+    .collection-con .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-v .boost-pfs-filter-mobile-footer .boost-pfs-filter-show-result, 
+    .collection-con .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-v .boost-pfs-filter-mobile-footer .clear-btn-mobile {
+      width: calc(50% - 5px);
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    #shopify-section-{{ section.id }} .has-cta-image {
+      width: 100%;
+    } 
+    #shopify-section-{{ section.id }} .has-cta-image .cta-image-overlay {
+      display: none;
+    }
+    #shopify-section-{{ section.id }} .has-cta-image .text-container {
+      {% comment %} position: relative; {% endcomment %}
+      padding-top: 20px;
+      padding-bottom: 15px;
+    }
+    #shopify-section-{{ section.id }} .has-cta-image .text-container * {
+      color: #272727;
+    }
+    #shopify-section-{{ section.id }} .has-cta-image .text-container svg * {
+      stroke: #272727 !important;
+    }
+    #shopify-section-{{ section.id }} .product-each .content-container .left-side {
+      width: 100%;
+    }
+    #shopify-section-{{ section.id }} .price-container-mobile {
+      line-height: 1.3;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-load-more-button {
+      width: 100%;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3 .boost-pfs-filter-mobile-toolbar-header,
+    #shopify-section-{{ section.id }} .boost-pfs-filter-mobile-footer {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-container-default-box {
+      margin: 0;
+    }
+    #shopify-section-{{ section.id }} .has-cta-image .global-image-wrapper {
+      padding-bottom: unset !important;
+    }
+    #shopify-section-{{ section.id }} .has-cta-image .snippet-cta-image-text-overlay {
+      height: 100%;
+    } 
+    #shopify-section-{{ section.id }} .has-cta-image .global-image-wrapper,
+    #shopify-section-{{ section.id }} .has-cta-image .global-image-wrapper img {
+      height: 100%;
+      object-fit: cover;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-product-item.has-cta-bar {
+      width: calc(100% + 30px);
+    }
+    #shopify-section-{{ section.id }} .has-cta-bar .boost-pfs-filter-product-item-inner {
+      width: calc(100% + 30px);
+      margin-left: -15px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-products {
+      margin: 0 -7.5px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-product-item {
+      padding: 0 7.5px;
+      margin-top: 20px; 
+      width: 50%;
+      min-height:270px;
+    }
+
+    #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-products {
+      margin: 0 -7.5px;
+    }
+    #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item {
+      width: 33.3333%;
+      padding: 0 7.5px;
+      margin-top: 15px; 
+    } 
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-sticky.boost-pfs-filter-tree-v .boost-pfs-filter-option {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-mobile-full-width-style .boost-pfs-filter-mobile-toolbar .boost-pfs-filter-mobile-toolbar-top {
+      right: 25px;
+      top: 25px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-mobile-full-width-style {
+      background: transparent;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-mobile-full-width-style::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      z-index: -1;
+      background: rgba(0,0,0,.3);
+      transition: unset;
+      opacity: 0;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-mobile-full-width-style.boost-pfs-filter-tree-mobile-open::before {
+      transition: 0.5s ease all 0.3s;
+      opacity: 1;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-mobile-full-width-style .boost-pfs-filter-tree-content {
+      width: 60%;
+      background: #fff;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-mobile-full-width-style .boost-pfs-filter-mobile-footer {
+      width: 60%;
+      left: 0;
+    }
+  }
+  
+  @media screen and (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .boost-pfs-filter-option-content {
+      padding: 25px 25px 20px 25px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-mobile-footer {
+      display: none;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-products {
+      margin: 0 -10px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-product-item {
+      padding: 0 10px;
+      margin-top: 30px;
+      width: 25%;
+    }
+    #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-products {
+      margin: 0 -10px;
+    }
+    #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item {
+      width: 12.5%;
+      padding: 0 10px;
+      margin-top: 20px;
+    }
+
+    #shopify-section-{{ section.id }} .filter-wrapper .left-side {
+      width: auto;
+    }
+    #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item:nth-child(3),
+    #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item:nth-child(4),
+    #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item:nth-child(5),
+    #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item:nth-child(6),
+    #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item:nth-child(7),
+    #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item:nth-child(8),
+    #shopify-section-{{ section.id }} .boost-pfs-filter-product-item:nth-child(3) {
+      {% comment %} margin-top: 0; {% endcomment %}
+    }
+    {%- if section.settings.cta_1_enable or section.settings.cta_2_enable -%}
+      #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item:nth-child(9) {
+        margin-top: 0;
+      }
+    {%- endif -%}
+    {%- if section.settings.cta_1_enable and section.settings.cta_2_enable -%}
+      #shopify-section-{{ section.id }}.simple-view .boost-pfs-filter-product-item:nth-child(10) {
+        margin-top: 0;
+      }
+    {%- endif -%}
+
+    #shopify-section-{{ section.id }} .has-cta-image {
+      min-height:290px;
+      width: 50%;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-product-item.has-cta-bar {
+      width: calc(100% + 126px);
+    }
+    #shopify-section-{{ section.id }} .has-cta-bar .boost-pfs-filter-product-item-inner {
+      width: calc(100% + 126px);
+      margin-left: -63px;
+    }
+  }
+
+  @media screen and (min-width: 1920px) {
+    #shopify-section-{{ section.id }} .filter-outer .boost-pfs-filter-option-title *,
+    #shopify-section-{{ section.id }} .filter-outer .boost-pfs-filter-option-content-inner *,
+    #shopify-section-{{ section.id }} .boost-pfs-filter-custom-sorting *,
+    #shopify-section-{{ section.id }} .boost-pfs-filter-filter-dropdown *,
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-button *,
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3 .boost-pfs-filter-option-item * {
+      font-size: 14px;
+      line-height: 1.3;
+    }
+  }
+
+    #shopify-section-{{ section.id }} .product-each{
+        justify-content: unset;
+    }
+    #shopify-section-{{ section.id }} .online-button{
+        transform: translate(0,2px);
+        position:relative;
+        height:15px;
+        width:30px;
+        border-radius:10px;
+        border: 1px solid #DBDBDB;
+    }
+    #shopify-section-{{ section.id }} .online-button-inner{
+        position:absolute;
+        height:14.5px;
+        width:14.5px;
+        transform: translate(0, -0.5px);
+        border-radius:50%;
+        background: #DBDBDB;
+        left:0;
+        top:0;
+        transition:0.3s ease all;
+    }
+    #shopify-section-{{ section.id }} .online-toggle.active .online-button-inner{
+      transform:translate(100%, -0.5px);
+        background: #6c6c6c;
+    }
+
+    #shopify-section-{{ section.id }} .boost-pfs-filter-option.hidden{
+        display:none;
+    }
+
+    #shopify-section-{{ section.id }} .global-product-label{
+        padding:5px 8px;
+    }
+    #shopify-section-{{ section.id }} .online-toggle{
+      display:none;
+    }
+    #shopify-section-{{ section.id }} .online-toggle.mobile{
+      display:flex;
+      padding:20px 15px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-v .boost-pfs-filter-options-wrapper{
+      position:unset;
+    }
+
+    @media screen and (min-width: 768px) {
+      #shopify-section-{{ section.id }} .online-toggle.mobile{
+        padding:20px 25px;
+      }
+    }
+    
+    @media screen and (min-width: 1024px) {
+        #shopify-section-{{ section.id }} .boost-pfs-filter-option-content .boost-pfs-filter-clear {
+			font-size:11px;
+		}
+        #shopify-section-{{ section.id }} .online-toggle.mobile{
+            display:none !important;
+        }
+        #shopify-section-{{ section.id }} .global-product-label{
+            padding:5px 12px;
+        }
+        #shopify-section-{{ section.id }} .online-toggle{
+          display:flex;
+        }
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-v .boost-pfs-filter-option .boost-pfs-filter-option-title p{
+      margin-top: 15px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-load-more{
+      display: flex;
+      flex-direction: column-reverse;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-load-more-total{
+      color:#6c6c6c;
+      padding-top:15px;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.3;
+      font-size: 10px;
+      letter-spacing: 1.7px!important;
+      font-weight:500;
+      text-transform:uppercase;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-mobile-full-width-style .boost-pfs-filter-mobile-toolbar .boost-pfs-filter-mobile-toolbar-top{
+      width:14px;
+      height:14px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-mobile-full-width-style .boost-pfs-filter-mobile-toolbar .boost-pfs-filter-mobile-toolbar-top .boost-pfs-filter-close span{
+      width:14px;
+      height:14px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-mobile-full-width-style .boost-pfs-filter-mobile-toolbar .boost-pfs-filter-mobile-toolbar-top .boost-pfs-filter-close span:before{
+      width:14px;
+      height:14px;
+      background-size: 14px 14px;
+	  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16.465' height='16.465' viewBox='0 0 16.465 16.465'%3E%3Cg transform='translate(0.354 0.354)'%3E%3Cline x2='15.758' y2='15.758' fill='none' stroke='%232c2c2c' stroke-width='1.3'%3E%3C/line%3E%3Cline x1='15.758' y2='15.758' fill='none' stroke='%232c2c2c' stroke-width='1.3'%3E%3C/line%3E%3C/g%3E%3C/svg%3E");
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-tree-mobile-style3.boost-pfs-filter-tree-v .boost-pfs-filter-option .boost-pfs-filter-option-title .boost-pfs-filter-option-title-heading .boost-pfs-filter-option-title-text{
+      font-weight:500;
+	  color:#2c2c2c;
+    }
+    @media screen and (min-width: 1024px) {
+      #shopify-section-{{ section.id }} .boost-pfs-filter-refine-by-wrapper-h .boost-pfs-filter-pc{
+        display: flex;
+        align-items: center;
+        margin-top:0;
+        margin-bottom:0;
+        padding-top:0;
+      }
+
+      #shopify-section-{{ section.id }} .boost-pfs-filter-load-more-total{
+        padding-top:20px;
+        font-size: 11px;
+      }
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-load-more-button-container{
+      margin:0 auto;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-products .boost-pfs-filter-message{
+      padding-top:20px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-btn-load-previous-page{
+      margin-top:40px;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-btn-load-previous-page span{
+      cursor: pointer;
+    }
+
+    #shopify-section-{{ section.id }} .boost-pfs-filter-option-item-list.boost-pfs-filter-option-item-list-multiple-list li{
+      position:relative;
+    }
+    #shopify-section-{{ section.id }} .boost-pfs-filter-option-item-list.boost-pfs-filter-option-item-list-multiple-list li .boost-pfs-check-box{
+      border: 1px solid rgba(0,0,0,.2);
+      width: 15px;
+      height: 15px;
+      background: 0 0;
+      display: inline-block;
+      position: absolute;
+      border-radius:0;
+    }
+
+    #shopify-section-{{ section.id }} .boost-pfs-filter-option.boost-pfs-filter-has-scrollbar .boost-pfs-filter-option-content .boost-pfs-filter-option-content-inner ul{
+        padding-right:0;
+    }
+
+    #shopify-section-{{ section.id }} .boost-pfs-filter-button span{
+        text-transform:capitalize;
+    }
+
+    @media screen and (min-width: 1024px) {
+        .boost-pfs-filter-option-content[style="display: flex;"] {
+            flex-wrap: wrap !important;
+        }
+        .boost-pfs-filter-option-content[style="display: block;"] {
+            display: flex !important;
+            flex-wrap: wrap !important;
+        }
+        .boost-pfs-filter-option-content[style="display: block;"] .boost-pfs-filter-option-content-inner,
+        .boost-pfs-filter-option-content[style="display: flex;"] .boost-pfs-filter-option-content-inner {
+            order: 2;
+        }
+        .boost-pfs-filter-option-content[style="display: block;"] .boost-pfs-filter-apply-button,
+        .boost-pfs-filter-option-content[style="display: flex;"] .boost-pfs-filter-apply-button {
+            order: 3;
+        }
+        .boost-pfs-filter-option-content[style="display: block;"] .boost-pfs-filter-clear,
+        .boost-pfs-filter-option-content[style="display: flex;"] .boost-pfs-filter-clear {
+            order: 1;
+            margin-top:0 !important;
+            margin-bottom: 10px !important;
+        }
+    }
+    @media screen and (min-width: 1400px) {
+      #shopify-section-{{ section.id }} .has-cta-image {
+        min-height:440px;
+      }
+    }
+</style>
+
+{%- comment -%} cta blocks {%- endcomment -%}
+<div class="cta-blocks-container hide-m">
+  {%- if section.settings.cta_1_enable -%}
+    <div class="cta-each" data-index="7">
+      <div id="cta-each-7" class="has-cta-image boost-pfs-filter-product-item boost-pfs-filter-product-item-grid boost-pfs-filter-grid-width-3 boost-pfs-filter-grid-width-mb-2 has-bc-swap-image boost-pfs-action-list-enabled">
+        <div class="boost-pfs-filter-product-item-inner">
+          {%- assign id = 'cta-image-' | append: 7 -%}
+          {%- render 'cta-image-text-overlay',
+              identifier: id,
+              text_custom_class: 'p-20 d-p-35 hd-pb-40 hd-pl-40 hd-pr-40 hd-pt-40',
+              image: section.settings.cta_1_image,
+              small_title: section.settings.cta_1_small_title,
+              title: section.settings.cta_1_title,
+              title_size_class: 'h6 max-280 d-max-300 hd-max-450',
+              button_label: section.settings.cta_1_button_label,
+              button_url: section.settings.cta_1_button_url
+          -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.cta_2_enable -%}
+    <div class="cta-each" data-index="9">
+      <div id="cta-each-9" class="has-cta-bar boost-pfs-filter-product-item boost-pfs-filter-product-item-grid boost-pfs-filter-grid-width-3 boost-pfs-filter-grid-width-mb-2 has-bc-swap-image boost-pfs-action-list-enabled">
+        <div class="boost-pfs-filter-product-item-inner d-mt-30 d-mb-30">
+          <div class="bar-container pt-20 pb-20" style="background: {{ section.settings.cta_2_bg_color }};">
+            <div class="container tc">
+              {%- if section.settings.cta_2_link_url != blank -%}
+                <a href="{{ section.settings.cta_2_link_url }}" class="show-m-inline-block">
+              {%- endif -%}
+
+              <p class="p2" style="color: {{ section.settings.cta_2_text_color }};">{{ section.settings.cta_2_title }}</p>
+
+              {%- if section.settings.cta_2_link_url != blank -%}
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+{%- comment -%} end cta blocks {%- endcomment -%}
+
+<div class="boost-pfs-filter-tree boost-pfs-filter-tree-v" data-is-mobile id="boost-pfs-filter-tree"></div>
+
+{%- comment -%} filter wrapper {%- endcomment -%}
+{% unless search.results == blank %}
+<div class="filter-outer-wrapper">
+  <div class="filter-outer">
+    <div class="container">
+      <div class="global-flex space-between-flex filter-wrapper bb-1 b-silver pb-10">
+        <div class="left-side">
+          <div class="boost-pfs-filter-tree-mobile-button" data-filter-tree-id="boost-pfs-filter-tree">{%- render 'boost-pfs-filter-skeleton', type: 'button' -%}</div>
+  
+          {%- if switch_layout_filter != 'switch_layout_filter_vertical' -%}
+          <div class="boost-pfs-filter-tree-h-wrapper">
+            <div class="boost-pfs-container-default-{{ layout_type }}">
+              <div class="boost-pfs-filter-tree boost-pfs-filter-tree-h" data-is-desktop id="boost-pfs-filter-tree3">
+                {%- unless enable_filter_tree_button_desktop -%}
+                  {% render 'boost-pfs-filter-skeleton', type: 'filter-tree-h' %}
+                {%- endunless -%}
+              </div>
+            </div>
+          </div>
+          {% if filter_tree_horizontal_style != 'style-expand'  %}
+            <div class="boost-pfs-container-default-{{ layout_type }}">
+              <div class="boost-pfs-filter-refine-by-wrapper-h"></div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+        </div>
+    
+        <div class="right-side">
+          {%comment%}online exclusive{%endcomment%}
+          <div class="flex online-toggle mr-10 d-mr-20">
+            <div class="p2 pr-10">Online Exclusive</div>
+            <div class="online-button cursor" onclick='toggleOnlineExclusive(event)'><div class="online-button-inner"></div></div>
+          </div>
+          {%- if show_sort_by -%}
+            <div class="boost-pfs-filter-toolbar-item boost-pfs-filter-custom-sorting boost-pfs-filter-top-sorting">{%- render 'boost-pfs-filter-skeleton', width: 1 -%}</div>
+          {%- endif -%}
+    
+          {% comment %} <div class="change-view-wrapper ml-20 pl-20 bl-1 b-stroke-bg-white">
+            <a href="javascript:void(0)" rel="nofollow" class="change-view-link font-0 show-m-inline-block">{{ settings.icon_grid }}</a>
+          </div> {% endcomment %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endunless %}
+{%- comment -%} end filter wrapper {%- endcomment -%}
+
+{%- comment -%} Product list wrapper {%- endcomment -%}
+<div class="product-list-wrapper overflow">
+  <div class="container">
+    <div class="{% if enable_filter_sticky_d %} boost-pfs-filter-tree-h-sticky-filter {% endif %}">
+      <div class="boost-pfs-container-default-{{ layout_type }}">
+        {%- if switch_layout_filter == 'switch_layout_filter_vertical' -%}
+          <div class="boost-pfs-filter-left-col">
+            <div class="boost-pfs-filter-left-col-inner">
+              <div class="boost-pfs-filter-tree boost-pfs-filter-tree-v" data-is-desktop id="boost-pfs-filter-tree2">
+                {%- unless enable_filter_tree_button_desktop -%}
+                  {% render 'boost-pfs-filter-skeleton', type: 'filter-tree' %}
+                {%- endunless -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+        {%- if switch_layout_filter == 'switch_layout_filter_vertical' -%}
+          <div class="boost-pfs-filter-right-col">
+        {%- endif -%}
+          <div class="boost-pfs-filter-products {{ products_item_settings }}" data-bc-sort="{{ collection.default_sort_by }}">
+            <div class="row">
+              <div class="global-flex flex-wrap">
+                {%- for result in search.results -%}
+                  <div class="product-each-wrapper col-6 pl-5 pr-5 col-t-6 t-pl-10 t-pr-10 col-d-3 d-pl-10 d-pr-10">
+                    {%- render 'product-each',
+                      product: result
+                    -%}
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+          {% if search.results == blank %}
+            <div class="mt-20 tc">
+              <a href="/collections/" class="btn3">Shop All Products</a>
+            </div>
+          {% endif %}
+          <div class="boost-pfs-filter-bottom-pagination boost-pfs-filter-bottom-pagination-default">
+            {%- if paginate.pages > 1 -%}
+            {%- render 'boost-pfs-filter-pagination' -%}
+            {%- endif -%}
+          </div>
+          <div class="boost-pfs-filter-load-more mt-40 d-mt-50"></div>
+        {%- if switch_layout_filter == 'switch_layout_filter_vertical' -%}
+        </div>
+        {%- endif -%}
+      </div>
+    
+      {%- comment -%} start-bc-most-popular-template {%- endcomment -%}
+      <div class="boost-pfs-most-popular-products-wrapper boost-pfs-widget-slider-wrapper boost-pfs-container-default-{{ layout_type }} {{ products_item_settings }}">
+        {%- comment -%} <div class="boost-pfs-most-popular"></div> {%- endcomment -%}
+      </div>
+      {%- comment -%} end-bc-most-popular-template {%- endcomment -%}
+      {%- comment -%} start-bc-recently-viewed-template {%- endcomment -%}
+      <div class="boost-pfs-recent-products-wrapper boost-pfs-widget-slider-wrapper boost-pfs-container-default-{{ layout_type }} {{ products_item_settings }}">
+        {%- comment -%} <div class="boost-pfs-recently-viewed"></div> {%- endcomment -%}
+      </div>
+      {%- comment -%} end-bc-recently-viewed-template {%- endcomment -%}
+    
+    </div>
+  </div>
+</div>
+{%- comment -%} end Product list wrapper {%- endcomment -%}
+
+{%- endpaginate -%}
+
+{%- assign products_per_page = 24 -%}
+{%- comment -%} have 2 cta, each take 2 spot, will decrease 2 product count for initial render (separated from loadmore function, which is in boost-pfs-filter) {%- endcomment -%}
+{% if section.settings.cta_1_enable %}
+  {%- assign products_per_page = products_per_page | minus: 2 -%}
+{%endif%}
+{% if section.settings.cta_2_enable %}
+  {%- assign products_per_page = products_per_page | minus: 2 -%}
+{%endif%}
+
+{%- render 'boost-pfs-theme-config',
+	layout_type: layout_type,
+	enable_filter_sticky_d: enable_filter_sticky_d,
+	view_as_type: view_as_type,
+	products_per_page: products_per_page,
+	products_per_row: products_per_row,
+	products_per_row_m: products_per_row_m,
+	show_detail_when_hover: show_detail_when_hover,
+	show_vendor: show_vendor,
+	show_price: show_price,
+	active_image_swap: active_image_swap,
+	show_product_review: show_product_review,
+
+	swatch_enable: swatch_enable,
+  show_swatch_tooltip: show_swatch_tooltip,
+	swatch_change_img: swatch_change_img,
+  swatch_by_color_apply: swatch_by_color_apply,
+  swatch_by_color_shape: swatch_by_color_shape,
+  swatch_by_img_apply: swatch_by_img_apply,
+  swatch_by_img_shape: swatch_by_img_shape,
+  swatch_by_pro_img_apply: swatch_by_pro_img_apply,
+  swatch_by_pro_img_shape: swatch_by_pro_img_shape,
+  swatch_by_text_apply: swatch_by_text_apply,
+  swatch_by_text_shape: swatch_by_text_shape,
+
+	aspect_ratio: aspect_ratio,
+	aspect_ratio_other: aspect_ratio_other,
+	product_img_crop: product_img_crop,
+	tag_label_enable: tag_label_enable,
+
+  label_type: label_type,
+	sale_label_enable: sale_label_enable,
+  sale_label_display: sale_label_display,
+  sale_label_img: sale_label_img,
+
+  sold_out_enable: sold_out_enable,
+  sold_out_display: sold_out_display,
+	sold_out_img: sold_out_img,
+
+	product_item_type: product_item_type,
+
+	label_soldout: label_soldout,
+	label_sale: label_sale,
+	label_from: label_from,
+	label_toolbar_viewas: label_toolbar_viewas,
+	label_items_with_count_one: label_items_with_count_one,
+	label_items_with_count_other: label_items_with_count_other,
+  label_sale_percent: label_sale_percent,
+  filter_tree_horizontal_style: filter_tree_horizontal_style
+-%}
+
+<script>
+  function productEachColorPickerCollection(e, img_url){
+      let target_index = e.target.closest('.variant-each-button').getAttribute("data-index");
+      const swatch_wrapper = e.target.closest('.swatch-wrapper');
+      if(swatch_wrapper.querySelector('.swatch.active')){
+        swatch_wrapper.querySelector('.swatch.active').classList.remove('active');
+      }
+
+      const this_elem = e.target.closest('.swatch');
+      this_elem.classList.add('active');
+
+      const color = this_elem.getAttribute('data-value');
+      const swatch_label = e.target.closest('.color-variant-picker').querySelectorAll('.swatch-label');
+
+      swatch_label.forEach(elem => {
+          elem.innerHTML = color;
+      });
+
+      const image_selected = e.target.closest('.product-each').querySelector(`.boost-pfs-filter-product-item-image .boost-pfs-filter-product-item-flip-image:nth-child(${target_index})`);
+      const main_image = e.target.closest('.product-each').querySelector(`.boost-pfs-filter-product-item-image .boost-pfs-filter-product-item-main-image`);
+      //console.log(image_selected)
+      
+      main_image.setAttribute('data-src','');
+      main_image.setAttribute('data-srcset','');
+      main_image.setAttribute('srcset','');
+      main_image.setAttribute('src',img_url);
+
+      if(image_selected != null){
+      }else{
+      }
+
+  }
+
+  function toggleOnlineExclusive(e){
+      //console.log(e.target);
+      const online_toggle = e.target.closest('.online-toggle');
+      if(online_toggle){
+          online_toggle.classList.toggle('active');
+      }
+      e.target.closest('.filter-outer-wrapper').querySelector('.boost-pfs-filter-option:last-child').querySelector('.boost-pfs-filter-option-item:first-child').click();
+      e.target.closest('.filter-outer-wrapper').querySelector('.boost-pfs-filter-option:last-child').querySelector('.boost-pfs-filter-apply-button').click();
+      {% comment %} if(online_toggle.classList.contains('active')){
+          console.log("apply")
+          e.target.closest('.filter-outer-wrapper').querySelector('.boost-pfs-filter-option:last-child').querySelector('.boost-pfs-filter-option-item:first-child').click();
+          e.target.closest('.filter-outer-wrapper').querySelector('.boost-pfs-filter-option:last-child').querySelector('.boost-pfs-filter-apply-button').click();
+      }else{
+          console.log("clear")
+          e.target.closest('.filter-outer-wrapper').querySelector('.boost-pfs-filter-option:last-child').querySelector('.boost-pfs-filter-clear').click();
+      } {% endcomment %}
+  }
+
+    function toggleOnlineExclusiveMobile(e){
+        const online_toggle = e.target.closest('.online-toggle');
+        if(online_toggle){
+            online_toggle.classList.toggle('active');
+        }
+        
+        e.target.closest('.boost-pfs-filter-tree-content').querySelector('.boost-pfs-filter-option:last-child').querySelector('.boost-pfs-filter-option-item:first-child').click();
+    }
+
+    if (window.location.href.includes('pf_t_online=category%3AOnline+Exclusive')) {
+        document.querySelector('.online-toggle').classList.add('active');
+    }
+
+    // Add a click event listener to the document
+    document.addEventListener('click', function(event) {
+        let filter_panel = document.querySelector('.boost-pfs-filter-tree-mobile-open .boost-pfs-filter-tree-content');
+        if(window.innerWidth >= 768 && window.innerWidth < 1024) {
+            const target = event.target;
+            //console.log(filter_panel)
+            //console.log(target)
+            // Check if the clicked target is the element or its descendant
+            if(filter_panel != null){
+                //console.log(target.id);
+                if (filter_panel.contains(target)) {
+                    // Click is inside the element or its descendant
+                    //console.log('Clicked inside the element.');
+                } else {
+                    // Click is outside the element
+                    //console.log('Clicked outside the element.');
+                    if(target.id == "boost-pfs-filter-tree"){
+                        document.querySelector(".boost-pfs-filter-mobile-toolbar .boost-pfs-filter-close").click();
+                    }
+                    //
+                }
+            }
+        }
+    });
+
+{%- comment -%} grid layout clicked 
+$('.change-view-link').on('click', function(){
+  $('#shopify-section-{{ section.id }}').toggleClass("simple-view");
+});
+{%- endcomment -%}
+{%- comment -%} sticky collection filter 
+var top_filter_height = $('.filter-outer-wrapper .filter-outer').outerHeight();
+var top_filter_pos = $('.filter-outer-wrapper').offset().top;
+var header_height = $('header').outerHeight();
+
+$(document).ready(function(){
+  $('.filter-outer-wrapper').css({
+    'min-height': top_filter_height
+  });
+  $(window).on('scroll', function(){
+    if(($(window).scrollTop()) >= top_filter_pos) {
+      $('.filter-outer-wrapper .filter-outer').addClass('is-sticky').css({
+        top: 0
+      });
+    } else {
+      $('.filter-outer-wrapper .filter-outer').removeClass('is-sticky').css({
+        top: 0
+      });
+    }
+  });
+});
+{%- endcomment -%}
+</script>
+
+{% schema %}
+  {
+    "name": "Search Results Products",
+    "settings": [
+        {
+          "type": "header",
+          "content": "CTA Image + Text"
+        },
+        {
+          "type" : "checkbox",
+          "id" : "cta_1_enable",
+          "label" : "Enable"
+        },
+        {
+          "type": "image_picker",
+          "id": "cta_1_image",
+          "label": "Image",
+          "info":"Dimension: 1200x1200"
+        },
+        {
+          "type" : "textarea",
+          "id" : "cta_1_small_title",
+          "label" : "Small Title"
+        },
+        {
+            "type" : "textarea",
+            "id" : "cta_1_title",
+            "label" : "Title"
+        },
+        {
+            "type" : "text",
+            "id" : "cta_1_button_label",
+            "label" : "Button Label"
+        },
+        {
+            "type" : "url",
+            "id" : "cta_1_button_url",
+            "label" : "Button URL"
+        },
+        {
+          "type": "header",
+          "content": "CTA Text Bar"
+        },
+        {
+          "type" : "checkbox",
+          "id" : "cta_2_enable",
+          "label" : "Enable"
+        },
+        {
+          "type" : "color",
+          "id" : "cta_2_bg_color",
+          "label" : "Background Color"
+        },
+        {
+          "type" : "color",
+          "id" : "cta_2_text_color",
+          "label" : "Text Color"
+        },
+        {
+          "type" : "textarea",
+          "id" : "cta_2_title",
+          "label" : "Title"
+        },
+        {
+            "type" : "url",
+            "id" : "cta_2_link_url",
+            "label" : "Link URL"
+        },
+        {
+          "type": "header",
+          "content": "Padding Settings"
+        },
+        {
+            "type": "text",
+            "id": "top_padding_m",
+            "label": "Top padding (Mobile)"
+        },
+        {
+            "type": "text",
+            "id": "bottom_padding_m",
+            "label": "Bottom padding (Mobile)"
+        },
+        {
+            "type": "text",
+            "id": "top_padding_t",
+            "label": "Top padding (Tablet)" 
+        },
+        {
+            "type": "text",
+            "id": "bottom_padding_t",
+            "label": "Bottom padding (Tablet)"
+        }, 
+        {
+            "type": "text",
+            "id": "top_padding",
+            "label": "Top padding (Desktop)"
+        }, 
+        {
+            "type": "text",
+            "id": "bottom_padding",
+            "label": "Bottom padding (Desktop)"
+        }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,62 @@
+{% if section.settings.enabled %}
+<div class="footer-privacy close background-black">
+	{{ settings.icon_close }}
+	<div class="container">
+		<p class="mb-5 p3 c-white">{{ section.settings.text }}</p>
+		<a href="#" rel="nofollow" class="btn1 understand">{{ section.settings.understand }}</a>
+		{%- if section.settings.more != blank -%}
+			<a href="{{ section.settings.more_url }}" class="link1">{{ section.settings.more }}</a>
+		{%- endif -%}
+	</div> 
+</div>
+<script>
+	/*
+	$(function(){
+		var check_cookie = $.cookie('privacy');
+		if(check_cookie == null)
+		{
+			setTimeout(function(){
+				$(".footer-privacy").removeClass("close");
+			},1000);
+			$(".footer-privacy .understand,.footer-privacy svg").on("click",function(e){
+				e.preventDefault();
+				$(".footer-privacy").addClass("close");
+				$.cookie('privacy', 'expires_seven_days');
+			});
+		}
+	});
+	*/
+</script>
+{% endif %}
+{% schema %}
+{
+	"name": "Footer Privacy",
+	"settings": [
+	 {
+	  "type": "checkbox",
+	  "id": "enabled",
+	  "label": "Enable section"
+	},
+	{
+	  "type": "textarea",
+	  "id": "text",
+	  "label": "Text"
+	},
+	{
+	  "type": "text",
+	  "id": "understand",
+	  "label": "Text for agree button"
+	},
+	{
+		"type": "text",
+		"id": "more",
+		"label": "Text for read more"
+	  },
+	  {
+		"type": "url",
+		"id": "more_url",
+		"label": "URL for read more"
+	  }
+	]
+  }
+  {% endschema %}

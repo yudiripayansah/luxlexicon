@@ -1,0 +1,23 @@
+{% assign coll = collections.all %}
+{% if coll != blank %}
+<section class="product-related pt-30 pb-30 hd-pt-50 hd-pb-50" id="product-related">
+	<div class="container">
+		<div class="max-800">
+			<h3 class=" tc h3 mb-20">{{ settings.product-set-title }}</h3>
+			{% if settings.product-set-text %}<p class="header-sub tc mb-20">{{ settings.product-set-text }}</p>{% endif %}
+		</div>
+		<ul id="product-related-ul" class="hide-m global-slick">
+			{% for pro in coll.products limit:20 %}
+			{% if pro.id != product.id %}
+			<li class="pr-5 pl-5">{% render 'product-each',product:pro,collection:coll %}</li>
+			{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+</section>
+<script>
+	$(function(){
+			
+	});
+</script>
+{% endif %}

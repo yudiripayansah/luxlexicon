@@ -1,0 +1,338 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+<style>
+    #section-{{ section.id }} .wishlist-share {
+        display: inline-block;
+        font-size: 0;
+        width: 15px;
+        height: 15px;
+    }
+    #section-{{ section.id }} .wishlist-share svg {
+        width: 15px;
+        height: 15px;
+    }
+    #share-form-popup .global-input {
+        padding: 15px;
+        color: #537289;
+    }
+    #share-form-popup .global-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: #D2D3D0;
+    }
+    #share-form-popup .global-input::-moz-placeholder { /* Firefox 19+ */
+        color: #D2D3D0;
+    }
+    #share-form-popup .global-input:-ms-input-placeholder { /* IE 10+ */
+        color: #D2D3D0;
+    }
+    #share-form-popup .global-input:-moz-placeholder { /* Firefox 18- */
+        color: #D2D3D0;
+    }
+    #section-{{ section.id }} .text-no-login *,
+    #section-{{ section.id }} .text-already-login * {
+        font-size: inherit;
+        color: #6c6c6c;
+    }
+    #section-{{ section.id }} .text-no-login a,
+    #section-{{ section.id }} .text-already-login a {
+        color: #6c6c6c;
+        text-decoration: underline;
+    }
+    #share-form-popup .close-button {
+        font-size: 0;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+    }
+    #share-form-popup .close-button svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    #section-{{ section.id }} .has-wishlist > h3,
+    #section-{{ section.id }} .has-wishlist > .p2,
+    #section-{{ section.id }} .has-wishlist > .p2 p {
+        text-align: center;
+    }
+
+    
+    @media screen and (min-width: 767px) {
+        #section-{{ section.id }} .has-wishlist > h3,
+        #section-{{ section.id }} .has-wishlist > .p2,
+        #section-{{ section.id }} .has-wishlist > .p2 p {
+            text-align: left;
+        }
+        #share-form-popup .close-button svg {
+            width: 16px;
+            height: 16px;
+            right: 25px;
+            top: 25px;
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+        .mfp-container {
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+    }
+
+    @media screen and (min-width: 1024px) {
+    }
+
+    #share-form-popup{
+        display: block;
+    }
+    #share-form-overlay-popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 999999;
+    }
+    #share-form-overlay-popup.show {
+        display: flex;
+    }
+</style>
+<div id="whishlist-heading-{{ section.id }}">
+    <!-- share form -->
+    <div class="overlay" id="share-form-overlay-popup">
+        <div class="share-form relative max-480 m-max-100 width-100 pl-40 pr-40 pb-45 pt-50 t-p-50 t-pb-45 d-p-65 d-pb-60 bg-white" id="share-form-popup">
+            <a href="javascript:void(0)" class="close-button">{{ settings.icon_close }}</a>
+            <h6 class="h7 tc max-400 ml-auto mr-auto">Share Your Wishlist</h6>
+            <div class="form-wrapper max-595 ml-auto mr-auto mt-20">
+                <div class="form-each relative width-100 mb-10 d-mb-15">
+                    <input type="text" class="form-input" placeholder="Sender Name" name="sender_name" />
+                </div>
+                <div class="form-each relative width-100 mb-10 d-mb-15">
+                    <input type="email" class="form-input" placeholder="Recipients Email" name="recipients_email" />
+                </div>
+                <div class="form-each relative width-100 mb-20 font-0">
+                    <textarea class="form-input" rows="4" placeholder="Message" name="message"></textarea>
+                </div>
+                <div class="form-each relative width-100 tc">
+                    <button class="btn1" type="submit" @click="doShareViaEmail">Share</button>
+                </div>
+        
+                <p class="p4 tc notif-wrapper"></p>
+            </div>
+        </div>
+    </div>
+    <!-- end share form -->
+    
+    <div id="section-{{ section.id }}" class="wishlist-headline">
+        <div class="container">
+            <div class="has-wishlist hide-m">
+                <{{ section.settings.title_dom_type }} class="h3 c-blue">{{ section.settings.title }}</{{ section.settings.title_dom_type }}>
+            
+                {% if customer %}
+                    {% if section.settings.text != blank %}
+                        <div class="p2 text-already-login">{{ section.settings.text }}</div>
+                    {% endif %}
+    
+                    <!-- share
+                    <div class="share-container relative width-100 mt-15">
+                        <a href="javascript:void(0)" rel="nofollow" class="wishlist-share">{{ settings.email-icon }}</a>
+                    </div>
+                    <!-- end share -->
+                {% else %}
+                    <div class="p2 text-no-login t-mt-0 d-mt-0 mt-10">{{ section.settings.text_no_login }}</div>
+                {% endif %}
+            </div>
+    
+            <!-- empty wishlist -->
+            <div class="empty-wishlist max-240 t-max-450 ml-auto mr-auto pt-100 pb-100 d-pt-115 d-pb-115 tc">
+                <{{ section.settings.title_dom_type }} class="h7">{{ section.settings.empty_title }}</{{ section.settings.title_dom_type }}>
+                {%- if section.settings.empty_button_label != blank -%}
+                    <a href="{{ section.settings.empty_button_url }}" class="btn1 show-m-inline-block mt-20 t-mt-30">{{ section.settings.empty_button_label }}</a>
+                {%- endif -%}
+            </div>
+            <!-- end empty wishlist -->
+        </div>
+    </div>
+</div>
+
+<script>
+    const wishlistHeading = Vue.createApp({
+        delimiters: [
+            '${', '}'
+        ],
+        data() {
+            return {
+              tab: 1
+            }
+        },
+        mounted() {
+            let shareCta = document.querySelector(`#whishlist-heading-{{ section.id }} .text-already-login a:first-child`)
+            let closeBtnPopup = document.querySelector(`#whishlist-heading-{{ section.id }} #share-form-popup .close-button`)
+            shareCta.addEventListener("click", this.togglePopup)
+            closeBtnPopup.addEventListener("click", this.togglePopup)
+        },
+        created() {
+            
+        },
+        methods: {
+            togglePopup(e) {
+                e.preventDefault()
+                let popup = document.querySelector(`#whishlist-heading-{{ section.id }} #share-form-overlay-popup`)
+                if(popup.classList.contains('show')){
+                    popup.classList.remove('show')
+                } else {
+                    popup.classList.add('show')
+                }
+            },
+            doShare(){
+                let notif = document.querySelector('.share-form .notif-wrapper')
+                let recipients_email = document.querySelector('.share-form input[name="recipients_email"]');
+                let sender_name = document.querySelector('.share-form input[name="sender_name"]');
+                let message = document.querySelector('.share-form textarea[name="message"]');
+                window._swat.sendEmailWishList(
+                    function(r) {
+                        notif.classList.add('mt-15')
+                        notif.innerHTML = r.msg
+                        const delay = setTimeout(() => {
+                            notif.classList.remove('mt-15')
+                            notif.innerHTML = ''
+                            recipients_email.value = ''
+                            sender_name.value = ''
+                            message.value = ''
+                            clearTimeout(this);
+                        }, 3000);
+                    },
+                    recipients_email.value,
+                    sender_name.value,
+                    message.value
+                );
+            },
+            doShareViaEmail() {
+                let notif = document.querySelector('.share-form .notif-wrapper')
+                let recipients_email = document.querySelector('.share-form input[name="recipients_email"]');
+                let sender_name = document.querySelector('.share-form input[name="sender_name"]');
+                let message = document.querySelector('.share-form textarea[name="message"]');
+                let params = { 
+                    toEmailId: recipients_email.value,
+                    fromName: sender_name.value,
+                    note: message.value, 
+                    lid: null,
+                    cprops: {},
+                }
+                window._swat.sendListViaEmail(params, 
+                (res) => {
+                    notif.classList.add('mt-15')
+                    notif.innerHTML = res.msg
+                    const delay = setTimeout(() => {
+                        notif.classList.remove('mt-15')
+                        notif.innerHTML = ''
+                        recipients_email.value = ''
+                        sender_name.value = ''
+                        message.value = ''
+                        clearTimeout(this);
+                    }, 3000);
+                }, 
+                (error) => {
+                    console.log("There was an Error Sending the email", error);
+                });
+            }
+        }
+    }).mount('#whishlist-heading-{{ section.id }}');
+</script>
+{% schema %}
+{
+	"name": "Headline",
+	"settings": [
+        {
+            "type": "color",
+            "id": "background",
+            "label": "Background color"
+        },
+        {
+            "type": "text",
+            "id": "top_padding_m",
+            "label": "Top padding (Mobile)"
+        },
+        {
+            "type": "text",
+            "id": "bottom_padding_m",
+            "label": "Bottom padding (Mobile)"
+        },
+        {
+            "type": "text",
+            "id": "top_padding_t",
+            "label": "Top padding (Tablet)"
+        },
+        {
+            "type": "text",
+            "id": "bottom_padding_t",
+            "label": "Bottom padding (Tablet)"
+        },
+        {
+            "type": "text",
+            "id": "top_padding",
+            "label": "Top padding (Desktop)"
+        },
+        {
+            "type": "text",
+            "id": "bottom_padding",
+            "label": "Bottom padding (Desktop)"
+        },
+        {
+            "type": "header",
+			"content": "Has Wishlist"
+        },
+		{
+			"type": "textarea",
+			"id": "title",
+			"label": "Title"
+		},
+        {
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Title DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"},
+                {"value":"h6","label":"H6"}
+            ],
+            "default": "h3"
+        },
+		{
+			"type": "richtext",
+			"id": "text",
+			"label": "Text (already login)"
+		},
+        {
+			"type": "richtext",
+			"id": "text_no_login",
+			"label": "Text (not login)"
+		},
+        {
+            "type": "header",
+			"content": "Empty Wishlist"
+        },
+        {
+			"type": "textarea",
+			"id": "empty_title",
+			"label": "Title"
+		},
+        {
+			"type": "text",
+			"id": "empty_button_label",
+			"label": "Button Label"
+		},
+        {
+			"type": "url",
+			"id": "empty_button_url",
+			"label": "Button URL"
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,204 @@
+{% comment %} in-good-company {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  {%- if section.settings.mw_mobile != blank and section.settings.mw_mobile != 0 -%}
+    #{{el_id}} .article-related-wrapper {
+      margin: 0 auto;
+      max-width: {{ section.settings.mw_mobile }}px;
+    }
+  {%- endif -%}
+  #{{el_id}} .article-related-wrapper .rte h4 {
+    margin-bottom: 0;
+  }
+  #{{el_id}} .read-more-article .swiper {
+    overflow: visible !important;
+    clip-path: inset(-100vw -100vw -100vw -100vw);
+  }
+  #{{el_id}} .article-box {
+    padding-left: 0;
+  }
+  @media screen and (min-width: 600px) {
+    {%- if section.settings.mw_tablet != blank and section.settings.mw_tablet != 0  -%}
+      #{{el_id}} .article-related-wrapper {
+        margin: 0 auto;
+        max-width: {{ section.settings.mw_tablet }}px;
+      }
+    {%- endif -%}
+  }
+  @media screen and (min-width: 1024px) {
+    {%- if section.settings.mw_desktop != blank and section.settings.mw_desktop != 0  -%}
+      #{{el_id}} .article-related-wrapper {
+        margin: 0 auto;
+        max-width: {{ section.settings.mw_desktop }}px;
+      }
+    {%- else -%}
+      #{{el_id}} .article-related-wrapper {
+        max-width: 100%;
+      }
+    {%- endif -%}
+  }
+</style>
+
+<div class="article-related overflow">
+  <div class="container">
+    <div class="ac-related article-related-wrapper">
+      <h4 class="h4 medium-500 uppercase tc">{{ 'blogs.article.more_stories' | t }}</h4>
+      <div class="d-mt-30 mt-25 read-more-article">
+        <div class="swiper related-swiper">
+          <div class="swiper-wrapper">
+            {%- for block in section.blocks -%}
+              <div class="swiper-slide">
+                {%- render 'article-each', article: block.settings.article, read_more: true -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initSwiperArt() {
+    let readMore = new Swiper('.related-swiper', {
+      slidesPerView: 1.3,
+      slidesPerColumn: 1.3,
+      spaceBetween: 0,
+      freeMode: false,
+      breakpoints: {
+        600: {
+          slidesPerView: 2,
+          spaceBetween: 0,
+          freeMode: false,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 50,
+          freeMode: false,
+        },
+      },
+      on: {
+        init: function () {
+          $360.lazyLoadInstance.update();
+        },
+        slideChange: function () {
+          $360.lazyLoadInstance.update();
+        },
+        resize: function () {
+          $360.lazyLoadInstance.update();
+        },
+      },
+    });
+  }
+  initSwiperArt();
+  document.addEventListener('shopify:section:load', () => {
+    initSwiperArt();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Article-Related Articles",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "number",
+      "id": "mw_mobile",
+      "label": "Max width mobile"
+    },
+    {
+      "type": "number",
+      "id": "mw_tablet",
+      "label": "Max width tablet"
+    },
+    {
+      "type": "number",
+      "id": "mw_desktop",
+      "label": "Max width desktop"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "Article"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article-Related Articles"
+    }
+  ]
+}
+{% endschema %}

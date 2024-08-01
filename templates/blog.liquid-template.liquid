@@ -1,0 +1,31 @@
+ <section class="global-content-top-margin">
+ 	<img src="" alt="{{ settings.blog-desktop.alt | escape }}" data-mobile="{{ settings.blog-mobile | img_url:'800x' }}" data-desktop="{{ settings.blog-desktop | img_url:'2000x' }}" class="global-image image">
+ </section>
+ <div class="pt-20 t-pt-30 d-pt-50 d-pb-20">
+ 	<div class="container">
+ 		{% if settings.blog-tags %}
+ 		<div class="articles-filters">
+ 			<button class="btn1 mb-20 tc hide-t" id="articles-filters-button">Filter Articles</button>
+ 			<ul class="articles-tags mb-20 t-mb-30 hide-m show-t">
+ 				<li class="pt-5 mb-10 t-mb-0 tab-title-font {% if current_tags == blank %}active{% endif %}"><a href="{{ blog.url }}">All</a></li>
+ 				{% for tag in blog.tags %}
+ 				<li class="pt-5 mb-10 t-mb-0 tab-title-font {% if current_tags contains tag %}active{% endif %}"><a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a></li>
+ 				{% endfor %}
+ 			</ul>
+ 		</div>
+ 		<script>
+ 			$(function(){
+ 				$("#articles-filters-button").on("click",function(e){
+ 					e.preventDefault();
+ 					$(this).next().slideToggle();
+ 				});	
+ 			});
+ 		</script>
+ 		{% endif %} 
+ 		{%- paginate blog.articles by 48 -%}
+ 		<ul class="articles-ul cf">
+ 			{%- for article in blog.articles -%}<li class="each mb-20 grid-t-2 grid-d-3">{%- include 'article-each' -%}</li>{%- endfor -%}
+ 		</ul>
+ 		{%- endpaginate -%}
+ 	</div>
+ </div>

@@ -1,0 +1,432 @@
+{% comment %} JCO Template - Refinements Adi on progress {% endcomment %}
+{%- if section.blocks.size > 0 -%}
+  {%- assign el_id = 'pl-' | append: section.id -%}
+  {%- render 'section-padding', el_id: el_id, section: section -%}
+  {% assign ss = section.settings %}
+  <style>
+    #{{ el_id }} .link{
+        opacity:0.4;
+    }
+    #{{ el_id }} .link.active{
+        opacity:1;
+    }
+    #{{ el_id }} .buttons svg{stroke:var(--black);}
+    #{{el_id}} .content-loading {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+    #{{el_id}} .content-loading img {
+        width: 50px;
+    }
+    #{{el_id}} .swiper-button {
+        position: relative;
+        top: unset;
+        margin-top: unset;
+        left: unset;
+        right: unset;
+        transform: unset;
+        width: 8px;
+        height: 15px;
+    }
+    #{{el_id}} .swiper-button svg {
+      width: 8px;
+      height: 15px;
+    }
+    #{{el_id}} .swiper {
+        overflow: visible !important;
+        clip-path: inset(-100vw -100vw -100vw -100vw);
+    }
+    #{{el_id}} .links {
+        white-space: nowrap;
+        overflow: auto;
+        width: calc(100% + 40px);
+        margin-left: -15px;
+    }
+    #{{el_id}} .links a:last-child::after {
+        content: '';
+        position: absolute;
+        width: 25px;
+        height: 100%;
+        right: -25px;
+        top: 0;
+    }
+    #{{el_id}} .links * {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        scrollbar-color: transparent transparent;
+    }
+    #{{el_id}} .links::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+    #{{el_id}} .thebtn {
+      white-space: nowrap;
+    }
+    #{{el_id}} .swiper.products .swiper-slide {
+      width: 255px;
+    }
+    {% if template == "index" %}
+    #{{el_id}} .atc-button , #{{el_id}} .details-con .btn3, #{{el_id}} .details-con .hide-d.mt-10 {
+      display: none;
+    }
+    {% endif %}
+
+    @media screen and (min-width: 600px) {
+        #{{el_id}} .links {
+            width: calc(100% + 60px);
+            margin-left: -25px;
+        }
+        #{{el_id}} .links a:last-child::after {
+            width: 30px;
+            right: -30px;
+        }
+        #{{el_id}} .swiper.products .swiper-slide {
+            width: 300px;
+        }
+    }
+
+    @media screen and (min-width: 1024px) {
+      #{{el_id}} .links {
+          width: auto;
+          margin-left: 0;
+      }
+      #{{el_id}} .links a:last-child::after {
+          display: none;
+      }
+      #{{el_id}} .swiper-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #{{el_id}} .swiper.products .swiper-slide {
+        width: 220px;
+      }
+    }
+    @media screen and (min-width: 1200px) {
+      #{{el_id}} .swiper.products .swiper-slide {
+        width: 280px;
+      }
+    }
+  </style>
+  <div id="{{ el_id }}" class="overflow" style="background-color:{{ ss.bg_color }};">
+    {% if section.settings.top_display == "true" %}
+      <div class="top">
+        <div class="container">
+          <div class="flex ai-center jc-between w-full">
+            <{{ ss.title_dom_type }} class="{{ss.title_size}} tcs-title">
+              {{- ss.title -}}
+            </{{ ss.title_dom_type }}>
+            <div class="buttons d-flex d-ai-center">
+              {% if ss.button_label != blank %}
+                {% assign collection = section.blocks[0].settings.collection %}
+                <a href="{{ collection.url }}" class="btn3 button thebtn">{{ ss.button_label }}</a>
+              {% endif %}
+              <div class="hide-m show-d swiper-button-prev swiper-button mr-30 ml-40">
+                {{ settings.icon_slide_left }}
+              </div>
+              <div class="hide-m show-d swiper-button-next swiper-button">{{ settings.icon_slide_right }}</div>
+            </div>
+          </div>
+          <div class="links pt-20 hhd-pt-30 {% if section.blocks.size > 1 %}pb-20 hhd-pb-30{% endif %}">
+            {%- if section.blocks.size > 1 -%}
+              {%- for block in section.blocks -%}
+                {%- assign collection = block.settings.collection -%}
+                <a
+                  href="{{ collection.url }}"
+                  rel="nofollow"
+                  class="regular-400 p3 relative {% if forloop.first %}active ml-15 t-ml-25 d-ml-0{% endif %} link mr-20 t-mr-25"
+                >
+                  {{- block.settings.title -}}
+                </a>
+              {%- endfor -%}
+            {%- else -%}
+              {%- assign block = section.blocks | first -%}
+              {%- assign collection = block.settings.collection -%}
+              <h5 class="p1 ml-15 t-ml-25 d-ml-0">{{ block.settings.title }}</h5>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <div class="container relative">
+      <div class="content swiper-content">
+        <div class="swiper products">
+          <div class="swiper-wrapper">
+            {%- assign block = section.blocks | first -%}
+            {%- assign collection = block.settings.collection -%}
+            {%- for product in collection.products limit: 10 -%}
+              <div class="swiper-slide">
+                {% render 'product-each', product: product %}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+        <div class="content-loading absolute">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0057/0189/4257/files/Pink-Rolling_2x-1.0s-200px-200px.gif?v=1716198104"
+            alt="Loading"
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    {%- assign function_name = el_id | replace: '-', '_' | truncate: 34, '' -%}
+    let productListSwiper{{ function_name }};
+
+    function InitSwiper{{ function_name }}() {
+        productListSwiper{{ function_name }} = new Swiper("#{{ el_id }} .products", {
+            slidesPerView: 1.395,
+            slidesPerColumn: 1,
+            spaceBetween: 10,
+            freeMode: true,
+            navigation: {                       //navigation(arrows)
+                nextEl: "#{{ el_id }} .swiper-button-next",
+                prevEl: "#{{ el_id }} .swiper-button-prev",
+            },
+            breakpoints: {
+                600: {
+                    slidesPerView: 2.5,
+                    spaceBetween: 10,
+                    freeMode: false,
+                },
+                1024: {
+                    slidesPerView: 'auto',
+                    spaceBetween: 10,
+                    freeMode: false
+                },
+                1200: {
+                    slidesPerView: 'auto'
+                },
+                1400: {
+                    slidesPerView: 4.2
+                }
+            },
+            on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+        });
+    }
+
+    function reInitTab{{ function_name }}() {
+        let links = document.getElementById("{{ el_id }}").querySelectorAll(".link");
+        for (let i = 0; i < links.length; i++) {
+            links[i].onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                let target = links[i].getAttribute("href");
+                let swiperWrapper = document.getElementById("{{ el_id }}").querySelector(".swiper-wrapper");
+                let swiperProducts = document.getElementById("{{ el_id }}").querySelector(".swiper-content");
+                let link = document.getElementById("{{ el_id }}").querySelector(".active");
+                let button = document.getElementById("{{ el_id }}").querySelector(".button");
+                let loading = document.getElementById("{{ el_id }}").querySelector(".content-loading");
+                let carouselHeight = swiperWrapper.clientHeight;
+
+                link.classList.remove("active");
+                links[i].classList.add("active");
+
+                if (button != null) {
+                    button.setAttribute("href", target);
+                }
+                
+                swiperProducts.style.minHeight = carouselHeight + "px";
+                loading.style.display = 'inline-flex';
+                swiperWrapper.innerHTML = '';
+
+                if (productListSwiper{{ function_name }}) {
+                    productListSwiper{{ function_name }}.destroy();
+                    productListSwiper{{ function_name }} = null; // Ensure it's properly reset
+                }
+                
+                axios.get(`${target}?view=collection-carousel`)
+                    .then(function(response) {
+                        let collectionList = response.data;
+                        swiperWrapper.innerHTML = collectionList;
+                        InitSwiper{{ function_name }}();
+                        $360.lazyLoadInstance.update();
+                        swiperProducts.style.minHeight = 0;
+                        loading.style.display = 'none';
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        InitSwiper{{ function_name }}();
+        reInitTab{{ function_name }}();
+    });
+
+    document.addEventListener('shopify:section:load', () => { 
+        InitSwiper{{ function_name }}();
+        reInitTab{{ function_name }}();
+    });
+</script>
+
+{%- endif -%}
+{% schema %}
+{
+  "name": "Product List",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "radio",
+      "id": "top_display",
+      "label": "Top area (title and arrows) display setting",
+      "options": [
+        {
+          "value": "true",
+          "label": "Display"
+        },
+        {
+          "value": "false",
+          "label": "Hide"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "radio",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product List",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

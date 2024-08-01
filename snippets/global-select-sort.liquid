@@ -1,0 +1,84 @@
+{%- comment -%}
+Description:
+Snippet for displaying select options
+
+Variables:
+- label: Displayed label
+- label_class: The label class
+- default_value: Default value
+- default_text: Default value
+- selected_text_class: The selected text class
+- values: values array
+- option_values: Array, the option values
+- id: Select element id
+- global_select_class: Additional class for .global-select-div
+- class: Select element classes
+- field_name: Select field name
+- selected_inline: Is the selected value displayed inline with label?
+- bold_selected: Bold selected value
+- onchange: String. js onchange event function
+- vue_onchange: String. onchange event vue method
+- select_icon: String. Default is caret. caret or plus_min
+{%- endcomment -%}
+{%- if select_icon == blank -%}
+    {%- assign select_icon = 'caret' -%}
+{%- endif -%}
+<div class="global-select-div bb-1 b-border {{ global_select_class }} {% if selected_inline != blank %}selected-inline{% endif %} {% if select_icon == 'plus_min' %}plus-min{% endif %}" style="{{additional_inline_style}}">
+    <div class="inner relative flex toggle-sort-collapsible" onclick="toggleSortCollapsible(event)">
+        <div class="label {{ label_class }}">{{ label }} </div>
+        {% comment %} <div class="text {{ selected_text_class }} {% if bold_selected != blank %}bold-500 {% endif %}">{{ default_text }}</div> {% endcomment %}
+        <div class="icons">
+            {%- if select_icon == 'caret' -%}
+                <div class="icon icon-caret">{{ settings.icon_select }}</div>
+            {%- else -%}
+                <div class="icon icon-plus">{{ settings.icon_plus }}</div>
+                <div class="icon icon-minus">{{ settings.icon_minus }}</div>
+            {%- endif -%}
+        </div>
+    </div>
+    <ul class="options tl">
+        {%- for option in values -%}
+            {%- assign option_value = option -%}
+            {%- if option_values != blank -%}
+                {%- assign option_value = option_values[forloop.index0] -%}
+            {%- endif -%}
+            <li class="option" data-value="{{ option_value | escape }}">
+                {% comment %} {{ option }} {% endcomment %}
+                <label class="block cb-container" onclick="event.target.closest('li.option').click()">
+                    <div class="text">
+                        {% if option contains "Date, new to old" %}
+                            <p class="p2">Newest</p>
+                        {% else %}
+                            <p class="p2">{{ option }}</p>
+                        {% endif %}
+                        
+                    </div>
+                    <span class="checkmark"></span>
+                </label>
+            </li>
+        {%- endfor -%}
+    </ul>
+    <select 
+        name="{{ field_name }}" 
+        id="{{ id }}" class="{{ class }}" 
+        {% if onchange != blank %}
+            onchange="{{ onchange }}"
+        {% endif %} 
+        {% if vue_onchange != blank %}
+            @change="{{ vue_onchange }}"
+        {% endif %}
+        {% if vue_model != blank %}
+            v-model="{{ vue_model }}"
+        {% endif %}
+    
+    >
+        <option value="">-- Please select --</option>
+        {%- for option in values -%}
+            {%- assign option_value = option -%}
+            {%- if option_values != blank -%}
+                {%- assign option_value = option_values[forloop.index0] -%}
+            {%- endif -%}
+            <option value="{{ option_value | escape }}" {% if option_value == default_value %}selected="selected"{% endif %}>{{ option }}</option>
+        {%- endfor -%}
+    </select>
+</div>

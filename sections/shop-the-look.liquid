@@ -1,0 +1,339 @@
+{% comment %} JCO - Adi on progress {% endcomment %}
+{% assign el_id = 'shop-the-look-' | append: section.id %}
+{% assign ss = section.settings %}
+{% assign sb = section.blocks %}
+{% render 'section-padding', section: section, el_id: el_id %}
+<style>
+  #{{el_id}} .stl-left,
+  #{{el_id}} .stl-right {
+    width: 100%;
+  }
+  #{{el_id}} .stli-btn {
+    border-radius: 100px;
+    min-width: 40px;
+    cursor: pointer;
+  }
+  #{{el_id}} .stli-icon {
+    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+  }
+  #{{el_id}} .stli-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+  #{{el_id}} .stli-text {
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    height: 40px;
+    max-width: 0;
+    transition: .5s;
+    white-space: nowrap;
+    padding: 0;
+    margin-left: -20px;
+  }
+  #{{el_id}} .shop-the-look-popup {
+    transition: .5s;
+    opacity: 0;
+    visibility: hidden;
+  }
+  #{{el_id}} .stlp-overlay {
+    background: rgba(38,38,38,.6);
+  }
+  #{{el_id}} .stlpbh-close,
+  #{{el_id}} .stlpbh-close svg {
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+  }
+  #{{el_id}} .stlp-box {
+    transform: translateX(100%);
+    transition: .5s;
+  }
+  #{{el_id}} .shop-the-look-popup.show .stlp-box {
+    transform: translateX(0);
+  }
+  #{{el_id}} .shop-the-look-popup.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  #{{el_id}} .stlpb-body {
+    overflow-y: auto;
+    height: calc(100% - 60px);
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .stlpb-body {
+      height: calc(100% - 73px);
+    }
+    #{{el_id}} .stl-left,
+    #{{el_id}} .stl-right {
+      width: 50%;
+    }
+    #{{el_id}} .stl-left {
+      padding-right: 5px;
+    }
+    #{{el_id}} .stl-right {
+      padding-left: 5px;
+    }
+    #{{el_id}} .stl-text {
+      height: 50%;
+    }
+    #{{el_id}} .stli-btn:hover .stli-text {
+      max-width: 200px;
+      padding-left: 20px;
+      padding-right: 15px;
+    }
+  }
+  @media screen and (min-width: 1920px) {
+    #{{el_id}} .shop-the-look-popup.show .stlp-box {
+      max-width: 30rem;
+    }
+  }
+</style>
+<div class="shop-the-look bt-1 b-border" id="{{el_id}}">
+  <div class="container">
+    <div class="stl-wrap flex ai-stretch jc-between">
+      <div class="stl-left hide-m show-d">
+        {% for block in sb limit: 1 %}
+          {% assign bs = block.settings %}
+          <div class="stl-item  relative">
+            {% assign image_id = 'stl-image' | append: forloop.index %}
+            {%- render 'global-image-wrapper-responsive',
+              image_id: image_id,
+              desktop_image: bs.desktop_image,
+              mobile_image: bs.mobile_image
+            %}
+            <div
+              class="stli-btn absolute bottom-10 left-10 d-bottom-15 d-left-15 hhd-left-30 hhd-bottom-30 flex ai-center overflow"
+              data-target="{{forloop.index}}" onclick="togglePopup({{forloop.index}})"
+            >
+              <span class="stli-icon bg-white flex ai-center jc-center relative zi-2">
+                {{ settings.icon_cart }}
+              </span>
+              <div class="bg-white regular-400 stli-text p4 uppercase spacing-1 pr-15 flex ai-center">
+                {{ bs.btn_label }}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="stl-right flex flex-column jc-between">
+        <div class="stl-text d-tc pb-20 d-pb-0 flex d-ai-center d-jc-center flex-column">
+          <{{ ss.title_dom_type }} class="{{ ss.title_size }} stl-title d-max-325 hhd-max-450 spacing-3">
+            {{- ss.title -}}
+          </{{ ss.title_dom_type }}>
+          <div class="p3 d-max-325 hhd-max-450 mt-5 d-mt-10">
+            {{ ss.text }}
+          </div>
+        </div>
+        <div class="row">
+          {% for block in sb %}
+            {% assign bs = block.settings %}
+            <div class="{% if forloop.first == true %}col-12 hide-d{% else %}col-6 mt-10 d-mt-0{% endif %}">
+              <div class="stl-item relative">
+                {% assign image_id = 'stl-image-m-' | append: forloop.index %}
+                {%- render 'global-image-wrapper-responsive',
+                  image_id: image_id,
+                  desktop_image: bs.desktop_image,
+                  mobile_image: bs.mobile_image
+                %}
+                <div
+                  class="stli-btn absolute bottom-10 left-10 d-bottom-15 d-left-15 hhd-left-30 hhd-bottom-30 flex ai-center overflow"
+                  data-target="{{forloop.index}}" onclick="togglePopup({{forloop.index}})"
+                >
+                  <span class="stli-icon bg-white flex ai-center jc-center relative zi-2">
+                    {{ settings.icon_cart }}
+                  </span>
+                  <div class="bg-white stli-text p4 uppercase spacing-1 pr-15 flex ai-center">
+                    {{ bs.btn_label }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="shop-the-look-popup fixed top-0 left-0 right-0 h-full flex jc-end zi-4">
+    <div class="stlp-overlay absolute left-0 top-0 w-full h-full zi-1" onclick="togglePopup()"></div>
+    <div class="stlp-box w-full d-max-395 bg-white h-full relative zi-2">
+      <div class="stlpb-heading d-p-25 p-20 flex ai-center jc-between">
+        <h6 class="h6 spacing-1 uppercase">{{ss.popup_title}}</h6>
+        <span class="stlpbh-close" onclick="togglePopup()">
+          {{settings.icon_close}}
+        </span>
+      </div>
+      <div class="stlpb-body d-pl-25 d-pr-25 pl-20 pr-20">
+        {% for block in sb %}
+          {% assign bs = block.settings %}
+          <div class="row hide-m pb-10 d-pb-15 stlpb-product-list flex flex-wrap" id="stlpb-product-list-{{forloop.index}}">
+            {% for product in bs.products %}
+              <div class="col-6 col-d-6 d-mb-20 mb-10">
+                {% render 'product-each', product: product, disable_hover: true %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function togglePopup(target=0){
+    let body = document.querySelector('body');
+    let popup = document.querySelector('.shop-the-look-popup')
+    let pl = document.querySelector('#stlpb-product-list-'+target)
+    let pla = document.querySelectorAll('.stlpb-product-list')
+    popup.classList.toggle('show')
+    body.classList.toggle('overflow')
+    pla.forEach(function(item) {
+      item.classList.add('hide-m')
+      item.classList.remove('flex')
+    })
+    pl.classList.remove('hide-m')
+    pl.classList.add('flex')
+  }
+</script>
+{% schema %}
+{
+  "name": "Shop The Look",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Padding Settings"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top Padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom Padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hd",
+        "label": "Bottom padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hhd",
+        "label": "Top padding (HHD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hhd",
+        "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "popup_title",
+      "label": "Popup Title"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" },
+        { "value": "h8", "label": "H8" },
+        { "value": "h9", "label": "H9" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_list",
+      "name": "Product list",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Text"
+        },
+        {
+          "type": "product_list",
+          "id": "products",
+          "label": "Products"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop The Look",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

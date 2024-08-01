@@ -1,0 +1,339 @@
+{%- assign subtotal = 0 -%}
+{%- assign total_savings = 0 -%}
+
+<div class="header-cart-loading absolute top-0 left-0 w-full h-full zi-1 bg-white opacity-5">&nbsp;</div>
+
+{% assign item_product_ids = '' %}
+{%- for item in cart.items -%}
+	{% capture item_product_ids %}{{ item_product_ids }},{{ item.product_id }}{% endcapture %}
+{%- endfor -%}
+
+{%- assign count_cross_sell = 0 -%}
+{%- assign has_cross_sell = false -%}
+{%- for num in (1..10) -%}
+	{%- assign product_setting = 'cart_cross_sell_' | append: forloop.index -%}
+	{%- assign product = settings[product_setting] -%}
+	{%- if product != blank and cart.item_count > 0 -%}
+		{%- unless item_product_ids contains product.id -%}
+			{%- assign has_cross_sell = true -%}
+			{%- assign count_cross_sell = count_cross_sell | plus: 1 -%}
+		{%- endunless -%}
+	{%- endif -%}
+{%- endfor -%}
+
+{% capture cross_sell_html %}
+	<div class="you-may-also-like mt-25 pb-30">
+		<div class="ymal-title mb-15">
+			<div class="h4 uppercase spacing-1">{{ settings.cart_cross_sell_section_title }}</div>
+		</div>
+		<div class="ymal-content">
+			<div class="swiper ymal-swiper">
+				<div class="swiper-wrapper">
+					{%- for pro in settings.cart_cross_sell_products -%}
+						{%- if pro != blank -%}
+							{%- unless item_product_ids contains pro.id -%}
+									<div class="swiper-slide">
+										{% render 'product-each-ymal', product: pro %}
+									</div>
+							{%- endunless -%}
+						{%- endif -%}
+					{%- endfor -%}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endcapture %}
+
+<div class="header-cart-wrapper h-full relative">
+	{%- if cart.item_count == 0 -%}
+		<div class="header-cart-top bb-1 b-border relative pt-17 pb-17 pl-20 pr-20 d-pl-25 d-pr-25 global-flex ai-center jc-between">
+			<h6 class="h4 medium-500 spacing-1 uppercase">{{ 'cart.general.title' | t }} (<span class="cart-title-counter">{{ cart.item_count }}</span>)</h6>
+			<button type="button" class="header-cart-close flex ai-center jc-center zi-1" onclick="$360.hideHeaderCart()">{{ settings.icon_close }}</button>
+		</div>
+
+		<div class="empty-message-wrapper global-flex flex-column jc-between relative">
+			<div class="message-wrapper pl-20 pr-20 d-pl-25 d-pr-25 pt-40 d-pb-40">
+				<div class="wrapper">
+					{%- if settings.cart_empty_message != blank -%}
+						<h3 class="h2 medium-500 w-full relative">{{ settings.cart_empty_message | newline_to_br }}</h3>
+					{%- endif -%}
+					{% if settings.cart_empty_link_1_label != blank or settings.cart_empty_link_2_label != blank %}
+					<div class="emw-link mt-10">
+						{% if settings.cart_empty_link_1_label != blank %}
+							<a href="{{settings.cart_empty_link_1_url}}" class="link1 mr-15">{{settings.cart_empty_link_1_label}}</a>
+						{% endif %}
+						{% if settings.cart_empty_link_2_label != blank %}
+							<a href="{{settings.cart_empty_link_2_url}}" class="link1 mr-15">{{settings.cart_empty_link_2_label}}</a>
+						{% endif %}
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="emw-image relative w-full">
+				{%- render 'global-image-wrapper-responsive',
+						image_id: 'cart-empty',
+						desktop_image: settings.cart_empty_image,
+						mobile_image: settings.cart_empty_image_mobile,
+						additional_class: 'no-bg'
+				%}
+			</div>
+		</div>
+	{%- else -%}
+		<div class="header-cart-top bb-1 b-border relative pt-17 pb-17 pl-20 pr-20 d-pl-25 d-pr-25 global-flex ai-center jc-between">
+			<h6 class="h4 medium-500 spacing-1 uppercase flex ai-center back-btn cp-btn" onclick="changePage(event)" data-target='cart-portion'>
+				<div class="icon-back mr-5 hide-m">
+					{{settings.icon_btn_left}}
+				</div>
+				{{ 'cart.general.title' | t }} (<span class="cart-title-counter">{{ cart.item_count }}</span>)
+			</h6>
+			<button type="button" class="header-cart-close flex ai-center jc-center zi-1" onclick="$360.hideHeaderCart()">{{ settings.icon_close }}</button>
+		</div>
+
+		<form action="/cart" method="post" id="header-cart">
+			<div class="header-cart-middle relative">
+				<div class="cart-items-wrapper pl-20 pr-20 d-pl-25 d-pr-25">
+					<div class="cart-portion hcm-page active">
+						{%- render 'free-shipping-info', 
+							wrapper_class: 'mt-25'
+						-%}
+						<ul class="header-cart-items pb-30 pt-30 bb-1 b-border">
+							{%- assign has_cg_in_cart = false -%}
+							{%- assign has_cg_in_cart_index = false -%}
+							{% assign gm = fl %}
+							{%- for item in cart.items -%}
+								{%- assign pro = item.product -%}
+								{%- assign group_id = false -%}
+								{%- assign group_parent = 'false' -%}
+								{%- assign is_gwp = false -%}
+								{%- if item.properties['_isGWP'] != blank -%}
+									{%- assign is_gwp = true -%}
+								{%- endif -%}
+								{%- if item.properties['_group_id'] != blank -%}
+									{%- assign group_id = item.properties['_group_id'] -%}
+								{%- endif -%}
+								{%- if item.properties['_group_parent'] != blank -%}
+									{%- assign group_parent = item.properties['_group_parent'] -%}
+								{%- endif -%}
+	
+								
+								{%if settings.cart_enable_cg_info and settings.cart_cg_product != blank%}
+									<!--{{item.variant_id}}-->
+									<!--{{settings.cart_cg_product.variants[0].id}}-->
+									{%if item.variant_id == settings.cart_cg_product.variants[0].id%}
+										{%- assign has_cg_in_cart = true -%}
+										{%- assign has_cg_in_cart_index = forloop.index -%}
+									{%endif%}
+								{%endif%}
+	
+								{%- if item.variant.compare_at_price > item.variant.price -%}
+									{%- assign subtotal = subtotal | plus: item.variant.compare_at_price -%}
+									{%- assign diff = item.variant.compare_at_price | minus: item.variant.price -%}
+									{%- assign total_savings = total_savings | plus: diff -%}
+								{%- else -%}
+								{%- assign subtotal = subtotal | plus: item.variant.price -%}
+								{%- endif -%}
+	
+								<li class="flex relative {% unless forloop.first %} mt-20 {% endunless %}">
+									{%- assign allow_edit = true -%}
+									{%- if group_id != false and group_parent == 'false' -%}
+										{%- assign allow_edit = false -%}
+									{%- endif -%}
+	
+									{%- if is_gwp == true -%}
+										{%- assign allow_edit = false -%}
+									{%- endif -%}
+	
+									<div class="image-con">
+										{%- capture item_img -%}
+											{%- if item.image == blank -%}
+												<img src="{{ item.image | img_url: '200x' }}" alt="{{ item.image.alt | escape }}" class="image">
+											{%- else -%}
+												{%- render 'global-image-wrapper', image: item.image, size: 200, preload: true -%}
+											{%- endif -%}
+										{%- endcapture -%}
+										{%- if item.product.tags contains "hidden" -%}
+											{{ item_img }}
+										{%- else -%}
+											<a href="{{ item.url }}" title="{{ item.title | escape }}">{{ item_img }}</a>
+										{%- endif -%}
+									</div>
+									<div class="details-con pl-15 global-flex jc-between flex-wrap ai-start w-full">
+										<div class="top-part w-full">
+											{%- if item.product.tags contains "hidden" -%}
+												<h6 class="p2 medium-500">{{ item.product.title }}</h6>
+											{%- else -%}
+												<h6 class="p2 medium-500"><a href="{{ item.url }}" class="">{{ item.product.title }}</a></h6>
+											{%- endif -%}
+											
+											{%- if item.options_with_values[0].value != 'Default Title' -%}
+												{%- if item.properties['Ring Size'] == blank -%}
+													<div class="variant-options mt-2">
+														{%- for opt in item.options_with_values -%}
+															<p class="p2 medium-500 c-grey">
+																{{ opt.name }}: {{ opt.value }}
+															</p>
+														{%- endfor -%}
+													</div>
+												{%- endif -%}
+											{%- endif -%}
+
+											{% if item.product.metafields.info.color_name != blank %}
+												<p class="p2 medium-500 c-grey">{{ 'customer.order.color' | t }}: {{ item.product.metafields.info.color_name }}</p>
+											{% endif %}
+	
+											{%- assign prop_num = 0 -%}
+											{%- for prop in item.properties -%}
+												{%- assign ff = prop | first -%}
+												{%- assign fl = prop | last -%}
+												{% if ff == 'Gift Message' %}
+													{% assign gm = fl %}
+												{% endif %}
+												{%- unless ff contains "_" -%}
+													{% if fl != blank %}
+													{%- assign prop_num = prop_num | plus: 1 -%}
+													<div class="p2 c-grey {% if prop_num == 1 %}mt-5{% endif %}">{{ ff }}: {{ fl }}</div>
+													{% endif %}
+												{%- endunless -%}
+											{%- endfor -%}
+											<div class="price-wrapper p2 medium-500 mt-10">
+												{%- assign compare_at_price = item.variant.compare_at_price -%}
+												{%- assign price = item.line_price -%}
+												{%- if compare_at_price > item.variant.price -%}
+													<span class="onsale mr-3 c-black">{{ price | money_with_currency }}</span>
+													{%- if item.line_price < item.original_line_price -%}
+														<strike class="c-grey">{{ item.original_line_price | money_with_currency }}</strike>
+													{%- else -%}
+														<strike class="c-grey">{{ compare_at_price | times: item.quantity | money_with_currency }}</strike>
+													{%- endif -%}
+												{%- else -%}
+													{%- if item.line_price < item.original_line_price -%}
+														<span class="onsale mr-3 c-black">{{ price | money_with_currency }}</span>
+														<strike class="mr-5 c-grey">{{ item.original_line_price | money_with_currency }}</strike>
+													{%- else -%}
+														<span>{{ price | money_with_currency }}</span>
+													{%- endif -%}
+												{%- endif -%}
+											</div>
+										</div>
+	
+										<div class="bottom-part w-full flex jc-between ai-center mt-10">
+											{%- if allow_edit == true -%}
+												<div class="global-form-qty small">
+													<button type="button" class="toggle global-minus normal-flex">{{ settings.icon_minus }}</button>
+													<input type="number" class="global-qty-text p3 regular-400" name="quantity" value="{{ item.quantity }}" min="0" {% if item.variant.inventory_management == 'shopify' %} max="{{ item.variant.inventory_quantity }}" {% endif %} oninput="$360.updateItemQty({index: {{ forloop.index }}, qty: this.value, groupId: {{ group_id }}, removeSameGroup: {{ group_parent }}}, function() { $360.showHeaderCart({update: true}); $360.refreshCartPage();initSwiperYmal();checkCart(); })" readonly>
+													<button 
+														type="button" 
+														class="toggle global-plus normal-flex"
+														{% if item.variant.inventory_management == 'shopify' %} data-max="{{ item.variant.inventory_quantity }}" {% endif %}
+														{% if item.quantity == item.variant.inventory_quantity and item.variant.inventory_management == 'shopify' %}disabled{% endif %}
+													>{{ settings.icon_plus }}</button>
+												</div>
+											{%- endif -%}
+											<div class="button-wrapper font-0">
+												{%- if allow_edit == true -%}
+													<button 
+														type="button" 
+														class="close cart-action-remove" 
+														onclick="$360.updateItemQty({index: {{ forloop.index }}, qty: 0, groupId: {{ group_id }}, removeSameGroup: {{ group_parent }}}, function() { $360.showHeaderCart({update: true}); $360.refreshCartPage(); initSwiperYmal();checkCart();const removeIteminCart = new CustomEvent('RemovedItemInCartShopify', { detail: {items:[]} }); document.dispatchEvent(removeIteminCart); })"
+														data-product-variant="{{ item.variant.title }}"
+														data-product-variant-id="{{ item.variant.id }}"
+														data-product-name="{{ item.product.title }}"
+														data-product-id="{{ item.product.id }}"
+														data-product-price="{{ item.variant.price | money_without_currency }}"
+														data-product-category="{{ item.product.collections[0].title }}"
+														data-product-category-2="{{ item.product.collections[1].title }}"
+														data-product-vendor="{{ item.product.vendor }}"
+														data-product-quantity="{{ item.quantity }}"
+													>{{ settings.icon_trash }}</button>
+												{%- endif -%}
+											</div>
+										</div>
+									</div>
+								</li>
+							{%- endfor -%}
+						</ul>
+						{%- comment -%} cross sell {%- endcomment -%}
+						{{ cross_sell_html }}
+					</div>
+					<div class="zapiet-portion hcm-page">
+						<button type="submit" style="display: none;" name="checkout" data-country="{{ localization.country.iso_code }}" class="btn1 btn-checkout" value="Checkout"></button>
+					</div>
+				</div>
+			</div>
+			<div class="header-cart-bottom bt-1 b-border bg-white">
+				<div class="hcb-gifting pl-20 pr-20 d-pl-25 d-pr-25 bb-1 b-border">
+					{%liquid 
+						assign wrapper_class = '' 
+						assign title_wrapper_class = 'pt-17 pb-17' 
+						assign title_class = 'p1 medium-500' 
+						assign gift_product = settings.gift_product
+						assign gift_price = gift_product.price | money_with_currency
+						assign gift_desc = settings.gift_desc | replace: '[gift-price]', gift_price
+					%}
+					{% capture desc_html %}
+						<div class="pb-17">
+							<div class="pb-15 bb-1 b-black ">
+								<textarea class="global-input w-full p1 c-black pr-30 pb-0" id="gift-msg" placeholder="{{'cart.general.gift_message_placeholder' | t}}">{{gm}}</textarea>
+							</div>
+							<label class="global-radio flex ai-start mt-17 cursor">
+								<input type="checkbox" id="gift-wrap" onchange="giftProductToggle({{gift_product.first_available_variant.id}},event)" {% if item_product_ids contains gift_product.id %}checked{% endif %}>
+								<div class="gr-mark mr-8 mt-2"></div>
+								<div class="p1">{{gift_desc}}</div>
+							</label>	
+						</div>
+					{% endcapture %}
+					{%- render 'accordion',
+						icon_rotate: false,
+						wrapper_class: wrapper_class,
+						title_wrapper_class: title_wrapper_class,
+						title_class: title_class,
+						desc_no_pt: true,
+						title: settings.gift_title,
+						desc_html: desc_html
+					-%}
+				</div>
+				<div class="hcb-total-checkout pt-17 pb-20 pl-20 pr-20 d-pl-25 d-pr-25 ">
+					<div class="flex ai-center jc-between mb-12">
+						<div class="h4 uppercase medium-500 spacing-1">{{ 'cart.general.subtotal' | t }}</div>
+						<div class="h4 medium-500">{{ cart.total_price | money_with_currency }}</div>
+					</div>
+					{%liquid 
+						assign has_gift_card = false
+						assign has_general_product = false
+						for item in cart.items 
+							if item.product.type contains 'Gift Card'
+								assign has_gift_card = true
+							else
+								assign has_general_product = true
+							endif
+						endfor 
+					%}
+					{% if has_gift_card and has_general_product  %}
+					<div class="pt-12 pb-12 pr-15 pl-15 p2 c-grey medium-500 bg-lightgrey">
+						{{settings.has_gift_card_msg}}
+					</div>
+					{% else %}
+						<div class="btn1 w-full tc next-btn relative show cp-btn" onclick="changePage(event)" data-target='zapiet-portion'>{{ 'cart.general.next' | t }}</div>
+						<a href="{{ routes.root_url }}checkout" class="btn1 w-full tc checkout-btn relative">{{ 'cart.general.checkout' | t }}</a>
+					{% endif %}
+				</div>
+			</div>
+		</form>
+	{%- endif -%}
+</div>
+<style>
+	.Zapiet-Modal__Wrapper .Zapiet-Modal__Close-Button:before {
+		background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12.354" height="12.354" viewBox="0 0 12.354 12.354"><g id="Close" transform="translate(0.177 0.177)"><line id="Line_6" data-name="Line 6" x2="16.971" transform="rotate(45)" fill="none" stroke="%23171717" stroke-width="0.5"></line><line id="Line_7" data-name="Line 7" x2="16.971" transform="translate(12 0) rotate(135)" fill="none" stroke="%23171717" stroke-width="0.5"></line></g></svg>');
+		color: transparent !important;
+		width: 12px !important;
+		height: 12px !important;
+		opacity: 1;
+		content: " ";
+		display: block !important;
+	}
+	.Zapiet-Modal__Wrapper .Zapiet-Modal__Close-Button {
+		color: transparent !important;
+		width: 12px;
+		height: 12px;
+	}
+</style>

@@ -1,0 +1,711 @@
+{
+  "wrapper": ".global-content-top-margin",
+  "sections": {
+    "article_heading_qPqmFk": {
+      "type": "article-heading",
+      "settings": {
+        "top_padding_m": 30,
+        "bottom_padding_m": 25,
+        "top_padding_t": 30,
+        "bottom_padding_t": 30,
+        "top_padding": 50,
+        "bottom_padding": 44,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "title_size": "h1",
+        "title_dom_type": "h1",
+        "subtitle": "NOTES ON THE COLLECTION",
+        "title": "In Pursuit of Timelessness"
+      }
+    },
+    "article_main_banner_VkRKKL": {
+      "type": "article-main-banner",
+      "blocks": {
+        "entry_QfcgJD": {
+          "type": "entry",
+          "settings": {
+            "text_color": "#FFFFFF",
+            "text_align": "jc-center tc",
+            "text_align_d": "d-jc-center d-tc",
+            "title": "",
+            "title_dom_type": "h1",
+            "title_size": "h1",
+            "text": "",
+            "text_max_width_mobile": 450,
+            "text_max_width_tablet": 450,
+            "text_max_width_desktop": 450,
+            "text_max_width_hd": 450,
+            "text_max_width_fullhd": 450,
+            "button_label": "",
+            "button_url": "",
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-1.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-1.jpg",
+            "autoplay": false,
+            "youtube_embed_code": ""
+          }
+        }
+      },
+      "block_order": [
+        "entry_QfcgJD"
+      ],
+      "settings": {
+        "bg_color": "",
+        "disable_lazyload": false,
+        "text_over_image": false,
+        "enable_parallax": false,
+        "section_width": "container",
+        "section_width_percentage_d": 1088,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "article_content_dGEAiz": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "<p>What does it take to bring a garment from idea to reality? How do we define a modern classic? And how can we find joy in the act of dressing? Pose these questions to a roomful of people, and you’re likely to get answers as diverse as each of our own personal styles.<br\/><\/p><p>Ask Sven, our Creative Director and co-founder, though, and you’ll find that his vision for the brand is a singular one. It’s one that has led us to develop our signature design language—a wardrobe of modern classics that walks the fine line between relevance and novelty. Go behind the scenes with us for a closer look at how our latest collection came to fruition, from Sven’s inspirations to his approach to the campaign.<\/p>"
+      }
+    },
+    "article_two_cols_image_PYVHaW": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_L4K9eK": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-2.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-2.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_eaCd4w": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-3.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-3.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_L4K9eK",
+        "entry_eaCd4w"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_content_XHg3aX": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "<h4>[start:#808080]IN GOOD COMPANY (IGC) IS KNOWN FOR ITS SIGNATURE TEXTILES AND MATERIALITY. WAS THIS THE STARTING POINT FOR THE LATEST COLLECTION AS WELL?<br\/>[end:#808080]<\/h4><p><\/p><p>Yes, the design of a new collection always starts with the fabrics for me. I am constantly searching for new materials to invigorate each collection—it’s a developmental process that really excites me. With technology pushing the boundaries of textile development, there’s just so much to discover.<br\/><\/p><p>It’s extremely crucial for an independent brand like IGC to get the fabrics right and have our customers understand what they are paying for. In recent years, there has been a sudden emergence of new brands that are going for a similar, clean aesthetic, but I think one of the qualities that really sets IGC apart is our element of materiality.<br\/><\/p><h4><br\/>[start:#808080]HOW DOES THE FABRIC INFLUENCE THE DESIGN OF EACH PIECE?<br\/>[end:#808080]<\/h4><p><\/p><p>They go hand in hand. It is really important to have good raw materials to begin with, because they make all the difference to the finished product. Every fabric has its own unique characteristics and requires different design approaches. It took me years of practice to gain a good understanding of this, yet it’s still a real trick to pair the right design with a compatible fabric. An ideal match not only needs to flatter, but also feel current at the same time.<br\/><\/p>"
+      }
+    },
+    "article_image_caption_mMdb3Q": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-4.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-4.jpg",
+        "title": ""
+      }
+    },
+    "article_quote_Hetcdt": {
+      "type": "article-quote",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_mobile": 0,
+        "mw_tablet": 360,
+        "mw_desktop": 400,
+        "text": "<h2>“Every fabric has its own unique characteristics and requires different design approaches. It took me years of practice to gain a good understanding of this, yet it’s still a real trick to pair the right design with a compatible fabric.”<\/h2><h4>— SVEN TAN, CREATIVE DIRECTOR<\/h4>"
+      }
+    },
+    "article_two_cols_image_ian74d": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_r3ET9Q": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-5.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-5.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_jkwppT": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-6.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-6.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_r3ET9Q",
+        "entry_jkwppT"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_content_BHtBx3": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "<h4>[start:#808080]WHAT OTHER INFLUENCES CAME INTO PLAY FOR THIS COLLECTION, AND HOW DID YOU BRING TOGETHER THESE VARIOUS THREADS OF INSPIRATION?[end:#808080]<\/h4><p><\/p><p>People, art and architecture inspire me. Inspiration works in an emotive way for me. I am drawn by the je ne sais quoi of aesthetics, a specific mood or an extremely well dressed person. These qualities fuel my imagination, so I guess the way I work is fairly instinctive.<br\/><\/p><p>For this collection, we looked at the inspiring works of Günther Förg when we visited his exhibition at Shanghai’s Long Museum. I was amazed by the expression of modernity in his compositions, and the colours really blew me away. There is a sense of familiarity, yet absolute newness in his work that I relate to. At the same time, they embody an almost childlike quality, while feeling so sophisticated. There were a couple of pieces that I could have just stared at the whole day. It's magical when art pushes one to be introspective and evoke a particular state of mind.<\/p>"
+      }
+    },
+    "article_two_cols_image_Bgf9b4": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_D3L6RJ": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-7.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-7.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_JkMTwJ": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-8.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-8.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_D3L6RJ",
+        "entry_JkMTwJ"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_content_Gg8Hjt": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "<h4>[start:#808080]THE MODERN CLASSIC FORMS THE FOUNDATION OF THE IGC WARDROBE, YET THE CONCEPT OF MODERNITY IS ALWAYS EVOLVING. AS A DESIGNER, HOW DO YOU APPROACH AND WEAVE MODERNITY INTO EACH COLLECTION?[end:#808080]<\/h4><p><\/p><p>My rule is to keep things as simple and as refined as possible, without trying to over-complicate things. For me, creating a modern classic requires a fine balance of relevancy and a sense of freshness or surprise; an unexpected fabric choice, a new proportion, or a novel cut technique, for instance. And even though IGC’s designs are not trend-driven per se, there is a tendency we have to be in tune with for our collections to look current and elevated. Modernity is a constant pursuit.<\/p>"
+      }
+    },
+    "article_image_caption_daeWri": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-9.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-9.jpg",
+        "title": "“I had really wanted to incorporate movement because of the way we cut the clothes—some of IGC’s pieces really only come to life when they move with the body.” — SVEN TAN, CREATIVE DIRECTOR"
+      }
+    },
+    "article_two_cols_image_eXHjkx": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_P8zcAQ": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-10.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-10.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_c4Aj4b": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-11.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-11.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_P8zcAQ",
+        "entry_c4Aj4b"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_content_jt7yqU": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_mobile": 0,
+        "mw_desktop": 650,
+        "text": "<h4>[start:#808080]PLEASE TELL US ABOUT YOUR DECISION TO LENS THIS COLLECTION AT NATIONAL GALLERY SINGAPORE AND THE ARTS HOUSE. HOW WOULD YOU DESCRIBE THE RELATIONSHIP BETWEEN THE CLOTHES AND THE SPACE?[end:#808080]<\/h4><p><\/p><p>Since the collection was being designed with an artistic tone, I thought lensing the collection at National Gallery Singapore and The Arts House would be a great way to tell the story. The gallery space was perfect because of their ample depth and high ceilings, which provided a great canvas for the pieces to be shot in motion.<br\/><\/p><p>I had really wanted to incorporate movement because of the way we cut the clothes—some of IGC’s pieces really only come to life when they move with the body. The SHAYALA dress, for example, is a deceptively simple jersey dress that was imbued with discreet panels. It had to be shot with movement to showcase its beautiful volume. Interestingly, we were told that IGC is the first fashion label to hold such an extensive shoot at both venues.<\/p>"
+      }
+    },
+    "article_two_cols_image_WpqXCz": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_hnBdEr": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-12.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-12.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_83Vt3W": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-13.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-13.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_hnBdEr",
+        "entry_83Vt3W"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_quote_MhYKLC": {
+      "type": "article-quote",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_mobile": 0,
+        "mw_tablet": 360,
+        "mw_desktop": 400,
+        "text": "<h2>“For me, creating a modern classic requires a fine balance of relevancy and a sense of freshness or surprise... modernity is a constant pursuit.”<\/h2><h4>— SVEN TAN, CREATIVE DIRECTOR<\/h4>"
+      }
+    },
+    "article_image_caption_6a9Ntr": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-14.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-14.jpg",
+        "title": ""
+      }
+    },
+    "article_content_8yLwg9": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_mobile": 0,
+        "mw_desktop": 650,
+        "text": "<h4>[start:#808080]WHAT DID YOU HOPE TO ACHIEVE AT THIS LOCATION IN TERMS OF THE MOOD AND ATTITUDE OF THE CAMPAIGN?[end:#808080]<\/h4><p><\/p><p>An ineffable artful appeal, a mood that is poised and sophisticated, but at the same time effortless and real. Essentially, it's about reminding our customers that the act of dressing is a delightful and expressive experience —a message that's very much aligned with IGC’s contemporary vision.<\/p>"
+      }
+    },
+    "article_image_caption_pfAMEA": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-15_56ca2928-7748-4b9b-81fe-23f5f6d45406.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_PursuitTimelessness-15_56ca2928-7748-4b9b-81fe-23f5f6d45406.jpg",
+        "title": ""
+      }
+    },
+    "article_content_BiXMzr": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 50,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_mobile": 0,
+        "mw_desktop": 650,
+        "text": "<p>Our final bag in this collection is PENNY. Every collection needs a tote bag to complete the range! Because totes are a sac de jour for many women. There’ll always be someone in a group who is a tote bag person!<br\/><br\/>So for this, I was thinking of something playful but I wanted to retain the functional element of the bag. What’s more, we also added a fun design element – creating a zipper feature that allows the shape of the bag to be customised or extended.<br\/><\/p>"
+      }
+    },
+    "article_footer_XFNrfV": {
+      "type": "article-footer",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "PHOTOGRAPHY BY STEFAN KHOO, ASSISTED BY CHONG NG, HAIR: SEAN ANG, MAKEUP: ELAIN LIM, MODELS: WANG, KEVIN, ASLESHA, VIKA, LIBBY AND UGNE\n\nWORDS BY CHARLENE CHAN"
+      }
+    },
+    "article_featured_products_Erg3gJ": {
+      "type": "article-featured-products",
+      "blocks": {
+        "entry_eHkWL8": {
+          "type": "entry",
+          "settings": {
+            "featured_products": "dev-aiyana-necklace-5"
+          }
+        },
+        "entry_p4Xnyc": {
+          "type": "entry",
+          "settings": {
+            "featured_products": "dev-digital-gift-card"
+          }
+        },
+        "entry_n4Wjjm": {
+          "type": "entry",
+          "settings": {
+            "featured_products": "dev-gift-wrap"
+          }
+        },
+        "entry_Dym7WB": {
+          "type": "entry",
+          "settings": {
+            "featured_products": "dev-aiyana-necklace-10"
+          }
+        },
+        "entry_9cbWj9": {
+          "type": "entry",
+          "settings": {
+            "featured_products": "dev-aiyana-necklace-12"
+          }
+        },
+        "entry_agfCJG": {
+          "type": "entry",
+          "settings": {
+            "featured_products": "dev-aiyana-necklace-14"
+          }
+        },
+        "entry_w6w4LE": {
+          "type": "entry",
+          "settings": {
+            "featured_products": "dev-aiyana-necklace-9"
+          }
+        },
+        "entry_nkpgPq": {
+          "type": "entry",
+          "settings": {
+            "featured_products": "dev-aiyana-necklace-8"
+          }
+        }
+      },
+      "block_order": [
+        "entry_eHkWL8",
+        "entry_p4Xnyc",
+        "entry_n4Wjjm",
+        "entry_Dym7WB",
+        "entry_9cbWj9",
+        "entry_agfCJG",
+        "entry_w6w4LE",
+        "entry_nkpgPq"
+      ],
+      "disabled": true,
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "article_related_articles_hcQNnH": {
+      "type": "article-related-articles",
+      "blocks": {
+        "entry_3qNTRx": {
+          "type": "entry",
+          "settings": {
+            "article": ""
+          }
+        },
+        "entry_fcDJzk": {
+          "type": "entry",
+          "settings": {
+            "article": ""
+          }
+        },
+        "entry_pEzkre": {
+          "type": "entry",
+          "settings": {
+            "article": ""
+          }
+        }
+      },
+      "block_order": [
+        "entry_3qNTRx",
+        "entry_fcDJzk",
+        "entry_pEzkre"
+      ],
+      "disabled": true,
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "article_breadcrumbs_YCHHea": {
+      "type": "article-breadcrumbs",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 40,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_mobile": 320,
+        "mw_tablet": 320,
+        "mw_desktop": 0
+      }
+    }
+  },
+  "order": [
+    "article_heading_qPqmFk",
+    "article_main_banner_VkRKKL",
+    "article_content_dGEAiz",
+    "article_two_cols_image_PYVHaW",
+    "article_content_XHg3aX",
+    "article_image_caption_mMdb3Q",
+    "article_quote_Hetcdt",
+    "article_two_cols_image_ian74d",
+    "article_content_BHtBx3",
+    "article_two_cols_image_Bgf9b4",
+    "article_content_Gg8Hjt",
+    "article_image_caption_daeWri",
+    "article_two_cols_image_eXHjkx",
+    "article_content_jt7yqU",
+    "article_two_cols_image_WpqXCz",
+    "article_quote_MhYKLC",
+    "article_image_caption_6a9Ntr",
+    "article_content_8yLwg9",
+    "article_image_caption_pfAMEA",
+    "article_content_BiXMzr",
+    "article_footer_XFNrfV",
+    "article_featured_products_Erg3gJ",
+    "article_related_articles_hcQNnH",
+    "article_breadcrumbs_YCHHea"
+  ]
+}

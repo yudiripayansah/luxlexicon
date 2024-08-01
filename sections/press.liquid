@@ -1,0 +1,247 @@
+{% comment %} in-good-company {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% assign ss = section.settings %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #{{el_id}} {
+    background-color: {{ ss.background_color }};
+  }
+  #{{el_id}} .press-wrapper:last-of-type {
+    padding-bottom: 0;
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .press-wrapper:nth-last-child(-n+4) {
+      padding-bottom: 0;
+    }
+  }
+</style>
+
+<div class="press">
+  <div class="container">
+    <div class="row">
+      <div class="global-flex flex-wrap">
+        <div class="col-12 col-d-6">
+          {%- if ss.title != blank -%}
+            <{{ ss.title_dom_type }} class="{{ ss.title_size }}">
+              {{- ss.title | newline_to_br -}}
+            </{{ ss.title_dom_type }}>
+          {%- endif -%}
+        </div>
+        <div class="col-12 col-d-4 mt-10 d-mt-0">
+          <p class="p1">{{ ss.text }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row pt-30 d-pt-80">
+      <div class="global-flex flex-wrap">
+        {%- for block in section.blocks -%}
+          <div class="col-12 col-t-6 col-d-3 press-wrapper pb-25 d-pb-60{% if forloop.index > 4 %} hide-m{% endif %} d-opacity-10 show-d">
+            {%- assign image_id = 'press-image-' | append: block.id -%}
+            {%- assign preload = '' -%}
+            {%- if section.index == 1 -%}
+              {%- assign preload = true -%}
+            {%- endif -%}
+            {%- render 'press-each',
+              image_id: image_id,
+              desktop_image: block.settings.desktop_image,
+              mobile_image: block.settings.mobile_image,
+              link_url: block.settings.link_url,
+              additional_class: 'no-bg',
+              preload: preload,
+              type: block.settings.type,
+              caption: block.settings.title
+            %}
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="col-12 press-more hide-m hide-d">
+        <a href="#" rel="nofollow" onclick="loadMore(event)" class="link1">{{ ss.more_label }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.onload = function () {
+    const pressTotal = document.querySelectorAll('.press-wrapper').length;
+    if(4 < pressTotal){
+      document.querySelector('.press-more').classList.remove('hide-m');
+    }
+  }
+  let pressCount = 4;
+  function loadMore(e) {
+    const pressTotal = document.querySelectorAll('.press-wrapper').length;
+    e.preventDefault();
+    pressCount = pressCount + {{ ss.load_number }};
+    document.querySelectorAll('.press-wrapper').forEach((e, index) => {
+      if(index + 1 <= pressCount){
+        e.classList.remove('hide-m');
+      }
+    });
+    if(pressCount >= pressTotal){
+      document.querySelector('.press-more').classList.add('hide-m');
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Press",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "p1", "label": "P1" },
+        { "value": "p2", "label": "P2" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "more_label",
+      "label": "More Label",
+      "default": "Load More"
+    },
+    {
+      "type": "number",
+      "id": "load_number",
+      "label": "Item loaded when press Load More",
+      "default": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "textarea",
+          "id": "type",
+          "label": "Press Type"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Press"
+    }
+  ]
+}
+{% endschema %}

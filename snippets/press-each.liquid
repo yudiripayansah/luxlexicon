@@ -1,0 +1,21 @@
+{% comment %}
+  add_class = additional class for container
+{% endcomment %}
+
+<div class="press-single {{ add_class }}">
+  {%- if link_url != blank -%}<a href="{{ link_url }}">{%- endif -%}
+  {%- render 'global-image-wrapper-responsive',
+    image_id: image_id,
+    desktop_image: desktop_image,
+    mobile_image: mobile_image,
+    additional_class: 'no-bg',
+    preload: preload
+  %}
+  {%- if type != blank -%}
+    <p class="h4 c-grey pt-15">{{ type }}</p>
+  {%- endif -%}
+  {%- if caption != blank -%}
+    <p class="p1 pt-5">{{ caption }}</p>
+  {%- endif -%}
+  {%- if link_url != blank -%}</a>{%- endif -%}
+</div>

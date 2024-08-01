@@ -1,0 +1,87 @@
+<section class="collection-filters mb-20">
+	<button class="btn1 hide-t" id="filter-button">Filter Products</button>
+	<h4 class="h4 hide-m show-t mb-20">Filter Products</h4>
+	<div class="collection-filters-content hide-m show-t">
+		{% for parent in linklists[settings.collection_filters].links %}
+		<div class="collection-filters-each bb-1 pb-10 pt-10">
+			<h4 class="relative">{{ parent.title }} {{ settings.icon_accordion }}</h4>
+			<ul class="hide-m pt-10">
+				<li class="mb-5"><a href="#" rel="nofollow" class="filter-link" data-value="" data-id="{{ parent.title | handle }}-filter">All</a></li>
+				{% for child in parent.links %}
+				{% assign h = child.title | handle %}
+				<li class="mb-5"><a href="#" rel="nofollow" class="filter-link {% if current_tags contains h or current_tags contains child.title %}active{% endif %}" data-value="{{ h }}" data-id="{{ parent.title | handle }}-filter">{{ child.title }}</a></li>
+				{% endfor %}
+			</ul>
+			<select class="coll-filter hide-m" id="{{ parent.title | handle }}-filter">
+				<option value=""></option>
+				{% for child in parent.links %}
+				{% assign h = child.title | handle %}
+				<option value="{{ h }}" {% if current_tags contains h or current_tags contains child.title %}selected{% endif %}>{{ child.title }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		{% endfor %}
+		{% if settings.collection_filters_brands %}
+		<div class="collection-filters-each bb-1 pb-10 pt-10">
+			<h4 class="relative">{{ parent.title }} {{ settings.icon_accordion }}</h4>
+			<ul>
+				{% for product_vendor in shop.vendors %}
+				<li class="mb-5"><a href="#" rel="nofollow" class="filter-link" data-value="" data-id="brands-filter">All</a></li>
+				{% assign h = product_vendor | handle %}
+				{% if collection.all_tags contains h or collection.all_tags contains product_vendor %}
+				<li class="mb-5"><a href="#" rel="nofollow" class="filter-link" data-value="{{ h }}" data-id="brands-filter">{{ product_vendor }}</a></li>
+				{% endif %}
+				{% endfor %}
+			</ul>
+			<select class="coll-filter hide-m" id="brands-filter">
+				<option value=""></option>
+				{% for product_vendor in shop.vendors %}
+				{% assign h = product_vendor | handle %}
+				{% if collection.all_tags contains h or collection.all_tags contains product_vendor %}
+				<option value="{{ h }}" {% if current_tags contains h or current_tags contains product_vendor %}selected{% endif %}>{{ product_vendor }}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</div>
+		{% endif %}
+	</div>
+</section>
+<script>
+	function filterProducts(){
+		var newTags = [];
+		var newURL = '{{ collection.url }}';
+		if (newTags.length) {
+			newURL += '/' + newTags.join('+');
+		}
+		location.href = newURL;
+	}
+
+	$(function(){
+
+		$(".collection-filters-each h4").on("click",function(){
+			$(this).next().slideToggle();
+			$(this).toggleClass("active");
+		});
+
+		$("#filter-button").on("click",function(){
+			$(this).next().slideToggle();
+		});
+
+		$(".filter-link").on("click",function(e){
+			e.preventDefault();
+			var elem = $(this);
+			if(elem.hasClass("active"))
+			{
+				elem.removeClass("active");
+				$("#" + elem.attr("data-id")).val("");
+				filterProducts();
+			}
+			else
+			{
+				elem.addClass("active");
+				$("#" + elem.attr("data-id")).val(elem.attr("data-value"));
+				filterProducts();
+			}
+		});
+	});
+</script>

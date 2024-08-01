@@ -1,0 +1,394 @@
+{% comment %} In Good Company Theme {% endcomment %}
+{%- assign el_id = 'shopify-section-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+<style>
+{%- if section.settings.bg_color != blank -%}
+#{{el_id}} {
+  background-color: {{ section.settings.bg_color }};
+}
+{%- endif -%}
+#{{el_id}} .slideshow-container::-webkit-scrollbar {
+  display: none; 
+}
+
+#{{el_id}} .slideshow-content-wrapper {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  scroll-snap-align: start;
+}
+
+#{{el_id}} .rte br {
+  content: '';
+  display: block;
+  height: 10px;
+}
+
+#{{el_id}} .link3:before {
+  -ms-transform: scaleX(0);
+  transform: scaleX(0);
+}
+
+#{{el_id }} .container {
+  overflow: hidden;
+}
+
+#{{el_id}} .swiper {
+  overflow: visible !important;
+  clip-path: inset(-100vw -100vw -100vw -100vw);
+  margin: 0 -12.5px;
+}
+
+#{{el_id}} .slideshow-content-wrapper {
+  width: 90.3%;
+  flex: 0 0 90.3%;  
+  padding: 0 12.5px;
+}
+
+@media screen and (min-width:600px) {
+  #{{el_id}} .slideshow-content-wrapper {
+    width: 40%;
+    flex: 0 0 40%;  
+    padding: 0 12.5px;
+  }
+}
+
+@media screen and (min-width:1024px) {
+  #{{el_id }} .container {
+    overflow: unset;
+  }
+  #{{el_id}} .swiper {
+    overflow: unset !important;
+    margin: 0 auto;
+  }
+  #{{el_id}} .slider-wrapper {
+    width: 100%;
+    height:auto;
+    }
+  #{{el_id}} .slideshow-container {
+    display: flex;
+    width: 100%;
+    height: auto;
+    overflow-x: auto;
+    overflow-y: hidden; 
+    scrollbar-width: none; 
+    position: sticky;
+    top: 0;
+    transition: 0.3s ease all;
+  }
+  #{{el_id}} .slideshow-content-wrapper {
+    width: 25%;
+    flex: 0 0 25%; 
+    height: 100%;
+    padding: 0 25px;
+  }
+  #{{el_id}} .img-only {
+    flex: 0 0 30%;
+  }
+}
+</style>
+    <div {% if section.settings.section_id != blank %}id="{{ section.settings.section_id }}" {% endif %}class="container d-pl-0 d-pr-0">
+        <div class="slider-wrapper swiper">
+            <div class="slideshow-container swiper-wrapper">
+              {% for block in section.blocks %}
+                {%- assign bs = block.settings -%}
+                
+                {%- assign image_d = bs.img_d -%}
+                {%- assign image_m = bs.img_m -%}
+                
+                {%- assign image_id = el_id | append: 'product-image_' | append: forloop.index -%}
+                
+                <div class="slideshow-content-wrapper swiper-slide pl-0 pr-0 d-pl-25 d-pr-25 {% if block.type contains "img_only" %}img-only{% endif %}" >
+                  <div class="flex flex-column w-full">
+                    {%- render 'global-image-wrapper-responsive',
+                      image_id: image_id,
+                      desktop_image: image_d,
+                      mobile_image: image_m,
+                      preload: preload,
+                    %}
+                    {% if block.type contains "with_text" %}
+                      {% if bs.title != blank %}
+                          <div class="p1 pt-15 {% if bs.link_label_1 != blank %}pb-20 d-pb-22{% else %}pb-10{% endif %}">{{ bs.title }}</div>
+                      {% endif %}
+                      {% if bs.text != blank %}
+                        <div class="p2 rte">
+                          {{ bs.text }}
+                        </div>
+                      {% endif %}
+
+                      {%- if bs.link_label_1 != blank -%}
+                        <div class="link-wrapper">
+                          {%- for i in (1..5) -%}
+                            {%- assign link_label = 'link_label_' | append: i -%}
+                            {%- assign link_url = 'link_url_' | append: i -%}
+
+                            {%- if bs[link_label] != blank -%}
+                              <div class="relative w-full {% unless forloop.first %} pt-5 d-pt-10 {% endunless %}">
+                                <a href="{{ bs[link_url] }}" class="p2 hover-underline">
+                                  {{ bs[link_label] }}
+                                </a>
+                              </div>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </div>
+                      {%- endif -%}
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+      </div>
+    </div>
+{%- assign function_name = el_id | replace: '-', '_' -%}
+<script>
+  function initializeSlider{{ function_name }}() {
+    let lastScrollTop = 0;
+
+    function handleScrollAndWheel{{ function_name }}(event) {
+      const wrapper = document.querySelector('#{{ el_id }} .slider-wrapper');
+      const container = document.querySelector('#{{ el_id }} .slideshow-container');
+      const scrollTopElement = document.querySelector('.header-con');
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const deltaY = event.deltaY || (currentScrollTop - lastScrollTop);
+      const scrollingUp = currentScrollTop < lastScrollTop;
+      lastScrollTop = currentScrollTop;
+
+      if (wrapperRect.top <= 0 && wrapperRect.bottom >= window.innerHeight) {
+        if (containerRect.left >= 0 && containerRect.right <= window.innerWidth) {
+          container.scrollLeft += deltaY;
+        }
+      } else {
+      }
+
+      if (scrollingUp) {
+        let scrollTopValue = scrollTopElement.offsetHeight;
+
+        /* check if has page navigation */
+        const pageNav = document.querySelector('.pn-el');
+        if(pageNav != null) {
+          scrollTopValue += pageNav.offsetHeight;
+        }
+
+        container.style.top = `${scrollTopValue}px`;
+      } else {
+        const thisSection = document.querySelector('#shopify-section-{{ section.id }}');
+        let sectionPaddingTop = window.getComputedStyle(thisSection).paddingTop;
+        container.style.top = `${sectionPaddingTop}`;
+      }
+    }
+
+    document.removeEventListener('scroll', handleScrollAndWheel{{ function_name }});
+
+    if (window.innerWidth > 1023) {
+      const wrapper = document.querySelector('#{{ el_id }} .slider-wrapper');
+      const container = document.querySelector('#{{ el_id }} .slideshow-container');
+      const childWidth = document.querySelector('#{{ el_id }} .slideshow-content-wrapper').offsetWidth;
+      const totalChildElements = document.querySelectorAll('#{{ el_id }} .slideshow-content-wrapper').length;
+      wrapper.style.height = `${childWidth * totalChildElements}px`;
+
+      document.addEventListener('scroll', handleScrollAndWheel{{ function_name }});
+    } else {
+      const wrapper = document.querySelector('#{{ el_id }} .slider-wrapper');
+      wrapper.style.height = 'auto';
+
+      let itsSwiper = null;
+
+      function initSwiperITS{{ function_name }}() {
+        itsSwiper = new Swiper('#{{ el_id }} .swiper', {
+          slidesPerView: 'auto',
+          slideToClickedSlide: true,
+          freeMode: true,
+          spaceBetween: 0,
+          breakpoints: {
+            600: {
+              slidesPerView: 'auto',
+              spaceBetween: 0,
+            }
+          },
+        });
+      }
+      initSwiperITS{{ function_name }}();
+    }
+  }
+
+  initializeSlider{{ function_name }}();
+  window.addEventListener('resize', initializeSlider{{ function_name }});
+</script>
+
+
+{% schema %}
+  {
+    "name": "Img+Txt Scroll Animation",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Padding Settings"
+      }, {
+        "type": "number",
+        "id": "top_padding_m",
+        "label": "Top Padding (Mobile)"
+      }, {
+        "type": "number",
+        "id": "bottom_padding_m",
+        "label": "Bottom Padding (Mobile)"
+      }, {
+        "type": "number",
+        "id": "top_padding_t",
+        "label": "Top Padding (Tablet)"
+      }, {
+        "type": "number",
+        "id": "bottom_padding_t",
+        "label": "Bottom Padding (Tablet)"
+      }, {
+        "type": "number",
+        "id": "top_padding",
+        "label": "Top Padding (Desktop)"
+      }, {
+        "type": "number",
+        "id": "bottom_padding",
+        "label": "Bottom Padding (Desktop)"
+      },
+      {
+        "type": "text",
+        "id": "top_padding_hd",
+        "label": "Top padding (HD)"
+      },
+      {
+        "type": "text",
+        "id": "bottom_padding_hd",
+        "label": "Bottom padding (HD)"
+      },
+      {
+        "type": "text",
+        "id": "top_padding_hhd",
+        "label": "Top padding (HHD)"
+      },
+      {
+        "type": "text",
+        "id": "bottom_padding_hhd",
+        "label": "Bottom padding (HHD)"
+      },
+      {
+        "type": "header",
+        "content": "General Settings"
+      },
+      {
+        "type": "text",
+        "id": "section_id",
+        "label": "Section ID",
+        "info": "For anchor link. input example: section-name"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "With Text",
+        "type": "with_text",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "img_d",
+            "label": "Image Desktop"
+          },
+          {
+            "type": "image_picker",
+            "id": "img_m",
+            "label": "Image Mobile"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "text",
+            "id": "link_label_1",
+            "label": "Link Label #1"
+          },
+          {
+            "type": "url",
+            "id": "link_url_1",
+            "label": "Link URL #1"
+          },
+          {
+            "type": "text",
+            "id": "link_label_2",
+            "label": "Link Label #2"
+          },
+          {
+            "type": "url",
+            "id": "link_url_2",
+            "label": "Link URL #2"
+          },
+          {
+            "type": "text",
+            "id": "link_label_3",
+            "label": "Link Label #3"
+          },
+          {
+            "type": "url",
+            "id": "link_url_3",
+            "label": "Link URL #3"
+          },
+          {
+            "type": "text",
+            "id": "link_label_4",
+            "label": "Link Label #4"
+          },
+          {
+            "type": "url",
+            "id": "link_url_4",
+            "label": "Link URL #4"
+          },
+          {
+            "type": "text",
+            "id": "link_label_5",
+            "label": "Link Label #5"
+          },
+          {
+            "type": "url",
+            "id": "link_url_5",
+            "label": "Link URL #5"
+          }
+        ]
+      },
+      {
+        "name": "Image Only",
+        "type": "img_only",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "img_d",
+            "label": "Image Desktop"
+          },
+          {
+            "type": "image_picker",
+            "id": "img_m",
+            "label": "Image Mobile"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "URL"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image + Text Scroll Animation"
+      }
+    ]
+  }
+{% endschema %}

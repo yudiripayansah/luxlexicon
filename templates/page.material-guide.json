@@ -1,0 +1,177 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "heading_text_nfeTYJ": {
+      "type": "heading-text",
+      "settings": {
+        "max-width-d": 440,
+        "bg_color": "",
+        "heading_color": "",
+        "text_color": "",
+        "heading": "Our Materials",
+        "title_text_element": "h1",
+        "title_text_size": "h2",
+        "text": "<p>A priority on materials is pertinent to us. Over the years, we have worked with exclusive, customised fabrics sourced direct from mill—a subtle, yet signature mark of an IN GOOD COMPANY piece.<\/p>",
+        "link_label": "",
+        "link_url": "",
+        "link_label2": "",
+        "link_url2": "",
+        "link_gap_pc": "d-mt-15",
+        "link_gap_mobile": "mt-10",
+        "top_padding_m": 30,
+        "bottom_padding_m": 0,
+        "top_padding_t": 30,
+        "bottom_padding_t": 0,
+        "top_padding": 50,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "material_guide_gF4tgi": {
+      "type": "material-guide",
+      "blocks": {
+        "entry_mHWk9p": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/dummy_290x387_ffffff_cccccc.png",
+            "mobile_image": "shopify:\/\/shop_images\/dummy_155x206_ffffff_cccccc.png",
+            "title": "Cotton",
+            "caption": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut",
+            "link_label": "Care guide",
+            "link_url": "https:\/\/www.google.com",
+            "link_direction": "drawer",
+            "drawer_title": "CARE GUIDE FOR COTTON",
+            "drawer_content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed dia.<\/p><ul><li>At vero eos et accusam et justo<\/li><li>Stet clita kasd gubergren, no sea takimata<\/li><li>At vero eos et accusam et justo<\/li><\/ul>"
+          }
+        },
+        "entry_EyWwmP": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/dummy_290x387_ffffff_cccccc.png",
+            "mobile_image": "shopify:\/\/shop_images\/dummy_155x206_ffffff_cccccc.png",
+            "title": "Cotton Jersey",
+            "caption": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut",
+            "link_label": "Care guide",
+            "link_url": "",
+            "link_direction": "drawer",
+            "drawer_title": "Cotton Jersey",
+            "drawer_content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut #2<\/p>"
+          }
+        },
+        "entry_N4w7HH": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/dummy_290x387_ffffff_cccccc.png",
+            "mobile_image": "shopify:\/\/shop_images\/dummy_155x206_ffffff_cccccc.png",
+            "title": "Crepe",
+            "caption": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut",
+            "link_label": "Care guide",
+            "link_url": "https:\/\/www.google.com",
+            "link_direction": "redirect",
+            "drawer_title": "",
+            "drawer_content": ""
+          }
+        },
+        "entry_Cf7QQC": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/dummy_290x387_ffffff_cccccc.png",
+            "mobile_image": "shopify:\/\/shop_images\/dummy_155x206_ffffff_cccccc.png",
+            "title": "Cupro",
+            "caption": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut",
+            "link_label": "Care guide",
+            "link_url": "https:\/\/www.google.com",
+            "link_direction": "redirect",
+            "drawer_title": "",
+            "drawer_content": ""
+          }
+        },
+        "entry_x3HPqV": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/dummy_290x387_ffffff_cccccc.png",
+            "mobile_image": "shopify:\/\/shop_images\/dummy_155x206_ffffff_cccccc.png",
+            "title": "Denim",
+            "caption": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut",
+            "link_label": "Care guide",
+            "link_url": "https:\/\/www.google.com",
+            "link_direction": "redirect",
+            "drawer_title": "",
+            "drawer_content": ""
+          }
+        },
+        "entry_gJ3xiD": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/dummy_290x387_ffffff_cccccc.png",
+            "mobile_image": "shopify:\/\/shop_images\/dummy_155x206_ffffff_cccccc.png",
+            "title": "Gabardine",
+            "caption": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut",
+            "link_label": "Care guide",
+            "link_url": "https:\/\/www.google.com",
+            "link_direction": "redirect",
+            "drawer_title": "",
+            "drawer_content": ""
+          }
+        },
+        "entry_MYzfL8": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/dummy_290x387_ffffff_cccccc.png",
+            "mobile_image": "shopify:\/\/shop_images\/dummy_155x206_ffffff_cccccc.png",
+            "title": "Hemp",
+            "caption": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut",
+            "link_label": "Care guide",
+            "link_url": "https:\/\/www.google.com",
+            "link_direction": "redirect",
+            "drawer_title": "",
+            "drawer_content": ""
+          }
+        },
+        "entry_4BCr9R": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/dummy_290x387_ffffff_cccccc.png",
+            "mobile_image": "shopify:\/\/shop_images\/dummy_155x206_ffffff_cccccc.png",
+            "title": "Silk",
+            "caption": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut",
+            "link_label": "Care guide",
+            "link_url": "https:\/\/www.google.com",
+            "link_direction": "redirect",
+            "drawer_title": "",
+            "drawer_content": ""
+          }
+        }
+      },
+      "block_order": [
+        "entry_mHWk9p",
+        "entry_EyWwmP",
+        "entry_N4w7HH",
+        "entry_Cf7QQC",
+        "entry_x3HPqV",
+        "entry_gJ3xiD",
+        "entry_MYzfL8",
+        "entry_4BCr9R"
+      ],
+      "settings": {
+        "top_padding_m": 30,
+        "bottom_padding_m": 0,
+        "top_padding_t": 30,
+        "bottom_padding_t": 0,
+        "top_padding": 50,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    }
+  },
+  "order": [
+    "heading_text_nfeTYJ",
+    "material_guide_gF4tgi"
+  ]
+}

@@ -1,0 +1,361 @@
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+  <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+  <head>
+    
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NRTNXB6');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Global Site Tag (gtag.js) - Google AdWords: 871551418 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-871551418"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-871551418', {'send_page_view': false});
+</script>
+
+<!-- Hotjar Tracking Code for jcojewellery.com -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:2218762,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+ <!-- Install this snippet AFTER the Hotjar tracking code. -->
+<script>
+var userId = 2218762 || null; // Replace your_user_id with your own if available.
+window.hj('identify', userId, {
+    // Add your own custom attributes here. Some EXAMPLES:
+    // 'Signed up': '2019—06-20Z', // Signup date in ISO-8601 format.
+    // 'Last purchase category': 'Electronics', // Send strings with quotes around them.
+    // 'Total purchases': 15, // Send numbers without quotes.
+    // 'Last purchase date': '2019-06-20Z', // Send dates in ISO-8601 format.
+    // 'Last refund date': null, // Send null when no value exists for a user.
+});
+</script>
+
+<!-- Tiktok Tracking -->
+<script>
+    (function() {
+      var ta = document.createElement('script'); ta.type = 'text/javascript'; ta.async = true;
+      ta.src = 'https://analytics.tiktok.com/i18n/pixel/sdk.js?sdkid=BSBQTA7MEKP3O7GV7AV0';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ta, s);
+    })();
+</script>
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": "{{ shop.name }}",
+    "url": "https://www.jcojewellery.com",
+    "sameAs": [
+    "https://www.facebook.com/jcojewellery",
+    "https://twitter.com/jcojewellery",
+    "https://www.pinterest.com/jcojewellery/",
+    "https://www.instagram.com/jcojewellery/"
+    ]
+  }
+</script>
+
+<!-- Bing tracking code -->
+<script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"187083311", enableAutoSpaTracking: true};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script>
+<!-- end Bing tracking code -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn-stamped-io.azureedge.net">
+    <link rel="dns-prefetch" href="https://cdn-stamped-io.azureedge.net">
+
+    {%- if template == 'list-collections' -%}
+      <meta name="robots" content="noindex, nofollow">
+    {%- endif -%}
+
+    <!-- user datalayer -->
+    {%- if customer -%}
+      <meta name="shopify_customer_id_{{customer.id}}" content="">
+
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         window.dataLayer.push({
+              'event' : 'user',
+              'user_id' : '{{ customer.id }}' //this should be replaced with an actual ID
+        });
+      </script>
+    {%- endif -%}
+    
+    <link rel="preconnect" href="//cdn.shopify.com" />
+    <link rel="dns-prefetch" href="//cdn.shopify.com" />
+    <link rel="preconnect" href="//v.shopify.com" />
+    <link rel="dns-prefetch" href="//v.shopify.com" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    <meta name="google-site-verification" content="k1STYtvhvJzlK_v9BI49Rh-iORYDhzcPcv3J0Rf-6Oc" />
+    <meta name="p:domain_verify" content="048d5570a3cb41566a74d4542a22839d"/>
+    
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon != blank %}<link
+        rel="shortcut icon"
+        href="{{ settings.favicon | img_url:'100x' }}"
+        type="image/png">{%- endif -%}
+    {%- capture seo_title -%}
+      {{ page_title }}
+      {%- if current_tags -%}
+        {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+      {%- endif -%}
+      {%- if current_page != 1 -%}
+        &ndash; {{ 'general.meta.page' | t: page: current_page }}
+      {%- endif -%}
+      {%- unless page_title contains shop.name -%}
+        &ndash; {{ shop.name }}
+      {%- endunless -%}
+    {%- endcapture -%}
+    <title>{{ seo_title }}</title>
+    
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+    {%- if settings.typography != blank -%}
+      {{ settings.typography }}
+    {%- endif -%}
+    {{ 'style.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'header.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'style-custom.css' | asset_url | stylesheet_tag: preload: true }}
+
+    <style>
+    {%- paginate shop.metaobjects["color"].values by 50 -%}
+      {%- for color in shop.metaobjects["color"].values -%}
+          {%- assign color_name = color.name | handleize -%}
+          {%- assign color_hex = color.hex -%}
+          {%- assign color_image = color.image -%}
+          .swatch-{{ color_name }}{
+              {%- unless color_hex == blank -%} background-color: {{ color_hex }};{%- endunless -%}
+              {%- unless color_image == blank -%}background-image: url({{ color_image | image_url }});background-size:contain;{%- endunless -%}
+          }
+      {%- endfor -%}
+    {%- endpaginate -%}
+    </style>
+
+    {%- if request.page_type == "article" or request.page_type == "blog" -%}
+      <link
+        rel="preload"
+        href="{{ 'blog.css' | asset_url }}"
+        as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+      {{ 'clipboard.min.js' | asset_url | script_tag }}
+    {%- elsif request.page_type contains "customers/" or template == 'page.orders' -%}
+      <link
+        rel="preload"
+        href="{{ 'account.css' | asset_url }}"
+        as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    {%- elsif request.page_type == "cart" -%}
+      <link
+        rel="preload"
+        href="{{ 'cart.css' | asset_url }}"
+        as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    {%- elsif request.page_type == "collection" or template.suffix == 'collection' or request.page_type == "search"-%}
+      <link
+        rel="preload"
+        href="{{ 'collection.css' | asset_url }}"
+        as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    {%- elsif request.page_type == "page" -%}
+      <link
+        rel="preload"
+        href="{{ 'page.css' | asset_url }}"
+        as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    {%- elsif request.page_type == "product" -%}
+      <link
+        rel="preload"
+        href="{{ product.featured_image | image_url: width: "2000" }}"
+        as="image"
+      >
+
+      <link
+        rel="preload"
+        href="{{ 'product.css' | asset_url }}"
+        as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    {%- elsif request.page_type == "search" -%}
+      <link
+        rel="preload"
+        href="{{ 'search.css' | asset_url }}"
+        as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    {%- endif -%}
+
+    <!-- Begin Recently Viewed Products -->
+    {%- unless request.design_mode -%}
+      {{ 'product-recently-viewed.js' | asset_url | script_tag }} 
+      {% if template contains 'product' %}
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            Shopify.Products.recordRecentlyViewed();
+          });
+        </script> 
+      {% endif %}
+    {%- endunless -%}
+    <!-- End Recently Viewed Products --> 
+
+    
+    <link rel="preload" href="{{ 'vendor.min.js' | asset_url }}" as="script">
+    <link rel="preload" href="{{ 'header.js' | asset_url }}" as="script">
+    
+    {{ 'vendor.min.js' | asset_url | script_tag }}
+    {{ 'header.js' | asset_url | script_tag }}
+    {{ 'script-custom.js' | asset_url | script_tag }}
+    
+    {%- comment -%} GWP script {%- endcomment -%}
+    {%- render 'social-meta-tags' -%} 
+
+    {{ content_for_header }}
+    
+    <script>
+      $360Shop = {
+        money_with_currency_format: '{{ shop.money_with_currency_format }}'
+      };
+    </script>
+
+    {%- if template == 'index' -%}
+      <script type="application/ld+json" class="aioseo-schema">
+          {
+              "@context": "https:\/\/schema.org",
+              "@graph": [
+                  {
+                      "@type": "LocalBusiness",
+                      "name": "{{ shop.name }}",
+                      "image": "{{ 'https://cdn.shopify.com/s/files/1/0745/6404/3070/files/LVC_Logo.jpg' }}",
+                      "url": "{{ shop.url }}",
+                      "openingHoursSpecification": [
+                          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["https:\/\/schema.org\/Monday"], "opens": "09:00", "closes": "17:00" },
+                          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["https:\/\/schema.org\/Tuesday"], "opens": "09:00", "closes": "17:00" },
+                          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["https:\/\/schema.org\/Wednesday"], "opens": "09:00", "closes": "17:00" },
+                          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["https:\/\/schema.org\/Thursday"], "opens": "09:00", "closes": "17:00" },
+                          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["https:\/\/schema.org\/Friday"], "opens": "09:00", "closes": "17:00" },
+                          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["https:\/\/schema.org\/Saturday"], "opens": "09:00", "closes": "17:00" },
+                          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["https:\/\/schema.org\/Sunday"], "opens": "09:00", "closes": "17:00" }
+                      ]
+                  },
+                  {
+                      "@type": "Organization",
+                      "name": "{{ shop.name }}",
+                      "url": "{{ shop.url }}",
+                      "logo": "{{ 'https://cdn.shopify.com/s/files/1/0745/6404/3070/files/LVC_Logo.jpg' }}"
+                  },
+                  {
+                      "@type": "WebPage",
+                      "url": "{{ shop.url }}",
+                      "name": "{{ page_title | escape }}",
+                      "description": "{{ page_description | escape }}",
+                      "inLanguage": "{{ localization.language }}"
+                  },
+                  {
+                      "@type": "WebSite",
+                      "url": "{{ shop.url }}",
+                      "name": "{{ shop.name }}",
+                      "description": "{{ page_description | escape }}",
+                      "inLanguage": "{{ localization.language }}",
+                      "potentialAction": { "@type": "SearchAction", "target": { "@type": "EntryPoint", "urlTemplate": "{{ shop.url }}/search?q={search_term_string}" }, "query-input": "required name=search_term_string" }
+                  }
+              ]
+          }
+      </script>
+    {%- endif -%}
+
+    {% if template contains 'article' %}
+      <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Article",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ canonical_url }}"
+          },
+          "headline": "{{ article.title }}",
+          "image": [
+            "{{ article.image.src | img_url: '800x' }}"
+          ],
+          "datePublished": "{{ article.published_at | date: "%Y-%m-%dT%H:%M:%SZ" }}",
+          "dateModified": "{{ article.updated_at | date: "%Y-%m-%dT%H:%M:%SZ" }}",
+          "author": {
+            "@type": "Person",
+            "name": "{{ article.author }}"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "{{ shop.name }}",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "{{ shop.logo | img_url: '600x600' }}"
+            }
+          },
+          "description": "{{ article.excerpt }}"
+        }
+      </script>
+    {% endif %}
+
+  {%- render 'data_layer' -%}
+  {% comment %}
+  {% render 'weglot_hreftags' %}
+  {% endcomment %}
+  {%- render 'weglot_switcher' -%}
+</head>
+
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NRTNXB6"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    {% section 'typography-header' %}
+    {% section 'typography-body' %}
+    {% section 'colors' %}
+    {% section 'buttons' %}
+    {% section 'links' %}
+    {% comment %} {% section 'color-swatch' %} {% endcomment %}
+    {% section 'size-guide' %}
+    {% comment %}{% section 'selection-popup-subscription' %}{% endcomment %}
+    {% section 'announcement-popup' %}
+    
+    <div class="page-loading w-full h-full fixed top-0 left-0 bg-white opacity-7 zi-9">&nbsp;</div>
+    <div class="page-overlay header-cart-overlay" onclick="$360.hideHeaderCart()">&nbsp;</div>
+    <div class="mobile-atc"></div>
+    <div class="header-cart relative no-cross-sell" id="header-cart"></div>
+    {%- section 'header' -%}
+    {%- section 'announcement-bar' -%}
+    
+    {% if canonical_url contains "challenge" %}
+      <section class="global-content-top-margin pt-20 t-pt-30 d-pt-50 pb-20 t-pb-30 d-pb-50">
+        <div class="container">
+          {{ content_for_layout }}
+        </div>
+      </section>
+    {% else %}
+      {{ content_for_layout }}
+    {% endif %}
+
+    <script src="//code.tidio.co/ooan68i67moaq7m2bcfhs6haxstp3kss.js" async></script>
+
+    <!-- back in stock -->
+    {%- render 'back-in-stock-helper' -%}
+    <!-- end back in stock -->
+
+    {% section 'footer' %}
+</body></html>

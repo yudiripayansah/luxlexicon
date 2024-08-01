@@ -1,0 +1,124 @@
+{%  comment  %} Love&Co Theme {% endcomment %}
+<style>
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+  }
+  #shopify-section-{{ section.id }} .collection-main-banner {
+    position: relative;
+  }
+  #shopify-section-{{ section.id }} .cmb-caption {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; 
+  }
+  #shopify-section-{{ section.id }} .cmb-caption h3 {
+    color: #2C2C2C;
+    text-transform: uppercase;
+  }
+  #shopify-section-{{ section.id }} .cmb-caption p {
+    color: #6C6C6C;
+  }
+  @media screen and (min-width: 768px){
+    #shopify-section-{{ section.id }} .cmb-caption {
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      left: 0;
+    }
+  }
+  @media screen and (min-width: 1024px){
+    #shopify-section-{{ section.id }} .cmb-caption {
+      left: 0;
+    }
+  }
+</style>
+<div class="collection-main-banner">
+  {%- assign image_id = "collection-main-banner-" | append: section.id -%}
+  {%- render 'global-image-wrapper-responsive',
+    image_id: image_id,
+    desktop_image: section.settings.desktop_image,
+    mobile_image: section.settings.mobile_image,
+    preload: section.settings.preload_image
+  %}
+  <div class="cmb-caption pt-50 pb-50"> 
+    <div class="container width-100">
+      <{{ section.settings.title_dom }} class="h3" style="color: {{ section.settings.heading_color }}">{{ section.settings.title | newline_to_br }}</{{ section.settings.title_dom }}>
+      <p class="mt-5 t-max-330 d-max-400 hd-max-430" style="color: {{ section.settings.body_color }}">{{ section.settings.text }}</p>
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Collection Main Banner",
+    "settings": [
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color",
+        "default": "#ECE8E7"
+      },
+      {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Heading Text Color",
+        "default": "#2c2c2c"
+      },
+      {
+        "type": "color",
+        "id": "body_color",
+        "label": "Body Text Color",
+        "default": "#6C6C6C"
+      },
+      {
+        "type": "textarea",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "select",
+        "id": "title_dom",
+        "label": "Title DOM Type",
+        "options": [
+          {
+            "value": "h1",
+            "label": "H1"
+          },
+          {
+            "value": "h2",
+            "label": "H2"
+          }
+        ],
+        "default": "h2",
+        "info": "This is for SEO purposes. Please choose H1 if this section is the first section of the page"
+      },
+      {
+        "type": "textarea",
+        "id": "text",
+        "label": "Text"
+      },
+      {
+        "type": "image_picker",
+        "id": "desktop_image",
+        "label": "Desktop Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile Image"
+      },
+      {
+          "type": "checkbox",
+          "id": "preload_image",
+          "label": "Preload Image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Collection Main Banner"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,341 @@
+{% comment %} in-good-company {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  {%- if section.settings.mw_mobile != blank and section.settings.mw_mobile != 0 -%}
+    #{{el_id}} .two-x-one-wrapper {
+      margin: 0 auto;
+      max-width: calc({{ section.settings.mw_mobile }}px + 50px);
+    }
+  {%- endif -%}
+  {%- if section.settings.bg_color != blank -%}
+  #{{el_id}} {
+    background-color: {{ section.settings.bg_color }};
+  }
+  {%- endif -%}
+  #{{el_id}} .two-x-one .two-x-one-single:last-child {
+    margin-bottom: 0;
+  }
+  {% if section.settings.container_setting == 'no-container' %}
+    #{{el_id}} .two-x-one .two-x-one-single {
+        padding-left: 0;
+        padding-right: 0;
+    }
+  {% endif %}
+  #{{el_id}} .two-x-one .two-x-one-single-margin {
+    margin-bottom: 25px;
+  }
+  #{{el_id}} .two-x-one .two-x-one-single-margin:nth-last-child(-n+2) {
+    margin-bottom: 0;
+  }
+  #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute {
+    position: absolute;
+    width: 100%;
+    bottom: 20px;
+    {%- if section.settings.container_setting == 'container' -%}
+      margin: 0 -12.5px;
+    {%- endif -%}
+  }
+  #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-left {
+    {%- if section.settings.container_setting == 'container' -%}
+      padding: 0 32.5px;
+    {%- else -%}
+      padding: 0 20px;
+    {%- endif -%}
+    text-align: left;
+  }
+  #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-center {
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
+  }
+  #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-center p {
+    padding: 0 20px;
+  }
+  #{{el_id}} .two-x-one .two-x-one-caption p {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-right {
+    {%- if section.settings.container_setting == 'container' -%}
+      padding: 0 40px;
+    {%- else -%}
+      padding: 0 20px;
+    {%- endif -%}
+    text-align: right;
+  }
+  @media screen and (min-width: 600px) {
+    {%- if section.settings.mw_tablet != blank and section.settings.mw_tablet != 0  -%}
+      #{{el_id}} .two-x-one-wrapper {
+        margin: 0 auto;
+        max-width: calc({{ section.settings.mw_tablet }}px + 50px);
+      }
+    {%- endif -%}
+  }
+  @media screen and (min-width: 1024px) {
+    {%- if section.settings.mw_desktop != blank and section.settings.mw_desktop != 0  -%}
+      #{{el_id}} .two-x-one-wrapper {
+        margin: 0 auto;
+        max-width: calc({{ section.settings.mw_desktop }}px + 50px);
+      }
+    {%- else -%}
+      #{{el_id}} .two-x-one-wrapper {
+        max-width: 100%;
+      }
+    {%- endif -%}
+    #{{el_id}} .two-x-one .two-x-one-single:nth-last-child(-n + 2) {
+      margin-bottom: 0;
+    }
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute {
+      position: absolute;
+      bottom: 30px;
+      {%- if section.settings.container_setting == 'container' -%}
+        margin: 0 -25px;
+      {%- endif -%}
+    }
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-left {
+      {%- if section.settings.container_setting == 'container' -%}
+        padding: 0 50px;
+      {%- else -%}
+        padding: 0 25px;
+      {%- endif -%}
+    }
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-center {
+      bottom: 30px;
+    }
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-center p {
+      padding: 0;
+    }
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-right {
+      {%- if section.settings.container_setting == 'container' -%}
+        padding: 0 50px;
+      {%- else -%}
+        padding: 0 25px;
+      {%- endif -%}
+    }
+    #{{el_id}} .two-x-one .two-x-one-single-margin {
+      margin-bottom: 50px;
+    }
+  }
+</style>
+
+<div class="two-x-one">
+  {% if section.settings.container_setting == 'container' %}<div class="container">{% endif %}
+  <div class="row two-x-one-wrapper {% if section.settings.container_setting == 'no-container' %}mr-0 ml-0{% endif %}">
+    <div class="global-flex flex-wrap">
+      {%- for block in section.blocks -%}
+        <div class="col-6 col-d-6 two-x-one-single {% if forloop.length > 2 %}two-x-one-single-margin{% endif %}">
+          {%- assign image_id = 'image-text-image-' | append: block.id -%}
+          {%- assign preload = '' -%}
+          {%- if section.index == 1 -%}
+            {%- assign preload = true -%}
+          {%- endif -%}
+
+          {%- render 'global-image-wrapper-responsive',
+            image_id: image_id,
+            desktop_image: block.settings.desktop_image,
+            mobile_image: block.settings.mobile_image,
+            additional_class: 'no-bg',
+            preload: preload
+          %}
+          {%- if block.settings.text_position == 'inside' -%}
+            {%- if block.settings.text_align == 'left' -%}
+              {%- assign text_position_align = 'caption-absolute-left' -%}
+            {%- elsif block.settings.text_align == 'center' -%}
+              {%- assign text_position_align = 'caption-absolute-center' -%}
+            {%- elsif block.settings.text_align == 'right' -%}
+              {%- assign text_position_align = 'caption-absolute-right' -%}
+            {%- endif -%}
+          {%- elsif block.settings.text_position == 'outside' -%}
+            {%- if block.settings.text_align == 'left' -%}
+              {%- assign text_position_align = 'tl' -%}
+            {%- elsif block.settings.text_align == 'center' -%}
+              {%- assign text_position_align = 'tc' -%}
+            {%- elsif block.settings.text_align == 'right' -%}
+              {%- assign text_position_align = 'tr' -%}
+            {%- endif -%}
+          {%- endif -%}
+          <div
+            class="two-x-one-caption{% if section.settings.container_setting == 'no-container' and block.settings.text_position == 'outside' %} pl-20 d-pl-25 pr-20 d-pr-25{% endif %}{% if block.settings.text_position == 'inside' %} caption-absolute{% endif %}"
+          >
+            <div class="{{ text_position_align }}">
+              {% if block.settings.caption != blank %}
+                <div class="global-flex flex-wrap{% if block.settings.text_align == 'right' %} jc-end{% elsif block.settings.text_align == 'center' %} jc-center{% endif %}">
+                  <p class="p2 c-grey pt-15 col-12 {% if block.settings.text_color == "white" %}c-white{% endif %}">
+                    {{ block.settings.caption | newline_to_br }}
+                  </p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  {% if section.settings.container_setting == 'container' %}</div>{% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Article - Two Cols Image",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "number",
+      "id": "mw_mobile",
+      "label": "Max width mobile"
+    },
+    {
+      "type": "number",
+      "id": "mw_tablet",
+      "label": "Max width tablet"
+    },
+    {
+      "type": "number",
+      "id": "mw_desktop",
+      "label": "Max width desktop"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "radio",
+      "id": "container_setting",
+      "label": "Container Setting",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "no-container", "label": "No Container" }
+      ],
+      "default": "container"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "textarea",
+          "id": "caption",
+          "label": "Caption"
+        },
+        {
+          "type": "radio",
+          "id": "text_align",
+          "label": "Text Align",
+          "options": [
+            { "value": "left", "label": "Align Left" },
+            { "value": "center", "label": "Align Center" },
+            { "value": "right", "label": "Align Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "radio",
+          "id": "text_color",
+          "label": "Text Color",
+          "options": [
+            { "value": "black", "label": "Black" },
+            { "value": "white", "label": "White" }
+          ],
+          "default": "black"
+        },
+        {
+          "type": "radio",
+          "id": "text_position",
+          "label": "Text Position",
+          "options": [
+            { "value": "outside", "label": "Outside Image" },
+            { "value": "inside", "label": "Inside Image" }
+          ],
+          "default": "outside"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article - Two Cols Image"
+    }
+  ]
+}
+{% endschema %}

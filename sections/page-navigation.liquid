@@ -1,0 +1,283 @@
+{% comment %} IGC - Yudi {% endcomment %}
+{% liquid
+  assign el_id = 'page-navigation-' | append: section.id
+  assign ss = section.settings
+  assign sb = section.blocks
+  render 'section-padding', section: section, el_id: el_id
+  assign pnclass = 'relative'
+  if ss.hide_on_page
+    assign pnclass = 'fixed'
+  endif
+%}
+<style>
+  #{{el_id}}.pn-el {
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  #{{el_id}}.pn-el::-webkit-scrollbar {
+    display: none;
+  }
+  #{{el_id}} .pn-wrap {
+    overflow: visible!important;
+    clip-path: inset(-100vw -100vw -100vw -100vw);
+    white-space: nowrap;
+  }
+  #shopify-section-{{ section.id }} {
+    position: sticky;
+    transition: 0.3s ease all;
+  }
+  #shopify-section-{{ section.id }}.zi-7.zi-2 {
+    z-index: 99;
+  }
+  #{{el_id}}.pn-el.fixed {
+    position: relative;
+  }
+  #{{el_id}} .pn-link {
+    position: relative;
+    color: var(--black);
+  }
+  #{{el_id}} .pn-link::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    left: 0;
+    bottom: -1px;
+    background: var(--black);
+    transition: 0.3s ease all;
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  #{{el_id}} .pn-link.active::before {
+    transform: scaleX(1);
+  }
+
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .pn-link {
+      color: var(--grey);
+    }
+    #{{el_id}} .pn-link.active {
+      color: var(--black);
+    }
+    #{{el_id}} .pn-link.active::before {
+      display: none;
+    }
+    #shopify-section-{{ section.id }} {
+      position: relative;
+    }
+    #{{el_id}}.pn-el.fixed {
+      position: fixed;
+      transform: translateY(-100%);
+      transition: .3s ease all;
+    }
+    #{{el_id}}.pn-el.fixed.show {
+      transform: translateY(0);
+    }
+  }
+</style>
+<div id="{{el_id}}" class="top-0 left-0 zi-5 w-full bg-white pn-el d-bb-1 b-border {{pnclass}}">
+  <div class="container">
+    <div class="pn-wrap pt-15 pb-15 flex">
+      {% for block in sb %}
+        {% assign bs = block.settings %}
+        {% assign target = bs.section_id %}
+        {% if bs.url != blank %}
+          {% assign target = bs.url %}
+        {% endif %}
+        {% if bs.title != blank %}
+          <div class="d-mr-25 mr-20 {% if forloop.last == true %}d-pr-25 pr-20{% endif %}">
+            <a href="{{target}}" onclick="pageNav(event)" class="c-grey h4 uppercase pn-link show-m-inline-block">
+              {{- bs.title -}}
+            </a>
+          </div>
+        {%- endif -%}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<script>
+  const headerHeight = document.querySelector('.header-con-outer').offsetHeight;
+  const section_elem = document.querySelector('#shopify-section-{{ section.id }}');
+
+  function pageNav(e) {
+    const this_elem = e.target;
+    if(this_elem.getAttribute('href').indexOf('#') >= 0) {
+      e.preventDefault();
+
+      const elem_id = document.querySelector(this_elem.getAttribute('href'));
+      let newTopPos = elem_id.offsetTop - section_elem.offsetHeight;
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      const delay = setTimeout(() => {
+        if(newTopPos < currentScrollTop) {
+          window.scrollTo({
+            top: newTopPos+1,
+            behavior: 'smooth'
+          });
+        }
+        
+        clearTimeout(delay);
+      }, 1000);
+
+      if(elem_id != null) {
+        window.scrollTo({
+          top: newTopPos,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    let lastScrollTop = 0;
+    let stickyTitle = document.querySelector('.pn-el')
+    let headerBar = document.querySelector('#header-bar').offsetHeight;
+    let totalHeaderHeight = headerHeight + headerBar - 0.5;
+    if(screen.width > 1023) {
+      stickyTitle.style.top = totalHeaderHeight + 'px';
+      stickyTitle.classList.add('bt-1')
+    }
+    const observer = new IntersectionObserver((entries) => {
+      let stickyTitle = document.querySelector('.pn-el')
+      return entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          stickyTitle.style.top = '0';
+          section_elem.classList.add('zi-2')
+          stickyTitle.classList.remove('show')
+          stickyTitle.classList.remove('bt-1')
+          stickyTitle.classList.remove('bb-1')
+
+          {% if ss.hide_on_page == false %}
+            stickyTitle.classList.remove('fixed')
+            stickyTitle.classList.remove('zi-5')
+          {% endif %}
+        } else {
+          {% if ss.hide_on_page == false %}
+            stickyTitle.classList.add('fixed')
+            stickyTitle.classList.add('zi-5')
+          {% endif %}
+          stickyTitle.classList.add('show')
+          stickyTitle.classList.add('bb-1')
+        }
+      });
+    }, {
+      root: null,
+      threshold: 0
+    });
+    let obsTarget = document.querySelector('{{ss.section_id}}')
+    observer.observe(obsTarget);
+      function handleScroll() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        let st = document.querySelector('#shopify-section-{{ section.id }} .pn-el.show');
+
+        if(screen.width > 1023) {
+          if(st){
+            if (scrollTop > lastScrollTop) {
+              st.style.top = '0px';
+              st.classList.remove('bt-1')
+            } else {
+              st.style.top = headerHeight - 0.5 + 'px';
+              st.classList.add('bt-1')
+            }
+          }
+        } else {
+          if (scrollTop > lastScrollTop) {
+              section_elem.style.top = '0px';
+              st.classList.add('pt-1');
+              st.classList.remove('bt-1');
+            } else {
+              section_elem.style.top = headerHeight + 'px';
+              st.classList.add('bt-1')
+              st.classList.remove('pt-1');
+            }
+        }
+          lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+      }
+      window.addEventListener('scroll', handleScroll);
+
+      const navLinks = document.querySelectorAll('#shopify-section-{{ section.id }} .pn-link');
+      const sections = document.querySelectorAll('.global-content-top-margin div[id*="shopify-section-"]')
+
+      // Function to handle scroll event
+      let currentSection = "";
+      function onScroll() {
+          let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+          navLinks.forEach(link => {
+              const currSectionId = link.getAttribute('href');
+              const section = document.querySelector(currSectionId);
+              const sectionTop = section.offsetTop;
+              
+              if ((scrollTop+section_elem.offsetHeight) >= sectionTop) {
+                link.classList.add('temp-active');
+              }
+          });
+
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+          });
+          
+          const activeLinks = document.querySelectorAll(`#shopify-section-{{ section.id }} .pn-link.temp-active`);
+          
+          activeLinks.forEach(link => link.classList.remove('temp-active'));
+
+          if (activeLinks.length > 0) {
+            activeLinks[activeLinks.length - 1].classList.add('active');
+          }
+      }
+      
+      window.addEventListener('scroll', onScroll);
+      onScroll();
+  });
+</script>
+{% schema %}
+{
+  "name": "Page Navigation",
+  "class": "as-sticky-navbar-old zi-7 has-sticky-elem",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "hide_on_page",
+      "label": "Hide on page (desktop)",
+      "info": "will appear after user scrolls"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section Id",
+      "info": "Page navigation will appear when the user scrolls past this section"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "section_id",
+          "label": "Section ID",
+          "info": "For anchor link. Insert with #."
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page Navigation",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

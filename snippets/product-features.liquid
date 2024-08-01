@@ -1,0 +1,51 @@
+{%- if product.metafields.features.enable == 'true' and product.metafields.features.image_1 != blank -%}
+    {% assign image_urls = '' %}
+    {% assign widths = '' %}
+    {% assign heights = '' %}
+    {% assign titles = '' %}
+    {% assign descriptions = '' %}
+    {%- for num in (1..5) -%}
+        {%- assign image_setting = 'image_' | append: forloop.index -%}
+        {%- assign title_setting = 'title_' | append: forloop.index -%}
+        {%- assign description_setting = 'description_' | append: forloop.index -%}
+
+        {% assign image = product.metafields.features[image_setting][0] %}
+	    {% capture image_urls %}{{ image_urls }}||{{ image.src }}{% endcapture %}
+	    {% capture widths %}{{ widths }}||{{ image.width }}{% endcapture %}
+	    {% capture heights %}{{ heights }}||{{ image.height }}{% endcapture %}
+	    {% capture titles %}{{ titles }}||{{ product.metafields.features[title_setting] }}{% endcapture %}
+	    {% capture descriptions %}{{ descriptions }}||{{ product.metafields.features[description_setting] }}{% endcapture %}
+    {%- endfor -%}
+
+    {%- assign image_urls = image_urls | remove_first: '||' -%}
+    {%- assign widths = widths | remove_first: '||' -%}
+    {%- assign heights = heights | remove_first: '||' -%}
+    {%- assign titles = titles | remove_first: '||' -%}
+    {%- assign descriptions = descriptions | remove_first: '||' -%}
+
+    {%- assign image_urls = image_urls | split: '||' -%}
+    {%- assign widths = widths | split: '||' -%}
+    {%- assign heights = heights | split: '||' -%}
+    {%- assign titles = titles | split: '||' -%}
+    {%- assign descriptions = descriptions | split: '||' -%}
+
+    {% assign el_id = 'product-features' %}
+    {%- render 'section-padding',
+        el_id: el_id,
+        no_section: true,
+        top_padding_m: 60,
+        bottom_padding_m: 40,
+        top_padding_t: 60,
+        bottom_padding_t: 40,
+        top_padding: 100,
+        bottom_padding: 90
+    -%}
+    {%- render 'image-text-slider-2',
+        el_id: el_id,
+        image_urls: image_urls,
+        widths: widths,
+        heights: heights,
+        titles: titles,
+        descriptions: descriptions
+    -%}
+{%- endif -%}

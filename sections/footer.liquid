@@ -1,0 +1,338 @@
+{% liquid
+  assign el_id = 'site-footer-' | append: section.id
+  assign ss = section.settings
+  assign sb = section.blocks
+  assign bg_color = 'bg-black'
+  assign text_color = 'c-white'
+  if template == 'cart'
+    assign bg_color = 'bg-white'
+    assign text_color = 'c-black'
+  endif
+%}
+<style>
+  #{{el_id}} .stp-links-4 .icon,
+  #{{el_id}} .stp-links-4 .icon svg{
+    width: 12px;
+    height: 12px;
+  }
+  #{{el_id}} .stp-links-4 .icon svg *,
+  #{{el_id}} .sft-col-menu .accordion .accordion-title .icon-wrapper svg *{
+    {% if template == 'cart' %}
+      stroke: var(--black);
+    {% else %}
+      stroke: var(--white);
+    {% endif %}
+  }
+  #{{el_id}} .stp-links-4 a {
+    text-decoration: none;
+  }
+  #{{el_id}} .footer-social-links svg {
+    width: 20px;
+    height: 20px;
+  }
+  #{{el_id}} .footer-social-links svg * {
+    {% if template == 'cart' %}
+      fill: #0d0d0d;
+    {% endif %}
+  }
+  #{{el_id}} .fc-input,
+  #{{el_id}} .fc-submit {
+    height: 42px;
+    width: 100%;
+  }
+  #{{el_id}} .site-footer-bottom > .container {
+    flex-direction: column;
+  }
+  #{{el_id}} #footer-contact {
+    flex-direction: column;
+  }
+  #{{el_id}} .site-footer-top > .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  #{{el_id}} .sft-col > .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} #footer-contact {
+      flex-direction: row;
+    }
+    #{{el_id}} .sft-col,
+    #{{el_id}} .sft-col-menu {
+      border: unset
+    }
+    #{{el_id}} .sft-col-menu .accordion .description {
+      display: block !important;
+      height: auto !important;
+    }
+    #{{el_id}} .sft-col-menu .accordion .accordion-title .icon-wrapper {
+      display: none !important;
+    }
+    #{{el_id}} .sft-col > .row {
+      margin-left: -8px;
+      margin-right: -8px;
+    }
+    #{{el_id}} .fc-input,
+    #{{el_id}} .fc-submit {
+      width: 100%;
+    }
+    #{{el_id}} .fc-submit {
+      width: auto;
+    }
+    #{{el_id}} .site-footer-bottom > .container {
+      flex-direction: row;
+    }
+    #{{el_id}} .site-footer-top > .container {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    #{{el_id}} .site-footer-top > .container {
+      padding-left: 48px;
+      padding-right: 48px;
+    }
+  }
+</style>
+<footer id="{{el_id}}" class="site-footer overflow {{bg_color}}">
+  <div class="site-footer-top d-pt-48 d-pb-48">
+    <div class="container w-full">
+      <div class="row">
+        <div class="col-12 col-d-4 d-pt-0 d-pb-0 pt-40 pb-40 sft-col bb-1 b-border d-bb-0 d-pr-40">
+          <div class="container d-pl-0 d-pr-0">
+            <div class="w-full d-max-360">
+              <h3 class="h3 {{text_color}}">{{ ss.footer_mailing_title }}</h3>
+              {%- form 'contact', id: 'footer-contact', class: 'flex ai-center jc-start d-mt-24 mt-28' -%}
+                <input
+                  type="email"
+                  name="contact[email]"
+                  placeholder="{{ ss.footer_mailing_placeholder }}"
+                  class="fc-input bg-white pl-16 pr-16 p1 c-grey flex ai-center jc-start d-max-264 {% if template == 'cart' %}b-1 b-grey{% endif %}"
+                >
+                <button type="submit" class="fc-submit b-grey40 b-1 d-pl-20 d-pr-20 pl-23 pr-32 flex ai-center jc-center d-ml-8 c-grey40 mt-16 d-mt-0">{{ss.footer_mailing_submit}}</button>
+              {% endform %}
+              <div class="footer-social-links flex ai-center jc-start d-mt-24 mt-28">
+                {%- assign social = "instagram,tiktok,xhs" | split: "," -%}
+                {%- for s in social -%}
+                  {%- assign icon = s | append: "-icon" -%}
+                  {%- assign url = s | append: "-url" -%}
+                  {%- if settings[url] != blank -%}
+                    <a
+                      href="{{ settings[url] }}"
+                      class="flex ai-center jc-center {% unless forloop.first %} ml-16 {% endunless %}"
+                      target="_blank">
+                      {{ settings[icon] }}
+                    </a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-d-5 sft-col bb-1 b-border d-bb-0">
+            <div class="row">
+              <div class="sft-col-menu col-12 col-d-4 pl-20 pr-20 t-pl-30 t-pr-30 d-pl-0 d-pr-0 pt-24 pb-24 d-pt-0 d-pb-0 bb-1 b-border d-bb-0">
+                {%- assign wrapper_class = '' -%}
+                {%- assign title_wrapper_class = 'pt-0 pb-0' -%}
+                {%- assign title_class = 'p3 ' | append: text_color  -%}
+                {% capture desc_html %}
+                  <ul>
+                    {% for link in linklists[ss.footer_menu_1].links %}
+                      <li class="d-pt-20 pt-24">
+                        <a href="{{link.url}}" class="h4 {{text_color}}">{{ link.title }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endcapture %}
+                {%- render 'accordion',
+                  icon_rotate: false,
+                  wrapper_class: wrapper_class,
+                  title_wrapper_class: title_wrapper_class,
+                  title_class: title_class,
+                  desc_no_pt: true,
+                  title: ss.footer_menu_title_1,
+                  desc_html: desc_html
+                -%}
+              </div>
+              <div class="sft-col-menu col-12 col-d-4 pl-20 pr-20 t-pl-30 t-pr-30 d-pl-0 d-pr-0 pt-24 pb-24 d-pt-0 d-pb-0 bb-1 b-border d-bb-0">
+                {%- assign wrapper_class = '' -%}
+                {%- assign title_wrapper_class = 'pt-0 pb-0' -%}
+                {%- assign title_class = 'p3 ' | append: text_color  -%}
+                {% capture desc_html %}
+                  <ul>
+                    {% for link in linklists[ss.footer_menu_2].links %}
+                      <li class="d-pt-20 pt-24">
+                        <a href="{{link.url}}" class="h4 {{text_color}}">{{ link.title }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endcapture %}
+                {%- render 'accordion',
+                  icon_rotate: false,
+                  wrapper_class: wrapper_class,
+                  title_wrapper_class: title_wrapper_class,
+                  title_class: title_class,
+                  desc_no_pt: true,
+                  title: ss.footer_menu_title_2,
+                  desc_html: desc_html
+                -%}
+              </div>
+              <div class="sft-col-menu col-12 col-d-4 pl-20 pr-20 t-pl-30 t-pr-30 d-pl-0 d-pr-0 pt-24 pb-24 d-pt-0 d-pb-0">
+                {%- assign wrapper_class = '' -%}
+                {%- assign title_wrapper_class = 'pt-0 pb-0' -%}
+                {%- assign title_class = 'p3 ' | append: text_color  -%}
+                {% capture desc_html %}
+                  <ul>
+                    {% for link in linklists[ss.footer_menu_3].links %}
+                      <li class="d-pt-20 pt-24">
+                        <a href="{{link.url}}" class="h4 {{text_color}}">{{ link.title }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endcapture %}
+                {%- render 'accordion',
+                  icon_rotate: false,
+                  wrapper_class: wrapper_class,
+                  title_wrapper_class: title_wrapper_class,
+                  title_class: title_class,
+                  desc_no_pt: true,
+                  title: ss.footer_menu_title_3,
+                  desc_html: desc_html
+                -%}
+              </div>
+            </div>
+        </div>
+        <div class="col-12 col-d-3 d-pt-0 pt-40 d-pb-0 pb-16 sft-col">
+          <div class="container d-pl-0 d-pr-0">
+            <h3 class="h3 {{text_color}}">
+              {{ ss.footer_menu_title_4 }}
+            </h3>
+            <ul class="stp-links-4 d-mt-10 mt-12">
+              {% for block in sb %}
+                {% assign bs = block.settings %}
+                {% assign image_id = 'icon-fm-' | append: forloop.index %}
+                <li class="d-pt-18 d-pb-18 pt-24 pb-24 {% unless forloop.first == true %}bt-1 b-border{% endunless %}">
+                  {% assign text_class = 'uppercase spacing-1 flex ai-center b-0 p3 ' | append: text_color %}
+                  {% render 'link-icon', 
+                    id: image_id,
+                    label: bs.title, 
+                    url: bs.url,
+                    text_class: text_class,
+                    icon_image: bs.icon,
+                    left_icon: true,
+                    icon_width: 12,
+                    icon_height: 12
+                  %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="site-footer-bottom bt-1 b-border d-pt-20 d-pb-20 pt-28 pb-28">
+    <div class="container w-full flex ai-center jc-between">
+      <div class="sfb-left p3 c-grey w-full">
+        {{ ss.footer_text_bottom }}
+      </div>
+      <div class="sfb-right w-full mt-16 d-mt-0 d-tr tl">
+        {% for link in linklists[ss.footer_menu_bottom].links %}
+          <a href="{{link.url}}" class="p3 c-grey {% unless forloop.first == true %}d-ml-24 ml-16{% endunless %}">{{ link.title }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "footer_mailing_title",
+      "label": "Mailing Title"
+    },
+    {
+      "type": "text",
+      "id": "footer_mailing_placeholder",
+      "label": "Mailing Placeholder"
+    },
+    {
+      "type": "text",
+      "id": "footer_mailing_submit",
+      "label": "Mailing Submit"
+    },
+    {
+      "type": "text",
+      "id": "footer_menu_title_1",
+      "label": "Menu Title 1"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_1",
+      "label": "Menu 1"
+    },
+    {
+      "type": "text",
+      "id": "footer_menu_title_2",
+      "label": "Menu Title 2"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_2",
+      "label": "Menu 2"
+    },
+    {
+      "type": "text",
+      "id": "footer_menu_title_3",
+      "label": "Menu Title 3"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_3",
+      "label": "Menu 3"
+    },
+    {
+      "type": "text",
+      "id": "footer_menu_title_4",
+      "label": "Menu Title 4"
+    },
+    {
+      "type": "richtext",
+      "id": "footer_text_bottom",
+      "label": "Bottom Text"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_bottom",
+      "label": "Bottom Menu"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Question Link",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Link Label"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link Url"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

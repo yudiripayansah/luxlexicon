@@ -1,0 +1,322 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "faq_page_title_4P9Rze": {
+      "type": "faq-page-title",
+      "settings": {
+        "enable_border_top": false,
+        "enable_border_bottom": false,
+        "background_color": "#faf7f2",
+        "small_title_color": "",
+        "text_color": "",
+        "line_height_mobile": "",
+        "line_height_tablet": "",
+        "line_height_desktop": "",
+        "advanced_background_color": "",
+        "small_title": "",
+        "title": "Contact us",
+        "title_size": "h1",
+        "title_dom": "h1",
+        "text": "",
+        "text_size": "p2",
+        "text_align": "tl",
+        "link_label": "",
+        "link_url": "",
+        "button_label": "",
+        "button_url": "",
+        "btn_bg_color": "",
+        "btn_text_color": "",
+        "btn_hover_bg_color": "",
+        "btn_hover_text_color": "",
+        "max_width": 600,
+        "max_width_tablet": 600,
+        "max_width_desktop": 600,
+        "max_width_hhd": 600,
+        "max_width_text": 500,
+        "max_width_text_tablet": 500,
+        "max_width_text_desktop": 500,
+        "max_width_text_hhd": 600,
+        "top_padding_m": "medium",
+        "bottom_padding_m": "medium",
+        "top_padding_t": "medium",
+        "bottom_padding_t": "medium",
+        "top_padding": "medium",
+        "bottom_padding": "medium",
+        "top_padding_hd": "medium",
+        "bottom_padding_hd": "medium",
+        "top_padding_hhd": "medium",
+        "bottom_padding_hhd": "medium"
+      }
+    },
+    "contact_us_GJedqL": {
+      "type": "contact-us",
+      "blocks": {
+        "entry_Gg48Ei": {
+          "type": "entry",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/icon.calendar.contact.png",
+            "title": "Book an appointment",
+            "text": "For personalised advice, we invite you to schedule an appointment with us.",
+            "url": "https:\/\/www.google.com",
+            "new_tab": false,
+            "open_chat": false
+          }
+        },
+        "entry_zk8Dpb": {
+          "type": "entry",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/icon.mail.contact.png",
+            "title": "Submit an enquiry",
+            "text": "We welcome you to fill out our contact form.",
+            "url": "",
+            "new_tab": false,
+            "open_chat": false
+          }
+        },
+        "entry_xCfQNd": {
+          "type": "entry",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/icon.chat.contact.png",
+            "title": "Chat with a consultant",
+            "text": "Our trained consultants are available to provide personalised advice.\nOperating hours: Monday-Sunday, 10am-6pm (excluding public holidays)",
+            "url": "",
+            "new_tab": false,
+            "open_chat": true
+          }
+        },
+        "entry_tRzF8A": {
+          "type": "entry",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/icon.phone.contact.png",
+            "title": "Call us",
+            "text": "Operating hours: Monday-Sunday, 10am-6pm (excluding public holidays)\nIf we are not available, we welcome you to leave us a message via WhatsApp.",
+            "url": "",
+            "new_tab": false,
+            "open_chat": false
+          }
+        },
+        "entry_Xqtd94": {
+          "type": "entry",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/icon.whatsapp.contact.png",
+            "title": "WhatsApp us",
+            "text": "Operating hours: Monday-Sunday, 10am-6pm (excluding public holidays)",
+            "url": "",
+            "new_tab": false,
+            "open_chat": false
+          }
+        }
+      },
+      "block_order": [
+        "entry_Gg48Ei",
+        "entry_zk8Dpb",
+        "entry_xCfQNd",
+        "entry_tRzF8A",
+        "entry_Xqtd94"
+      ],
+      "settings": {
+        "top_padding_m": "small",
+        "bottom_padding_m": "small",
+        "top_padding_t": "small",
+        "bottom_padding_t": "small",
+        "top_padding": "medium",
+        "bottom_padding": "medium",
+        "top_padding_hd": "medium",
+        "bottom_padding_hd": "medium",
+        "top_padding_hhd": "medium",
+        "bottom_padding_hhd": "medium",
+        "faq_title": "Explore our Frequently Asked Questions",
+        "faq_label": "EXPLORE FAQs",
+        "faq_url": ""
+      }
+    },
+    "consignment_how_it_works_D3CahB": {
+      "type": "consignment-how-it-works",
+      "blocks": {
+        "entry_CHEnbF": {
+          "type": "entry",
+          "settings": {
+            "title": "Submit your bags",
+            "text": "Drop off your items at our stylish boutique or arrange a\nconvenient pickup."
+          }
+        },
+        "entry_gpegUy": {
+          "type": "entry",
+          "settings": {
+            "title": "Let us take charge",
+            "text": "Our experts will carefully photograph, list, and market your bags to our network of luxury buyers."
+          }
+        },
+        "entry_9tMYrM": {
+          "type": "entry",
+          "settings": {
+            "title": "Enjoy your earnings",
+            "text": "Once your bags sell, you receive a generous portion of the\nsale proceeds."
+          }
+        }
+      },
+      "block_order": [
+        "entry_CHEnbF",
+        "entry_gpegUy",
+        "entry_9tMYrM"
+      ],
+      "settings": {
+        "section_width": "",
+        "background_color": "",
+        "text_color": "",
+        "content_max_width": 438,
+        "title_dom_type": "h1",
+        "title_size": "h1",
+        "title": "How it works",
+        "text_align": "tl",
+        "desktop_image": "shopify:\/\/shop_images\/image.photo-1.consign.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/image.photo-2.consign.jpg",
+        "image_position": "row",
+        "image_position_mobile": "follow-desktop",
+        "top_padding_m": "nopadding",
+        "bottom_padding_m": "nopadding",
+        "top_padding_t": "nopadding",
+        "bottom_padding_t": "nopadding",
+        "top_padding": "nopadding",
+        "bottom_padding": "nopadding",
+        "top_padding_hd": "nopadding",
+        "bottom_padding_hd": "nopadding",
+        "top_padding_hhd": "nopadding",
+        "bottom_padding_hhd": "nopadding"
+      }
+    },
+    "testimonial_FVkDEc": {
+      "type": "testimonial",
+      "blocks": {
+        "entry_3KLK6C": {
+          "type": "entry",
+          "settings": {
+            "rating": 4,
+            "text": "Selling my Hermès bags was super easy. They all sold in one week! The process was fuss-free and straightforward.",
+            "author": "Jane D"
+          }
+        },
+        "entry_QPPeAE": {
+          "type": "entry",
+          "settings": {
+            "rating": 5,
+            "text": "Selling my bags was super easy. They all sold in one week! The process was fuss-free and straightforward.",
+            "author": "Dane J"
+          }
+        }
+      },
+      "block_order": [
+        "entry_3KLK6C",
+        "entry_QPPeAE"
+      ],
+      "settings": {
+        "top_padding_m": "nopadding",
+        "bottom_padding_m": "nopadding",
+        "top_padding_t": "nopadding",
+        "bottom_padding_t": "nopadding",
+        "top_padding": "nopadding",
+        "bottom_padding": "nopadding",
+        "top_padding_hd": "nopadding",
+        "bottom_padding_hd": "nopadding",
+        "top_padding_hhd": "nopadding",
+        "bottom_padding_hhd": "nopadding",
+        "background_color": "#8a8264",
+        "max_m": "270",
+        "max_t": "",
+        "max_d": "890",
+        "max_hd": "",
+        "max_hhd": ""
+      }
+    },
+    "faq_EP4Dz3": {
+      "type": "faq",
+      "blocks": {
+        "qna_dzkJ9e": {
+          "type": "qna",
+          "settings": {
+            "title": "Which designers do LuxLexicon accept?",
+            "text": "LuxLexicon brings together an expertly vetted selection of best-in-class handbags, watches, jewelry, shoes, apparel, and more from over 75 of the world’s most sought-after brands. For a complete list of accepted designers, visit here."
+          }
+        },
+        "qna_4gDqj9": {
+          "type": "qna",
+          "settings": {
+            "title": "What happens after I accept my quote?",
+            "text": "LuxLexicon brings together an expertly vetted selection of best-in-class handbags, watches, jewelry, shoes, apparel, and more from over 75 of the world’s most sought-after brands. For a complete list of accepted designers, visit here."
+          }
+        },
+        "qna_mYcegM": {
+          "type": "qna",
+          "settings": {
+            "title": "What payment methods do you offer?",
+            "text": "LuxLexicon brings together an expertly vetted selection of best-in-class handbags, watches, jewelry, shoes, apparel, and more from over 75 of the world’s most sought-after brands. For a complete list of accepted designers, visit here."
+          }
+        },
+        "qna_UMTj6z": {
+          "type": "qna",
+          "settings": {
+            "title": "Why would my items not pass the vetting process?",
+            "text": "LuxLexicon brings together an expertly vetted selection of best-in-class handbags, watches, jewelry, shoes, apparel, and more from over 75 of the world’s most sought-after brands. For a complete list of accepted designers, visit here."
+          }
+        }
+      },
+      "block_order": [
+        "qna_dzkJ9e",
+        "qna_4gDqj9",
+        "qna_mYcegM",
+        "qna_UMTj6z"
+      ],
+      "settings": {
+        "max_width": 664,
+        "title": "Frequently asked questions",
+        "title_size": "h1",
+        "title_dom_type": "h2",
+        "btn_label": "View More",
+        "btn_url": "shopify:\/\/pages\/faq",
+        "top_padding_m": "medium",
+        "bottom_padding_m": "medium",
+        "top_padding_t": "medium",
+        "bottom_padding_t": "medium",
+        "top_padding": "medium",
+        "bottom_padding": "medium",
+        "top_padding_hd": "medium",
+        "bottom_padding_hd": "medium",
+        "top_padding_hhd": "medium",
+        "bottom_padding_hhd": "medium"
+      }
+    },
+    "consignment_book_appointment_Tgwbm3": {
+      "type": "consignment-book-appointment",
+      "settings": {
+        "title": "Book an appointment",
+        "title_size": "h1",
+        "title_dom_type": "h2",
+        "text": "Schedule your appointment with ease to discuss your needs or explore our services. Our team is ready to assist you at your convenience.",
+        "address_title": "LuxLexicon Palais Renaissance",
+        "address_text": "390 Orchard Road 02-01\/02 Palais Renaissance, 238871\nMonday - Saturday: 10.30am to 7pm",
+        "btn_label": "Book Now",
+        "btn_url": "",
+        "image": "shopify:\/\/shop_images\/desktop.png",
+        "image_m": "shopify:\/\/shop_images\/mobile.png",
+        "top_padding_m": "medium",
+        "bottom_padding_m": "medium",
+        "top_padding_t": "medium",
+        "bottom_padding_t": "medium",
+        "top_padding": "nopadding",
+        "bottom_padding": "nopadding",
+        "top_padding_hd": "nopadding",
+        "bottom_padding_hd": "nopadding",
+        "top_padding_hhd": "nopadding",
+        "bottom_padding_hhd": "nopadding"
+      }
+    }
+  },
+  "order": [
+    "faq_page_title_4P9Rze",
+    "contact_us_GJedqL",
+    "consignment_how_it_works_D3CahB",
+    "testimonial_FVkDEc",
+    "faq_EP4Dz3",
+    "consignment_book_appointment_Tgwbm3"
+  ]
+}

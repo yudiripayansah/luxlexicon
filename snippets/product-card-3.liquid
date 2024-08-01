@@ -1,0 +1,43 @@
+{% comment %}
+Description:
+Snippet for displaying product card for fabric product
+
+Variables:
+- product: Object. The product object.
+- preload_img: Boolean. If true, image is not using lazyload
+{% endcomment %}
+{%- if preload_img == blank -%}
+    {%- assign preload_img = false -%}
+{%- endif -%}
+{%- assign coll_title = product.collections[0].title | replace: ' Fabrics', '' -%}
+{%- assign title = product.title | replace: coll_title, '' | strip -%}
+{%- assign more_info_vue_instance = coll_title | downcase | replace: ' ', '_' | replace: '-', '_' | append: 'Vue' -%}
+<div class="product-card-3 rounded-24 b-1 b-border-orange h-full flex flex-column jc-between ai-end pt-10 pb-15 pl-10 pr-10 relative">
+    <button onclick="{{ more_info_vue_instance }}.openInfo('{{ title }}')" type="button" class="more-info bg-white absolute top-20 right-20 flex ai-center jc-center zi-1">{{ settings.icon_info }}</button>
+    <div class="block w-full">
+        <div class="image-con mb-15">
+            {%- if product.featured_image == blank -%}
+                <div class="rounded-14">
+                    <img src="{{ product.featured_image | img_url: '300x' }}" alt="{{ product.featured_image.alt | escape }}" class="image">
+                </div>
+            {%- else -%}
+                {%- render 'global-image-wrapper', 
+                    image: product.featured_image, 
+                    preload: preload_img 
+                    size: 300,
+                    additional_class: 'rounded-14'
+                -%}
+            {%- endif -%}
+        </div>
+        <div class="details-con">
+            {%- if product.vendor != blank -%}
+                <p class="p3 c-grey mb-5">{{ product.vendor }}</p>
+            {%- endif -%}
+            <h5 class="h6">{{ title }}</h5>
+        </div>
+    </div>
+    {%- assign variant = product.selected_or_first_available_variant -%}
+    <button type="button" class="atc-button bg-comfort-orange flex ai-center jc-center right" onclick="$360.addToCart({qty: 1, variantId: {{ variant.id }}, button: this, fabric: true})">
+        <span class="icon flex ai-center jc-center">{{ settings.icon_plus }}</span>
+    </button>
+</div>

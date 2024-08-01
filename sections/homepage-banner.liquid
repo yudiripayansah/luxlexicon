@@ -1,0 +1,686 @@
+{% comment %} Luxlexicon - Yudi {% endcomment %}
+{% assign fn = section.id | replace: '-', '' %}
+{% assign el_id = 'homepage-banner-' | append: section.id %}
+{% assign ss = section.settings %}
+{% render 'section-padding', section: section, el_id: el_id %}
+<style>
+  {%- if section.settings.bg_color != blank -%}
+  #{{el_id}} {
+    background-color: {{ section.settings.bg_color }};
+  }
+  {%- endif -%}
+  #{{el_id}} {
+    position: relative;
+  }
+  #{{el_id}} .swiper-pagination-bullet {
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 100px;
+    width: 8px;
+    height: 8px;
+    transition: all .3s ease;
+  }
+  #{{el_id}} .swiper-pagination-bullet-active {
+    background: #fff;
+  }
+  #{{el_id}} .hbc-link .icon,
+  #{{el_id}} .hbc-link .icon svg{
+    width: 8px;
+    height: 8px;
+  }
+  #{{el_id}} .hbc-link svg *{
+    stroke: #0D0D0D;
+  }
+  #{{el_id}} .hb-cta {
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease;
+    display: none; 
+  }
+  #{{el_id}} .hb-cta.show {
+    opacity: 1;
+    visibility: visible;
+    display: flex;
+  }
+  #{{el_id}} .hbc-close {
+    top: 8px;
+    right: 8px;
+  }
+  #{{el_id}} .hbc-close,
+  #{{el_id}} .hbc-close svg {
+    width: 8px;
+    height: 8px;
+    cursor: pointer;
+  }
+  #{{el_id}} .hbc-close svg * {
+    stroke: #999;
+  }
+  #{{el_id}} .hbc-image {
+    min-width: 80px;
+    max-width: 80px;
+  }
+  #{{el_id}} .hbc-pagination-mobile {
+    background-color: #ccc;
+    height: 1px;
+    position: absolute;
+    bottom: 0px;
+    top: unset;
+  }
+  #{{el_id}} .swiper-pagination-progressbar-fill {
+    background-color: #000;
+  }
+  @media(min-width: 1024px) {
+    #{{el_id}} .hb-cta {
+      display: flex;
+    }
+    #{{el_id}} .hb-cta {
+      top: 24px;
+      right: 24px;
+    }
+    #{{el_id}} .hbc-image {
+      min-width: 88px;
+      max-width: 88px;
+    }
+    #{{el_id}} .hbc-text {
+      padding-right: 10px;
+    }
+  }
+</style>
+
+<div id="{{el_id}}" class="homepage-banner relative">
+  {% if ss.cta_image != blank or ss.cta_title != blank or ss.cta_text != blank %}
+  <div class="hb-cta p-8 bg-white relative d-absolute d-top-24 d-left-24 zi-3 w-full d-max-320 show">
+    <a href="{{ss.cta_url}}" class="flex ai-center">
+      {% if ss.cta_image != blank %}
+      <div class="hbc-image">  
+        {%- render 'global-image-wrapper',
+          image: ss.cta_image,
+          additional_class: 'no-bg',
+          image_id: 'homepage-banner-cta'
+        %}
+      </div>
+      {% endif %}
+      <div class="hbc-text d-pl-16 pl-24">
+        <h4 class="h4 c-black">{{ss.cta_title}}</h4>
+        {% if ss.cta_text != blank %}
+        <div class="p3 c-grey d-mt-8 mt-12">{{ss.cta_text}}</div>
+        {% endif %}
+        {% if ss.cta_link_label != blank %}
+        <div class="hide-m show-d">
+          <div class="d-flex ai-center d-mt-12 hbc-link font-0">
+            <span class="link2 c-black">{{ss.cta_link_label}}</span>
+            <span class="icon font-0">
+              {{ settings.icon_btn_right }}
+            </span>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </a>
+    <div class="hbc-close absolute top-8 right-8 font-0" onclick="toggleCta{{fn}}(this)">
+      {{settings.icon_close}}
+    </div>
+  </div>
+  {% endif %}
+  <div id="slider-{{ el_id }} " class="flex flex-wrap swiper {% if ss.enable_parallax %}fixed-wrapper{% endif %}">
+    <div class="swiper-wrapper {% if ss.enable_parallax %}fixed-element{% endif %}">
+      {%- for block in section.blocks -%}
+        {% assign bs = block.settings %}
+        <style>
+          #{{block.id}} .slide-title {
+            color: {{ bs.title_color }};
+          }
+          #{{block.id}} .slide-text {
+            color: {{ bs.text_color }};
+          }
+          #{{block.id}} .slide-btn {
+            color: {{ bs.btn_text_color }};
+            background-color: {{ bs.btn_background_color }};
+            border-color: {{ bs.btn_border_color }};
+          }
+          #{{block.id}} .text-wrapper {
+            {% if bs.text_max_width_mobile != blank and bs.text_max_width_mobile != 0 %}
+            max-width: {{ bs.text_max_width_mobile }}px;
+            {% endif %}
+          }
+          @media(min-width: 600px) {
+            #{{block.id}} .text-wrapper {
+              {% if bs.text_max_width_tablet != blank and bs.text_max_width_tablet != 0 %}
+              max-width: {{ bs.text_max_width_tablet }}px;
+              {% endif %}
+            }
+          }
+          @media(min-width: 1024px) {
+            #{{block.id}} .slide-title {
+              color: {{ bs.title_color_d }};
+            }
+            #{{block.id}} .slide-text {
+              color: {{ bs.text_color_d }};
+            }
+            #{{block.id}} .slide-btn {
+              color: {{ bs.btn_text_color_d }};
+              background-color: {{ bs.btn_background_color_d }};
+              border-color: {{ bs.btn_border_color_d }};
+            }
+            #{{block.id}} .text-wrapper {
+              {% if bs.text_max_width_desktop != blank and bs.text_max_width_desktop != 0 %}
+              max-width: {{ bs.text_max_width_desktop }}px;
+              {% endif %}
+            }
+          }
+          @media(min-width: 1366px) {
+            #{{block.id}} .text-wrapper {
+              {% if bs.text_max_width_hd != blank and bs.text_max_width_hd != 0 %}
+              max-width: {{ bs.text_max_width_hd }}px;
+              {% endif %}
+            }
+          }
+          @media(min-width: 1920px) {
+            #{{block.id}} .text-wrapper {
+              {% if bs.text_max_width_hhd != blank and bs.text_max_width_hhd != 0 %}
+              max-width: {{ bs.text_max_width_hhd }}px;
+              {% endif %}
+            }
+          }
+        </style>
+        <div id="{{ block.id }}" class="swiper-slide {{ ss.section_width }}">
+          {% if bs.button_label == blank and bs.button_url != blank %}
+            <a href="{{bs.button_url}}">
+          {% endif %}
+          <div class="relative">
+            {% assign image_id = el_id | append: 'homepage-banner-image_' | append: forloop.index %}
+            <div class="image-container relative">
+              {%- render 'global-image-wrapper-responsive',
+                image_id: image_id,
+                desktop_image: bs.desktop_image,
+                mobile_image: bs.mobile_image,
+                preload: preload
+              %}
+            </div>
+            {%- if bs.title != blank -%}
+              <div class="text-container w-full h-full d-absolute relative top-0 left-0 flex container d-pt-48 d-pb-48 pt-40 pb-40 slide-{{forloop.index}} {{bs.text_position}} {{bs.text_position_d}}">
+                <div class="text-wrapper {{bs.text_align}} {{bs.text_align_d}}">
+                  <{{ bs.title_dom_type }} class="{{bs.title_size}} slide-title">
+                    {{- bs.title -}}
+                  </{{ bs.title_dom_type }}>
+                  {% if bs.text != blank %}
+                    <div class="p1 slide-text mt-24">
+                      {{ bs.text }}
+                    </div>
+                  {% endif %}
+                  {% if bs.button_label != blank %}
+                    <a href="{{bs.button_url}}" class="btn1 mt-28 slide-btn">
+                      {{- bs.button_label -}}
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+          {% if bs.button_label == blank and bs.button_url != blank %}
+            </a>
+          {% endif %}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  {%- if section.blocks.size > 1 -%}
+    <div class="absolute w-full bottom-0 right-0 hide-m show-d">
+      <div class="container">
+        <div class="{{ el_id }}-pagination swiper-pagination d-pt-20 d-pb-20"></div>
+      </div>
+    </div>
+    <div class="hbc-pagination-mobile hide-d show-m w-full absolute bottom-0 zi-3"></div>
+  {%- endif -%}
+</div>
+{% if section.blocks.size > 1 %}
+<script>
+  function setPagination{{fn}}(){
+    let activeSlide = document.querySelector('.swiper-slide-active .text-container')
+    let bottomGap = activeSlide.clientHeight
+    let hpm = document.querySelector('.hbc-pagination-mobile')
+    hpm.style.bottom = bottomGap+'px'
+  }
+  function homepageBanner{{fn}}(){
+    var isMobile = window.innerWidth < 1024;
+    if (isMobile) {
+      return new Swiper('#{{ el_id }} .swiper', {
+        slidesPerView: 1,
+        slidesPerColumn: 1,
+        spaceBetween: 0,
+        loop: false,
+        pagination: {
+            el: "#{{ el_id }} .hbc-pagination-mobile",
+            type: 'progressbar'
+        },
+        on: {
+          init: function () {
+            $360.lazyLoadInstance.update();
+            setPagination{{fn}}()
+          },
+          slideChange: function () {
+            $360.lazyLoadInstance.update();
+            setPagination{{fn}}()
+          },
+          resize: function () {
+            $360.lazyLoadInstance.update();
+            setPagination{{fn}}()
+          },
+        },
+      });
+    } else {
+      return new Swiper('#{{ el_id }} .swiper', {
+        slidesPerView: 1,
+        slidesPerColumn: 1,
+        spaceBetween: 0,
+        loop: true,
+        pagination: {
+            el: ".{{ el_id }}-pagination",
+            clickable: true
+        },
+        on: {
+          init: function () {
+            $360.lazyLoadInstance.update();
+            setPagination{{fn}}()
+          },
+          slideChange: function () {
+            $360.lazyLoadInstance.update();
+            setPagination{{fn}}()
+          },
+          resize: function () {
+            $360.lazyLoadInstance.update();
+            setPagination{{fn}}()
+          },
+        },
+      });
+    }
+  }
+  function toggleCta{{fn}}(el){
+    el.closest('.hb-cta').classList.toggle('show')
+  }
+  homepageBanner{{fn}}()
+  document.addEventListener('shopify:section:load', () => {
+    homepageBanner{{fn}}()
+  });
+  let hbs{{fn}} = homepageBanner{{fn}}()
+  window.addEventListener('resize', function() {
+    if (hbs{{fn}}) {
+      hbs{{fn}}.destroy(true, true);
+    }
+    hbs{{fn}} = homepageBanner{{fn}}()
+  });
+</script>
+{% endif %}
+{% schema %}
+{
+  "name": "Homepage Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "cta_image",
+      "label": "CTA Image"
+    },
+    {
+      "type": "text",
+      "id": "cta_title",
+      "label": "CTA Title"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_text",
+      "label": "CTA Text"
+    },
+    {
+      "type": "text",
+      "id": "cta_link_label",
+      "label": "CTA Link Label"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA Url"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color (Mobile)",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "title_color_d",
+          "label": "Title Color (Desktop)",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color (Mobile)",
+          "default": "#666"
+        },
+        {
+          "type": "color",
+          "id": "text_color_d",
+          "label": "Text Color (Desktop)",
+          "default": "#fff"
+        },
+        {
+          "type": "radio",
+          "id": "text_position",
+          "label": "Text Position (Mobile)",
+          "options": [
+            { "value": "ai-start jc-start", "label": "Top Left" },
+            { "value": "ai-start jc-center", "label": "Top Center" },
+            { "value": "ai-start jc-end", "label": "Top Right" },
+            { "value": "ai-center jc-start", "label": "Middle Left" },
+            { "value": "ai-center jc-center", "label": "Middle Center" },
+            { "value": "ai-center jc-end", "label": "Middle Right" },
+            { "value": "ai-end jc-start", "label": "Bottom Left" },
+            { "value": "ai-end jc-center", "label": "Bottom Center" },
+            { "value": "ai-end jc-end", "label": "Bottom Right" }
+          ]
+        },
+        {
+          "type": "radio",
+          "id": "text_position_d",
+          "label": "Text Position (Desktop)",
+          "options": [
+            { "value": "ai-start d-jc-start", "label": "Top Left" },
+            { "value": "d-ai-start d-jc-center", "label": "Top Center" },
+            { "value": "d-ai-start d-jc-end", "label": "Top Right" },
+            { "value": "d-ai-center d-jc-start", "label": "Middle Left" },
+            { "value": "d-ai-center d-jc-center", "label": "Middle Center" },
+            { "value": "d-ai-center d-jc-end", "label": "Middle Right" },
+            { "value": "d-ai-end d-jc-start", "label": "Bottom Left" },
+            { "value": "d-ai-end d-jc-center", "label": "Bottom Center" },
+            { "value": "d-ai-end d-jc-end", "label": "Bottom Right" }
+          ]
+        },
+        {
+          "type": "radio",
+          "id": "text_align",
+          "label": "Text Align (Mobile)",
+          "options": [
+            { "value": "tl", "label": "Left" },
+            { "value": "tc", "label": "Center" },
+            { "value": "tr", "label": "Right" }
+          ]
+        },
+        {
+          "type": "radio",
+          "id": "text_align_d",
+          "label": "Text Align (Desktop)",
+          "options": [
+            { "value": "d-tl", "label": "Left" },
+            { "value": "d-tc", "label": "Center" },
+            { "value": "d-tr", "label": "Right" }
+          ]
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "select",
+          "id": "title_dom_type",
+          "label": "Title DOM Type",
+          "options": [
+            { "value": "h1", "label": "H1" },
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" },
+            { "value": "h4", "label": "H4" },
+            { "value": "h5", "label": "H5" }
+          ],
+          "default": "h1"
+        },
+        {
+          "type": "radio",
+          "id": "title_size",
+          "label": "Title Size",
+          "options": [
+            { "value": "h1", "label": "H1" },
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" },
+            { "value": "h4", "label": "H4" },
+            { "value": "h5", "label": "H5" }
+          ]
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "number",
+          "id": "text_max_width_mobile",
+          "label": "Text Max Width (Mobile)",
+          "info": "on px",
+          "default": 450
+        },
+        {
+          "type": "number",
+          "id": "text_max_width_tablet",
+          "label": "Text Max Width (Tablet)",
+          "info": "on px",
+          "default": 450
+        },
+        {
+          "type": "number",
+          "id": "text_max_width_desktop",
+          "label": "Text Max Width (Desktop)",
+          "info": "on px",
+          "default": 450
+        },
+        {
+          "type": "number",
+          "id": "text_max_width_hd",
+          "label": "Text Max Width (Hd)",
+          "info": "on px",
+          "default": 450
+        },
+        {
+          "type": "number",
+          "id": "text_max_width_fullhd",
+          "label": "Text Max Width (Fullhd)",
+          "info": "on px",
+          "default": 450
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "color",
+          "id": "btn_background_color",
+          "label": "Button Background Color (Mobile)",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "btn_background_color_d",
+          "label": "Button Background Color (Desktop)",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "btn_text_color",
+          "label": "Button Text Color (Mobile)",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "btn_text_color_d",
+          "label": "Button Text Color (Desktop)",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "btn_border_color",
+          "label": "Button Border Color (Mobile)",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "btn_border_color_d",
+          "label": "Button Border Color (Desktop)",
+          "default": "#fff"
+        },
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage Banner",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,337 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+<style>
+    {%if section.settings.enable_border_top%}
+    #shopify-section-{{ section.id }}{
+        border-top:1px solid #DBDBDB;
+    }
+    {%endif%}
+    {%if section.settings.enable_border_bottom%}
+    #shopify-section-{{ section.id }}{
+        border-bottom:1px solid #DBDBDB;
+    }
+    {%endif%}
+
+    
+    #shopify-section-{{ section.id }} .flex-wrapper{
+        display:flex;
+        flex-wrap:wrap;
+    }
+    #shopify-section-{{ section.id }} .form-input{
+        width: 100%;
+        padding: 15px 15px;
+        border: 1px solid #dbdbdb;;
+    }
+    
+    #shopify-section-{{ section.id }} select{
+        font-family:'Inter', sans-serif;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10.707' height='6.061' viewBox='0 0 10.707 6.061'%3E%3Cpath d='M0,0,5,5,0,10' transform='translate(10.354 0.354) rotate(90)' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position-x: calc(100% - 20px);
+        background-position-y: center;
+    }
+
+    #shopify-section-{{ section.id }} .flex-wrapper select.date{
+        width:calc(100% / 3 - 15px);
+        margin:0 7.5px;
+    }
+    #shopify-section-{{ section.id }} .flex-wrapper select{
+        width:100%;
+        margin-left:7.5px;
+        margin-right:7.5px;
+    }
+    #shopify-section-{{ section.id }} .referral-toc ul {
+      list-style: disc;
+    }
+    #shopify-section-{{ section.id }} .referral-toc {
+        border-top:1px solid #DBDBDB;
+    }
+    #shopify-section-{{ section.id }} #referral-form input[type="checkbox"]{
+        appearance: auto;
+        margin-right: 5px;
+    }
+    #shopify-section-{{ section.id }} .checkbox-wrapper {
+      width: 160px;
+      margin-top: 8px;
+    }
+
+    @media screen and (min-width: 768px) {
+      #shopify-section-{{ section.id }} .checkbox-wrapper {
+        width: auto;
+        margin-top: 5px;
+      }
+    }
+
+    @media(min-width: 1024px) {
+        #shopify-section-{{ section.id }} #referral-form input[type="checkbox"]{
+            margin-right: 10px;
+        }
+        #shopify-section-{{ section.id }} .form-input{
+            padding: 18px 20px;
+        }
+
+        #shopify-section-{{ section.id }} .flex-wrapper select{
+            width:calc(50% - 15px);
+            margin:0 7.5px;
+        }
+    }
+
+</style>
+
+<section id="{{ section.id }}" class="referral-form">
+    <div class="container tc">
+        <div class="max-450 d-max-700 ml-auto mr-auto">
+            <{{ section.settings.title_dom_type }} class="h5">{{section.settings.title}}</{{ section.settings.title_dom_type }}>
+            <div class="p2 c-grey pt-5 d-pt-15 max-500 ml-auto mr-auto">{{section.settings.text}}</div>
+
+            <div class="h7 pt-30 d-pt-60">{{section.settings.title_2}}</div>
+            <div class="p2 c-grey pt-5 d-pt-15 max-500 ml-auto mr-auto">{{section.settings.text_2}}</div>
+
+            <form id="referral-form" action="" method="POSt" class="pt-30 d-pt-70 d-pb-50">
+                <div class="h11">THE REFEREE (YOU)</div>
+                <input type="text" required placeholder="Your Name" class="form-input mt-15 d-mt-20" name="name">
+                <input type="tel" required placeholder="Your Mobile e.g. +6512345678" class="form-input mt-10" pattern="[+][0-9]{1,3}[0-9]{7,12}" name="mobile_number">
+                <input type="email" required placeholder="Your Email" class="form-input mt-10" name="email">
+                <div class="mt-15">
+                  <div class="tl p1 c-grey">Items Purchased</div>
+                  <div class="flex flex-wrap align-flex t-mb-5">
+                    <div class="checkbox-wrapper mt-10 t-mt-5 pr-25 show-m-inline-flex ai-center">
+                      <input type="checkbox" value="Engagement Ring" id="er" name="item_purchase[]">
+                      <label class="p1" for="er">Engagement Ring</label>
+                    </div>
+                    <div class="checkbox-wrapper mt-10 t-mt-5 pr-25 show-m-inline-flex ai-center">
+                      <input type="checkbox" value="Wedding Bands" id="wb" name="item_purchase[]">
+                      <label class="p1" for="wb">Wedding Bands</label><br>
+                    </div>
+                    <div class="checkbox-wrapper mt-10 t-mt-5 pr-25 show-m-inline-flex ai-center">
+                      <input type="checkbox" value="Gifting Items" id="gi" name="item_purchase[]">
+                      <label class="p1" for="gi">Gifting Items</label>
+                    </div>
+                    {% comment %} <div class="checkbox-wrapper mt-10 t-mt-5 show-m-inline-flex ai-center">
+                      <input type="checkbox" value="Others" id="ot" name="item_purchase[]">
+                      <label class="p2" for="ot">Others</label>
+                    </div> {% endcomment %}
+                  </div>
+                </div>
+                <div class="h11 pt-40 d-pt-60">THE REFERRER (YOUR FRIEND)</div>
+                <input type="text" required placeholder="Friend’s Name" class="form-input mt-15 d-mt-20" name="f_name">
+                <input type="tel" required placeholder="Friend’s Mobile e.g. +6512345678" class="form-input mt-10" pattern="[+][0-9]{1,3}[0-9]{7,12}" name="f_mobile_number">
+                <input type="email" required placeholder="Friend’s Email" class="form-input mt-10" name="f_email">
+                <input type="text" placeholder="Friend’s KrisFlyer ID" class="form-input mt-10" name="f_krisflyer_id">
+                {% comment %} <input type="text" placeholder="Referral Code (i.e LVC98765432)" class="form-input mt-10" name="referral_code"> {% endcomment %}
+                <input type="text" placeholder="Staff Code" class="form-input mt-10" name="staff_code">
+                <input type="text" placeholder="GV Code (From Staff)" class="form-input mt-10" name="gv_code">
+
+                <div class="mt-30">
+                    <button type="submit" class="btn1 submit-btn">REFER A FRIEND</button>
+                </div>
+
+                <div class="mt-30 fail-text hide-m">
+                    <div class="p2 c-red tc">{{ section.settings.error_text }}</div>
+                </div>
+
+                <div class="mt-30 success-text hide-m">
+                    <div class="p2 tc">{{ section.settings.success_text }}</div>
+                </div>
+
+                <input type="hidden" name="action" value="referral" />
+            </form>
+            <div class="referral-toc mt-30 d-mt-0 pt-30 t-pt-40 t-mt-40 d-pt-50">
+              <div class="p3 bold-600 c-darkgreen tl spacing-2">{{ section.settings.toc_title }}</div>
+              <ul class="pt-15 d-pt-20 tl pl-15 d-pl-20">
+                {% for block in section.blocks %}
+                <li class="p2 c-grey {% unless forloop.last == true %}d-pb-15{% endunless %}">{{ block.settings.text }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{{ 'jquery-ajax-module.js' | asset_url | script_tag }}
+<script>
+  //FOR referral
+  let form = document.getElementById("referral-form")
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    let listfields = serializeArray(e.target);
+    submitForm(listfields);
+    return false;
+  });
+
+  function serializeArray(form) {
+    var serialized = [];
+    var formData = new FormData(form);
+    for (var pair of formData.entries()) {
+      serialized.push({ name: pair[0], value: pair[1] });
+    }
+    return serialized;
+  }
+
+  function submitForm(listfields) {
+    let error_text = document.querySelector('.fail-text')
+    let success_text = document.querySelector('.success-text')
+    
+    let submitBtn = form.querySelector('.submit-btn')
+    let prevText = submitBtn.innerHTML;
+    const btnLoading = '<span class="btn-loading"></span>';
+    submitBtn.style.height = `${submitBtn.offsetHeight}px`;
+    submitBtn.style.width = `${submitBtn.offsetWidth}px`;
+    submitBtn.innerHTML = btnLoading;
+    submitBtn.setAttribute('disabled', true);
+    $.ajax({
+        type: "POST",
+        url: "/apps/integration",
+        data: listfields,
+        dataType: "json",
+        success: function(data) {
+          submitBtn.removeAttribute('disabled');
+          submitBtn.innerHTML = prevText;
+          if (data.api === true) {
+            //do success message
+            console.log(data);
+            success_text.classList.remove('hide-m')
+            error_text.classList.add('hide-m')
+            setTimeout(function(){
+              success_text.classList.add('hide-m')
+            },5000)
+          } else {
+            error_text.classList.remove('hide-m')
+            success_text.classList.add('hide-m')
+            setTimeout(function(){
+              error_text.classList.add('hide-m')
+            },5000)
+          }
+        }, 
+        error: function(e) {
+          submitBtn.removeAttribute('disabled');
+          submitBtn.innerHTML = prevText;
+          error_text.classList.remove('hide-m')
+          success_text.classList.add('hide-m')
+          setTimeout(function(){
+            error_text.classList.add('hide-m')
+          },5000)
+        }
+    });
+  }
+</script>
+{% schema %}
+    {
+        "name": "Referral Form",
+        "settings": [
+            {
+                "type": "checkbox",
+                "id": "enable_border_top",
+                "label": "Enable Border Top"
+            },
+            {
+                "type": "checkbox",
+                "id": "enable_border_bottom",
+                "label": "Enable Border Bottom"
+            },
+            {
+              "type": "select",
+              "id": "title_dom_type",
+              "label": "Title DOM Type",
+              "options": [
+                  {"value":"h1","label":"H1"},
+                  {"value":"h2","label":"H2"},
+                  {"value":"h3","label":"H3"},
+                  {"value":"h4","label":"H4"},
+                  {"value":"h5","label":"H5"}
+              ],
+              "default": "h3"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title #1"
+            },
+            {
+                "type": "textarea",
+                "id": "text",
+                "label": "Text #1"
+            },
+            {
+                "type": "text",
+                "id": "title_2",
+                "label": "Title #2"
+            },
+            {
+                "type": "textarea",
+                "id": "text_2",
+                "label": "Text #2"
+            },
+            {
+                "type": "text",
+                "id": "toc_title",
+                "label": "Title"
+            },
+            {
+                "type": "textarea",
+                "id": "error_text",
+                "label": "Error Text"
+            },
+            {
+                "type": "textarea",
+                "id": "success_text",
+                "label": "Success Text"
+            },
+            {
+                "type": "header",
+                "content": "Section Padding"
+            },
+            {
+                "type": "text",
+                "id": "top_padding_m",
+                "label": "Top padding (Mobile)"
+            },
+            {
+                "type": "text",
+                "id": "bottom_padding_m",
+                "label": "Bottom padding (Mobile)"
+            },
+            {
+                "type": "text",
+                "id": "top_padding_t",
+                "label": "Top padding (Tablet)"
+            },
+            {
+                "type": "text",
+                "id": "bottom_padding_t",
+                "label": "Bottom padding (Tablet)"
+            },
+            {
+                "type": "text",
+                "id": "top_padding",
+                "label": "Top padding (Desktop)"
+            },
+            {
+                "type": "text",
+                "id": "bottom_padding",
+                "label": "Bottom padding (Desktop)"
+            }
+        ],
+        "blocks": [
+          {
+            "name": "Toc",
+            "type": "toc",
+            "settings": [
+              {
+                  "type": "textarea",
+                  "id": "text",
+                  "label": "Text"
+              }
+            ]
+          }
+        ],
+        "presets": [
+            {
+                "name": "Referral Form",
+                "blocks": []
+            }
+        ]
+    }
+{% endschema %}

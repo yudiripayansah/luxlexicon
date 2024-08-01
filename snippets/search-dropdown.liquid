@@ -1,0 +1,41 @@
+<teleport to="body">
+  <div class="header-desktop-search zi-9 pt-20 pb-36" :class="{show: showSearchForm}">
+    <div class="container">
+      <div class="form-wrapper w-full relative bb-1 b-border">
+        <div class="sm-search-input bg-white zi-2">
+          <div class="smsi-wrap global-flex ai-center relative jc-between pb-20">
+            <span class="search-icon">{{ settings.icon_search }}</span>
+            <input id="search-term" type="text" class="w-full pl-12 p2 c-grey40" placeholder="Search LuxLexicon" @keydown="handleKeyDown($event)" @input="goSearch()" v-model="q">
+            
+            {% comment %}
+            <button type="submit" class="absolute smsi-search-btn" @click="clickViewAll()">
+              {{ settings.icon_search }}
+            </button>
+            {% endcomment %}
+
+            <a href="#" rel="nofollow" @click="headerSearchHandler($event);" class="icon-close">{{ settings.icon_close }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {%- if section.settings.search_suggestion_links != blank -%}
+      <div class="suggestion-wrapper relative w-full mt-36">
+        <div class="container">
+          <h4 class="p3 c-grey40">{{ section.settings.search_suggestion_title }}</h4>
+
+          <ul class="mt-20">
+            {%- for link in section.settings.search_suggestion_links.links -%}
+              <li class="{% unless forloop.first %} mt-16 {% endunless %}">
+                <a href="{{ link.url }}" class="p2 c-black">{{ link.title }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="sm-search-result bg-white relative zi-2" id="sm-search-result">
+    </div>
+  </div>
+</teleport>

@@ -1,0 +1,258 @@
+{% comment %} JCO Theme {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #shopify-section-{{ section.id }}{
+    border-top: 1px solid #DEDEDE;
+  }
+  #shopify-section-{{ section.id }} .ring-image{
+    display: flex;
+    background-color: #F7F7F7;
+  }
+  #shopify-section-{{ section.id }} .ring-image .image-container{
+    padding: 0 10px;
+  }
+  #shopify-section-{{ section.id }} .ring-table table{
+    width: 100%;
+    table-layout: auto;
+  }
+  #shopify-section-{{ section.id }} .ring-table table tr{
+    border-bottom: 1px solid #DEDEDE;
+  }
+  #shopify-section-{{ section.id }} .ring-table table th{
+    padding: 0 15px 15px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  #shopify-section-{{ section.id }} .ring-table table td{
+    padding: 15px 10px 15px;
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .ring-table sup{
+    font-size: x-small;
+  }
+  @media screen and (min-width: 600px) {
+    #shopify-section-{{ section.id }} .image-content {
+      max-width: 150px;
+    }
+  }
+
+  @media(min-width: 1024px) {
+    #shopify-section-{{ section.id }} .table-container{
+      margin: 0 auto;
+      width: 100%;
+      {% if section.settings.table_width != 0 and section.settings.table_width != blank %}
+        max-width: {{ section.settings.table_width }}px;
+      {% endif %}
+    }
+    #shopify-section-{{ section.id }} .ring-image{
+      justify-content: center;
+    }
+    #shopify-section-{{ section.id }} .ring-image .image-container{
+      display: flex;
+      padding-left: 0;
+      padding-right: 25px;
+      align-items: center;
+      width: auto;
+    }
+    #shopify-section-{{ section.id }} .ring-image .image-container:last-child{
+      padding-right: 0;
+      padding-left: 25px;
+    }
+    #shopify-section-{{ section.id }} .ring-image .image-container .image-content{
+      width: 106px;
+      padding-bottom: 0;
+    }
+    #shopify-section-{{ section.id }} .ring-table tr th:nth-child(1),
+    #shopify-section-{{ section.id }} .ring-table tr th:nth-child(2) {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+  }
+</style>
+
+<section id="{{ section.id }}" class="ring-chart overflow">
+  <div class="container">
+    {% if section.settings.title != blank %}
+      <{{ section.settings.title_dom_type }} class="{{ section.settings.title_size }} {{ section.settings.title_spacing }} uppercase medium-500 tc">
+        {{- section.settings.title -}}
+      </{{ section.settings.title_dom_type }}>
+    {% endif %}
+    <div class="table-container">
+      <div class="ring-image mt-30 d-mt-40 pt-20 pb-20 pl-55 pr-55 d-pl-0 d-pr-0 tc">
+        {% for block in section.blocks %}
+          <div class="image-container relative col-6">
+            <div class="image-content ml-auto mr-auto">
+              {% assign image_id = 'ring-size-' | append: forloop.index %}
+              {%- render 'global-image-wrapper', image_id: image_id, image: block.settings.image, additional_class: 'no-bg' %}
+            </div>
+            <div class="text-content">
+              <div>
+                <p class="p3 regular-400">
+                  {{ block.settings.title }}
+                </p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="ring-table mt-25 p3 regular-400">
+        {{ section.settings.table_code }}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Ring Size Chart",
+  "settings": [
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "p1", "label": "P1" },
+        { "value": "p2", "label": "P2" },
+        { "value": "p3", "label": "P3" },
+        { "value": "p4", "label": "P4" },
+        { "value": "p5", "label": "P5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_spacing",
+      "label": "Title spacing",
+      "options": [
+        { "value": "spacing-1", "label": "Spacing 1" },
+        { "value": "spacing-2", "label": "Spacing 2" },
+        { "value": "spacing-3", "label": "Spacing 3" }
+      ],
+      "default": "spacing-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "header",
+      "content": "Table Settings"
+    },
+    {
+      "type": "number",
+      "id": "table_width",
+      "label": "HTML Table width (desktop)",
+      "info": "on px"
+    },
+    {
+      "type": "html",
+      "id": "table_code",
+      "label": "HTML Table codes"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hd",
+        "label": "Top padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hd",
+        "label": "Bottom padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hhd",
+        "label": "Top padding (HHD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hhd",
+        "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ring Size Chart",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

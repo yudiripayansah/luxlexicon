@@ -1,0 +1,55 @@
+{%- if slider -%}
+    {%- assign padding_class = '' -%}
+{%- else -%}
+    {%- if index < total -%}
+        {%- assign padding_class = 'pb-40' -%}
+    {%- endif -%}
+{%- endif -%}
+<div class="tc {{ additional_class }} {{ padding_class }}">
+    {%- if block.settings.url != blank and block.settings.btn_enable == false -%}
+    <a href="{{ block.settings.url }}" title="{{ block.settings.title | escape }}" class="w-full">
+    {%- endif -%}
+        {%- if block.settings.image != blank or block.settings.image_mobile != blank -%}
+        <div class="w-full tc">
+            {%- if block.settings.image_mobile == blank -%}
+                {%- render 'global-image-wrapper', image: block.settings.image, additional_class: 'no-bg rounded-20' -%}
+            {%- else -%}
+                {%- render 'global-image-wrapper-responsive',
+                    desktop_image: block.settings.image,
+                    mobile_image: block.settings.image_mobile,
+                    image_id: image_id,
+                    additional_class: 'no-bg rounded-20'
+                -%}
+            {%- endif -%}
+        </div>
+        {%- endif -%}
+        {%- if block.settings.title != blank -%}
+        <h5 class="w-full tl h5 c-greenb2 pt-20">{{ block.settings.title }}</h5>
+        {%- endif -%}
+        {%- if block.settings.subtitle != blank -%}
+        <div class="p1 tl c-comfort-black bold-700 {%if block.settings.title == blank %} pt-20 {% else %} pt-10 {% endif %}">{{ block.settings.subtitle }}</div>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+        <div class="w-full tl p1 c-comfort-black rte {%if block.settings.title == blank and block.settings.subtitle == blank %} pt-20 {% else %} pt-10 {% endif %}">{{ block.settings.text }}</div>
+        {%- endif -%}
+        {%- if block.settings.info != blank -%}
+        <div class="w-full p2 tc c-grey rte pt-15">{{ block.settings.info }}</div>
+        {%- endif -%}
+        {%- if block.settings.author_enable and block.settings.author_name != blank -%}
+        <div class="rte tl w-full p1 c-comfort-orange pt-10">
+            {%- if block.settings.author_url != blank -%}
+                <a href="{{ block.settings.author_url }}">{{ block.settings.author_name }}</a>
+            {%- else -%}
+                {{ block.settings.author_name }}
+            {%- endif -%}
+        </div>
+        {%- endif -%}
+        {%- if block.settings.btn_enable and block.settings.btn_label != blank and block.settings.url != blank -%}
+        <div class="w-full tl pt-20">
+            <a href="{{ block.settings.url }}" class="btn1" title="{{ block.settings.btn_label | escape }}">{{ block.settings.btn_label }}</a>
+        </div>
+        {%- endif -%}
+    {%- if block.settings.url != blank and block.settings.btn_enable == false -%}
+    </a>
+    {%- endif -%}
+</div>

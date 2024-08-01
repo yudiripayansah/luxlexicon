@@ -1,0 +1,183 @@
+<style>
+#dimension-con .unit-buttons .active-indicator {
+    width: 50%;
+    height: 100%;
+    left: 0;
+    transition: all 0.3s linear;
+}
+#dimension-con .unit-buttons .active-indicator.inch-active {
+    left: 50%;
+}
+#dimension-con .unit-buttons button {
+    width: 51px;
+    padding: 8px 0;
+    transition: all 0.3s linear;
+}
+</style>
+<div id="product-details-accordion">
+    <div v-show="productStyle" class="details-accordion pt-60 pb-60 d-pt-100 d-pb-100 fade">
+        <div class="container">
+            <div class="max-745 mx-auto">
+                <h2 class="h3 tc c-greenb2 mb-10 d-mb-20">Details</h2>
+                {% capture dimension_html %}
+                    <div id="dimension-con">
+                        <div class="rte mb-15">
+                            <p>{{ product.title }}</p>
+                            <p>Slipcover dimensions may vary based on your selections. To get the most accurate dimensions, please select all the customisation options above.</p>
+                        </div>
+
+                        <div class="unit-buttons b-1 b-border-orange rounded-25 w-max-cont mb-20 relative">
+                            <span class="active-indicator bg-comfort-orange rounded-25 absolute" :class="{'inch-active': unit == 'IN'}">&nbsp;</span>
+                            <button type="button" @click="changeUnit('CM')" class="btn-cm p3 tc" :class="{'c-white': unit == 'CM'}">CM</button>
+                            <button type="button" @click="changeUnit('IN')" class="btn-inch p3 tc" :class="{'c-white': unit == 'IN'}">IN</button>
+                        </div>
+
+                        <table class="w-full">
+                            <colgroup>
+                                <col style="width: 30%;">
+                                <col style="width: 23.33333%;">
+                                <col style="width: 23.33333%;">
+                                <col style="width: 23.33333%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th class="pt-15 pb-15 bb-1 b-border-orange p2 tl bold-700"></th>
+                                    <th class="pt-15 pb-15 bb-1 b-border-orange p2 tl bold-700">Width</th>
+                                    <th class="pt-15 pb-15 bb-1 b-border-orange p2 tl bold-700">Depth</th>
+                                    <th class="pt-15 pb-15 bb-1 b-border-orange p2 tl bold-700">Height</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(dim, i) in dims">
+                                    <td class="pt-15 pb-15 pr-10 bb-1 b-border-orange p2">${variantTitle}</td>
+                                    <td class="pt-15 pb-15 bb-1 b-border-orange p2">${dim.width}</td>
+                                    <td class="pt-15 pb-15 bb-1 b-border-orange p2">${dim.depth}</td>
+                                    <td class="pt-15 pb-15 bb-1 b-border-orange p2">${dim.height}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                {% endcapture %}
+                {%- render 'accordion',
+                    wrapper_class: 'bb-1 b-border-orange',
+                    title_class: 'h6 c-greenb2',
+                    desc_class: 'bt-1 b-border-orange',
+                    title: 'Dimensions',
+                    desc_html: dimension_html
+                -%}
+
+                {% capture in_the_box_html %}
+                    <div id="in-the-box" class="rte p1">
+                        <p>{{ product.title }} includes:</p>
+                        <ul v-if="boxContents.length">
+                            <li v-for="(item, i) in boxContents" :key="i">${item}</li>
+                        </ul>
+                    </div>
+                {% endcapture %}
+                {%- render 'accordion',
+                    wrapper_class: 'bb-1 b-border-orange',
+                    title_class: 'h6 c-greenb2',
+                    desc_class: 'bt-1 b-border-orange',
+                    title: "What's in the box",
+                    desc_html: in_the_box_html
+                -%}
+            </div>
+        </div>
+    </div>
+</div>
+
+{%- assign variant = product.selected_or_first_available_variant -%}
+<script>
+const productDetailsAccVue = Vue.createApp({
+    delimiters: ['${', '}'],
+    data() {
+        return {
+            productDetailsOptions: [],
+            productStyle: null,
+            unit: 'IN',
+            variantTitle: null,
+            dims: [],
+            boxContents: []
+        }
+    },
+    mounted() {
+        this.getDetails();
+    },
+    methods: {
+        async getDetails() {
+            try {
+                const {data} = await axios.get('https://measure.comfort-works.com/api/public-all-options-product-measurements/?format=json&product_reference={{ variant.sku }}');
+                this.productDetailsOptions = data.content.product_options;
+                this.setProductStyle();
+                this.generateDim();
+                this.generateContent();
+            } catch(error) {
+                console.log(error);
+            };
+        },
+        setProductStyle() {
+            if(this.productDetailsOptions.length == 0) {
+                return;
+            }
+
+            let productOption;
+            let productStyle;
+            const varSku = productVariantsVue.fabric.varSku;
+            const productOptions = this.productDetailsOptions.filter(po => varSku.includes(po.product_reference));
+            
+            if(productOptions.length) {
+                if(productOptions.length > 1) {
+                    const prAndPs = [];
+                    for (let i = 0; i < productOptions.length; i++) {
+                        const pr = productOptions[i].product_reference;
+                        const ps = productOptions[i].product_styles[0].style_code;
+                        prAndPs.push(`${pr}__${ps}`);
+                    }
+                    const index = prAndPs.findIndex(prps => varSku.includes(prps));
+                    productOption = productOptions[index];
+                } else {
+                    productOption = productOptions[0];
+                }
+
+                const productStyles = productOption.product_styles.filter(ps => varSku.includes(ps.style_code));
+                if(productStyles.length) {
+                    this.productStyle = productStyles[0];
+                }
+            }
+        },
+        changeUnit(unit) {
+            this.unit = unit;
+            this.generateDim();
+        },
+        generateDim() {
+            this.dims = [];
+            this.variantTitle = productVariantsVue.variantTitle.replaceAll(' / ', ', ');
+
+            if(this.productStyle) {
+                if(this.unit == 'CM') {
+                    this.dims.push({
+                        width: `${this.productStyle.width.cm} cm`,
+                        depth: `${this.productStyle.depth.cm} cm`,
+                        height: `${this.productStyle.height.cm} cm`,
+                    });
+                } else {
+                    this.dims.push({
+                        width: `${this.productStyle.width.in}"`,
+                        depth: `${this.productStyle.depth.in}"`,
+                        height: `${this.productStyle.height.in}"`,
+                    });
+                }
+            }
+        },
+        generateContent() {
+            this.boxContents = [];
+            if(this.productStyle) {
+                const items = this.productStyle.product_components;
+                for (let i = 0; i < items.length; i++) {
+                    this.boxContents.push(`${items[i].quantity}x ${items[i].name}`);
+                }
+            }
+        }
+    }
+}).mount('#product-details-accordion');
+</script>

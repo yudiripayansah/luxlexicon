@@ -1,0 +1,7 @@
+<div class="global-flex flex-wrap global-content-top-margin pt-100 pb-100">
+    {%- for product in collection.products -%}
+        <div class="col-4">
+            {%- render 'product-each', product: product -%}
+        </div>
+    {%- endfor -%}
+</div>

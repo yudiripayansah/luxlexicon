@@ -1,0 +1,22 @@
+{% comment %} IGC - Yudi {% endcomment %}
+<style>
+  .account-customer-info {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  @media screen and (min-width: 1024px) {
+    .account-customer-info {
+      flex-direction: unset;
+      justify-content: unset;
+      display: block;
+    }
+  }
+</style>
+<h1 class="h2 medium-500">
+  {{ 'customer.account.title' | t }}{{ customer.first_name }}
+  {{ customer.last_name }}
+</h1> 
+<div class="account-customer-info global-flex d-block mt-5">
+  <div class="p1 c-grey d-mb-30">{{ 'customer.account.tier' | t }} <span class="customer-tier">-</span></div>
+  <a href="/account/logout" class="p1 c-grey hover-underline-grey">{{ 'customer.account.logout' | t }}</a>
+</div>

@@ -1,0 +1,237 @@
+{%- assign el_id = 'colours-guide-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{%- assign colors = section.blocks | where: 'type', 'color' -%}
+{%- assign infos = section.blocks | where: 'type', 'info' -%}
+{%- assign icons = section.blocks | where: 'type', 'icon' -%}
+{%- render 'colours-guide',
+    el_id: el_id,
+    background: section.settings.bg_color,
+    heading: section.settings.heading,
+	heading_size: section.settings.heading_size,
+    heading_desc: section.settings.heading_desc,
+	heading_label: section.settings.heading_label,
+	heading_url: section.settings.heading_url,
+    title: section.settings.title,
+    label1: section.settings.label1,
+    text1: section.settings.text1,
+    label2: section.settings.label2,
+    text2: section.settings.text2,
+    label3: section.settings.label3,
+    text3: section.settings.text3,
+    label4: section.settings.label4,
+    text4: section.settings.text4,
+    colors: colors,
+    infos: infos,
+    icons: icons
+-%}
+
+{% schema %}
+{
+	"name": "Colours Guide",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		},
+		{
+			"type": "header",
+			"content": "Content Settings"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background Color"
+		},
+		{
+			"type": "textarea",
+			"id": "heading",
+			"label": "Heading"
+		},
+		{
+			"type": "select",
+			"id": "title_dom_type",
+			"label": "Heading DOM Type",
+			"options": [
+				{"value":"h1","label":"H1"},
+				{"value":"h2","label":"H2"},
+				{"value":"h3","label":"H3"},
+				{"value":"h4","label":"H4"},
+				{"value":"h5","label":"H5"},
+				{"value":"h6","label":"H6"}
+			],
+			"default": "h2"
+		},
+        {
+            "type": "select",
+            "id": "heading_size",
+            "label": "Heading Size",
+            "options": [
+				{
+                    "value": "smaller",
+                    "label": "Smaller"
+                },
+                {
+                    "value": "normal",
+                    "label": "Normal"
+                },
+                {
+                    "value": "big",
+                    "label": "Big"
+                }
+            ],
+            "default": "normal"
+        },
+        {
+			"type": "textarea",
+			"id": "heading_desc",
+			"label": "Heading Description"
+		},
+		{
+			"type": "text",
+			"id": "heading_label",
+			"label": "Heading Button label"
+		},
+		{
+			"type": "url",
+			"id": "heading_url",
+			"label": "Heading Button URL"
+		},
+		{
+			"type": "textarea",
+			"id": "title",
+			"label": "Title"
+		},
+        {
+			"type": "textarea",
+			"id": "label1",
+			"label": "Label 1"
+		},
+        {
+			"type": "textarea",
+			"id": "text1",
+			"label": "Text 1"
+		},
+        {
+			"type": "textarea",
+			"id": "label2",
+			"label": "Label 2"
+		},
+        {
+			"type": "textarea",
+			"id": "text2",
+			"label": "Text 2"
+		},
+        {
+			"type": "textarea",
+			"id": "label3",
+			"label": "Label 3"
+		},
+        {
+			"type": "textarea",
+			"id": "text3",
+			"label": "Text 3"
+		},
+        {
+			"type": "textarea",
+			"id": "label4",
+			"label": "Label 4"
+		},
+        {
+			"type": "textarea",
+			"id": "text4",
+			"label": "Text 4"
+		}
+	],
+	"blocks" : [
+		{
+			"type": "color",
+			"name": "Color",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image_icon",
+					"label": "Icon Image"
+				},
+				{
+					"type": "image_picker",
+					"id": "image_swatch",
+					"label": "Fabric image"
+				},
+                {
+					"type": "textarea",
+					"id": "btn_label",
+					"label": "Button label"
+				},
+                {
+					"type": "url",
+					"id": "btn_url",
+					"label": "Button URL"
+				}
+			]
+		},
+        {
+			"type": "info",
+			"name": "Info",
+			"settings": [
+				{
+					"type": "textarea",
+					"id": "title",
+					"label": "Title"
+				}
+			]
+		},
+        {
+			"type": "icon",
+			"name": "Icon",
+			"settings": [
+				{
+					"type": "textarea",
+					"id": "icon",
+					"label": "Icon SVG"
+				},
+                {
+					"type": "textarea",
+					"id": "title",
+					"label": "Title"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Colours Guide",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,147 @@
+{%- comment -%}
+Description:
+Snippet to display video
+
+Variables:
+- el_id: String. Element ID
+- title: String, Title text.
+- description: String, Description text.
+- image. Object. Image object from shopify or accentuate
+- acc. Boolean. If image is from accentuate
+- image_url. String. Image url, if not usint image object.
+- image_width. Numeric. Image width if using image_url.
+- image_height. Numeric. Image height if using image_url.
+- video_url. String. Video url
+- container. String. 'w-full' or 'container'
+{%- endcomment -%}
+<style>
+#{{ el_id }} .yt-wrapper {
+    position: relative;
+    padding-bottom: 53%;
+    padding-top: 23px;
+    height: 0;
+}
+#{{ el_id }} .yt-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+#{{ el_id }} .play-button {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 48px;
+    height: 48px;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#{{ el_id }} .play-button .icon {
+    width: 13px;
+    height: 13px;
+}
+#{{ el_id }} .play-button .icon svg path {
+    fill: #ffffff;
+}
+#{{ el_id }} .global-image-wrapper img {
+    height: 100%;
+    object-fit: cover;
+}
+
+@media only screen and (min-width: 768px) {
+    #{{ el_id }} .play-button {
+        width: 60px;
+        height: 60px;
+    }
+    #{{ el_id }} .play-button .icon {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #{{ el_id }} .play-button {
+        width: 77px;
+        height: 77px;
+    }
+    #{{ el_id }} .play-button .icon {
+        width: 23px;
+        height: 23px;
+    }
+}
+</style>
+<div id="{{ el_id }}" class="video-container {{ container }}">
+    {%- if title != blank or description != blank -%}
+    <div class="container">
+        <div class="max-525 d-max-745 mx-auto tc mb-30 t-mb-30 d-mb-40">
+            {%- if title != blank -%}
+                <h1 class="h2 c-greenb2 mb-10 t-mb-10 d-mb-10">{{ title }}</h1>
+            {%- endif -%}
+            {%- if description != blank -%}
+                <p class="p1">{{ description }}</p>
+            {%- endif -%}
+        </div>
+    </div>
+    {%- endif -%}
+    <div class="video-wrapper {% if container == 'container' %}rounded{% endif %} relative">
+        <div v-if="!isPlay" class="image-con">
+            {%- if image_url != blank -%}
+                {%- render 'global-image-wrapper', 
+                    image_url: image_url, 
+                    width: image_width
+                    height: image_height
+                -%}
+            {%- elsif acc != blank -%}
+                {%- render 'global-image-wrapper', image: image, acc: true -%}
+            {%- else -%}
+                {%- render 'global-image-wrapper', image: image -%}
+            {%- endif -%}
+        </div>
+        {%- if video_url contains 'youtube' -%}
+            <div class="yt-wrapper {% if container == 'w-full' %}w-full{% endif %}" :class="{'hide-m': !isPlay, block: isPlay}" v-html="iframeMarkup"></div>
+        {%- else -%}
+            <video class="{% if container == 'w-full' %}w-full{% else %}rounded{% endif %}" :class="{'hide-m': !isPlay, block: isPlay}" controls>
+                <source src="{{ video_url }}" type="video/mp4">
+            </video>
+        {%- endif -%}
+            
+        {%- if video_url != blank -%}
+            <button v-if="!isPlay" type="button" class="play-button normal-flex" @click="play">
+                <span class="icon normal-flex">{{ settings.icon_play }}</span>
+            </button> 
+        {%- endif -%}
+    </div>
+</div>
+
+<script>
+Vue.createApp({
+    delimiters: ['${', '}'],
+    data() {
+        return {
+            iframeMarkup: '',
+            isPlay: false
+        }
+    },
+    created() {
+        {% if video_url contains 'youtube' %}
+            const url = '{{ video_url }}';
+            const videoId = $360.youtubeVideoId(url);
+            this.iframeMarkup = '<iframe class="yt-iframe" width="560" height="349" src="//www.youtube.com/embed/' + videoId + '" frameborder="0" allow="autoplay" allowfullscreen></iframe>'; 
+        {% endif %}
+    },
+    methods: {
+        play() {
+            this.isPlay = true;
+            {% if video_url contains 'youtube' %}
+                const src = document.querySelector('#{{ el_id }} .yt-wrapper iframe').getAttribute('src');
+                document.querySelector('#{{ el_id }} .yt-wrapper iframe').setAttribute('src', `${src}?autoplay=1`);
+            {% else %}
+                document.querySelector('#{{ el_id }} video').play();
+            {% endif %}
+        }
+    }
+}).mount('#{{ el_id }}');
+</script>

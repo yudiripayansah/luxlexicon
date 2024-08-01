@@ -1,0 +1,281 @@
+{% comment %} luxlexicon {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% assign ss = section.settings %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #{{el_id}} .contact-each{
+    border: 1px solid #CCC;
+    height: 100%;
+  }
+  #{{el_id}} .contact-each .contact-each-title {
+    display: flex;
+    align-items: center;
+  }
+  #{{el_id}} .contact-each .contact-each-title-image{
+    width: 16px;
+    height: 16px;
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .contact-us-wrapper-inner{
+      margin-left: -8px;
+      margin-right: -8px;
+    }
+    #{{el_id}} .contact-each-wrapper{
+      width:calc(100% / 3);
+    }
+    #{{el_id}} .contact-each-wrapper:nth-last-child(-n+2){
+      margin-bottom: 0;
+    }
+    #{{el_id}} .contact-us-faq-title a {
+      width: auto;
+    }
+  }
+</style>
+
+<div class="contact-us">
+  <div class="global-flex flex-wrap">
+    <div class="col-12 col-d-10 push-d-1 contact-us-wrapper pl-0 pr-0 d-pl-0 d-pr-0">
+      <div class="global-flex flex-wrap contact-us-wrapper-inner">
+        {%- for block in section.blocks -%}
+          <div class="contact-each-wrapper w-full pr-20 pl-20 {% unless forloop.last %}pb-16 {% endunless %}d-pb-0 d-mb-16 d-pr-8 d-pl-8">
+            {% if block.settings.url != blank or block.settings.open_chat != blank %}
+              <a
+                {% if block.settings.open_chat != blank %}
+                  href="javascript:;" onclick="tidioChatApi.display(true);tidioChatApi.open()"
+                {% else %}
+                  href="{{ block.settings.url }}"
+                {% endif -%}
+                {% if block.settings.new_tab != blank %}
+                  target="_blank"
+                {% endif %}
+              >
+            {% endif %}
+            <div class="contact-each pt-24 pb-24 pl-20 pr-20 d-pt-32 d-pb-32 d-pl-28 d-pr-28">
+              <div class="contact-each-title">
+                <div class="contact-each-title-image mr-16">
+                  {% assign image_id = 'lux_contact_us' | append: section.id %}
+                  {%- render 'global-image-wrapper-responsive',
+                    image_id: image_id,
+                    desktop_image: block.settings.icon,
+                    mobile_image: block.settings.icon,
+                    additional_class: 'no-bg'
+                  %}
+                </div>
+                <p class="p1 semibold-600 c-black">{{ block.settings.title }}</p>
+              </div>
+              <p class="contact-each-title-text c-grey60 rte p2 pt-6 pl-32">
+                {{ block.settings.text | newline_to_br }}
+              </p>
+            </div>
+            {% if block.settings.url != blank or block.settings.open_chat != blank %}
+              </a>
+            {% endif %}
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="contact-us-faq-title tc pl-20 pr-20 pt-36 d-pt-56">
+        {% if ss.faq_title != blank %}
+          <p class="h3 pb-24 d-pb-28">{{ ss.faq_title }}</p>
+        {% endif %}
+        {% if ss.faq_label != blank %}
+          <a href="{{ ss.faq_url }}" class="btn1 uppercase w-full">{{ ss.faq_label }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact us",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "General Padding"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_title",
+      "label": "FAQ Title"
+    },
+    {
+      "type": "text",
+      "id": "faq_label",
+      "label": "FAQ Label"
+    },
+    {
+      "type": "url",
+      "id": "faq_url",
+      "label": "FAQ URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Section URL"
+        },
+        {
+          "type": "checkbox",
+          "id": "new_tab",
+          "label": "Open link in new tab"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_chat",
+          "label": "Open chat"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact us"
+    }
+  ]
+}
+{% endschema %}

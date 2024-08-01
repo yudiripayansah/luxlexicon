@@ -1,0 +1,12 @@
+{% comment %}
+Description:
+Snippet for displaying button filter
+
+Variables:
+- onclick: String. Function for javascript onclick
+- onclick_vue: String. Function for vue onclick
+{% endcomment %}
+
+<button {% if onclick !=" blank" %}onclick="{{ onclick }}"{% endif %} {% if onclick_vue !=" blank" %}@click="{{ onclick_vue }}"{% endif %} type="button" class="flex ai-center rounded-5 c-comfort-orange b-1 b-comfort-orange pt-10 pb-10 pl-15 pr-15">
+    <span class="p3 mr-5">Filter</span> {{ settings.icon_filter }}
+</button>

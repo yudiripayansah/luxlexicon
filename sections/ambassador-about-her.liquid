@@ -1,0 +1,208 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+<style>
+    #shopify-section-{{ section.id }} {
+        background-color: {{ section.settings.bg_color }};
+    }
+    #shopify-section-{{ section.id }} .main-wrapper {
+        flex-direction: column-reverse;
+    }
+    #shopify-section-{{ section.id }} .big-image {
+        width: 65%;
+        display: flex;
+        flex-direction: column;
+    }
+    #shopify-section-{{ section.id }} .small-image {
+        width: 35%;
+        display: flex;
+        flex-direction: column;
+    }
+    #shopify-section-{{ section.id }} .small-image-2,
+    #shopify-section-{{ section.id }} .big-image .global-image-wrapper,
+    #shopify-section-{{ section.id }} .small-image-2 .global-image-wrapper {
+        height: 100%;
+    }
+    #shopify-section-{{ section.id }} .big-image .global-image-wrapper img,
+    #shopify-section-{{ section.id }} .small-image-2 .global-image-wrapper img {
+        height: 100%;
+        object-fit: cover;
+    }
+    #shopify-section-{{ section.id }} .trunc-p,
+    #shopify-section-{{ section.id }} .full-p {
+        display:none;
+    }
+    #shopify-section-{{ section.id }} .trunc-p.active,
+    #shopify-section-{{ section.id }} .full-p.active {
+        display:block;
+    }
+
+    @media screen and (min-width: 1024px) {
+        #shopify-section-{{ section.id }} .main-wrapper {
+            flex-direction: unset;
+        }
+    }
+</style>
+
+<section class="ambassador-about-her">
+    <div class="container">
+        <div class="global-flex flex-wrap ai-center main-wrapper">
+            <div class="col-12 pl-0 pr-0 col-d-5 d-pl-0 d-pr-120 text-container mt-25 t-mt-30 d-mt-0 tc d-tl">
+                <div class="max-300 t-max-400 ml-auto mr-auto d-max-unset d-ml-0 d-mr-0">
+                    <{{ section.settings.title_dom_type }} class="h7">{{ section.settings.title }}</{{ section.settings.title_dom_type }}>
+                    {%- if section.settings.text != blank -%}
+                        {% comment %} <p class="p2 c-grey mt-10 trunc-p active">{{ section.settings.text | newline_to_br | truncatewords: 30 }}</p> {% endcomment %}
+                        <p class="p2 c-grey mt-10 full-p active">{{ section.settings.text | newline_to_br }}</p>
+                    {%- endif -%}
+
+                    {% comment %} {%- if section.settings.link_label != blank -%}
+                        <div id="shopify-section-{{ section.id }}-link" class="mt-20 show-m cursor" onclick="toggleTruncate()">
+                            {%- assign link_id = "ambassador-about-her-link" -%}
+                            {%- render 'link-icon',
+                                id: link_id,
+                                label: section.settings.link_label,
+                                text_class: 'p3 uppercase c-grey spacing-2 bold-600',
+                                icon_color: '#6C6C6C',
+                                icon_svg: settings.icon_btn_right,
+                                load_inside_vue: false
+                            -%}
+                        </div>
+                    {%- endif -%} {% endcomment %}
+                </div>
+            </div>
+            <div class="col-12 pl-0 pr-0 col-d-7 d-pl-0 d-pr-0 image-container">
+                <div class="row">
+                    <div class="global-flex flex-wrap">
+                        <div class="col-7 big-image">
+                            {%- render 'global-image-wrapper',
+                                image: section.settings.image_big
+                            -%}
+                        </div>
+                        <div class="col-5 small-image">
+                            <div class="width-100 small-image-1 mb-15 d-mb-20">
+                                {%- render 'global-image-wrapper',
+                                    image: section.settings.image_small_1
+                                -%}
+                            </div>
+                            <div class="width-100 small-image-2">
+                                {%- render 'global-image-wrapper',
+                                    image: section.settings.image_small_2
+                                -%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function toggleTruncate(){
+        document.querySelector("#shopify-section-{{ section.id }} .trunc-p").classList.toggle("active");
+        document.querySelector("#shopify-section-{{ section.id }} .full-p").classList.toggle("active");
+        document.querySelector("#shopify-section-{{ section.id }}-link").style.display = "none";
+    }
+</script>
+
+{% schema %}
+    {
+        "name": "Ambassador - About Her",
+        "settings": [
+        {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background Color"
+        },
+        {
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Title DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"}
+            ],
+            "default": "h2"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+        },
+        {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text"
+        },
+        {
+            "type": "text",
+            "id": "link_label",
+            "label": "Link Label"
+        },
+        {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link URL"
+        },
+        {
+            "type": "image_picker",
+            "id": "image_big",
+            "label": "Image Big"
+        },
+        {
+            "type": "image_picker",
+            "id": "image_small_1",
+            "label": "Image Small 1"
+        },
+        {
+            "type": "image_picker",
+            "id": "image_small_2",
+            "label": "Image Small 2"
+        },
+        {
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		}
+        ],
+        "presets": [
+            {
+                "name": "Ambassador - About Her",
+                "blocks": []
+            }
+        ]
+    }
+{% endschema %}

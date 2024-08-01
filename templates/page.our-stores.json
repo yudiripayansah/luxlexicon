@@ -1,0 +1,261 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "heading_text_qXVqYJ": {
+      "type": "heading-text",
+      "settings": {
+        "max-width": 0,
+        "max-width-t": 0,
+        "max-width-d": 0,
+        "max-width-hd": 0,
+        "max-width-hhd": 0,
+        "bg_color": "",
+        "heading_color": "",
+        "text_color": "",
+        "heading": "Our Stores",
+        "title_text_element": "h2",
+        "title_text_size": "h2",
+        "text": "<p>Locate our nearest store to experience our products firsthand and receive personalized assistance from our dedicated team.<\/p>",
+        "link_label": "",
+        "link_url": "",
+        "link_label2": "",
+        "link_url2": "",
+        "link_gap_pc": "d-mt-15",
+        "link_gap_mobile": "mt-10",
+        "top_padding_m": 30,
+        "bottom_padding_m": 25,
+        "top_padding_t": 30,
+        "bottom_padding_t": 25,
+        "top_padding": 50,
+        "bottom_padding": 50,
+        "top_padding_hd": "50",
+        "bottom_padding_hd": "50",
+        "top_padding_hhd": "50",
+        "bottom_padding_hhd": "50"
+      }
+    },
+    "stores_i4WgJM": {
+      "type": "stores",
+      "blocks": {
+        "text_T98JYH": {
+          "type": "text",
+          "settings": {
+            "title": "ION Orchard",
+            "text": "Women | Men | Accessories",
+            "address": "2 Orchard Turn,\n#B1-06, Singapore 238801",
+            "open_hour": "Daily: 10am - 9.30pm",
+            "phone": "Tel: +65 6509 4786",
+            "image": "shopify:\/\/shop_images\/stores-1.jpg",
+            "disable_lazyload": true,
+            "button_label": "Get Directions",
+            "button_url": "https:\/\/www.google.com\/maps\/place\/IN+GOOD+COMPANY\/@1.3039974,103.8286806,17z\/data=!3m1!4b1!4m6!3m5!1s0x31da198de8579c93:0x8776a61e3b375854!8m2!3d1.3039974!4d103.8312555!16s%2Fg%2F11by_nbqth?entry=ttu"
+          }
+        },
+        "text_LpG3hR": {
+          "type": "text",
+          "settings": {
+            "title": "TANGS at Tang Plaza",
+            "text": "Women | Accessories",
+            "address": "Level 2, 310 Orchard Road, \nSingapore 238864",
+            "open_hour": "Mon-Sat: 10.30am - 9.30pm\nSun: 11.00am - 9.00pm",
+            "phone": "Tel: +65 6235 6486",
+            "image": "shopify:\/\/shop_images\/stores-2.jpg",
+            "disable_lazyload": true,
+            "button_label": "Get Directions",
+            "button_url": "https:\/\/www.google.com\/maps\/place\/IN+GOOD+COMPANY\/@1.3048394,103.8303802,17z\/data=!3m2!4b1!5s0x31da198d87d8f16f:0xfeeaa464142dc165!4m6!3m5!1s0x31da198d87b9ccd7:0x76a9fe55b2cea284!8m2!3d1.3048394!4d103.8329551!16s%2Fg%2F11c51s6mt0?entry=ttu"
+          }
+        }
+      },
+      "block_order": [
+        "text_T98JYH",
+        "text_LpG3hR"
+      ],
+      "settings": {
+        "bottom_padding_m": 60,
+        "bottom_padding": 100,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "horizontal_line_yPJJz3": {
+      "type": "horizontal-line",
+      "settings": {
+        "bg_color": "#c4c4c6",
+        "height": 1,
+        "show_on": "all_screen"
+      }
+    },
+    "stockist_xQyMjV": {
+      "type": "stockist",
+      "blocks": {
+        "entry_TpKkHT": {
+          "type": "entry",
+          "settings": {
+            "location_type": "location_1",
+            "title": "Kapok Sun Street",
+            "address": "8 Sun Street, Wan Chai, Hong Kong",
+            "opening": "Mon-Sat: 11.00am - 8.30pm\nSun: 11.00am - 8.00pm",
+            "phone": "Tel: +852 9450 5908",
+            "link_label": "Get Directions",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_aVAwBz": {
+          "type": "entry",
+          "settings": {
+            "location_type": "location_2",
+            "title": "One Bonifacio High Street Mall, G\/F",
+            "address": "Anthem Store\n5th Ave, Taguig City, Metro Manila",
+            "opening": "Opens Daily: 12pm - 9pm",
+            "phone": "Tel: 0992-898-7823",
+            "link_label": "Get Directions",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_crfefN": {
+          "type": "entry",
+          "disabled": true,
+          "settings": {
+            "location_type": "location_3",
+            "title": "ION Orchard",
+            "address": "2 Orchard Turn, #B1-06, Singapore 238801",
+            "opening": "Mon-Sat: 11.00am - 8.30pm\nSun: 11.00am - 8.00pm",
+            "phone": "Tel: +65 6509 4786",
+            "link_label": "Get Directions",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_9KwHKp": {
+          "type": "entry",
+          "disabled": true,
+          "settings": {
+            "location_type": "location_4",
+            "title": "Kapok Sun Street",
+            "address": "8 Sun Street, Wan Chai, Hong Kong",
+            "opening": "Mon-Sat: 11.00am - 8.30pm\nSun: 11.00am - 8.00pm",
+            "phone": "Tel: +852 9450 5908",
+            "link_label": "Get Directions",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_cnU936": {
+          "type": "entry",
+          "settings": {
+            "location_type": "location_1",
+            "title": "Kapok Victoria Park",
+            "address": "2-4 Kingston Street, Fashion Walk, Causeway Bay",
+            "opening": "Daily: 11.30am - 9.00pm",
+            "phone": "Tel: +852 2180 2821",
+            "link_label": "Get Directions",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_HanhcN": {
+          "type": "entry",
+          "disabled": true,
+          "settings": {
+            "location_type": "location_2",
+            "title": "TANGS at Tang Plaza",
+            "address": "2 Orchard Turn, #B1-06, Singapore 238801",
+            "opening": "Opens Daily: 10am - 9.30pm",
+            "phone": "Tel: +65 6509 4786",
+            "link_label": "Get Directions",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_azdDf3": {
+          "type": "entry",
+          "disabled": true,
+          "settings": {
+            "location_type": "location_3",
+            "title": "TANGS at Tang Plaza",
+            "address": "Level 2, 310 Orchard Road, Singapore 238864",
+            "opening": "Mon-Sat: 10.30am - 9.30pm\nSun: 11.00am - 9.00pm",
+            "phone": "Tel: +65 6235 6486",
+            "link_label": "Get Directions",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_erd9x8": {
+          "type": "entry",
+          "disabled": true,
+          "settings": {
+            "location_type": "location_4",
+            "title": "Kapok Victoria Park",
+            "address": "2-4 Kingston Street, Fashion Walk, Causeway Bay",
+            "opening": "Daily: 11.30am - 9.00pm",
+            "phone": "Tel: +852 2180 2821",
+            "link_label": "Get Directions",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_TxTcHr": {
+          "type": "entry",
+          "settings": {
+            "location_type": "location_1",
+            "title": "Kapok K11 Musea",
+            "address": "Shop 205, 2\/F, K11 Musea, Victoria Dockside, 18\nSalisbury Road, Tsim Sha Tsui, Kowloon",
+            "opening": "Daily: 11.30am - 9.00pm",
+            "phone": "Tel: +852 2191 1268 \/ +852 9450 6980",
+            "link_label": "Get Directions",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_LE7gDA": {
+          "type": "entry",
+          "disabled": true,
+          "settings": {
+            "location_type": "location_4",
+            "title": "Kapok K11 Musea",
+            "address": "Shop 205, 2\/F, K11 Musea, Victoria Dockside, 18\nSalisbury Road, Tsim Sha Tsui, Kowloon",
+            "opening": "Daily: 11.30am - 9.00pm",
+            "phone": "Tel: +852 2191 1268 \/ +852 9450 6980",
+            "link_label": "Get Directions",
+            "link_url": "https:\/\/www.google.com"
+          }
+        }
+      },
+      "block_order": [
+        "entry_TpKkHT",
+        "entry_aVAwBz",
+        "entry_crfefN",
+        "entry_9KwHKp",
+        "entry_cnU936",
+        "entry_HanhcN",
+        "entry_azdDf3",
+        "entry_erd9x8",
+        "entry_TxTcHr",
+        "entry_LE7gDA"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 60,
+        "top_padding_t": 60,
+        "bottom_padding_t": 60,
+        "top_padding": 100,
+        "bottom_padding": 100,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "title": "Stockists",
+        "title_size": "h2",
+        "title_dom_type": "h1",
+        "text": "Explore the network of retailers carrying our curated collections, where you can indulge in the essence of our brand beyond our own storefronts.",
+        "text_max_width": 404,
+        "location_1": "Hong Kong",
+        "location_2": "The Philippines",
+        "location_3": "",
+        "location_4": ""
+      }
+    }
+  },
+  "order": [
+    "heading_text_qXVqYJ",
+    "stores_i4WgJM",
+    "horizontal_line_yPJJz3",
+    "stockist_xQyMjV"
+  ]
+}

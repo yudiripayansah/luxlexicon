@@ -1,0 +1,67 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{%- assign faq_section_title = product.metafields.faq.title -%}
+
+{%- if product.metafields.faq.enable -%}
+    <section class="product-faq bg-white pt-40 pb-40 t-pt-60 t-pb-60 d-pt-80 d-pb-80">
+        <div class="container">
+            <div class="max-600 ml-auto mr-auto">
+                <h6 class="h7 tc">{{ faq_section_title }}</h6>
+
+                <div class="faq-wrapper mt-20 d-mt-30 bb-1 b-silver">
+                    {%- assign default_active = false -%}
+                    {%- for i in (1..10) -%}
+                        {%- if forloop.first -%}
+                            {%- assign default_active = true -%}
+                        {%- else -%}
+                            {%- assign default_active = false -%}
+                        {%- endif -%}
+
+                        {%- assign question = 'q_' | append: i -%}
+                        {%- assign question_text = '' -%}
+                        {%- if forloop.index < 10 -%}
+                            {%- assign question_text = question_text | append: '<span class="mr-10">0' | append: forloop.index | append: '</span><span>' | append: product.metafields.faq[question] | append: '</span></span>' -%}
+                        {%- else -%}
+                            {%- assign question_text = question_text | append: '<span class="mr-10">' | append: forloop.index | append: '</span><span>' | append: product.metafields.faq[question] | append: '</span></span>' -%}
+                        {%- endif -%}
+
+                        {%- assign answer = 'a_' | append: i -%}
+                        {%- assign answer_text = product.metafields.faq[answer] | newline_to_br -%}
+
+                        {%- if product.metafields.faq[question] != blank -%}
+                            {%- render 'accordion',
+                                wrapper_class: 'bt-1 b-silver mb-20',
+                                title_class: 'p2 bold-500',
+                                title_wrapper_class: 'product-faq-each',
+                                title_no_pb: true,
+                                desc_no_pt: true,
+                                desc_no_pb: true,
+                                default_active: default_active,
+                                desc_class: 'p2 c-grey pt-10',
+                                open_one_at_a_time: true,
+                                title: question_text,
+                                description: answer_text
+                            -%}
+                        {%- endif -%}
+                    {%- endfor -%}
+                </div>
+
+                {%- assign read_more_label = product.metafields.faq.more_label -%}
+                {%- assign read_more_url = product.metafields.faq.more_url -%}
+
+                {%- if read_more_label != blank -%}
+                    <div class="relative width-100 tc mt-30 d-mt-35">
+                        {%- assign link_id = "link-pdp-faq" -%}
+                        {% render 'link-icon', 
+                            id: link_id,
+                            label: read_more_label,
+                            url: read_more_url,
+                            text_class: 'p3 uppercase c-grey spacing-2 bold-600',
+                            icon_color: '#6C6C6C',
+                            icon_svg: settings.icon_btn_right
+                        %}
+                    </div>
+                {%- endif -%}
+            </div>
+        </div>
+    </section>
+{%- endif -%}

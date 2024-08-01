@@ -1,0 +1,428 @@
+{% comment %} in-good-company - refinements bismocii {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  {%- if section.settings.bg_color != blank -%}
+  #{{el_id}} {
+    background-color: {{ section.settings.bg_color }};
+  }
+  {%- endif -%}
+  #{{el_id}} .two-x-one .two-x-one-single:last-child {
+    margin-bottom: 0;
+  }
+  {% if section.settings.container_setting == 'no-container' %}
+    #{{el_id}} .two-x-one .two-x-one-single {
+        padding-left: 0;
+        padding-right: 0;
+    }
+  {% endif %}
+  #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute {
+    position: absolute;
+    width: 100%;
+    bottom: 20px;
+    {%- if section.settings.container_setting == 'container' -%}
+      margin: 0 -12.5px;
+    {%- endif -%}
+  }
+  #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-left {
+    {%- if section.settings.container_setting == 'container' -%}
+      padding: 0 32.5px;
+    {%- else -%}
+      padding: 0 20px;
+    {%- endif -%}
+    text-align: left;
+  }
+  #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-center {
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
+  }
+  #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-center p {
+    padding: 0 20px;
+  }
+  #{{el_id}} .two-x-one .two-x-one-caption p {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-right {
+    {%- if section.settings.container_setting == 'container' -%}
+      padding: 0 40px;
+    {%- else -%}
+      padding: 0 20px;
+    {%- endif -%}
+    text-align: right;
+  }
+  @media screen and (min-width: 600px) {
+    #{{el_id}} .two-x-one .two-x-one-single:nth-last-child(-n + 2) {
+      margin-bottom: 0;
+    }
+
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-left {
+      {%- if section.settings.container_setting == 'container' -%}
+        padding: 0 32.5px;
+      {%- else -%}
+        padding: 0 25px;
+      {%- endif -%}
+    }
+
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-right {
+      {%- if section.settings.container_setting == 'container' -%}
+        padding: 0 40px;
+      {%- else -%}
+        padding: 0 25px;
+      {%- endif -%}
+    }
+
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute {
+      bottom: 25px;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute {
+      position: absolute;
+      bottom: 30px;
+      {%- if section.settings.container_setting == 'container' -%}
+        margin: 0 -25px;
+      {%- endif -%}
+    }
+
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-left {
+      {%- if section.settings.container_setting == 'container' -%}
+        padding: 0 50px;
+      {%- else -%}
+        padding: 0 30px;
+      {%- endif -%}
+    }
+
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-right {
+      {%- if section.settings.container_setting == 'container' -%}
+        padding: 0 50px;
+      {%- else -%}
+        padding: 0 30px;
+      {%- endif -%}
+    }
+
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-center {
+      bottom: 30px;
+    }
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-center p {
+      padding: 0;
+    }
+  }
+
+  @media screen and (min-width: 1920px) {
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute {
+      bottom: 50px;
+    }
+
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-left {
+      {%- if section.settings.container_setting == 'container' -%}
+        padding: 0 50px;
+      {%- else -%}
+        padding: 0 50px;
+      {%- endif -%}
+    }
+
+    #{{el_id}} .two-x-one .two-x-one-caption.caption-absolute .caption-absolute-right {
+      {%- if section.settings.container_setting == 'container' -%}
+        padding: 0 50px;
+      {%- else -%}
+        padding: 0 50px;
+      {%- endif -%}
+    }
+  }
+</style>
+
+<div {% if section.settings.section_id != blank %}id="{{ section.settings.section_id }}" {% endif %}class="two-x-one">
+  {% if section.settings.container_setting == 'container' %}<div class="container">{% endif %}
+  <div class="row two-x-one-wrapper {% if section.settings.container_setting == 'no-container' %}mr-0 ml-0{% endif %}">
+    <div class="global-flex flex-wrap">
+      {%- for block in section.blocks -%}
+        <div class="col-12 col-t-6 two-x-one-single {% if block.settings.text_position == 'outside' %}mb-25 d-mb-50{% endif %}">
+          {%- assign image_id = 'image-text-image-' | append: block.id -%}
+          {%- assign preload = '' -%}
+          {%- if section.index == 1 -%}
+            {%- assign preload = true -%}
+          {%- endif -%}
+
+          {%- render 'global-image-wrapper-responsive',
+            image_id: image_id,
+            desktop_image: block.settings.desktop_image,
+            mobile_image: block.settings.mobile_image,
+            additional_class: 'no-bg',
+            preload: preload
+          %}
+          {%- if block.settings.text_position == 'inside' -%}
+            {%- if block.settings.text_align == 'left' -%}
+              {%- assign text_position_align = 'caption-absolute-left' -%}
+            {%- elsif block.settings.text_align == 'center' -%}
+              {%- assign text_position_align = 'caption-absolute-center' -%}
+            {%- elsif block.settings.text_align == 'right' -%}
+              {%- assign text_position_align = 'caption-absolute-right' -%}
+            {%- endif -%}
+          {%- elsif block.settings.text_position == 'outside' -%}
+            {%- if block.settings.text_align == 'left' -%}
+              {%- assign text_position_align = 'tl' -%}
+            {%- elsif block.settings.text_align == 'center' -%}
+              {%- assign text_position_align = 'tc' -%}
+            {%- elsif block.settings.text_align == 'right' -%}
+              {%- assign text_position_align = 'tr' -%}
+            {%- endif -%}
+          {%- endif -%}
+          <div
+            class="two-x-one-caption{% if section.settings.container_setting == 'no-container' and block.settings.text_position == 'outside' %} pl-20 d-pl-25 pr-20 d-pr-25{% endif %}{% if block.settings.text_position == 'inside' %} caption-absolute{% endif %}"
+          >
+            <div class="{{ text_position_align }}">
+              {% if block.settings.caption != blank %}
+                <div class="global-flex flex-wrap{% if block.settings.text_align == 'right' %} jc-end{% elsif block.settings.text_align == 'center' %} jc-center{% endif %}">
+                  <p class="h2 pt-20 t-pt-15 hd-pt-18 col-12 col-d-10 {% if block.settings.text_color == "white" %}c-white{% endif %}">
+                    {{ block.settings.caption | newline_to_br }}
+                  </p>
+                </div>
+              {% endif %}
+              {% if block.settings.link_url != blank and block.settings.link_label != blank %}
+                <a
+                  href="{{ block.settings.link_url }}"
+                  class="pt-5 d-pt-8 hd-pt-10 p1 two-x-one-link {% if block.settings.text_color == "black"%}link1{% elsif block.settings.text_color == "white"%}link2{% endif %}"
+                >
+                  {{- block.settings.link_label -}}
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  {% if section.settings.container_setting == 'container' %}</div>{% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "2x1 Image Block",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section ID",
+      "info": "For anchor link. input example: section-name"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "radio",
+      "id": "container_setting",
+      "label": "Container Setting",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "no-container", "label": "No Container" }
+      ],
+      "default": "container"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "textarea",
+          "id": "caption",
+          "label": "Caption"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link Label"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link Url"
+        },
+        {
+          "type": "radio",
+          "id": "text_align",
+          "label": "Text Align",
+          "options": [
+            { "value": "left", "label": "Align Left" },
+            { "value": "center", "label": "Align Center" },
+            { "value": "right", "label": "Align Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "radio",
+          "id": "text_color",
+          "label": "Text Color",
+          "options": [
+            { "value": "black", "label": "Black" },
+            { "value": "white", "label": "White" }
+          ],
+          "default": "black"
+        },
+        {
+          "type": "radio",
+          "id": "text_position",
+          "label": "Text Position",
+          "options": [
+            { "value": "outside", "label": "Outside Image" },
+            { "value": "inside", "label": "Inside Image" }
+          ],
+          "default": "outside"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "2x1 Image Block"
+    }
+  ]
+}
+{% endschema %}

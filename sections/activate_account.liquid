@@ -1,0 +1,173 @@
+{% comment %} JCO Revamp - on progress : Adi {% endcomment %}
+{%- assign el_id = 'activate-account-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+<style>
+    #activate-account-page .c-sale-red {color: #AA0000;}
+    #activate-account-page .global-input{
+        background: #F7F7F7;
+        border: 0px solid #dbdbdb;
+        border-radius:0;
+    }
+    #register-page input{
+        color:#2b2b2b;
+    }
+    #{{ el_id }} .form-errors .errors li {
+      font-weight: 300;
+    }
+    #{{ el_id }} .global-input::-webkit-input-placeholder{color:#2b2b2b; opacity: 0.4;}
+    #{{ el_id }} .global-input::placeholder {
+      text-transform: capitalize;
+    }
+    #{{ el_id }} .global-input {
+      padding: 15px 15px;
+    }
+    @media screen and (min-width:1024px) {
+      #{{el_id}} .lp-image {
+        width: 50%;
+      }
+      #{{el_id}} .lp-form {
+        width: 50%;
+      }
+      #activate-account-page #activate-account-form {
+        max-width: 342px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    @media screen and (min-width:1920px) {
+      #activate-account-page #activate-account-form {
+        width: 450px;
+        max-width: unset;
+      }
+    }
+</style>
+<div id="{{ el_id }}" class="global-content-top-margin">
+  <div class="relative flex ai-center jc-between">
+    <div class="lp-image hide-m show-d">
+      {%- assign image_id = el_id | append: 'image' -%}
+      {%- render 'global-image-wrapper',
+        image: section.settings.image,
+        image_id: image_id,
+        additional_class: '',
+        load_inside_vue: true
+      -%}
+    </div>
+    <div id="activate-account-page" class="lp-form pt-50 pb-50 d-pt-80 d-pb-80">
+      <div class="container">
+        {%- form 'activate_customer_password', id: 'activate-account-form' -%}
+          <h1 class="h3 tl t-tc uppercase">{{ 'customer.activate_account.title' | t }}</h1>
+          
+          <div class="rte tl t-tc mt-10 t-mt-12 mb-5 middle-max-355 hhd-max-unset mx-auto">
+            <div class="p4">{{ 'customer.activate_account.subtext' | t }}</div>
+
+            {%- if form.errors -%}
+              <div class="form-errors mb-20 c-sale-red rte p5">
+                {{ form.errors | default_errors }}
+              </div>
+            {%- endif -%}
+
+              <div class="mb-10 mt-20 hhd-mt-25">
+                <input type="password" v-model="password" name="customer[password]" id="password" class="global-input p3 rounded-8" placeholder="{{ 'customer.activate_account.password' | t }}" />
+                <div v-if="password_error" class="c-sale-red p5 light-300 mt-5 tl">{{ 'customer.activate_account.error_password' | t }}</div>
+              </div>
+              <div class="mb-20 hhd-mb-25">
+                <input type="password" v-model="password_confirm" name="customer[password_confirmation]" id="password_confirmation" class="global-input p3 rounded-8" placeholder="{{ 'customer.activate_account.password_confirm' | t }}" />
+                <div v-if="password_confirm_error" class="c-sale-red p5 light-300 mt-5 tl">{{ 'customer.activate_account.error_password_confirm' | t }}</div>
+              </div>
+              <button type="submit" class="btn btn1 no-icon w-full">{{ 'customer.activate_account.submit' | t }}</button>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+Vue.createApp({
+  delimiters: ['${', '}'],
+  data() {
+    return {
+      password: null,
+      password_confirm: null,
+      has_error: false,
+      password_error: false,
+      password_confirm_error: false,
+    }
+  },
+  mounted() {
+    const thisObj = this;
+    document.getElementById('activate-account-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      thisObj.has_error = false;
+      thisObj.password_error = false;
+      thisObj.password_confirm_error = false;
+
+      if(!thisObj.password) {
+        thisObj.password_error = true;
+        thisObj.has_error = true;
+      }
+
+      if(!thisObj.password_confirm) {
+        thisObj.password_confirm_error = true;
+        thisObj.has_error = true;
+      }
+
+      if(!thisObj.has_error) {
+        this.submit();
+      }
+    });
+  }
+}).mount('#activate-account-page');
+</script>
+
+{% schema %}
+{
+  "name": "Login",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,31 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{%- assign usp_enable = shop.metafields.globals.pdp_icon_enable -%}
+
+{%- if shop.metafields.globals.pdp_icon_enable or product.metafields.usp_icon.enable != blank -%}
+    <section class="product-icons pt-40 pb-40 t-pt-25 t-pb-25 bg-pale50">
+        <div class="container">
+            <div class="icons-wrapper global-flex jc-center">
+                {%- for i in (1..3) -%}
+                    {%- assign icon = 'pdp_icon_' | append: i -%}
+                    {%- assign icon = shop.metafields.globals[icon] -%}
+                    {%- assign text = 'pdp_icon_text_' | append: i -%}
+                    {%- assign text = shop.metafields.globals[text] -%}
+
+                    {%- if product.metafields.usp_icon.enable != blank -%}
+                        {%- assign icon = 'icon_' | append: i -%}
+                        {%- assign icon = product.metafields.usp_icon[icon] -%}
+                        {%- assign text = 'icon_text_' | append: i -%}
+                        {%- assign text = product.metafields.usp_icon[text] -%}
+                    {%- endif -%}
+
+                    {%- if icon != blank -%}
+                        <div class="icon-each global-flex ai-center mt-25 t-mt-0">
+                            <div class="icon mr-15">{{ icon }}</div>
+                            <div class="text p2 max-230 t-max-unset">{{ text }}</div>
+                        </div>
+                    {%- endif -%}
+                {%- endfor -%}
+            </div>
+        </div>
+    </section>
+{%- endif -%}

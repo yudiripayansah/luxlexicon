@@ -1,0 +1,142 @@
+<style>
+    .account-navigation {
+    }
+    .account-navigation .nav-item.filter-active{
+        opacity: 1;
+    }
+    .account-navigation.zi-7.zi-2 {
+        z-index: 99;
+    }
+
+    .account-navigation .nav-item{
+        margin:0 10px;
+        opacity: 0.4;
+    }
+
+    .account-navigation .flex-wrapper{
+        display:flex;
+        white-space:nowrap;
+        overflow:auto;
+        flex-wrap: unset !important;
+        margin:0 -12.5px;
+    }
+
+    .account-navigation .flex-each{
+        display:inline-block;
+    }
+
+    .account-navigation{
+        border-bottom:1px solid #dedede;
+        width: 100%;
+        transition: 0.3s ease transform;
+    }
+    
+    {% if template contains 'account' %}
+    .account-navigation.no-border {
+        border-bottom: none!important;
+    }
+    {% endif %}
+
+    @media(min-width: 600px) {
+        .account-navigation .nav-item{
+            margin:0 10px;
+        }
+        .account-navigation .flex-wrapper{
+            margin:0 -20px;
+            justify-content:center;
+        }
+    }
+    @media(min-width: 1024px) {
+        .account-navigation .nav-item{
+            margin:0 17.5px;
+        }
+    }
+</style>
+
+<div class="account-navigation bg-white no-border sticky zi-7 has-sticky-elem">
+    <div class="container">
+        <div class="flex-wrapper pt-15 pb-15 d-pb-17 d-pt-17 jc-center">
+            <div class="flex-each">
+                <a href="/account">
+                    <div class="p3 cursor nav-item regular-400 c-black {%if filter_active == "order"%}filter-active{%endif%}">Order History</div>
+                </a>
+            </div>
+            <div class="flex-each">
+                <a href="/account/addresses">
+                    <div class="p3 cursor nav-item regular-400 c-black {%if filter_active == "address"%}filter-active{%endif%}">Profile Page</div>
+                </a>
+            </div>
+            <div class="flex-each">
+                <a href="/account/logout">
+                    <div class="p3 cursor nav-item regular-400 c-black">Log out</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.addEventListener('load', function() {
+      setAccountNavTop();
+      window.addEventListener('resize', setAccountNavTop);
+      window.addEventListener('scroll', handleScroll);
+    });
+  
+    let prevScrollPosition = window.scrollY || window.pageYOffset;
+    let combinedHeight = 0; // Define combinedHeight globally
+    let barHeight = 0; // Define barHeight globally
+
+    const siteHeader = document.querySelector('.header-con-outer');
+      const barHeader = document.getElementById('header-bar');
+      const accountNavigation = document.querySelector('.account-navigation');
+     
+      if (siteHeader && accountNavigation) {
+        barHeight = barHeader.offsetHeight;
+        combinedHeight = siteHeader.offsetHeight + barHeader.offsetHeight - 0.5; // Calculate combinedHeight
+        accountNavigation.style.top = combinedHeight + 'px';
+      }
+  
+    function setAccountNavTop() {
+      const siteHeader = document.querySelector('.header-con-outer');
+      const barHeader = document.getElementById('header-bar');
+      const accountNavigation = document.querySelector('.account-navigation');
+     
+      if (siteHeader && accountNavigation) {
+        barHeight = barHeader.offsetHeight;
+        combinedHeight = siteHeader.offsetHeight + barHeader.offsetHeight -0.5; // Calculate combinedHeight
+        accountNavigation.style.top = combinedHeight + 'px';
+      }
+    }
+  
+    function handleScroll() {
+        const scrollPosition = window.scrollY || window.pageYOffset;
+        const accountNavigation = document.querySelector('.account-navigation');
+        if (accountNavigation) {
+          if (scrollPosition > prevScrollPosition && scrollPosition > combinedHeight) {
+            // Scrolled down and beyond the siteHeader value
+            accountNavigation.classList.add('scrolled');
+            accountNavigation.classList.add('sticky');
+            accountNavigation.classList.remove('no-border');
+            accountNavigation.style.setProperty('transform', `translateY(-${barHeight}px)`);
+          } else if (scrollPosition <= combinedHeight) {
+              // Scrolled up to or less than the siteHeader value
+              accountNavigation.classList.add('no-border');
+              accountNavigation.style.top = combinedHeight + 'px'; // Adjust the top position if needed
+              accountNavigation.style.setProperty('transform', 'none'); // Reset transform when scrolled up
+          } else {
+            // Scrolled up or at the top
+            accountNavigation.classList.remove('scrolled');
+            
+            
+          }
+        prevScrollPosition = scrollPosition; // Update prevScrollPosition for every scroll event
+      }
+    }
+</script>
+
+  
+  
+  
+  
+  
+  
+  

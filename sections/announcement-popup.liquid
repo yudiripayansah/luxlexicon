@@ -1,0 +1,284 @@
+{% comment %} Luxlexicon Theme - Adi {% endcomment %}
+{% liquid
+  assign el_id = 'selection-popup-' | append: section.id
+  assign ss = section.settings
+  assign sb = section.blocks
+%}
+<style>
+  #shopify-section-{{ section.id }} {
+    background-color: unset;
+    position: unset;
+  }
+  #{{el_id}} .sp-wrap {
+    opacity: 0;
+    visibility: hidden;
+    transition: .5s;
+  }
+  body #{{el_id}} #sp-wrap.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  body #{{el_id}} #sp-wrap.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  #{{el_id}} .sp-overlay {
+    background: rgba(0,0,0,.5);
+  }
+  #{{el_id}} .sp-box {
+    flex-direction: column;
+  }
+  #{{el_id}} .spb-image,
+  #{{el_id}} .spb-text {
+    width: 100%;
+  }
+  #{{el_id}} .spbto-item {
+    cursor: pointer;
+  }
+  #{{el_id}} #sp-wrap .spbto-item {
+    {% if ss.option_bg_color_salon != blank %}
+      background-color: {{ss.option_bg_color_salon}};
+    {% endif %}
+  }
+  #{{el_id}} #sp-wrap .spbto-item {
+    {% if ss.option_bg_color_medical != blank %}
+      background-color: {{ss.option_bg_color_medical}};
+    {% endif %}
+  }
+  #{{el_id}} .spbtoi-icon,
+  #{{el_id}} .spbtoi-icon svg {
+    width: 10px;
+    height: 10px;
+  }
+  #{{el_id}} .close-popup {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #{{el_id}} .btn1 {
+    color: #fff;
+    background-color: #0D0D0D;
+  }
+ 
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .close-popup {
+      top: 16px;
+      right: 16px;
+      width: 10px;
+      height: 10px;
+    }
+    #{{el_id}} .sp-box {
+      flex-direction: row;
+    }
+    #{{el_id}} .spb-image {
+      width: 48.5%;
+    }
+    #{{el_id}} .spb-text {
+      width: 51.5%;
+    }
+    #{{el_id}} .spb-image .global-image-wrapper  {
+      height: 100%;
+    }
+    #{{el_id}} .spb-image .global-image-wrapper .image {
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+</style>
+<div id="{{el_id}}" class="test">
+  {% render 'selection-popup', section: section %}
+</div>
+<script>
+  let overlay = document.querySelectorAll('.sp-overlay');
+
+  function toggleContentSelectionPopup() {
+    let body = document.querySelector('body');
+    let popup = document.querySelector('#sp-wrap');
+    popup.classList.toggle('show');
+    body.classList.toggle('overflow');
+  }
+  function hideContentSelectionPopup() {
+    let body = document.querySelector('body');
+    let popup = document.querySelector('#sp-wrap');
+    popup.classList.remove('show');
+    body.classList.remove('overflow');
+  } 
+
+  function setCookie(name, value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    const cookieValue = encodeURIComponent(name) + '=' + encodeURIComponent(value) + ';expires=' + expires.toUTCString() + ';path=/';
+    document.cookie = cookieValue;
+  }
+
+  function getCookie(name) {
+    const cookieName = encodeURIComponent(name) + '=';
+    const cookieArray = document.cookie.split(';');
+    for (let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i].trim();
+      if (cookie.indexOf(cookieName) === 0) {
+        return decodeURIComponent(cookie.substring(cookieName.length, cookie.length));
+      }
+    }
+    return null;
+  }
+
+  function setSelection(event) {
+    event.preventDefault();
+    const value = event.currentTarget.getAttribute('data-value');
+      setCookie('LuxlexiconAnnouncementSelection', value, 7);
+      hideContentSelectionPopup();
+  }
+
+  function triggerClickOnAnnouncementContinue() {
+    const announcementContinueButton = document.querySelector('[data-value="announcementContinue"]');
+    if (announcementContinueButton) {
+      announcementContinueButton.click();
+    } else {
+      console.error('Element with data-value="announcementContinue" not found');
+    }
+  }
+
+  {% if ss.enable_test_mode %}
+    toggleContentSelectionPopup();
+  {% else %}
+    const selection = getCookie('LuxlexiconAnnouncementSelection');
+    if (!selection) {
+      toggleContentSelectionPopup();
+      setTimeout(function () {
+        triggerClickOnAnnouncementContinue();
+      }, {{ss.delay}});
+    }
+  {% endif %}
+
+  overlay.forEach(function(item){
+    item.addEventListener('click', function(){setSelection(event)})
+  });
+</script>
+
+
+{% schema %}
+{
+  "name": "Announcement Popup",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_test_mode",
+      "label": "Enable test mode"
+    },
+    {
+      "type": "number",
+      "id": "delay",
+      "label": "Delay Close",
+      "info": "in milliseconds"
+    },
+    {
+      "type": "header",
+      "content": "Popup Salon Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "H3"
+        },
+        {
+          "value": "h4",
+          "label": "H4"
+        },
+        {
+          "value": "h5",
+          "label": "H5"
+        },
+        {
+          "value": "h6",
+          "label": "H6"
+        },
+        {
+          "value": "h7",
+          "label": "H7"
+        },
+        {
+          "value": "h8",
+          "label": "H8"
+        },
+        {
+          "value": "h12",
+          "label": "H12"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM type",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "H3"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label"
+    }
+  ],
+  "blocks": [
+  ],
+  "presets": [
+    {
+      "name": "Announcement Popup"
+    }
+  ]
+}
+{% endschema %}

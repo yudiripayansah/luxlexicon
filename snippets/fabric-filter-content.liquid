@@ -1,0 +1,159 @@
+{%- comment -%}
+Description:
+Snippet for displaying fabric filter content
+
+Variables:
+- el_id: String. Element id for the wrapper
+{%- endcomment -%}
+
+<style>
+#{{ el_id }} {
+    width: 90%;
+    height: calc(100% - 40px);
+    right: -90%;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.3s linear;
+}
+#{{ el_id }}.active {
+    right: 50%;
+    transform: translate(50%, -50%);
+}
+#{{ el_id }} .inner .filter-wrapper {
+    height: calc(100% - 160px);
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+#{{ el_id }} .inner .filter-wrapper::-webkit-scrollbar {
+    display: none;
+}
+#{{ el_id }} .inner .filter-wrapper + .actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+#{{ el_id }} .inner .close {
+    width: 12px;
+    height: 12px;
+}
+#{{ el_id }} .inner .filter-wrapper .filter-colors .color-block {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+@media only screen and (min-width: 768px) {
+    #{{ el_id }} {
+        width: 425px;
+        right: -445px;
+    }
+    #{{ el_id }}.active {
+        right: 20px;
+        transform: translate(0,-50%);
+    }
+    #{{ el_id }} .inner .filter-wrapper {
+        height: calc(100% - 160px);
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #{{ el_id }} .inner .filter-wrapper {
+        height: calc(100% - 172px);
+    }
+}
+</style>
+<div id="{{ el_id }}-con">
+    <Teleport to="body">
+        <div @click="showFabricFilter = false" class="page-overlay zi-6 {{ el_id }}-overlay" :class="{active: showFabricFilter}">&nbsp;</div>
+        <div id="{{ el_id }}" class="fixed top-20 rounded-15 bg-white zi-7" :class="{active: showFabricFilter}">
+            <div class="inner p-20 h-full">
+                <div class="flex jc-end">
+                    <button @click="showFabricFilter = false" type="button" class="close flex ai-center jc-center mb-20">{{ settings.icon_close }}</button>
+                </div>
+                
+                <h4 class="h5 c-greenb2">Filters</h4>
+
+                <div class="filter-wrapper">
+                    <div class="accordion filter-features bb-1 b-border-orange">
+                        <div class="title-icon accordion-title w-full relative cursor flex ai-center jc-between pt-15 pb-15 active" onclick="$360.accordionToggle(event)">
+                            <div class="title p1 bold-700">Features <span v-if="fabricFilters.features.length">(<span class="p1 bold-700">${fabricFilters.features.length}</span> selected)</span></div>
+                            <div class="icon-wrapper">
+                                <div class="icon icon-plus ai-center jc-center">{{ settings.icon_plus }}</div>
+                                <div class="icon icon-minus ai-center jc-center">{{ settings.icon_minus }}</div>
+                            </div>
+                        </div>
+                        <div class="description pb-15">
+                            {%- for title in shop.metafields.fabrics_features.title -%}
+                                <label class="cb-container {% unless forloop.last %}mb-15{% endunless %}">
+                                    <input type="checkbox" v-model="fabricFilters.features" value="{{ shop.metafields.fabrics_features.product_tag[forloop.index0] }}" />
+                                    <div class="text">
+                                        <p class="p1 bold-700">{{ title }}</p>
+                                        <p class="p2">{{ shop.metafields.fabrics_features.text[forloop.index0] }}</p>
+                                    </div>
+                                    <span class="checkmark"></span>
+                                </label>
+                            {%- endfor -%}
+                        </div>
+                    </div>
+
+                    <div class="accordion filter-colors bb-1 b-border-orange">
+                        <div class="title-icon accordion-title w-full relative cursor flex ai-center jc-between pt-15 pb-15" onclick="$360.accordionToggle(event)">
+                            <div class="title p1 bold-700">Colors <span v-if="fabricFilters.colors.length">(<span class="p1 bold-700">${fabricFilters.colors.length}</span> selected)</span></div>
+                            <div class="icon-wrapper">
+                                <div class="icon icon-plus ai-center jc-center">{{ settings.icon_plus }}</div>
+                                <div class="icon icon-minus ai-center jc-center">{{ settings.icon_minus }}</div>
+                            </div>
+                        </div>
+                        <div class="description hide-m">
+                            <div class="flex ai-center flex-wrap">
+                                {%- for title in shop.metafields.fabrics_color.title -%}
+                                    <label class="radio-cb-btn-container mb-10 mr-10" :class="{active: fabricFilters.colors.includes('{{ shop.metafields.fabrics_color.product_tag[forloop.index0] }}')}">
+                                        <input type="checkbox" v-model="fabricFilters.colors" value="{{ shop.metafields.fabrics_color.product_tag[forloop.index0] }}" />
+                                        <div class="text flex ai-center">
+                                            <div class="color-block mr-5" style="background-color: {{ shop.metafields.fabrics_color.hex_code[forloop.index0] }}">&nbsp</div>
+                                            <p class="p3">{{ title }}</p>
+                                        </div>
+                                    </label>
+                                {%- endfor -%}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion filter-materials bb-1 b-border-orange">
+                        <div class="title-icon accordion-title w-full relative cursor flex ai-center jc-between pt-15 pb-15" onclick="$360.accordionToggle(event)">
+                            <div class="title p1 bold-700">Materials <span v-if="fabricFilters.materials.length">(<span class="p1 bold-700">${fabricFilters.materials.length}</span> selected)</span></div>
+                            <div class="icon-wrapper">
+                                <div class="icon icon-plus ai-center jc-center">{{ settings.icon_plus }}</div>
+                                <div class="icon icon-minus ai-center jc-center">{{ settings.icon_minus }}</div>
+                            </div>
+                        </div>
+                        <div class="description pb-15 hide-m">
+                            <div class="flex ai-center flex-wrap">
+                                {%- for title in shop.metafields.fabrics_material.title -%}
+                                    <label class="radio-cb-btn-container mb-10 mr-10" :class="{active: fabricFilters.materials.includes('{{ shop.metafields.fabrics_filter.product_tag[forloop.index0] }}')}">
+                                        <input type="checkbox" v-model="fabricFilters.materials" value="{{ shop.metafields.fabrics_filter.product_tag[forloop.index0] }}" />
+                                        <div class="text flex ai-center">
+                                            <p class="p1">{{ title }}</p>
+                                        </div>
+                                    </label>
+                                {%- endfor -%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions absolute bottom-0 left-0 bt-1 b-border-orange bg-white tc w-full p-20">
+                <button @click="filterFabric" type="button" class="btn btn1 no-icon w-full mb-15">Submit</button>
+                <div class="flex jc-center">
+                    {%- render 'link-icon',
+                        label: 'Clear all',
+                        text_class: 'p2'
+                        onclick_vue: 'clearFilterFabric'
+                    -%}
+                </div>
+            </div>
+        </div>
+    </Teleport>
+</div>

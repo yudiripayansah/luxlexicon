@@ -1,0 +1,313 @@
+
+{% comment %} JCO - Adi {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% assign ss = section.settings %}
+{% assign sb = section.blocks %}
+{% render 'section-padding', section: section, el_id: el_id %}
+<style>
+  /*#{{el_id}} .at-wrap {
+    overflow: visible !important;
+    white-space: nowrap;
+  }
+  #{{el_id}} .at-links .container {
+    overflow-x: auto;
+  }
+ */
+  #{{el_id}} .at-title {
+    {% if ss.color != blank %}
+      color: {{ss.color}};
+    {% endif %}
+  }
+  #{{el_id}}  .at-links > .container {
+    margin-bottom: -2px;
+  }
+  #{{el_id}} .at-carousel {
+    overflow: visible; 
+  }
+  #{{el_id}} .swiper-horizontal>.swiper-scrollbar, #{{el_id}} .swiper-scrollbar.swiper-scrollbar-horizontal {
+    position: relative;
+    left: 0%;
+    bottom: 0px;
+    z-index: 50;
+    height: 2px;
+    width: 100%;
+  }
+  #{{el_id}} .swiper-slide.at-active {
+    opacity: 1;
+  }
+  #{{el_id}} .swiper-slide.at-active::after {
+    content: '';
+    height: 2px;
+    width: 100%;
+    background: #2B2B2B;
+    display:block;
+  }
+  #{{el_id}} .swiper-slide {
+    opacity: 0.4;
+  }
+  #{{el_id}} .swiper-scrollbar-drag {
+    border-radius: 0px;
+    
+  }
+  #{{el_id}} .at-wrap svg {
+    width: 17px;
+    height: 17px;
+  }
+  #{{el_id}} .swiper-scrollbar-drag {
+    background: #2B2B2B;
+    border-radius: 10px;
+  }
+  #{{el_id}} .swiper-scrollbar {
+    border-radius: 0px;
+    background: #FADCDA;
+  }
+  #{{el_id}} .timeline-border {
+    height: 2px;
+    width: 100%;
+  }
+  #{{el_id}} .icon-star {
+    width: 17px;
+    height: 17px;
+  }
+  #{{el_id}} .timeline-each-text p {
+    font-weight: 300;
+  }
+   
+</style>
+{% comment %}
+<div class="collection-landing-banner overflow">
+  <div class="at-links bb-1 b-border">
+    <div class="container">
+      <div class="at-wrap d-pt-25 pt-15 d-pb-25 pb-15">
+        {% for block in sb %}
+          {% assign bs = block.settings %}
+        <a href="{{bs.link_url}}" class="ml-20 d-ml-25 h3 regular-400 spacing-1 {% unless forloop.last == true %}d-mr-100 mr-50{% endunless %}">{{bs.timeline_label}}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endcomment %}
+
+<div id="" class="about-timeline collection-landing-banner ">
+  <div class="at-links">
+    <div class="container relative overflow">
+      
+        <div class="swiper at-carousel at-wrap d-pt-25 pt-15">
+          <div class="swiper-wrapper">
+            {% for block in sb %}
+              {% assign bs = block.settings %}
+            <div class="swiper-slide  timeline-each pointer {% if forloop.first %}at-active{% endif %}" data-value="{{ forloop.index }}">
+              <div class="flex ai-center d-pb-25 pb-20"> 
+                <div class="icon-star">{{ ss.icon }}</div>
+                <div class="ml-20 d-ml-25 h3 regular-400 spacing-1 {% unless forloop.last == true %}d-mr-100 mr-50{% endunless %}">
+                  {{bs.timeline_label}}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          
+        </div>
+       
+    </div>
+    <div class="bg-pink timeline-border"></div>
+    
+    <div class="container pt-25">
+      {% for block in sb %}
+        {% assign bs = block.settings %}
+      <div class="timeline-each-text max-505 {% unless forloop.first %}hide-m{% endunless %}" data-value="{{ forloop.index }}"><div class="p1 rte c-black">{{bs.timeline_text}}</div></div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+  let atSwiper = null;
+  function initSwiperAT() {
+    atSwiper = new Swiper('#{{ el_id }} .at-carousel', {
+      slidesPerView: 2.57,
+      slidesPerColumn: 2.57,
+      slideToClickedSlide: true,
+      spaceBetween: 0,
+      breakpoints: {
+        430: {
+          slidesPerView: 2.9,
+          freeMode: false,
+        },
+        600: {
+          slidesPerView: 3.85,
+          freeMode: false,
+        },
+        768: {
+          slidesPerView: 5,
+          freeMode: false,
+        },
+        820: {
+          slidesPerView: 5.3,
+          freeMode: false,
+        },
+        1024: {
+          slidesPerView: 6.25,
+          freeMode: false,
+        },
+      },
+      scrollbar: {
+        el: ".swiper-scrollbar"
+      }
+    })
+  }
+  initSwiperAT();
+  
+  document.addEventListener('shopify:section:load', () => { initSwiperAT() });
+  document.querySelectorAll('.timeline-each').forEach(item => {
+      item.addEventListener('click', event => {
+          // Remove active class from all timeline elements
+          document.querySelectorAll('.timeline-each').forEach(el => {
+              el.classList.remove('at-active');
+          });
+
+          // Remove display: block from all timeline-each-text elements
+          document.querySelectorAll('.timeline-each-text').forEach(text => {
+              text.style.display = 'none';
+          });
+          
+          // Add active class to the clicked element
+          item.classList.add('at-active');
+
+          // Find the corresponding timeline-each-text and show it
+          const dataValue = item.getAttribute('data-value');
+          const correspondingText = document.querySelector(`.timeline-each-text[data-value="${dataValue}"]`);
+          if (correspondingText) {
+              correspondingText.style.display = 'block';
+          }
+      });
+  });
+</script>
+{% schema %}
+{
+  "name": "About Timeline",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Padding Settings"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top Padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom Padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "html",
+      "id": "icon",
+      "label": "Icon"
+    },
+    
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" },
+        { "value": "h8", "label": "H8" },
+        { "value": "h9", "label": "H9" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Text Color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "links",
+      "name": "Links",
+      "settings": [
+        {
+          "type": "text",
+          "id": "timeline_label",
+          "label": "Link label"
+        },
+        {
+          "type": "richtext",
+          "id": "timeline_text",
+          "label": "Timeline Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Timeline",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,137 @@
+{%- comment -%}
+IGC - Bismocii on progress
+
+Description:
+Snippet for displaying product card
+
+Variables:
+- product. Object. the product object 
+- disable_hover. Boolean
+{%- endcomment -%}
+{%- assign variant = product.selected_or_first_available_variant -%}
+{%- assign s = product.images | size -%}
+
+<div class="product-each {% if fade %}fade{% endif %} {% if s > 1 and settings.product_card_image_hover %}with-hover{% endif %} overflow relative">
+	<div class="variant-selected-container" data-variant="{{ variant.id }}" data-option1="" data-option2="" data-option3=""></div>
+
+	{%- assign has_color = false -%}
+	{%- assign has_other_than_color = false -%}
+	{%- for option in product.options_with_values -%}
+		{%- if option.name == 'Colour' or option.name == 'Color' -%}
+			{%- assign has_color = true -%}
+		{%- else -%}
+			{%- if option.name != 'Title' -%}
+				{%- assign has_other_than_color = true -%}
+			{%- endif -%}
+		{%- endif -%}
+	{%- endfor -%}
+	
+	<div class="mb-10 hhd-mb-15 relative">
+		<a href="{{ product.url }}" class="image-link">
+			<div class="primary">
+				{%- assign image = product.featured_image -%}
+				{%- if variant.featured_image != blank -%}
+					{%- assign image = variant.featured_image -%}
+				{%- endif -%}
+
+				{%- render 'global-image-wrapper', image:image -%}
+			</div>
+			{%- if s > 1  and settings.product_card_image_hover -%}
+				{% assign video_url = blank %}
+				{% for m in product.media %}
+					{% if m.media_type == 'video' %}
+						{% for vid_source in m.sources %}
+							{%- if vid_source.mime_type == 'video/mp4' -%}
+								{%- assign video_url = vid_source.url -%}
+								{% break %}
+							{%- endif -%}
+						{% endfor %}
+						{% break %}
+					{% endif %}
+					{% comment %} <!--{{ m | json }}--> {% endcomment %}
+				{% endfor %}
+				{% if video_url != blank %}
+					<div class="secondary">
+						{%assign id = "product-each-video-" | append: section.id | append: product.id %}
+						{%- render
+							'global-video-wrapper-responsive',
+							desktop_image: image,
+							mobile_image: image,
+							desktop_video_url: video_url,
+							mobile_video_url: video_url,
+							video_id: id,
+							autoplay: true,
+							loop :true,
+							load_inside_vue: false,
+							muted : true
+						-%}
+					</div>
+				{% else %}
+					{%- assign l = product.images[1] -%}
+					<div class="secondary">
+						{%- render 'global-image-wrapper', image: l -%}
+					</div>
+				{% endif %}
+			{%- endif -%}
+		</a>
+	</div>
+    <div class="details-con relative d-pl-8 d-pr-8">
+		<div class="flex jc-between">
+			<div class="c-black w-full">
+				{% assign coll_handle = product.vendor | handleize %}
+				{% assign coll = collections[coll_handle] %}
+				
+					<div class="flex jc-between ai-center">
+						<a href="{{ product.url }}" class="c-black"  title="{{ product.title | escape }}">
+							<div class="h3">{{ product.vendor }}</div>
+						</a>
+						<a href="javascript:void(0)" 
+							class="wishlist-handler-p-each swym-button {% if wishlist_page %} swym-added {% endif %} swym-add-to-wishlist-view-product product_{{product.id}}"
+							data-with-epi="true"
+							data-swaction="addToWishlist" 
+							data-product-id="{{product.id | json}}" 
+							data-variant-id="{{product.variants[0].id}}" 
+							data-product-url="{{ shop.url }}{{ product.url }}"
+							data-product-name="{{ product.title }}"
+							data-product-price="{{ product.variants[0].price | money_without_currency }}"
+							data-product-vendor="{{ product.vendor }}"
+							data-product-category="{{ product.collections[0].title }}"
+							data-product-category-2="{{ product.collections[1].title }}"
+							data-product-variant="{{ product.variants[0].title }}"
+						>
+							{{ settings.icon_heart }}
+						</a>
+					</div>
+					<a href="{{ product.url }}" class="c-black"  title="{{ product.title | escape }}">
+						<div class="p2 pt-6">{{ product.title }}</div>
+					</a>
+
+				<div class="flex">
+					<div class="pt-8 tl global-flex flex-wrap ai-center">
+						<div class="mb-6 mr-12">
+							{%- if product.price < product.compare_at_price -%}
+								<span class="p2 c-red">{{ product.price | money_with_currency }}</span>
+								<span class="p2 c-grey ml-6"><strike>{{ product.compare_at_price | money_with_currency }}</strike></span>
+							{%- else -%}
+								<span class="p2 c-grey">{{ product.price | money_with_currency }}</span>
+							{%- endif -%}
+						</div>
+
+						{%- if settings.pg_enable_labels and settings.pg_tag_1 != blank -%}
+							{%- for i in (1..10) -%}
+								{%- assign tag = "pg_tag_" | append: i -%}
+								{%- assign bg_color = "pg_tag_bg_" | append: i -%}
+								{%- assign text_color = "pg_tag_color_" | append: i -%}
+			
+								{%- if product.tags contains settings[tag] -%}
+									{%- assign tag_text = settings[tag] | split: ':' | last -%}
+									<div class="tag-each p6 uppercase spacing-1 mr-6 mb-6" style="color: {{ settings[text_color] }}; background-color: {{ settings[bg_color] }}">{{ tag_text }}</div>
+								{%- endif -%}
+							{%- endfor -%}
+						{%- endif -%}
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>

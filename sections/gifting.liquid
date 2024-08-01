@@ -1,0 +1,266 @@
+{% comment %} in-good-company {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% assign ss = section.settings %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #{{el_id}} .gifting .swiper {
+    padding-left: 12.5px;
+    padding-right: 12.5px;
+    overflow: visible !important;
+  }
+</style>
+
+<div class="gifting overflow">
+  <div class="container">
+    <div class="row">
+      <div class="global-flex flex-wrap">
+        <div class="gifting-title w-full">
+          <div class="col-12">
+            {%- if ss.title != blank -%}
+              <{{ ss.title_dom_type }} class="{{ ss.title_size }}">
+                {{- ss.title | newline_to_br -}}
+              </{{ ss.title_dom_type }}>
+            {%- endif -%}
+          </div>
+        </div>
+        <div class="gifting-content w-full">
+          {%- for block in section.blocks -%}
+            <div class="col-12 col-d-4 d-pt-30 hide-m show-d">
+              {%- if block.settings.link_url != blank and block.settings.title != blank -%}
+                <a href="{{ block.settings.link_url }}">
+              {%- endif -%}
+              {%- assign image_id = 'image-text-gifting-' | append: block.id -%}
+              {%- assign preload = '' -%}
+              {%- if section.index == 1 -%}
+                {%- assign preload = true -%}
+              {%- endif -%}
+              {%- render 'global-image-wrapper-responsive',
+                image_id: image_id,
+                desktop_image: block.settings.desktop_image,
+                mobile_image: block.settings.mobile_image,
+                additional_class: 'no-bg',
+                preload: preload
+              %}
+              {%- if block.settings.link_url != blank and block.settings.title != blank -%}
+                <a href="{{ block.settings.link_url }}" class="link1 pt-10 d-pt-20">{{ block.settings.title }}</a>
+              {%- endif -%}
+              {%- if block.settings.link_url != blank and block.settings.title != blank -%}
+                </a>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+          <div class="content swiper-content hide-d">
+            <div class="swiper gifts">
+              <div class="swiper-wrapper pt-25">
+                {%- for block in section.blocks -%}
+                  {%- assign image_id = 'image-text-gifting-' | append: block.id -%}
+                  {%- assign preload = '' -%}
+                  {%- if section.index == 1 -%}
+                    {%- assign preload = true -%}
+                  {%- endif -%}
+                  {%- if block.settings.link_url != blank and block.settings.title != blank -%}
+                    <a href="{{ block.settings.link_url }}">
+                  {%- endif -%}
+                  <div class="swiper-slide">
+                    {%- render 'global-image-wrapper-responsive',
+                      image_id: image_id,
+                      desktop_image: block.settings.desktop_image,
+                      mobile_image: block.settings.mobile_image,
+                      image_change_breakpoint: 'desktop',
+                      additional_class: 'no-bg',
+                      preload: preload
+                    %}
+                    {%- if block.settings.link_url != blank and block.settings.title != blank -%}
+                      <a href="{{ block.settings.link_url }}" class="link1 pt-10 d-pt-20">{{ block.settings.title }}</a>
+                    {%- endif -%}
+                  </div>
+                  {%- if block.settings.link_url != blank and block.settings.title != blank -%}
+                    </a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  {%- assign function_name = el_id | replace: '-', '_' -%}
+  function initSwiper{{function_name}}() {
+    let shopTheRange = new Swiper('#{{el_id}} .gifting .gifts', {
+      slidesPerView: 'auto',
+      slidesPerColumn: 1,
+      spaceBetween: 12,
+      freeMode: false,
+      breakpoints: {
+        375: {
+          slidesPerView: 2.5,
+          spaceBetween: 25,
+          freeMode: false,
+        },
+        600: {
+          slidesPerView: 2.5,
+          spaceBetween: 25,
+          freeMode: false,
+        }
+      },
+      on: {
+        init: function () {
+          $360.lazyLoadInstance.update();
+        },
+        slideChange: function () {
+          $360.lazyLoadInstance.update();
+        },
+        resize: function () {
+          $360.lazyLoadInstance.update();
+        },
+      },
+    });
+  }
+  initSwiper{{function_name}}();
+  document.addEventListener('shopify:section:load', () => {
+    initSwiper{{function_name}}();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Gifting",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "p1", "label": "P1" },
+        { "value": "p2", "label": "P2" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gifting"
+    }
+  ]
+}
+{% endschema %}

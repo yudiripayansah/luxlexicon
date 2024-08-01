@@ -1,0 +1,107 @@
+{% comment %}
+Description:
+Snippet for displaying image and text slider style 2 with green background
+
+Variables:
+- el_id: String. Element id for the wrapper
+- image_urls: Array. image url
+- image_widths: Array. image widths
+- image_heights: Array. image heights
+- titles: Array. Text for title
+- descriptions: Array. Text for description
+{% endcomment %}
+
+<style>
+#{{ el_id }} .swiper {
+    width: calc(100% + 32px);
+    margin-left: -16px;
+}
+#{{ el_id }} .swiper-pagination {
+    bottom: 30px;
+    left: 28px;
+    width: auto;
+}
+
+@media only screen and (min-width: 768px) {
+    #{{ el_id }} .swiper {
+        width: 100%;
+        margin-left: 0;
+    }
+    #{{ el_id }} .swiper-pagination {
+        left: calc(50% + 40px);
+        bottom: 30px;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #{{ el_id }} .swiper-pagination {
+        left: calc(50% + 80px);
+        bottom: 70px;
+    }
+}
+</style>
+<div id="{{ el_id }}">
+    <div class="container fade">
+        <h2 class="h3 c-greenb2 tc mb-30 d-mb-40">Features</h2>
+        <div class="swiper rounded-25">
+            <div class="swiper-wrapper">
+                {%- for image_url in image_urls -%}
+                    <div class="swiper-slide relative rounded-25">
+                        <div class="row t-flex h-full">
+                            <div class="col-12 col-t-6 t-no-pr">
+                                {%- render 'global-image-wrapper', 
+                                    image_url: image_url,
+                                    width: widths[forloop.index0],
+                                    height: heights[forloop.index0],
+                                    additional_class: 'no-bg'
+                                -%}
+                            </div>
+                            <div class="col-12 col-t-6 t-no-pl h-full">
+                                <div class="bg-greenb2 c-white h-full pt-30 pb-30 pl-15 pr-15 t-p-40 d-p-80">
+                                    <h3 class="h6 bold-700 mb-10">{{ titles[forloop.index0] }}</h3>
+                                    <p class="mb-30 t-mb-0">{{ descriptions[forloop.index0] | newline_to_br }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {%- endfor -%}
+            </div>
+            <div id="{{ el_id }}-pagination" class="swiper-pagination white"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function initSwiperIts(){
+        new Swiper('#{{ el_id }} .swiper', {
+            loop: false,
+            slidesPerView: 1.08,
+            spaceBetween: 32,
+            centeredSlides: true,
+            pagination: {
+                el: "#{{ el_id }}-pagination",
+                clickable: true
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    centeredSlides: false,
+                },
+            },
+            on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+        });
+    }
+    initSwiperIts()
+    document.addEventListener('shopify:section:load', () => { initSwiperIts() });
+</script>

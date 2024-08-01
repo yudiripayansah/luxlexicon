@@ -1,0 +1,52 @@
+<!--Start Weglot Script-->
+<script src="//cdn.weglot.com/weglot.min.js"></script>
+<script id="has-script-tags">
+    Weglot.initialize({ 
+        api_key:"wg_3798720f596c91ba920da0821f6495c82",
+        extra_definitions: [
+            {
+                type: 1,
+                selector: 'input[name="properties[_title]"]', 
+                attribute: "value"
+            }
+        ],
+        switchers: [
+            {
+                style: {
+                    full_name: true,
+                    with_name: true,
+                    is_dropdown: false,
+                    with_flags: false
+                },
+                // Move switcher somewhere in the page
+                location: {
+                    target: "#language-select-dropdown",
+                    sibling: null
+                }
+            }
+        ]
+    });
+
+    Weglot.on("initialized", function(){
+        const curr_lang = Weglot.getLanguageName(Weglot.getCurrentLang());
+        
+        const lang_label = document.querySelector('#language-select-trigger .text');
+        if(lang_label != null) {
+            lang_label.innerHTML = curr_lang;
+        }
+    });
+
+    Weglot.on("languageChanged", function(newLang, prevLang) {
+        const lang_label = document.querySelector('#language-select-trigger .text');
+        if(lang_label != null) {
+            lang_label.innerHTML = Weglot.getLanguageName(newLang);
+        }
+    });
+</script>
+<!--End Weglot Script-->
+
+<style>
+    .weglot-container.wg-default {
+        display: none;
+    }
+</style>

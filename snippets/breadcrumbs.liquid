@@ -1,0 +1,168 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{%- comment -%}
+    Description:
+    Snippet for displaying breadcrumbs
+
+    Variables:
+    first_text: String, first breadcrumb text.
+    first_url: String, first breadcrumb url.
+    bg_color: String, the wrapper background color
+{%- endcomment -%}
+
+<style>
+.breadcrumb .bc-item {
+    line-height: 0;
+}
+.breadcrumb .bc-item:last-child {
+    line-height: 1.3;
+    opacity: 1;
+}
+.breadcrumb .bc-item.text {
+    white-space: nowrap;
+}
+.breadcrumb .bc-item.text.last {
+    white-space: nowrap;
+    overflow: hidden; 
+    -o-text-overflow: ellipsis; 
+        text-overflow: ellipsis;
+}
+.breadcrumb .bc-item.separator {
+    width: 5px;
+    height: 5px;
+}
+.breadcrumb .bc-item.separator svg path {
+    fill: var(--grey);
+}
+</style>
+<div class="breadcrumb-wrapper">
+    {%- if blocks.size > 0 -%}
+        <nav class="breadcrumb flex ai-center" role="navigation" aria-label="breadcrumbs">
+            {%- for block in blocks -%}
+                {%- if forloop.index > 1 -%}
+                    <span class="bc-item separator flex jc-center ai-center {{ class_color }} mr-3 p2" aria-hidden="true">
+                        /
+                    </span>
+                {%- endif -%}
+                <span class="bc-item text mr-3">
+                    <a href="{{ block.settings.url }}" title="{{ block.settings.text | escape }}" class="{{ class_color }} p2 {% if forloop.last %}last{% endif %}">{{ block.settings.text }}</a>
+                </span>
+            {%- endfor -%}
+        </nav>
+    {%- else -%}
+        {% if first_text == blank %}
+            {% assign first_text = 'Home' %}
+        {% endif %}
+        {% if first_url == blank %}
+            {% assign first_url = '/' %}
+        {% endif %}
+        <!--template-->
+        <!--{{ template }}-->
+        <nav class="breadcrumb flex ai-center" role="navigation" aria-label="breadcrumbs">
+            {%- unless template contains 'product' -%}
+                <span class="bc-item text mr-3">
+                    <a href="{{ first_url }}" title="Home" class="{{ class_color }} p2 c-grey  ">{{ first_text }}</a>
+                </span>
+            {%- endunless -%}
+
+            {%- if template contains 'page' -%}
+                <span class="bc-item separator flex jc-center ai-center {{ class_color }} mr-3 p2" aria-hidden="true">
+                    /
+                </span>
+                <span class="bc-item text last {{ class_color }} p2 c-grey  ">
+                    {{ page.title }}
+                </span>
+            {%- elsif template contains 'product' -%}
+                <div class="global-flex flex-wrap ai-center width-100 {{ text_align }} container"> 
+                    <span class="bc-item text mr-3">
+                        <a href="{{ first_url }}" title="{{ first_text | escape }}" class="{{ class_color }} p2 c-grey">{{ first_text }}</a>
+                    </span>
+                    
+                    {%- assign collection = '' -%}
+                    {%- for col in product.collections -%}
+                        {%- unless col.template_suffix contains 'set' or col.title contains 'TEST' -%}
+                            {%- assign collection = col -%}
+                            {%- break -%}
+                        {%- endunless -%}
+                    {%- endfor -%}
+
+                    {%- if collection.url -%}
+                        <span class="bc-item separator flex jc-center ai-center {{ class_color }} mr-3 p2 c-grey" aria-hidden="true">
+                            /
+                        </span>
+                        <span class="bc-item text {{ class_color }} p2 mr-3">
+                            <a href="{{ collection.url }}" title="{{ collection.title | escape }}" class="c-grey p2">{{ collection.title }}</a>
+                        </span>
+                    {%- endif -%}
+
+                    <span class="bc-item separator flex jc-center ai-center {{ class_color }} mr-3 p2 c-grey" aria-hidden="true">
+                        /
+                    </span>
+                    <span class="bc-item text last {{ class_color }} p2">
+                        {{ product.title }}
+                    </span>
+                </div>
+            {%- elsif template contains 'collection' and collection.handle -%}
+            <!--collection and handle-->
+                <span class="bc-item separator flex jc-center ai-center {{ class_color }} mr-3 p2" aria-hidden="true">
+                    /
+                </span>
+                {%- if current_tags -%}
+                    {%- capture url -%}/collections/{{ collection.handle }}{%- endcapture -%}
+                    {{ collection.title | link_to: url }}
+                    <span class="bc-item separator flex jc-center ai-center {{ class_color }} mr-3 p2" aria-hidden="true">
+                        /
+                    </span>
+                    <span class="bc-item text {{ class_color }} p2 mr-3">
+                        {{ current_tags | join: " + " }}
+                    </span>
+                {%- else -%}
+                    <span class="bc-item text last {{ class_color }} p2">
+                        {{ collection.title }}
+                    </span>
+                {%- endif -%}
+            {%- elsif template == 'blog' -%}
+                <span class="bc-item separator flex jc-center ai-center {{ class_color }} mr-3 p2" aria-hidden="true">
+                    /
+                </span>
+                {%- if current_tags -%}
+                    {{ blog.title | link_to: blog.url }}
+                    <span class="bc-item separator flex jc-center ai-center {{ class_color }} mr-3 p2" aria-hidden="true">
+                        /
+                    </span>
+                    <span class="bc-item text {{ class_color }} p2 mr-3">
+                        {{ current_tags | join: " + " }}
+                    </span>
+                {%- else -%}
+                    <span class="bc-item text last {{ class_color }} p2 c-grey  ">
+                        {{ blog.title }}
+                    </span>
+                {%- endif -%}
+            {%- elsif template == 'article' -%}
+                <span class="bc-item separator flex jc-center ai-center {{ class_color }} mr-3 p2" aria-hidden="true">
+                    /
+                </span>
+                {{ blog.title | link_to: blog.url }}
+                <span class="bc-item separator flex jc-center ai-center {{ class_color }} mr-3 p2" aria-hidden="true">
+                    /
+                </span>
+                <span class="bc-item text last {{ class_color }} p2 c-grey  ">
+                    {{ article.title }}
+                </span>
+            {%- elsif template == 'cart' -%}
+                <span class="bc-item separator flex jc-center ai-center {{ class_color }} mr-3 p2" aria-hidden="true">
+                    /
+                </span>
+                <span class="bc-item text last {{ class_color }} p2 c-grey  ">
+                    Cart
+                </span>
+            {%- else -%}
+                <span class="bc-item separator flex jc-center ai-center {{ class_color }} mr-3 p2" aria-hidden="true">
+                    /
+                </span>
+                <span class="bc-item text last {{ class_color }} p2 c-grey  ">
+                    {{ page_title }}
+                </span>
+            {%- endif -%}
+        </nav>
+    {%- endif -%}
+</div>

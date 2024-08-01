@@ -1,0 +1,43 @@
+{% comment %} Love&Co Theme {% endcomment %}
+<style>
+    .wishlist-products .product-each-wrapper .product-each,
+    .wishlist-products .product-each-wrapper .product-each .text-container {
+       display: flex;
+       flex-direction: column;
+       height: unset;
+    }
+    .wishlist-products .product-each-wrapper .product-each .text-container .bottom {
+        margin-top: auto;
+    }
+
+    .wishlist-products .row-products {
+        margin: 0 -7.5px;
+    }
+    .wishlist-products .products-wrapper .product-each-wrapper {
+        padding: 0 7.5px;
+    }
+
+    @media screen and (min-width: 768px) {
+        .wishlist-products .row-products {
+            margin: 0 -12.5px;
+        }
+        .wishlist-products .products-wrapper .product-each-wrapper {
+            padding: 0 12.5px;
+        }
+    }
+
+    #section-{{ section.id }} .product-each .wishlist-handler-p-each.swym-added svg *{
+        fill:#5EB98D;
+        stroke: none;
+    }
+</style>
+<div id="section-{{ section.id }}">
+    <div class="wishlist-products pb-10 t-pb-60 d-pb-80">
+        <div class="container">
+            <div class="row row-products">
+                <div class="products-wrapper global-flex flex-wrap">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

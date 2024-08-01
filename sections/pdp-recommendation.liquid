@@ -1,0 +1,201 @@
+{% comment %} IGC Theme - bismocii {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% assign ss = section.settings %}
+{% assign sb = section.blocks %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+    #{{ el_id }} .product-wrapper {
+        margin: 0 -12.5px;
+        row-gap: 30px;
+    }
+    #{{ el_id }} .product-wrapper > .swiper-slide {
+        position: relative;
+        width: 50%;
+        padding: 0 12.5px;
+    }
+    #{{ el_id }} .product-wrapper > .swiper-slide:nth-child(2n-1) .details-con {
+        padding-left: 20px;
+    } 
+
+    @media screen and (min-width: 1024px) {
+        #{{ el_id }} .product-wrapper {
+            margin: 0 -25px;
+            row-gap: 50px;
+        }
+        #{{ el_id }} .product-wrapper > .swiper-slide {
+            position: relative;
+            width: 33.3333%;
+            padding: 0 25px;
+        }
+        #{{ el_id }} .product-wrapper > .swiper-slide:nth-child(2n-1) .details-con {
+            padding-left: unset;
+        } 
+    }
+</style>
+
+<div class="product-recommendation-wrapper overflow hide-m">
+  <div class="container pl-0 pr-0 d-pl-25 d-pr-25" id="product-recommendation">
+    <div class="relative w-full tc">
+      <{{ ss.title_dom_type }} class="{{ ss.title_size }} tc">
+        {{- ss.title -}}
+      </{{ ss.title_dom_type }}>
+    </div>
+
+    <div class="product-wrapper global-flex flex-wrap d-pt-30 pt-25">
+      
+    </div>
+  </div>
+</div>
+
+<script>
+    fetch(window.Shopify.routes.root + "recommendations/products.json?product_id={{ product.id }}&limit=10&intent=related")
+        .then(response => response.json())
+        .then(({ products }) => {
+            if(products.length > 0) {
+                const main_elem = document.querySelector('#shopify-section-{{ section.id }} .product-recommendation-wrapper');
+                const elem_wrapper = document.querySelector('#shopify-section-{{ section.id }} .product-wrapper');
+                if(main_elem != null) {
+                    main_elem.classList.remove('hide-m');
+
+                    for(let i=0; i<products.length; i++) {
+                        axios.get(`${window.Shopify.routes.root}products/${products[i].handle}?view=grid`)
+                        .then(function(response) {
+                            const html = document.createRange().createContextualFragment(response.data);
+                            elem_wrapper.append(html);
+                            $360.lazyLoadInstance.update();
+
+                            const swiper_elem = elem_wrapper.querySelector('.product-each .swiper:not(.swiper-initialized)');
+                            if(swiper_elem != null) {
+                                const swiper_id = swiper_elem.getAttribute('id');
+                                new Swiper(`#${swiper_id}`, {
+                                    slidesPerView: 1,
+                                    loop: false,
+                                    a11y: false,
+                                    navigation: {
+                                        nextEl: `#${swiper_id} .swiper-slider-arrow.right`,
+                                        prevEl: `#${swiper_id} .swiper-slider-arrow.left`
+                                    }
+                                });
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                    }
+                }
+            } else {
+              const this_section = document.querySelector('#shopify-section-{{ section.id }}');
+              if(this_section != null) {
+                this_section.remove();
+              }
+            }
+        }
+    );
+</script>
+
+{% schema %}
+{
+  "name": "PDP - Recommendation",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Padding Settings"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top Padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom Padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_hd",
+      "label": "Top Padding (HD)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_hd",
+      "label": "Bottom Padding (HD)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_hhd",
+      "label": "Top Padding (HHD)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom Padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" },
+        { "value": "h8", "label": "H8" },
+        { "value": "h9", "label": "H9" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    }
+  ],
+  "blocks": [
+  ],
+  "presets": [
+    {
+      "name": "PDP - Recommendation",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

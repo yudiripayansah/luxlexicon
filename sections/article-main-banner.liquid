@@ -1,0 +1,614 @@
+{% comment %} In Good Company Theme - Adi {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% assign ss = section.settings %}
+{% render 'section-padding', section: section, el_id: el_id %}
+<style>
+  {%- if section.settings.bg_color != blank -%}
+  #{{el_id}} {
+    background-color: {{ section.settings.bg_color }};
+  }
+  {%- endif -%}
+  #{{el_id}} {
+    position: relative;
+    {% if ss.enable_parallax %}
+      z-index: 0;
+      {% else %}
+      z-index: 1;
+    {% endif %}
+  }
+  {% if ss.enable_parallax %}
+    #{{el_id}} .global-image-wrapper {
+      height: 100vh;
+      padding-bottom: unset !important;
+    }
+    #{{el_id}} .global-image-wrapper .image {
+      height: 100%;
+      object-fit: cover;
+    }
+  {% endif %}
+  #{{el_id}} .swiper-slide {
+    {% if ss.section_width_percentage != blank and ss.section_width_percentage != 0 %}
+      max-width: calc({{ ss.section_width_percentage }}px + 40px);
+      margin-left: auto;
+      margin-right: auto;
+    {% endif %}
+
+    {% if ss.section_width contains "container" %}
+      padding-left: 20px;
+      padding-right: 20px;
+    {% endif %}
+  }
+  #{{el_id}} .global-image-wrapper.global-video-wrapper iframe, #{{el_id}} .global-image-wrapper.global-video-wrapper video {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #{{el_id}} .video-control {
+    cursor: pointer;
+  }
+
+  #{{el_id}} .video-control-button svg {
+    width: 12.5px;
+    height: 12.5px;
+  }
+  #{{el_id}} .fixed-wrapper {height: 100vh;}
+  #{{el_id}} .fixed {
+    height: 100vh;
+    width: 100%;
+    top:0;
+  }
+  @media(min-width: 600px) {
+    {% if ss.section_width_percentage_t != blank and ss.section_width_percentage_t != 0 %}
+      #{{el_id}} .swiper-slide {
+        max-width: calc({{ ss.section_width_percentage_t }}px + 40px);
+        margin-left: auto;
+        margin-right: auto;
+      }
+    {% endif %}
+  }
+  @media(min-width: 1024px) {
+    {% if ss.section_width_percentage_d != blank and ss.section_width_percentage_d != 0 %}
+      #{{el_id}} .swiper-slide {
+        max-width: calc({{ ss.section_width_percentage_d }}px + 50px);
+        margin-left: auto;
+        margin-right: auto;
+      }
+    {% endif %}
+
+    {% if ss.section_width contains "container" %}
+      #{{el_id}} .swiper-slide {
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+    {% endif %}
+  }
+</style>
+
+<section id="{{ section.id }}" class="homepage-banner">
+  <div id="slider-{{ el_id }} " class="flex flex-wrap swiper {% if ss.enable_parallax %}fixed-wrapper{% endif %}">
+    <div class="swiper-wrapper {% if ss.enable_parallax %}fixed-element{% endif %}" >
+      {%- for block in section.blocks -%}
+        {% assign bs = block.settings %}
+        <style>
+          #{{block.id}} .text-container, #{{block.id}} .text-content a {
+            color: {{ bs.text_color }};
+          }
+          #{{block.id}} .text-content a::before {
+            background: {{ bs.text_color }};
+          }
+          #{{block.id}} .text-wrapper {
+            {% if bs.text_max_width_mobile != blank and bs.text_max_width_mobile != 0 %}
+            max-width: {{ bs.text_max_width_mobile }}px;
+            {% endif %}
+          }
+          @media(min-width: 600px) {
+            #{{block.id}} .text-wrapper {
+              {% if bs.text_max_width_tablet != blank and bs.text_max_width_tablet != 0 %}
+              max-width: {{ bs.text_max_width_tablet }}px;
+              {% endif %}
+            }
+          }
+          @media(min-width: 1024px) {
+            #{{block.id}} .text-wrapper {
+              {% if bs.text_max_width_desktop != blank and bs.text_max_width_desktop != 0 %}
+              max-width: {{ bs.text_max_width_desktop }}px;
+              {% endif %}
+            }
+          }
+          @media(min-width: 1366px) {
+            #{{block.id}} .text-wrapper {
+              {% if bs.text_max_width_hd != blank and bs.text_max_width_hd != 0 %}
+              max-width: {{ bs.text_max_width_hd }}px;
+              {% endif %}
+            }
+          }
+          @media(min-width: 1920px) {
+            #{{block.id}} .text-wrapper {
+              {% if bs.text_max_width_hhd != blank and bs.text_max_width_hhd != 0 %}
+              max-width: {{ bs.text_max_width_hhd }}px;
+              {% endif %}
+            }
+          }
+        </style>
+        <div id="{{ block.id }}" class="swiper-slide {{ ss.section_width }}">
+          {% if bs.button_label == blank and bs.button_url != blank %}
+          <a href="{{bs.button_url}}" class="show-m-inline-block">
+          {% endif %}
+          
+            <div class="relative {% if bs.video_d != blank or youtube_iframe != blank %}video-banner{% endif %}">
+              {% assign preload = '' %}
+              {%- if section.index == 2 or ss.disable_lazyload -%}
+                {%- assign preload = true -%}
+              {%- endif -%}
+              {% assign image_id = el_id | append: 'homepage-banner-image_' | append: forloop.index %}
+              
+                {%- assign youtube_iframe = bs.youtube_embed_code -%}
+                <div class="col-12 pl-0 pr-0 video-wrapper relative">
+                    <div class="inner-wrapper overflow relative w-full">
+                        <div class="video-wrapper overflow relative">
+                            {% if bs.video_d != blank or youtube_iframe != blank %}
+                            {%- assign video_id = 'video_banner_' | append: block.id -%}
+                            {%- assign video_type_desktop = '' -%}
+                            {%- assign video_url_desktop = '' -%}
+                            {%- for vid_source in bs.video_d.sources -%}
+                                {%- if vid_source.mime_type == 'video/mp4' -%}
+                                {%- assign video_url_desktop = vid_source.url -%}
+                                {%- endif -%}
+                            {%- endfor -%}
+                            {% assign autoplay = false %}
+                            {% assign muted = false %}
+                            {%- if bs.autoplay -%}
+                            {%- assign autoplay = true -%}
+                            {% assign muted = true %}
+                            {%- endif -%}
+                            
+
+                            {%- assign video_type_mobile = '' -%}
+                            {%- assign video_url_mobile = '' -%}
+                            {%- for vid_source in bs.video_m.sources -%}
+                                {%- if vid_source.mime_type == 'video/mp4' -%}
+                                    {%- assign video_url_mobile = vid_source.url -%}
+                                {%- endif -%}
+                            {%- endfor -%}
+
+                            {%- render 'global-video-wrapper-responsive',
+                                desktop_image: bs.desktop_image,
+                                mobile_image: bs.mobile_image,
+                                desktop_video_url: video_url_desktop,
+                                mobile_video_url: video_url_mobile,
+                                video_id: video_id,
+                                autoplay: autoplay,
+                                preload: preload,
+                                muted: muted,
+                                loop: true,
+                                load_inside_vue: true,
+                                youtube_iframe: youtube_iframe
+                            -%}
+                                {%- if bs.autoplay == blank -%}
+                                <div class="video-control z-2 flex ai-center jc-center absolute bottom-25 {% if bs.text_align contains 'tr' %}{% if ss.text_over_image %}right-auto left-25 {% else %}left-auto right-25 {% endif %}{% else %}left-auto right-25 {% endif %}{% if bs.text_align_d contains 'd-tr' %}{% if ss.text_over_image %}d-right-auto d-left-25 {% else %}d-left-auto d-right-25 {% endif %}{% else %}d-left-auto d-right-25 {% endif %}">
+                                    <div @click="playVid{{forloop.index}}('{{video_id}}',$event)" class="cv-playButton video-control-button flex ai-center jc-center">
+                                      {{ settings.icon_play }}
+                                    </div>
+                                    
+                                    <div @click="pauseVid{{forloop.index}}('{{video_id}}',$event)" class="cv-pauseButton video-control-button ai-center jc-center hide-m">
+                                      {{ settings.icon_pause }}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% else %}
+                            {%- render 'global-image-wrapper-responsive',
+                              image_id: image_id,
+                              desktop_image: bs.desktop_image,
+                              mobile_image: bs.mobile_image,
+                              preload: preload,
+                            %}
+                          {% endif %}
+                        </div>
+                        {%- if bs.title != blank -%}
+                          <div class="w-full flex text-container {% if ss.text_over_image %}absolute {% if bs.button_label != blank %}bottom-30 {% else %}bottom-50{%  endif %}{% endif %} {%  unless ss.section_width != blank and ss.text_over_image == blank %}container{% endunless %} slide-{{forloop.index}} {{bs.text_align}} {{bs.text_align_d}}">
+                            <div class="text-wrapper mt-20 d-mt-30">
+                              <{{ bs.title_dom_type }} class="{{bs.title_size}}  tcs-title">
+                                {{- bs.title -}}
+                              </{{ bs.title_dom_type }}>
+                              {% if bs.text != blank %}
+                                <div class="p3 text-content pt-10 d-pt-15 ">
+                                  {{ bs.text }}
+                                </div>
+                              {% endif %}
+                              {% if bs.button_label != blank %}
+                                <div class="text-content ">
+                                <a
+                                  href="{{bs.button_url}}"
+                                  class="{% if ss.text_over_image %}link2{% else %}link1{% endif %} {% if bs.text != blank %} mt-10 d-mt-15{% else %} mt-10 d-mt-15{% endif %}"
+                                >
+                                  {{- bs.button_label -}}
+                                </a>
+                                </div>
+                              {% endif %}
+                            </div>
+                          </div>
+                        {%- endif -%}
+                    </div>
+                </div>
+              
+            </div>
+          {% if bs.button_label == blank and bs.button_url != blank %}
+          </a>
+          {% endif %}
+        </div>
+        <script>
+          var supportFaqVue{{ forloop.index }}{{ section.id | replace: '-', '' }} = null;
+          function initsupportFaqVue{{ forloop.index }}{{ section.id | replace: '-', '' }}() {
+              supportFaqVue{{ forloop.index }}{{ section.id | replace: '-', '' }} = Vue.createApp({
+                delimiters: ['${','}'],
+                data() {
+                    return {
+                        activeIndex:1
+                    }
+                }, 
+                methods: {
+                    playVid{{ forloop.index }}(id,e) {
+                        const parent = e.target.closest('#{{ block.id }} .video-wrapper');
+                        const video_parent_elem = document.querySelector(`#${id}.global-video-wrapper`);
+                        e.target.closest('.video-control-button').classList.add('hide-m');
+                        e.target.closest('.video-control-button').classList.remove('flex');
+          
+                        if(video_parent_elem.classList.contains('youtube')) {
+                          const iframe_elem = video_parent_elem.querySelector('iframe');
+                          const iframe_src = iframe_elem.getAttribute('src');
+          
+                          let url_char = '&';
+                          if(iframe_src.indexOf('?') < 0) {
+                              url_char = '?';
+                          }
+          
+                          iframe_elem.style.opacity = 1;
+                          iframe_elem.style.zIndex = 10;
+                          iframe_elem.setAttribute('src',`${iframe_src}${url_char}autoplay=1`);
+                        } else {
+                          const video_elem = document.querySelector(`#${id}.global-video-wrapper video`);
+                          if(video_elem != null) {
+                              video_elem.play();
+                          }
+          
+                          parent.querySelector('.cv-pauseButton').classList.remove('hide-m');
+                          parent.querySelector('.cv-pauseButton').classList.add('flex');
+                          
+                        }                  
+                    },
+                    pauseVid{{ forloop.index }}(id,e) {
+                        const parent = e.target.closest('#{{ block.id }} .video-wrapper');
+                        const video_elem = document.querySelector(`#${id}.global-video-wrapper video`);
+                        if(video_elem != null) {
+                          video_elem.pause();
+                        }
+          
+                        e.target.closest('.video-control-button').classList.add('hide-m');
+                        
+                        e.target.closest('.video-control-button').classList.remove('flex');
+                        parent.querySelector('.cv-playButton').classList.remove('hide-m');
+                        parent.querySelector('.cv-playButton').classList.add('flex');
+                    }
+                }
+            }).mount('#{{ block.id }} .video-banner');
+          }
+
+          initsupportFaqVue{{ forloop.index }}{{ section.id | replace: '-', '' }}();
+          document.addEventListener('shopify:section:load', () => { 
+            initsupportFaqVue{{ forloop.index }}{{ section.id | replace: '-', '' }}(); 
+
+            {% comment %}
+            {%- if bs.video_d != blank -%}
+              var vid = document.querySelector('#{{ block.id }} video');
+              var vid_source = document.querySelector('#{{ block.id }} video source');
+              
+              if(window.innerWidth < 600) {
+                if(vid != null) {
+                  vid.setAttribute('poster', vid.getAttribute('data-poster-mobile'));
+                  vid_source.setAttribute('data-src', vid.getAttribute('data-video-mobile'));
+                } else {
+                  vid.setAttribute('poster', vid.getAttribute('data-poster-desktop'));
+                  vid_source.setAttribute('data-src', vid.getAttribute('data-video-desktop'));
+                }
+              }
+            {%- endif -%}
+            {% endcomment %}
+
+            $360.lazyLoadInstance.update();
+          });
+        </script>
+      {%- endfor -%}
+    </div>
+    {%- if section.blocks.size > 1 -%}
+      <div class="absolute w-full right-0 sp-wrap">
+        <div class="container">
+          <div class="{{ el_id }}-pagination swiper-pagination"></div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  {%- if section.settings.enable_parallax -%}
+    window.addEventListener('scroll', function() {
+        const fixedWrapper = document.querySelector('#{{el_id}} .fixed-wrapper');
+        const fixedElement = document.querySelector('#{{el_id}} .fixed-element');
+        if(fixedWrapper != null) {
+          const rect = fixedWrapper.getBoundingClientRect();
+        
+          // Check if the top of the fixed element has reached the top of the viewport
+          if (rect.top <= 0) {
+            fixedElement.classList.add('relative');
+            fixedElement.classList.remove('fixed');
+          } else {
+            fixedElement.classList.remove('relative');
+            fixedElement.classList.add('fixed');
+          }
+        }
+    });
+  {%- endif -%}
+</script>
+
+{% schema %}
+{
+  "name": "Article - Main Banner",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_lazyload",
+      "label": "Disable Lazy Load"
+    },
+    {
+      "type": "checkbox",
+      "id": "text_over_image",
+      "label": "Text Over Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_parallax",
+      "label": "Enable Parallax Animation"
+    },
+    {
+      "type": "radio",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        {"value":"","label":"Full Width"},
+        {"value":"container","label":"Contained"}
+      ],
+      "default": "container"
+    },
+    {
+      "type": "number",
+      "id": "section_width_percentage",
+      "label": "Section Max Width (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "section_width_percentage_t",
+      "label": "Section Max Width (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "section_width_percentage_d",
+      "label": "Section Max Width (Desktop)"
+    },
+    {
+      "type": "header",
+      "content": "Padding Settings"
+    }, 
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top Padding (Mobile)"
+    }, {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom Padding (Mobile)"
+    }, {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top Padding (Tablet)"
+    }, {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom Padding (Tablet)"
+    }, {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top Padding (Desktop)"
+    }, {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom Padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "radio",
+          "id": "text_color",
+          "label": "Text Color",
+          "options": [
+              {"value":"#FFFFFF","label":"White"},
+              {"value":"#171717","label":"Black"}
+          ]
+        },
+        {
+          "type": "radio",
+          "id": "text_align",
+          "label": "Text Align (Mobile)",
+          "options": [
+              {"value":"jc-center tc","label":"Center"},
+              {"value":"jc-start tl","label":"Left"},
+              {"value":"jc-end tr","label":"Right"}
+          ]
+        },
+        {
+          "type": "radio",
+          "id": "text_align_d",
+          "label": "Text Align (Desktop)",
+          "options": [
+              {"value":"d-jc-center d-tc","label":"Center"},
+              {"value":"d-jc-start d-tl","label":"Left"},
+              {"value":"d-jc-end d-tr","label":"Right"}
+          ]
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "select",
+          "id": "title_dom_type",
+          "label": "Title DOM Type",
+          "options": [
+            { "value": "h1", "label": "H1" },
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" },
+            { "value": "h4", "label": "H4" },
+            { "value": "h5", "label": "H5" }
+          ],
+          "default": "h1"
+        },
+        {
+          "type": "radio",
+          "id": "title_size",
+          "label": "Title Size",
+          "options": [
+            { "value": "h1", "label": "H1" },
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" },
+            { "value": "h4", "label": "H4" },
+            { "value": "h5", "label": "H5" }
+          ]
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "number",
+          "id": "text_max_width_mobile",
+          "label": "Text Max Width (Mobile)",
+          "info": "on px",
+          "default": 450
+        },
+        {
+          "type": "number",
+          "id": "text_max_width_tablet",
+          "label": "Text Max Width (Tablet)",
+          "info": "on px",
+          "default": 450
+        },
+        {
+          "type": "number",
+          "id": "text_max_width_desktop",
+          "label": "Text Max Width (Desktop)",
+          "info": "on px",
+          "default": 450
+        },
+        {
+          "type": "number",
+          "id": "text_max_width_hd",
+          "label": "Text Max Width (Hd)",
+          "info": "on px",
+          "default": 450
+        },
+        {
+          "type": "number",
+          "id": "text_max_width_fullhd",
+          "label": "Text Max Width (Fullhd)",
+          "info": "on px",
+          "default": 450
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "header",
+          "content": "Video Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "autoplay",
+          "label": "Autoplay"
+        },
+        {
+          "type": "video",
+          "id": "video_d",
+          "label": "Video Desktop"
+        },
+        {
+            "type": "video",
+            "id": "video_m",
+            "label": "Video Mobile"
+        },
+        {
+            "type": "html",
+            "id": "youtube_embed_code",
+            "label": "Yotube Embed Code"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article - Main Banner",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

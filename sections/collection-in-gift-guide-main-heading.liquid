@@ -1,0 +1,235 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+<style>
+    #shopify-section-{{ section.id }} {
+        background-color:{{section.settings.background_color}};
+    }
+    #shopify-section-{{ section.id }} .dropdown{
+        display:inline-flex;
+        flex-direction: column;
+        max-width:300px;
+        min-width:260px;
+    }
+    #shopify-section-{{ section.id }} .dropdown.active .dropdown-list{
+        display:block;
+        
+    }
+    #shopify-section-{{ section.id }} .dropdown-item:hover{
+        background:#C8E7D9;
+    }
+    #shopify-section-{{ section.id }} .dropdown-list{
+        position:absolute;
+        z-index:9;
+        width: 100%;
+        top: 100%;
+        left: 0;
+        display:none;
+    }
+    #shopify-section-{{ section.id }} .dropdown-item{
+        
+    }
+    #shopify-section-{{ section.id }} .icon svg{
+        width:10px;
+        height:10px;
+    }
+    @media(min-width: 1024px) {
+        #shopify-section-{{ section.id }} .flex-wrapper{
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:center;
+            align-items: center;
+        }
+        #shopify-section-{{ section.id }} .title-container{
+            padding-right:25px;
+        }
+        #shopify-section-{{ section.id }} .text-container{
+        }
+    }
+
+</style>
+
+<section id="{{ section.id }}" class="collection-in-gift-guide-main-heading">
+    <div class="container">
+        <div class="p3 c-darkgreen bold-600 tc spacing-2">{{section.settings.small_title}}</div>
+        <div class="flex-wrapper pt-20 tc">
+            <div class="title-container pb-10 d-pb-0">
+                {%if section.settings.title != blank%}
+                <{{ section.settings.title_dom_type }} class="h3">{{section.settings.title}}</{{ section.settings.title_dom_type }}>
+                {%endif%}
+            </div>
+            <div class="text-container">
+                <div onclick="openDropdown()" class="dropdown cursor relative">
+                    <div class="h11 p-20 bg-white flex jc-between"><span class="choosen-text uppercase">ALL</span><span class="icon ml-15">{{ settings.icon_select }}</span></div>
+                    <div class="dropdown-list bg-lightgrey tl">
+                        {% comment %} href="{{collection.url}}" {% endcomment %}
+                        <a class="category-picker-link hide-m" data-tag="" onclick="filterCollectionTag()">
+                            <div class="h11 p-20 uppercase bg-lightgrey dropdown-item" data-tag="">ALL</div>
+                        </a>
+                        {%for block in section.blocks%}
+                            {%assign block_tag = block.settings.product_tag | remove: 'tag:' | replace: ' ', '+'%}
+                            {% comment %} href="{{collection.url | append: '?limit=18&pf_t_tag=tag%3A' | append: block_tag}}" {% endcomment %}
+                            <a class="category-picker-link" data-tag="{{block.settings.product_tag}}" data-url="{{'?limit=18&pf_t_tag=tag%3A' | append: block_tag}}" onclick="filterCollectionTag('{{'?limit=18&pf_t_tag=tag%3A' | append: block_tag}}')">
+                                <div class="h11 p-20 uppercase bg-lightgrey dropdown-item" data-tag="{{block.settings.product_tag}}">{{block.settings.title}}</div>
+                            </a>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function openDropdown(){
+        document.querySelector("#shopify-section-{{ section.id }} .dropdown").classList.toggle("active");
+    }
+
+    function filterCollectionTag(tag_param){
+        
+        let price_param = document.querySelector(".collection-in-gift-guide-price-filter").querySelector(".filter-active").getAttribute("data-url");
+        
+        if(tag_param){
+            if(price_param){
+                window.location.href = tag_param + price_param.replace("?limit=18","");
+            }else{
+                window.location.href = tag_param;
+            }
+        }else{
+            if(price_param){
+                window.location.href = price_param;
+            }else{
+                window.location.href = "{{collection.url}}";
+            }
+        }
+        
+    }
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(window.location.search);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        //-- get URL parameter
+        let tag_param = getParameterByName('pf_t_tag');
+        console.log(tag_param)
+        console.log(tag_param.indexOf("?"))
+        console.log("tag_param1")
+
+        if(tag_param.indexOf("?") > 0){
+            tag_param = tag_param.slice(0, tag_param.indexOf("?"))
+        }
+        
+        console.log(tag_param)
+        console.log(tag_param.indexOf("?"))
+        console.log("tag_param2")
+        const choosenTextObj = document.querySelector(`#shopify-section-{{ section.id }} .choosen-text`);
+
+        if(tag_param != null) {
+            choosenTextObj.innerHTML = tag_param.replace('tag:For ', '');
+            document.querySelector(`#shopify-section-{{ section.id }} .category-picker-link.hide-m`).classList.remove('hide-m');
+            document.querySelector(`#shopify-section-{{ section.id }} .category-picker-link[data-tag="${tag_param}"]`).classList.add('hide-m');
+        }
+    });
+</script>
+
+{% schema %}
+    {
+        "name": "Give Guide Heading",
+        "settings": [
+        {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Color"
+        },
+        {
+            "type": "text",
+            "id": "small_title",
+            "label": "Small Title"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+        },
+        {
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Title DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"},
+                {"value":"h6","label":"H6"}
+            ],
+            "default": "h2"
+        },
+        {
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		}
+        ],
+        "blocks": [
+            {
+                "type": "entry",
+                "name": "Entry",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "text",
+                        "id": "product_tag",
+                        "label": "Product Tag"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+        {
+            "name": "Gift Guide Heading",
+            "blocks": []
+        }
+        ]
+    }
+{% endschema %}

@@ -1,0 +1,34 @@
+{%- if product.metafields.gallery.enable == 'true' and product.metafields.gallery.image_1 != blank -%}
+    <div class="fade">
+        <div class="container">
+            <h2 class="h3 c-greenb2 tc mb-30 d-mb-40">Gallery</h2>
+        </div>
+
+        {%- assign image_urls = '' -%}
+        {%- assign widths = '' -%}
+        {%- assign heights = '' -%}
+        {%- for num in (1..5) -%}
+            {%- assign image_setting = 'image_' | append: num  -%}
+            {%- if product.metafields.gallery[image_setting] != blank -%}
+                {% capture image_urls %}{{ image_urls }}||{{ product.metafields.gallery[image_setting][0].src }}{% endcapture %}
+                {% capture widths %}{{ widths }}||{{ product.metafields.gallery[image_setting][0].width }}{% endcapture %}
+                {% capture heights %}{{ heights }}||{{ product.metafields.gallery[image_setting][0].height }}{% endcapture %}
+            {%- endif -%}
+        {%- endfor -%}
+        {%- assign image_urls = image_urls | remove_first: '||' -%}
+        {%- assign widths = widths | remove_first: '||' -%}
+        {%- assign heights = heights | remove_first: '||' -%}
+        {%- assign image_urls = image_urls | split: '||' -%}
+        {%- assign widths = widths | split: '||' -%}
+        {%- assign heights = heights | split: '||' -%}
+
+        {%- render 'image-banner-slider',
+            el_id: 'product-gallery',
+            image_urls: image_urls,
+            widths: widths,
+            heights: heights,
+            pagination: true,
+            peek_style: true
+        -%}
+    </div>
+{%- endif -%}

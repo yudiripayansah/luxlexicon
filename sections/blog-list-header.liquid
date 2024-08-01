@@ -1,0 +1,259 @@
+{% comment %} IGC - Yudi {% endcomment %}
+{%- assign el_id = 'blog-list-header-' | append: section.id -%}
+{%- assign ss = section.settings -%}
+{%- assign sb = section.blocks -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+<style>
+  #shopify-section-{{section.id}} {
+    z-index: 2;
+  }
+  #{{el_id}} .blog-navigation::-webkit-scrollbar {
+    display: none;
+  }
+  #{{el_id}} .blog-navigation {
+    flex-direction: row;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  #{{el_id}} .bn-link {
+    display: inline-block;
+    border-bottom-color: transparent;
+  }
+  #{{el_id}} .bn-link.active {
+    border-bottom-color: #171717;
+  }
+  #{{el_id}} .blog-navigation-wrap {
+    overflow: auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  #{{el_id}} .blh-row {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  #{{el_id}} .blh-col {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  #{{el_id}} .sticky-title {
+    transform: translateY(-100%);
+    transition: .3s all ease;
+  }
+  #{{el_id}} .sticky-title.show {
+    transform: translateY(0);
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .blh-row {
+      margin-left: -25px;
+      margin-right: -25px;
+    }
+    #{{el_id}} .blog-navigation-wrap,
+    #{{el_id}} .blh-col {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+    #{{el_id}} .blog-navigation {
+      flex-direction: column;
+    }
+  }
+</style>
+{% assign curTag = 'all' %}
+{% for tag in blog.all_tags %}
+  {% if current_tags != blank %}
+  {% assign curTag = current_tags | downcase %}
+  {% endif %}
+{% endfor %}
+<div id="{{el_id}}" class="relative">
+  <div class="p2 medium-500 bg-white pl-20 pr-20 pt-15 pb-15 top-0 fixed zi-3 hide-d w-full sticky-title">
+    {{blog.title}}
+  </div>
+  <div class="overflow">
+    <div class="container">
+      <div class="row blh-row">
+        <div class="col-12 col-d-3 blh-col">
+          <h1 class="h2 medium-500">{{ blog.title }}</h1>
+          <div class="hide-d mt-10">
+            {% for block in sb %}
+              {% assign bs = block.settings %}
+              {% assign tag = bs.title | downcase %}
+              <div class="p1 medium-500 sdm-item sdm-{{tag}} {% unless curTag contains tag %}hide-m{% endunless %}">{{ bs.text }}</div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-12 col-d-3 mt-25 d-mt-0 blog-navigation-wrap">
+          <ul class="blog-navigation flex pb-3">
+            <li class="d-pl-0 pl-20">
+              <a
+                href="{{ blog.url }}"
+                data-target="all" 
+                class="{% if current_tags == blank %}active{% endif %} hover-underline h4 uppercase bn-link"
+              >
+                {{- 'blogs.article.all' | t -}} 
+              </a>
+            </li>
+            {% for tag in blog.all_tags %}
+              <li class="d-mt-15 ml-20 d-ml-0 {% if forloop.last == true %}pr-20 d-pr-0{% endif %}">
+                <a
+                  href="{{ blog.url }}/tagged/{{ tag | handle }}"
+                  data-target="{{tag | handle}}"
+                  class="{% if current_tags contains tag %}active{% endif %} hover-underline h4 uppercase bn-link"
+                >
+                  {{- tag -}}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-12 col-d-4 hide-m show-d blh-col {{curTag}}">
+          {% for block in sb %}
+          {% assign bs = block.settings %}
+          {% assign tag = bs.title | downcase %}
+          <div class="p1 medium-500 sd-item sd-{{tag}} {% unless curTag contains tag %}hide-m{% endunless %}">{{ bs.text }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let bnLink = document.querySelectorAll('.bn-link')
+    let lastScrollTop = 0;
+    const observer = new IntersectionObserver((entries) => {
+      let stickyTitle = document.querySelector('.sticky-title')
+      return entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          stickyTitle.classList.remove('show')
+        } else {
+          stickyTitle.classList.add('show')
+        }
+      });
+    }, {
+      root: null,
+      threshold: 0
+    });
+    let target = document.querySelector('.blog-navigation')
+    observer.observe(target);
+    bnLink.forEach(function(item){
+      item.addEventListener('mouseover', function(e){
+        if(window.innerWidth > 1023){
+          let target = e.target.getAttribute('data-target')
+          let sdAll = document.querySelectorAll('.sd-item')
+          let sd = document.querySelector('.sd-'+target)
+          sdAll.forEach(function(i){
+            i.classList.add('hide-m')
+          })
+          sd.classList.remove('hide-m')
+          let sdmAll = document.querySelectorAll('.sdm-item')
+          let sdm = document.querySelector('.sdm-'+target)
+          sdmAll.forEach(function(i){
+            i.classList.add('hide-m')
+          })
+          sdm.classList.remove('hide-m')
+        }
+      })
+      item.addEventListener('mouseout', function(){
+        if(window.innerWidth > 1023){
+          let active = document.querySelector('.bn-link.active')
+          let target = active.getAttribute('data-target')
+          let sdAll = document.querySelectorAll('.sd-item')
+          let sd = document.querySelector('.sd-'+target)
+          sdAll.forEach(function(i){
+            i.classList.add('hide-m')
+          })
+          sd.classList.remove('hide-m')
+          let sdmAll = document.querySelectorAll('.sdm-item')
+          let sdm = document.querySelector('.sdm-'+target)
+          sdmAll.forEach(function(i){
+            i.classList.add('hide-m')
+          })
+          sdm.classList.remove('hide-m')
+        }
+      })
+    })
+    function handleScroll() {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      let st = document.querySelector('.sticky-title');
+      let headerCon = document.querySelector('.header-con-outer');
+      let headerConHeight = headerCon.offsetHeight;
+      
+      if (scrollTop > lastScrollTop) {
+        console.log('Down');
+        st.style.top = '0';
+        st.classList.remove('bt-1');
+        st.classList.remove('b-border');
+      } else {
+        console.log('Up');
+        st.style.top = `${headerConHeight}px`;
+        st.classList.add('bt-1');
+        st.classList.add('b-border');
+      }
+      
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    }
+    window.addEventListener('scroll', handleScroll);
+</script>
+{% schema %}
+{
+  "name": "Blog List Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tag",
+      "name": "Tag Description",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tag"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Short Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog List Header"
+    }
+  ]
+}
+{% endschema %}

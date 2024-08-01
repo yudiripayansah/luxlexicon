@@ -1,0 +1,341 @@
+{% comment %} JCO - Refinements Bismocii {% endcomment %}
+<style>
+  #product-images-popup {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    will-change: opacity;
+    z-index: -1;
+  }
+  #product-images-popup.show {
+    opacity: 1;
+    visibility: visible;
+    z-index: 999999999;
+  }
+  .pi-swiper {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30.5' height='30.535' viewBox='0 0 30.5 30.535'%3E%3Cg transform='translate(3442.249 6779.25)'%3E%3Cg transform='translate(-3442 -6779)'%3E%3Cpath d='M30.873,16.12a15,15,0,1,1-15-15.018A15.009,15.009,0,0,1,30.873,16.12Z' transform='translate(-0.874 -1.103)' fill='none' stroke='%23000' stroke-width='0.5'/%3E%3C/g%3E%3Cg transform='translate(-3431.999 -6769)'%3E%3Cpath d='M-3459.781-6772.063h10' transform='translate(3459.781 6777.063)' fill='none' stroke='%23171717' stroke-width='0.5'/%3E%3Cpath d='M0,0H10' transform='translate(4.999) rotate(90)' fill='none' stroke='%23171717' stroke-width='0.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), grab;
+  }
+  .pip-image-each {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30.5' height='30.464' viewBox='0 0 30.5 30.464'%3E%3Cg transform='translate(5135.25 7004.25)'%3E%3Cg transform='translate(-5105 -7004) rotate(90)'%3E%3Cpath d='M29.964,15A14.982,14.982,0,1,1,14.982,0,14.991,14.991,0,0,1,29.964,15Z' transform='translate(0 0)' fill='none' stroke='%23000' stroke-width='0.5'/%3E%3C/g%3E%3Cg transform='translate(-5124 -6993)'%3E%3Cpath d='M0,0H11.313' transform='translate(0 0.001) rotate(45)' fill='none' stroke='%23171717' stroke-width='0.5'/%3E%3Cpath d='M0,0H11.313' transform='translate(8 0) rotate(135)' fill='none' stroke='%23171717' stroke-width='0.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), grab;
+  }
+  #product-images-popup .pip-overlay {
+    background-color: #00000080;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  #product-images-popup .pipt-image {
+    width: 50px;
+    cursor: pointer;
+    border-color: transparent;
+    transition: 0.3s ease all;
+    opacity: 0.5;
+  }
+  #product-images-popup .pipt-image.active {
+    opacity: 1;
+  }
+  #product-images-popup .pip-thumbnail {
+    overflow-y: auto;
+    max-height: 90%;
+    height: auto;
+    align-items: center;
+    flex-direction: column;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  #product-images-popup .pip-thumbnail::-webkit-scrollbar {
+    width: 0; /* Remove scrollbar width */
+    height: 0; /* Remove scrollbar height */
+    display: none; /* Hide scrollbar */
+  }
+  #product-images-popup .pip-main {
+    position: relative;
+    width: 100vw;
+    height: 100%;
+    overflow: auto;
+  }
+  #product-images-popup .swiper-close {
+    position: fixed;
+  }
+  #product-images-popup .swiper-close,
+  #product-images-popup .swiper-close svg {
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+  }
+  #product-images-popup .pip-image-each video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .product-images-main .swiper-pagination .swiper-pagination-bullet {
+    opacity: 0.15;
+  }
+  .product-images-main .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    opacity: 1;
+  }
+
+  @media screen and (min-width: 1024px) {
+    #product-images-popup .pip-main {
+      width: 100vw;
+      height: 100vh;
+    }
+  }
+</style>
+<div id="product-images" class="product-images">
+  <div class="product-images-main">
+    {%- assign image_count = 0 -%}
+    {%- for media in product.media -%}
+      {%- assign image_count = image_count | plus: 1 -%}
+    {%- endfor -%}
+
+    {%- assign mod_image_count = image_count | modulo: 2 -%}
+
+    <div
+      data-image-count="{{ image_count }}"
+      class="global-flex flex-wrap product-images-wrapper {% if mod_image_count == 0 %} even {% endif %}"
+    >
+      <div class="swiper width-100">
+        <div class="swiper-wrapper">
+          {%- for media in product.media -%}
+              <div
+                data-index="{{ forloop.index0 }}"
+                class="pi-swiper swiper-slide pl-0 pr-0 {% unless forloop.first %} d-mt-30 {% endunless %}"
+                @click="togglePopup({{ forloop.index0 }})"
+                data-alt="{{ media.alt }}"
+              >
+                {%- assign preload = false -%}
+                {%- if forloop.first -%}
+                  {%- assign preload = true -%}
+                {%- endif -%}
+                {% if media.media_type == 'image' %}
+                  {%- render 'global-image-wrapper',
+                    additional_class: 'no-bg',
+                    image: media,
+                    size: '2000x',
+                    preload: preload
+                  -%}
+                {% elsif media.media_type == 'video' %}
+                  {{ media | video_tag: controls: false, image_size: '2000x', autoplay: true, loop: true }}
+                {% endif %}
+              </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <Teleport to="body">
+    <div
+      id="product-images-popup"
+      class="fixed w-full h-full top-0 left-0 zi-9 flex d-ai-center jc-center"
+      :class="{'show': pipShow}"
+    >
+      <div class="pip-box flex ai-center jc-center">
+        <div class="pip-overlay absolute top-0 left-0 right-0 bottom-0 w-full h-full" @click="togglePopup()"></div>
+        <div class="pip-thumbnail absolute top-0 left-0 h-full absolute d-p-25 hide-m d-flex zi-8">
+          {%- for media in product.media -%}
+            <div
+                data-index="{{ forloop.index0 }}"
+                class="pipt-image {% unless forloop.first %} d-mt-15 {% endunless %}"
+                :class="(pipActive == {{forloop.index0}}) && 'active'"
+                @click="pipSlideTo({{ forloop.index0}})"
+            >
+                {% if media.media_type == 'image' %}
+                  {%- render 'global-image-wrapper',
+                    additional_class: 'no-bg',
+                    image: media,
+                    size: '500x',
+                    preload: true
+                  -%}
+                {% elsif media.media_type == 'video' %}
+                  {{ media | video_tag: controls: false, image_size: '2000x', autoplay: false, loop: false }}
+                {% endif %}
+            </div>
+          {%- endfor -%}
+        </div>
+        <div class="pip-main">
+          <div class="pip-wrapper">
+            {%- for media in product.media -%}
+              <div
+                  data-index="{{ forloop.index0 }}"
+                  class="pip-image-each font-0"
+                  @click="togglePopup()"
+                >
+                  {% if media.media_type == 'image' %}
+                    {%- render 'global-image-wrapper',
+                      additional_class: 'no-bg',
+                      image: media,
+                      size: '2000x',
+                      preload: true
+                    -%}
+                  {% elsif media.media_type == 'video' %}
+                    {{ media | video_tag: controls: false, image_size: '2000x', autoplay: true, loop: true }}
+                  {% endif %}
+              </div>
+            {%- endfor -%}
+          </div>
+          <div class="absolute top-20 right-20 swiper-close m-flex ai-center jc-center zi-5 hide-d" @click="togglePopup()">
+            {{ settings.icon_close }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </Teleport>
+</div>
+<script>
+  var ProducImagesVue = null
+  function initVueProdIm(){
+    if (ProducImagesVue) {
+      ProducImagesVue.unmount(); // Unmount the existing Vue instance
+      ProducImagesVue = null;
+    }
+
+    ProducImagesVue = Vue.createApp({
+      delimiters: ['${', '}'],
+      data() {
+        return {
+          productImagesCarousel: null,
+          first_img_url: null,
+          showGalleryPopup: false,
+          pipShow: false,
+          pipActive: 0,
+        };
+      },
+      mounted() {
+        const this_obj = this;
+        this.initCarousel();
+        window.addEventListener('resize', this.checkCarousel);
+
+        /* check if element is entering the viewport (popup image) */
+        const popupImages = document.querySelectorAll('.pip-image-each');
+        popupImages.forEach(function(popupImg){
+          this_obj.onElementInView(popupImg, (element) => {
+            const activeThumb = document.querySelector('.pipt-image.active');
+            if(activeThumb != null) {
+              activeThumb.classList.remove('active');
+            }
+
+            const activeIndex = element.getAttribute('data-index');
+            const nextActiveThumb = document.querySelector(`.pipt-image[data-index="${activeIndex}"]`);
+            if(nextActiveThumb != null) {
+              nextActiveThumb.classList.add('active');
+            }
+          });
+        });
+      },
+      methods: {
+        onElementInView(element, callback) {
+          if (!('IntersectionObserver' in window)) {
+              // Fallback for browsers that don't support Intersection Observer
+              console.warn('IntersectionObserver is not supported by your browser.');
+              return;
+          }
+
+          // Create the Intersection Observer instance
+          const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      // Element is in view
+                      callback(entry.target);
+                  }
+              });
+          });
+
+          // Start observing the target element
+          observer.observe(element);
+        },
+        checkCarousel() {
+          if (document.body.clientWidth < 1024) {
+            this.productImagesCarousel = new Swiper('#product-images .product-images-main .swiper', {
+              direction: 'horizontal',
+              slidesPerView: 1,
+              observer:true,
+              watchSlidesProgress: true,
+              loop: false,
+              pagination: {
+                el: '#product-images .product-images-main .swiper .swiper-pagination',
+                clickable: true,
+              },
+              on: {
+                init: function() {
+                    $360.lazyLoadInstance.update();
+                },
+                slideChange: function() {
+                    $360.lazyLoadInstance.update();
+                },
+                resize: function() {
+                    $360.lazyLoadInstance.update();
+                }
+              }
+            });
+          } else {
+            if(this.productImagesCarousel != null) {
+              this.productImagesCarousel.destroy(true, true);
+              this.productImagesCarousel = null;
+            }
+          }
+        },
+        initCarousel() {
+          if (document.body.clientWidth < 1024) {
+            this.productImagesCarousel = new Swiper('#product-images .product-images-main .swiper', {
+              direction: 'horizontal',
+              slidesPerView: 1,
+              watchSlidesProgress: true,
+              loop: false,
+              pagination: {
+                el: '#product-images .product-images-main .swiper .swiper-pagination',
+                clickable: true,
+              },
+              on: {
+                update: function () {
+                },
+                slideChange: function () {
+                  this.update();
+                },
+                activeIndexChange: function () {
+                  this.update();
+                },
+                init: function() {
+                    $360.lazyLoadInstance.update();
+                },
+                slideChange: function() {
+                    $360.lazyLoadInstance.update();
+                },
+                resize: function() {
+                    $360.lazyLoadInstance.update();
+                }
+              }
+            });
+          }
+        },
+        scrollToImage(index) {
+          const y =
+            document.querySelector(`.product-images-main.desktop .each[data-index="${index}"]`).getBoundingClientRect()
+              .top +
+            window.pageYOffset -
+            125;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        },
+        showPopup(index) {
+          this.showGalleryPopup = true;
+        },
+        togglePopup(to = 0) {
+          let body = document.querySelector('body');
+          body.classList.toggle('overflow');
+          this.pipShow = !this.pipShow;
+        },
+        pipSlideTo(to) {
+          const nextActiveImage = document.querySelector(`.pip-image-each[data-index="${to}"]`);
+          const galleryWrapper = document.querySelector('#product-images-popup .pip-main');
+
+          if(nextActiveImage != null && galleryWrapper != null) {
+            const topPos = nextActiveImage.getBoundingClientRect().top + galleryWrapper.scrollTop;
+            galleryWrapper.scrollTo({ top: topPos, behavior:"smooth"});
+          }
+        },
+      },
+    }).mount('#product-images');
+  }
+  initVueProdIm()
+  document.addEventListener('shopify:section:load', () => { initVueProdIm() });
+</script>

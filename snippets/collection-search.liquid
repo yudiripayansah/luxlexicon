@@ -1,0 +1,31 @@
+<div class="search-box bl-1 b-border-orange pl-20" :class="{ relative: desktop}">
+    <div class="inner-top-ctn">
+        <div class="input-box pt-10 pb-10 relative" v-show="desktop">
+            <input type="text" v-model="search" class="w-full c-grey" placeholder="{{ section.settings.search_placeholder }}" @focus="showDropdown = true" @focusout="hideDropdown()">
+        </div>
+        <div class="search-icon pointer" @click="showDropdown = true" v-show="mobile">
+            {{settings.icon_search}}
+        </div>
+        <div class="search-icon pointer" @click="showDropdown = true" @focusout="hideDropdown()" tabindex="0" v-show="desktop">
+            {{settings.icon_search}}
+        </div>
+    </div>
+    <div class="inner-dropdown-ctn" :class="{ active: showDropdown }">
+        <div class="search-box-mobile" v-show="mobile">
+            <div class="s-icon">
+                {{settings.icon_search}}
+            </div>
+            <div class="s-input">
+                <input type="text" v-model="search" class="w-full" placeholder="{{ section.settings.search_placeholder }}" @focusout="hideDropdown()" tabindex="0">
+            </div>
+            <div class="x-icon pointer" @click="showDropdown = false">
+                {{ settings.icon_close }}
+            </div>
+        </div>
+        <ul>
+            <li v-for="pd in filteredList">
+                <a :href="pd.url">${ pd.title }</a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,197 @@
+{% comment %}
+Description:
+Snippet for displaying image banner slider
+
+Variables:
+- el_id: String. The element id for the wrapper
+- container: String. The container class. 'full-width' or 'container'
+- peek_style: Boolean. If true, the slider will have peek at left and right side
+- image_urls: Array. The image urls array
+- widths: Array. The image width
+- heights: Array. The image width
+- image_urls_mobile: Array. The image urls array for mobile
+- widths_mobile: Array. The image width for mobile
+- heights_mobile: Array. The image width for mobile
+- links: Array. The link for the banner
+- navigation. Boolean. Include slider navigation
+- pagination. Boolean. Include slider pagination
+- interval. Numeric. The slide interval in second. If blank, the slider will not autoplay
+- description. Text. Description below the images slider
+- heading_size: Header size
+- heading: Header title
+- heading_desc: Header description
+- heading_label: Header button label
+- heading_url: Header button url
+{% endcomment %}
+<style>
+{%- if background != blank -%}
+#{{ el_id }} {
+    background-color: {{ background }};
+}
+{%- endif -%}
+#{{ el_id }} .rte a {
+	font-weight: 400;
+}
+</style>
+
+<div id="{{ el_id }}" class="w-full relative">
+	{%- if heading != blank -%}
+    <div class="container tc mb-30 t-mb-40 d-mb-40">
+        <div class="max-640 t-max-500 d-max-640 mx-auto">
+            {%- if heading != blank -%}
+                {%- if heading_size == 'big' -%}
+                    <{{ section.settings.title_dom_type }} class="h2 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+				{%- elsif heading_size == 'normal' -%}
+					<{{ section.settings.title_dom_type }} class="h3 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- else -%}
+                    <{{ section.settings.title_dom_type }} class="h5 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- endif -%}
+            {%- endif -%}
+
+            {%- if heading_desc != blank -%}
+                <div class="rte {% if heading != blank %}mt-10{% endif %}">{{ heading_desc | newline_to_br }}</div>
+            {%- endif -%}
+            {%- if heading_label != blank -%}
+            <a href="{{ heading_url }}" class="btn1 mt-30">{{ heading_label }}</a>
+            {%- endif -%}
+        </div>
+    </div>
+    {%- endif -%}
+	<div class="relative {% if image_urls.size > 1 %}mb-0 t-mb-0 d-mb-0{% endif %} {{ container }}">
+		{%- assign border_radius = '' -%}
+		{%- if container == 'container' or peek_style == true -%}
+			{%- assign border_radius = 'rounded-20 t-rounded-20 d-rounded-24' -%}
+		{%- endif -%}
+		<div class="img-banner-slider relative swiper {{ border_radius }}">
+			<div class="swiper-wrapper relative">
+				{%- assign note_inslide = false -%}
+				{%- assign description_inslide = false -%}
+				{%- for image_url in image_urls -%}
+					<div class="swiper-slide relative {{ border_radius }}">
+						{%- capture image_banner -%}
+							{%- if image_urls_mobile == blank -%}
+								{%- render 'global-image-wrapper',
+									image_url: image_url,
+									width: widths[forloop.index0],
+									height: heights[forloop.index0],
+									additional_class: 'no-bg {{ border_radius }}',
+									overlay: overlay,
+									overlay_class: border_radius
+								-%}
+							{%- else -%}
+								{%- assign image_id = "image-" | append: el_id | append: '-' | append: forloop.index -%}
+								{%- render 'global-image-wrapper-responsive',
+									image_id: image_id,
+									image_url_desktop: image_url,
+									image_url_mobile: image_urls_mobile[forloop.index0],
+									image_desktop_width: widths[forloop.index0],
+									image_desktop_height: heights[forloop.index0],
+									image_mobile_width: widths_mobile[forloop.index0],
+									image_mobile_height: heights_mobile[forloop.index0],
+									additional_class: 'no-bg {{ border_radius }}',
+									overlay: overlay,
+									overlay_class: border_radius
+								-%}
+							{%- endif -%}
+						{%- endcapture -%}
+						{%- if links[forloop.index0] == blank -%}
+							{{ image_banner }}
+						{%- else -%}
+							<a href="{{ links[forloop.index0] }}">{{ image_banner }}</a>
+						{%- endif -%}
+						{%- if notes[forloop.index0] != blank -%}
+							{%- assign note_inslide = true -%}
+							<div class="note-overlay3 c-white p2">{{ notes[forloop.index0] }}</div>
+						{%- endif -%}
+						{%- if descriptions[forloop.index0] != blank -%}
+							{%- assign description_inslide = true -%}
+							<div class="w-full rte tc p3 c-grey pt-15 t-pt-15 d-pt-20">{{ descriptions[forloop.index0] }}</div>
+						{%- endif -%}
+					</div>
+				{%- endfor -%}
+			</div>
+			{%- if note != blank -%}
+				{%- if note_inslide -%}
+					<div class="note-overlay2 c-white p2">{{ note }}</div>
+				{%- else -%}
+					<div class="note-overlay c-white p2">{{ note }}</div>
+				{%- endif -%}
+			{%- endif -%}
+		</div>
+		{%- if description != blank -%}
+			<div class="w-full rte tc p3 c-grey pt-15 t-pt-15 d-pt-20">{{ description }}</div>
+		{%- endif -%}
+		{%- if image_urls.size > 1 -%}
+			{%- if navigation == true -%}
+			<div class="w-full">
+				<div id="prev-{{ el_id }}" class="img-banner-slider-prev swiper-button-prev">{{ settings.icon_slide_left }}</div>
+				<div id="next-{{ el_id }}" class="img-banner-slider-next swiper-button-next">{{ settings.icon_slide_right }}</div>
+			</div>
+			{%- endif -%}
+			{%- if pagination == true -%}
+			<div class="w-full relative pb-30 t-pb-30 d-pb-40 mb-5">
+				<div id="pagination-{{ el_id }}" class="img-banner-slider-pagination swiper-pagination top-30 t-top-30 d-top-40"></div>
+			</div>
+			{%- endif -%}
+		{%- endif -%}
+	</div>
+</div>
+
+{% if image_urls.size > 1 %}
+	<script>
+		function initSwiperIbs(){
+			new Swiper('#{{ el_id }} .img-banner-slider', {
+				loop: true,
+				preloadImages: true,
+				lazy: true,
+						{% if peek_style == true %}
+								slidesPerView: 1.2,
+								spaceBetween: 16,
+								centeredSlides: true,
+						{% endif %}
+						{% if interval != blank %}
+								autoplay: {
+										delay: {{ interval | times: 1000 }}
+								},
+						{% endif %}
+				{% if navigation == true %}
+					navigation: {
+						nextEl: "#next-{{ el_id }}",
+						prevEl: "#prev-{{ el_id }}"
+					},
+				{% endif %}
+				{% if pagination == true %}
+					pagination: {
+						el: "#pagination-{{ el_id }}",
+						clickable: true
+					},
+				{% endif %}
+						{% if peek_style == true %}
+								breakpoints: {
+										768: {
+												slidesPerView: 1.4,
+							spaceBetween: 32,
+										},
+										1400: {
+												slidesPerView: 1.7,
+												spaceBetween: 30,
+										},
+								},
+				{% endif %}
+				on: {
+					init: function() {
+						$360.lazyLoadInstance.update();
+					},
+					slideChange: function() {
+						$360.lazyLoadInstance.update();
+					},
+					resize: function() {
+						$360.lazyLoadInstance.update();
+					}
+				}
+			});
+		}
+		initSwiperIbs()
+		document.addEventListener('shopify:section:load', () => { initSwiperIbs() });
+	</script>
+{% endif %}

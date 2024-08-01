@@ -1,0 +1,96 @@
+{%- comment -%}
+Description:
+Snippet for displaying image and text accordion
+
+Variables:
+- el_id: Element id
+- background: Background color hex
+- image_position: Image position. left, right
+- title: Title text
+- text: Text content
+- blocks: Section blocks
+{%- endcomment -%}
+
+<style>
+{%- if background != blank -%}
+#{{ el_id }} {
+    background-color: {{ background }};
+}
+{%- endif -%}
+@media only screen and (min-width: 1200px) {
+    #{{ el_id }} .max-pl-245 {
+        padding-left: 24.5px;
+    }
+    #{{ el_id }} .max-pr-245 {
+        padding-right: 24.5px;
+    }
+}
+</style>
+{%- assign image_class = '' -%}
+{%- assign text_class = '' -%}
+{%- if image_position == 'right' -%}
+    {%- assign image_class = 'max-pl-245 push-t-6' -%}
+    {%- assign text_class = 'max-pr-245 pull-t-6' -%}
+{%- else -%}
+    {%- assign image_class = 'max-pr-245' -%}
+    {%- assign text_class = 'max-pl-245' -%}
+{%- endif -%}
+<div id="{{ el_id }}" class="image-text relative {{ wrapper_class }}">
+	<div class="container">
+        <div class="row inner d-flex d-ai-center fade">
+			<div class="col-12 col-t-6 {{ image_class }}">
+                    {%- if image_mobile == blank -%}
+                        {%- if acc == blank -%}
+                            {%- render 'global-image-wrapper', image: image, additional_class: 'rounded' -%}
+                        {%- else -%}
+                            {%- render 'global-image-wrapper', image: image, acc: true, additional_class: 'rounded-20 t-rounded-24' -%}
+                        {%- endif -%}
+                    {%- else -%}
+                        {%- assign image_id = "image-text-image-" | append: el_id -%}
+                        {%- if acc == blank -%}
+                            {%- render 'global-image-wrapper-responsive',
+                                desktop_image: image,
+                                mobile_image: image_mobile,
+                                image_id: image_id,
+                                additional_class: 'rounded-20 t-rounded-24'
+                            -%}
+                        {%- else -%}
+                            {%- render 'global-image-wrapper-responsive',
+                                desktop_image: image,
+                                mobile_image: image_mobile,
+                                image_id: image_id,
+                                mobile_acc: true,
+                                desktop_acc: true,
+                                additional_class: 'rounded-20 t-rounded-24'
+                            -%}
+                        {%- endif -%}
+                    {%- endif -%}
+			</div>
+			<div class="col-12 col-t-6 pt-20 t-pt-20 d-pt-20 pb-20 t-pb-20 d-pb-20 {{ text_class }}">
+                {%- if title != blank -%}
+                    <h2 class="title h3 c-greenb2">{{ title }}</h2>
+                {%- endif -%}
+                {%- if text != blank -%}
+                    <div class="text p1 mt-10 t-mt-5 d-mt-5 c-comfort-black">{{ text | newline_to_br }}</div>
+                {%- endif -%}
+                <div class="w-full pt-30 t-pt-40 d-pt-40">
+                    {% for block in section.blocks %}
+                        {% assign wrapper_class = 'b-border-orange bt-1' %}
+                        {% assign desc_class = 'pt-0 pb-15' %}
+                        {%- if forloop.last -%}
+                            {% assign wrapper_class = 'b-border-orange bt-1 bb-1' %}
+                        {%- endif -%}
+                        {%- render 'accordion',
+                            wrapper_class: wrapper_class,
+                            title_class: 'p1 bold-700',
+                            desc_class: desc_class,
+                            title: block.settings.title,
+                            description: block.settings.text,
+                            icon_rotate: true
+                        -%}
+                    {% endfor %}
+                </div>
+			</div>
+		</div>
+	</div>
+</div>

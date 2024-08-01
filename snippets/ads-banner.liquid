@@ -1,0 +1,22 @@
+{% if section.settings.banner_url != blank %}
+<a href="{{ section.settings.banner_url }}" class="item-box ads pl-10 pr-10 relative {{ class }}">
+{% else %}
+<div class="item-box ads pl-10 pr-10">
+{% endif %}
+    <div class="inner-ads relative rounded-24">
+        <div class="left">
+            {%- render 'global-image-wrapper', image: section.settings.banner_img, additional_class: 'overflow' -%}
+            {% comment %} <img src="{{ section.settings.banner_img | image_url: width: '2000x' }}" alt="{{ section.settings.banner_title }}" class="image lazy rounded-tl-24 rounded-tr-24"> {% endcomment %}
+        </div>
+        <div class="right pt-20 pl-20 pr-20" style="background: {{ section.settings.banner_bg_color  }};">
+            <h5 class="h5 c-white">{{ section.settings.banner_title }}</h5>
+            <div class="mb-20 mt-20">
+                {{ settings.icon_circle_right_arrow }}
+            </div>
+        </div>
+    </div>
+{% if section.settings.banner_url != blank %}
+</a>
+{% else %}
+</div>
+{% endif %}

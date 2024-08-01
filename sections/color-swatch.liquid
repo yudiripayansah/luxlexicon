@@ -1,0 +1,48 @@
+<style>
+{%- for block in section.blocks -%}
+.swatch-{{ block.settings.title | handle }}{
+  background-size: 60px 60px;
+  background-position:center;
+  background-color:{{ block.settings.background_color }};
+  {%- if block.settings.background_image != blank %}
+  background-image:url('{{ block.settings.background_image | img_url:'500x' }}');
+  {%- endif %}
+}
+{% endfor %}
+{{ section.settings.custom_css }}
+</style>
+{% schema %}
+{
+  "name": "Color Swatch",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Additional Custom CSS"
+    }
+  ],
+  "blocks" : [
+    {
+      "type": "text",
+      "name": "Color",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Color"
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

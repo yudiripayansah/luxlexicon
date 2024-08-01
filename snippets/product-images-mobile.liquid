@@ -1,0 +1,67 @@
+<div id="product-images-mobile" class="hide-d pb-20 mb-30 relative">
+    <div class="product-images-main mobile swiper">
+        <div class="swiper-wrapper">
+			<div class="swiper-slide" data-image-id="" data-index="0">
+				<img v-if="first_img_url" :src="first_img_url" class="image" />
+			</div>
+            {%- for image in product.images -%}
+				{%- if forloop.index > 1 -%}
+					<div class="swiper-slide" data-image-id="{{ image.id }}" data-index="{{ forloop.index0 }}">
+						{%- render 'global-image-wrapper', additional_class: 'no-bg', image: image, size: '1000x' -%}
+					</div>
+				{%- endif -%}
+            {%- endfor -%}
+        </div>
+    </div>
+    <div class="product-images-mobile-pagination swiper-pagination"></div>
+</div>
+
+<script>
+	function initVuePim(){
+		const ProducImagesVueMobile = Vue.createApp({
+			delimiters: ['${', '}'],
+			data() {
+				return {
+					first_img_url: null
+				}
+			},
+			methods: {
+				initSwiperPiv(){
+					new Swiper('.product-images-main.mobile', {
+						slidesPerView: 1.08,
+						spaceBetween: 32,
+						centeredSlides: true,
+										pagination: {
+												el: ".product-images-mobile-pagination",
+												clickable: true
+										},
+						breakpoints: {
+							768: {
+								slidesPerView: 1.08,
+								spaceBetween: 64,
+							},
+						},
+						on: {
+							init: function() {
+									$360.lazyLoadInstance.update();
+							},
+							slideChange: function() {
+									$360.lazyLoadInstance.update();
+							},
+							resize: function() {
+									$360.lazyLoadInstance.update();
+							}
+						}
+					});
+				}
+			},
+			mounted() {
+				if(window.innerWidth < 1024) {
+					this.initSwiperPiv()
+				}
+			},
+		}).mount('#product-images-mobile');
+	}
+	initVuePim()
+	document.addEventListener('shopify:section:load', () => { initVuePim() });
+</script>

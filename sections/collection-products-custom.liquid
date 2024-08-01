@@ -1,0 +1,346 @@
+{%- if request.page_type != "collection" or template.suffix != 'collection' -%}
+    <link rel="preload" href="{{ 'collection.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+{%- endif -%}
+{%- assign el_id = 'collection-custom-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+<div id="{{ el_id }}" class="collection-box" {% if section.settings.bg_color != blank %}style="background-color: {{ section.settings.bg_color }}"{% endif %}>
+    <div class="w-full sticky top-0 left-0 zi-3 bg-white bt-1 bb-1 b-border-orange relative">
+        <div class="container relative">
+            <div class="head-box pt-15 pb-15 t-pt-15 t-pb-15 d-pt-5 d-pb-5">
+                <div class="left">
+                    {% if section.settings.enable_total %}
+                    <p class="p1 c-grey">{{ section.blocks.size | append: '+' }} {{ section.blocks.size | pluralize: 'serie', 'series' }}</p>
+                    {% endif %}
+                </div>
+                <div class="right">
+                    <div class="inner-box">
+                        {% if section.settings.enable_switch %}
+                            {% render 'grid-switcher' %}
+                        {% endif %}
+                        {% if section.settings.enable_search %}
+                            {% render 'collection-search', section: section %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-full prev-sticky-hide-header overflow">
+        <div class="container overflow">
+            <div class="listing-box-grid overflow" :class="{ cols2: cols2, cols3: cols3}">
+                {%- assign no = 0 -%}
+                {% for block in section.blocks %}
+                    {%- assign no = no | plus: 1 -%}
+                    {%- assign cl = no | prepend: 'item' -%}
+                    {% render 'product-each-collection', block: block, custom: true, class: cl %}
+                    {% if section.settings.enable_banner and forloop.index == 8 %}
+                        {%- assign no = no | plus: 1 -%}
+                        {%- assign cl = no | prepend: 'item' -%}
+                        {% render 'ads-banner', section: section, class: cl %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+if (document.querySelector('#{{el_id}}')) {
+    const dataListing = Vue.createApp({
+        delimiters: ['${', '}'],
+        data() {
+            return {
+                desktop: window.innerWidth >= 1024,
+                mobile: window.innerWidth <= 1023,
+                search: '',
+                showDropdown: false,
+                cols2: false,
+                cols3: true,
+                products: [
+                    {% for block in section.blocks %}
+                        {"title": {{ block.settings.title | json }}, "url": {{ block.settings.url | json }}}
+                        {%- unless forloop.last -%},{%- endunless -%}
+                    {% endfor %}
+                ]
+            }
+        },
+        mounted(){
+            addEventListener('resize', () => {
+                this.desktop = innerWidth >= 1024;
+                this.mobile = innerWidth <= 1023;
+                this.updateBorder();
+            }),
+            animateCSSGrid.wrapGrid(document.querySelector('.listing-box-grid'), { easing: 'linear', stagger: 10, duration: 400 }),
+            this.updateBorder()
+        },
+        methods: {
+            switchGrid(c){
+                if(c == 'cols2') {
+                    this.cols2 = true;
+                    this.cols3 = false;
+                    this.updateBorder();
+                } else {
+                    this.cols2 = false;
+                    this.cols3 = true;
+                    this.updateBorder();
+                }
+            },
+            hideDropdown() {
+                setTimeout(()=> {
+                    this.showDropdown = false;
+                },1000/5);
+            },
+            updateBorder() {
+                let t = document.querySelectorAll(".item-box").length;
+                let s = document.querySelectorAll(".item-box");
+                s.forEach((si) => {
+                    si.classList.remove('no-br', 'a-litem', 'a-citem', 'a-ritem');
+                });
+                if(this.desktop) {
+                    if(this.cols3) {
+                        //console.log('desktop');
+                        if(t > 11) {
+                            for (let i = 1; i <= 11; i++) {
+                                if(i == 1 || i % 3 == 1) {
+                                    document.querySelector(".item"+i+"").classList.add('a-litem');
+                                }
+                                if(i == 2 || i % 3 == 2) {
+                                    document.querySelector(".item"+i+"").classList.add('a-citem');
+                                }
+                                if(i % 3 == 0) {
+                                    document.querySelector(".item"+i+"").classList.add('no-br', 'a-ritem');
+                                }
+                            }
+                            let c = 0;
+                            for (let i = 12; i <= t; i++) {
+                                c++;
+                                if(c == 1 || c % 3 == 1) {
+                                    document.querySelector(".item"+i+"").classList.add('a-litem');
+                                }
+                                if(c == 2 || c % 3 == 2) {
+                                    document.querySelector(".item"+i+"").classList.add('a-citem');
+                                }
+                                if(c % 3 == 0) {
+                                    document.querySelector(".item"+i+"").classList.add('no-br', 'a-ritem');
+                                }
+                            }
+                        } else {
+                            for (let i = 1; i <= t; i++) {
+                                if(i == 1 || i % 3 == 1) {
+                                    document.querySelector(".item"+i+"").classList.add('a-litem');
+                                }
+                                if(i == 2 || i % 3 == 2) {
+                                    document.querySelector(".item"+i+"").classList.add('a-citem');
+                                }
+                                if(i % 3 == 0) {
+                                    document.querySelector(".item"+i+"").classList.add('no-br', 'a-ritem');
+                                }
+                            }
+                        }
+                    } else {
+
+                    }
+                } else {
+                    if(this.cols3) {
+                        //console.log('mobile');
+                        let t = document.querySelectorAll(".item-box").length;
+                        let s = document.querySelectorAll(".item-box");
+                        s.forEach((si) => {
+                            si.classList.remove('no-br');
+                        });
+                        if(t > 8) {
+                            for (let i = 1; i <= 8; i++) {
+                                if(i == 1 || i % 2 == 1) {
+                                    document.querySelector(".item"+i+"").classList.add('a-litem');
+                                }
+                                if(i % 2 == 0) {
+                                    document.querySelector(".item"+i+"").classList.add('no-br', 'a-ritem');
+                                }
+                            }
+                            document.querySelector(".item9").classList.add('no-br');
+                            let c = 0;
+                            for (let i = 10; i <= t; i++) {
+                                c++;
+                                if(c == 1 || c % 2 == 1) {
+                                    document.querySelector(".item"+i+"").classList.add('a-litem');
+                                }
+                                if(c % 2 == 0) {
+                                    document.querySelector(".item"+i+"").classList.add('no-br', 'a-ritem');
+                                }
+                            }
+                        } else {
+                            for (let i = 1; i <= t; i++) {
+                                if(i == 1 || i % 2 == 1) {
+                                    document.querySelector(".item"+i+"").classList.add('a-litem');
+                                }
+                                if(i % 2 == 0) {
+                                    document.querySelector(".item"+i+"").classList.add('no-br', 'a-ritem');
+                                }
+                            }
+                        }
+                    } else {
+
+                    }
+                }
+            }
+        },
+        computed: {
+            filteredList() {
+                return this.products.filter(pd => {
+                    return pd.title.toLowerCase().includes(this.search.toLowerCase())
+                })
+            }
+        }
+    }).mount('#{{el_id}}');
+}
+</script>
+{% schema %}
+{
+	"name": "Collection Product Custom",
+	"settings": [
+        {
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "number",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)",
+            "default": 0
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)",
+            "default": 0
+		},
+		{
+			"type": "number",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)",
+            "default": 0
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)",
+            "default": 0
+		},
+		{
+			"type": "number",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)",
+            "default": 0
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)",
+            "default": 0
+		},
+        {
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background Color"
+		},
+        {
+			"type": "checkbox",
+			"id": "enable_total",
+			"label": "Enable total products",
+            "default": true
+		},
+        {
+			"type": "checkbox",
+			"id": "enable_switch",
+			"label": "Enable view switch",
+            "default": true
+		},
+        {
+			"type": "checkbox",
+			"id": "enable_search",
+			"label": "Enable search",
+            "default": true
+		},
+        {
+			"type": "text",
+			"id": "search_placeholder",
+			"label": "Search place holder",
+            "default": "Search for model"
+		},
+        {
+			"type": "header",
+			"content": "Banner Ads (inside listing)"
+		},
+        {
+			"type": "checkbox",
+			"id": "enable_banner",
+			"label": "Enable banner",
+            "default": true
+		},
+        {
+			"type": "color",
+			"id": "banner_bg_color",
+			"label": "Banner Background Color"
+		},
+        {
+			"type": "checkbox",
+			"id": "enable_banner_icon",
+			"label": "Enable right icon",
+            "default": true
+		},
+        {
+            "type": "image_picker",
+            "id": "banner_img",
+            "label": "Banner Image"
+        },
+        {
+            "type": "textarea",
+            "id": "banner_title",
+            "label": "Title"
+        },
+        {
+			"type": "url",
+			"id": "banner_url",
+			"label": "URL"
+		}
+	],
+    "blocks": [
+        {
+            "type": "product",
+            "name": "Product",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                },
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title"
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "URL"
+                },
+                {
+                    "type":"radio",
+                    "id":"url_type",
+                    "label":"Data Type",
+                    "options":[
+                        {"value":"collection","label":"Collection"},
+                        {"value":"product","label":"Product"}
+                    ],
+                    "default": "collection"
+                }
+            ]
+        }
+    ],
+	"presets": [
+		{
+			"name": "Collection Product Custom",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

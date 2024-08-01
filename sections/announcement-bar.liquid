@@ -1,0 +1,124 @@
+{%liquid 
+  assign ss = section.settings
+  assign sb = section.blocks  
+%}
+{%- if section.settings.show_announcement -%}
+  <div
+    id="header-bar"
+    class="header-bar relative pt-12 pb-12 z-2 bg-black"
+    style="background-color:{{ section.settings.color_bg }}"
+  >
+    <div class="container">
+      <div class="global-flex jc-center ai-center">
+        <div class="message-wrapper w-full">
+          {%- assign header_bar_count = 0 -%}
+          <div class="swiper">
+            <div class="swiper-wrapper">
+              {%- for block in sb -%}
+                  {% assign bs = block.settings %}
+                  {% if bs.text != blank %}
+                    {%- assign header_bar_count = header_bar_count | plus: 1 -%}
+                    <div class="swiper-slide tc flex ai-center jc-center">
+                      {%- if bs.url != blank -%}
+                        <a
+                          href="{{ bs.url }}"
+                          class="c-white p3"
+                          style="color:{{ section.settings.color_text }}"
+                        >
+                          {{ bs.text }}
+                        </a>
+                      {%- else -%}
+                        <div
+                          class="c-white p3"
+                          style="color:{{ section.settings.color_text }}"
+                        >
+                          {{ bs.text }}
+                        </div>
+                      {%- endif -%}
+                    </div>
+                  {% endif %}
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    /** Header bar carousel */
+    function headerBarCarouselInit() {
+      let header_bar_carousel;
+      header_bar_carousel = new Swiper("#header-bar .swiper", {
+        direction: 'horizontal',
+        slidesPerView: 1,
+        watchSlidesProgress: true,
+        {% if header_bar_count > 1 %}
+        loop: true,
+        autoplay: {
+          delay: 3500
+        },
+        {% endif %}
+        on: {
+            init: function() {
+                $360.lazyLoadInstance.update();
+            },
+            slideChange: function() {
+                $360.lazyLoadInstance.update();
+            },
+            resize: function() {
+                $360.lazyLoadInstance.update();
+            }
+          }
+      });
+    }
+    {% if header_bar_count > 1 %}
+    document.addEventListener('DOMContentLoaded', function() { headerBarCarouselInit(); });
+    document.addEventListener('shopify:section:load', () => { headerBarCarouselInit() });
+    {% endif %}
+  </script>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Announcement bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "color_bg",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text Color"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Entry",
+      "type": "entry",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Url"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

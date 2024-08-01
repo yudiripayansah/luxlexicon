@@ -1,0 +1,452 @@
+{% comment %} JCO - Adi on progress {% endcomment %}
+{% assign el_id = 'shop-our-muses-' | append: section.id %}
+{% assign ss = section.settings %}
+{% assign sb = section.blocks %}
+{% render 'section-padding', section: section, el_id: el_id %}
+<style>
+  #{{el_id}} {
+    {% if ss.bg_color != blank %}
+      background-color: {{ss.bg_color}};
+    {% endif %}
+  }
+  #{{el_id}} .somi-btn {
+    border-radius: 100px;
+    min-width: 40px;
+    cursor: pointer;
+  }
+  #{{el_id}} .somi-icon {
+    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+  }
+  #{{el_id}} .somi-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+  #{{el_id}} .somi-text {
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    height: 40px;
+    max-width: 0;
+    transition: .5s;
+    white-space: nowrap;
+    padding: 0;
+    margin-left: -20px;
+  }
+  #{{el_id}} .shop-our-muses-popup {
+    transition: .5s;
+    opacity: 0;
+    visibility: hidden;
+  }
+  #{{el_id}} .somp-overlay {
+    background: rgba(38,38,38,.6);
+  }
+  #{{el_id}} .sompbh-close,
+  #{{el_id}} .sompbh-close svg {
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+  }
+  #{{el_id}} .somp-box {
+    transform: translateX(100%);
+    transition: .5s;
+  }
+  #{{el_id}} .shop-our-muses-popup.show .somp-box {
+    transform: translateX(0);
+  }
+  #{{el_id}} .shop-our-muses-popup.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  #{{el_id}} .sompb-body {
+    overflow-y: auto;
+    height: calc(100% - 60px);
+  }
+  #{{el_id}} .swiper {
+    overflow: visible !important;
+    clip-path: inset(-100vw -100vw -100vw -100vw);
+  }
+  #{{el_id}} .som-tags a.active {
+    opacity: 1;
+  }
+  #{{el_id}} .som-title,
+  #{{el_id}} .som-subtitle {
+    width: 100%;
+    max-width: 250px;
+  }
+  #{{el_id}} .som-tags-mobile {
+    overflow-x: auto !important;
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  #{{el_id}} .som-tags-mobile::-webkit-scrollbar {
+    width: 0; /* Remove scrollbar width */
+    height: 0; /* Remove scrollbar height */
+    display: none; /* Hide scrollbar */
+  }
+  #{{el_id}} .som-carousel .swiper-slide {
+    opacity: 0.4;
+  }
+  #{{el_id}} .som-carousel .swiper-slide.swiper-slide-active {
+    opacity: 1;
+  }
+  @media screen and (min-width: 600px) {
+    #{{el_id}} .som-tags-mobile {
+      margin-left: -25px;
+      margin-right: -25px;
+    }
+    #{{el_id}} .sompb-body {
+      height: calc(100% - 73px);
+    }
+    #{{el_id}} .som-text {
+      height: 50%;
+    }
+    #{{el_id}} .somi-btn:hover .somi-text {
+      max-width: 200px;
+      padding-left: 20px;
+      padding-right: 15px;
+    }
+    #{{el_id}} .som-title {
+      width: 100%;
+      max-width: 100%;
+    }
+    #{{el_id}} .som-subtitle {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .flex.hide-d {
+      display: none;
+    }
+    #{{el_id}} .som-tags-mobile {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    #{{el_id}} .som-subtitle,
+    #{{el_id}} .som-tags {
+      width: 50%;
+      max-width: 50%;
+    }
+  }
+  @media screen and (min-width: 1920px) {
+    #{{el_id}} .shop-our-muses-popup.show .somp-box {
+      max-width: 30rem;
+    }
+  }
+</style>
+<div class="shop-our-muses overflow" id="{{el_id}}">
+  <div class="container relative">
+    <div class="som-text pb-20 t-p-0 flex t-ai-center jc-center t-jc-start flex-wrap absolute t-relative top-30 t-top-0 left-0 zi-2 pl-15 pr-15 pt-35 tc t-tl">
+      <{{ ss.title_dom_type }} class="{{ ss.title_size }} som-title spacing-3">
+        {{- ss.title -}}
+      </{{ ss.title_dom_type }}>
+      <div class="p3 d-mt-10 mt-5 som-subtitle">
+        {{ ss.text }}
+      </div>
+      <div class="som-tags d-mt-10 d-flex ai-center t-jc-end hide-m">
+        {% for block in sb %}
+          {% assign bs = block.settings %}
+          <a
+            href="#" rel="nofollow"
+            class="p2 opacity-4 som-tag-{{forloop.index}} {% if forloop.first == true %}active{% endif %} {% unless forloop.last == true %}t-mr-30{% endunless %}"
+            onclick="goToSom({{forloop.index}},event)"
+          >
+            {{- bs.tag -}}
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="som-carousel swiper mt-30 d-mt-40 hhd-mt-50">
+      <div class="swiper-wrapper">
+        {% for block in sb %}
+          {% assign bs = block.settings %}
+          <div class="swiper-slide">
+            <div class="som-item">
+              {% assign image_id = 'som-image-m-' | append: forloop.index %}
+              {%- render 'global-image-wrapper-responsive',
+                image_id: image_id,
+                desktop_image: bs.desktop_image,
+                mobile_image: bs.mobile_image
+              %}
+              <div
+                class="somi-btn absolute bottom-20 left-20 d-bottom-25 d-left-25 hhd-left-30 hhd-bottom-30 flex ai-center overflow"
+                data-target="{{forloop.index}}"
+                onclick="togglePopupSom({{forloop.index}})"
+              >
+                <span class="somi-icon bg-white flex ai-center jc-center relative zi-2">
+                  {{ settings.icon_cart }}
+                </span>
+                <div class="bg-white regular-400 somi-text p4 uppercase spacing-1 pr-15 flex ai-center">
+                  {{ bs.btn_label }}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="som-tags som-tags-mobile mt-20 flex ai-center d-jc-end hide-d">
+      {% for block in sb %}
+        {% assign bs = block.settings %}
+        <a
+          href="#" rel="nofollow"
+          class="p2 opacity-4 som-tag-{{forloop.index}} {% if forloop.first == true %}active ml-15 t-ml-25 d-ml-0{% endif %} {% unless forloop.last == true %}mr-20{% endunless %} {% if forloop.last == true %}mr-15 t-mr-25 d-mr-0{% endif %}"
+          onclick="goToSom({{forloop.index}},event)"
+        >
+          {{- bs.tag -}}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="shop-our-muses-popup fixed top-0 left-0 right-0 h-full flex jc-end zi-4">
+    <div class="somp-overlay absolute left-0 top-0 w-full h-full zi-1" onclick="togglePopupSom()"></div>
+    <div class="somp-box w-full d-max-395 bg-white h-full relative zi-2">
+      <div class="sompb-heading d-p-25 p-20 flex ai-center jc-between">
+        <h6 class="h6 spacing-1 uppercase">{{ ss.popup_title }}</h6>
+        <span class="sompbh-close" onclick="togglePopupSom()">
+          {{ settings.icon_close }}
+        </span>
+      </div>
+      <div class="sompb-body d-pl-25 d-pr-25 pl-20 pr-20">
+        {% for block in sb %}
+          {% assign bs = block.settings %}
+          <div
+            class="row hide-m pb-10 d-pb-15 sompb-product-list flex flex-wrap"
+            id="sompb-product-list-{{forloop.index}}"
+          >
+            {% for product in bs.products %}
+              <div class="col-6 col-d-6 d-mb-20 mb-10">
+                {% render 'product-each', product: product, disable_hover: true %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  let somSwiper = null;
+  function initSwiperSom() {
+    somSwiper = new Swiper('#{{ el_id }} .som-carousel', {
+      slidesPerView: 1,
+      slidesPerColumn: 1,
+      spaceBetween: 15,
+      freeMode: false,
+      breakpoints: {
+        600: {
+          slidesPerView: 1.09,
+          freeMode: false,
+          spaceBetween: 10,
+        },
+        1024: {
+          slidesPerView: 1.25,
+          freeMode: false,
+          spaceBetween: 10,
+        },
+      },
+      on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+    }).on('slideChange', function () {
+      setActiveTag(somSwiper.activeIndex + 1);
+    });
+  }
+  function togglePopupSom(target = 0) {
+    let body = document.querySelector('body');
+    let popup = document.querySelector('.shop-our-muses-popup');
+    let pl = document.querySelector('#sompb-product-list-' + target);
+    let pla = document.querySelectorAll('.sompb-product-list');
+    popup.classList.toggle('show');
+    body.classList.toggle('overflow');
+    pla.forEach(function (item) {
+      item.classList.add('hide-m');
+      item.classList.remove('flex');
+    });
+    pl.classList.remove('hide-m');
+    pl.classList.add('flex');
+  }
+  function goToSom(target = 0, e) {
+    e.preventDefault();
+    let t = target - 1;
+    setActiveTag(target);
+    somSwiper.slideTo(t);
+  }
+  function setActiveTag(target) {
+    let tags = document.querySelectorAll('#{{el_id}} .som-tags a');
+    let tagsm = document.querySelectorAll('#{{el_id}} .som-tags-mobile a');
+    let tag = document.querySelector('#{{el_id}} .som-tag-' + target);
+    let tagm = document.querySelector('#{{el_id}} .som-tags-mobile .som-tag-' + target);
+    tags.forEach(function (item) {
+      item.classList.remove('active');
+    });
+    tagsm.forEach(function (item) {
+      item.classList.remove('active');
+    });
+    tag.classList.add('active');
+    tagm.classList.add('active');
+  }
+  initSwiperSom();
+  document.addEventListener('shopify:section:load', () => { initSwiperSom() });
+</script>
+{% schema %}
+{
+  "name": "Shop Our Muses",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Padding Settings"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top Padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom Padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hd",
+        "label": "Bottom padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hhd",
+        "label": "Top padding (HHD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hhd",
+        "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "textarea",
+      "id": "popup_title",
+      "label": "Popup Title"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" },
+        { "value": "h8", "label": "H8" },
+        { "value": "h9", "label": "H9" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_list",
+      "name": "Product list",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Button Label"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "@Tag"
+        },
+        {
+          "type": "product_list",
+          "id": "products",
+          "label": "Products"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop Our Muses",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

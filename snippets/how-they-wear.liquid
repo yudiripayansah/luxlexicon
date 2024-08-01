@@ -1,0 +1,93 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{%- assign section_title = product.metafields.htw.title -%}
+{%- assign section_desc = product.metafields.htw.desc -%}
+
+{%- if product.metafields.htw.enable -%}
+    <section class="how-they-wear pt-40 pb-40 t-pt-60 t-pb-60 d-pt-80 d-pb-80">
+        <div class="container overflow">
+            <div class="title-container max-540 ml-auto mr-auto tc">
+                <h6 class="p3 uppercase spacing-2 bold-600 c-darkgreen">{{ section_title }}</h6>
+                <p class="p2 c-grey mt-20">{{ section_desc }}</p>
+            </div>
+            
+            <div class="carousel-outer-wrapper mt-15 d-mt-30">
+                <div class="max-400 ml-auto mr-auto relative">
+                    <div class="swiper">
+                        <div class="swiper-wrapper">
+                            {%- for i in (1..10) -%}
+                                {%- assign img = "image_" | append: i -%}
+                                {%- assign title = "title_" | append: i -%}
+                                {%- assign url = "url_" | append: i -%}
+
+                                {%- if product.metafields.htw[img] != blank -%}
+                                    <div class="swiper-slide">
+                                        {%- if product.metafields.htw[url] != blank -%}
+                                            <a href="{{ product.metafields.htw[url] }}" class="show-m">
+                                        {%- endif -%}
+
+                                        <div class="each-entry tc">
+                                            <div class="image-container">
+                                                {%- render 'global-image-wrapper',
+                                                    image: product.metafields.htw[img][0],
+                                                    acc: true
+                                                -%}
+                                            </div>
+                                            {%- if product.metafields.htw[title] != blank -%}
+                                                <p class="mt-15 p2">{{ product.metafields.htw[title] }}</p>
+                                            {%- endif -%}
+                                        </div>
+
+                                        {%- if product.metafields.htw[url] != blank -%}
+                                            </a>
+                                        {%- endif -%}
+                                    </div>
+                                {%- endif -%}
+                            {%- endfor -%}
+                        </div>
+                    </div>
+
+                    <div class="swiper-custom-arrow left">{{ settings.icon_slide_left }}</div>
+                    <div class="swiper-custom-arrow right">{{ settings.icon_slide_right }}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function initSwiperHtw(){
+            let pdp_htw_carousel = new Swiper(".how-they-wear .swiper", {
+                direction: 'horizontal',
+                slidesPerView: 'auto',
+                loop: true,
+                navigation: {
+                    nextEl: '.how-they-wear .swiper-custom-arrow.right',
+                    prevEl: '.how-they-wear .swiper-custom-arrow.left'
+                },
+                on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            initSwiperHtw()
+            //-- set arrow position
+            const image_height = document.querySelector('.how-they-wear .swiper .global-image-wrapper').clientHeight;
+            const arrow_height = document.querySelector('.how-they-wear .swiper-custom-arrow').clientHeight;
+            const arrows = document.querySelectorAll('.how-they-wear .swiper-custom-arrow');
+            const top = (image_height-arrow_height)/2;
+            arrows.forEach(elem => {
+                elem.style.transform = 'unset';
+                elem.style.top = top + 'px';
+            });
+        });
+        document.addEventListener('shopify:section:load', () => { initSwiperHtw() });
+    </script>
+{%- endif -%}

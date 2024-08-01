@@ -1,0 +1,45 @@
+{%- comment -%}
+    Description:
+    Snippet for displaying cta image + text overlay
+
+    Variables:
+    - identifier: id identifier, lowercase no spacing
+    - image: image object (desktop)
+    - image_mobile: image object (mobile - optional)
+    - text_custom_class: custom class for text container
+    - small_title: string
+    - title: title - string
+    - title_size_class: title size - class string. e.g. h1,h2,h3,...
+    - button_label: string
+    - button_url: string
+    - tablet_follow_mobile: true | false
+{%- endcomment -%}
+
+<div id="{{ identifier }}" class="snippet-cta-image-text-overlay">
+    <a href="{{ button_url }}" class="show-m" style="height: 100%;">
+        {%- assign image_id = "image-cta-overlay" | append: identifier -%}
+        {%- assign mobile_image = image -%}
+        {%- if image_mobile != blank -%}
+            {%- assign mobile_image = image_mobile -%} 
+        {%- endif -%}
+
+        {%- render
+            'global-image-wrapper-responsive',
+            desktop_image: image,
+            mobile_image: mobile_image,
+            image_id: image_id,
+            additional_class: 'relative z-1'
+        -%}
+
+        <div class="cta-image-overlay"></div>
+        <div class="text-container ab-bottom width-100 z-3 {{ text_custom_class }}">
+            <div class="p3 bold-600 spacing-2">{{ small_title }}</div>
+            <div class="{{ title_size_class }} mt-10 d-mt-15">{{ title }}</div>
+            {%- if button_label != blank -%}
+                <div class="mt-10 d-mt-15"> 
+                    <a href="{{button_url}}" class="btn2">{{button_label}}</a>
+                </div>
+            {%- endif -%}
+        </div>
+    </a>
+</div>

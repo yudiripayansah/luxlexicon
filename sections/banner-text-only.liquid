@@ -1,0 +1,185 @@
+{%- assign el_id = 'banner-text-only-' | append: section.id -%}
+{%- assign el_id2 = 'popup-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+<style>
+#{{ el_id }} .banner-text-only {
+    background: {% if section.settings.bg_color != blank %}{{ section.settings.bg_color }} {% else %}transparent{% endif %};
+}
+.{{ el_id2 }} .jotform-box {
+    max-height: calc(100vh - 200px);
+    overflow-y: scroll;
+}
+.{{ el_id2 }} {
+    display: none;
+}
+.{{ el_id2 }}.active {
+    display: block;
+}
+</style>
+<div id="{{ el_id }}" class="relative">
+    <div class="w-full w-full banner-text-only pt-50 pb-50 t-pt-60 t-pb-60 d-pt-80 d-pb-80">
+        <div class="container">
+            <div class="row flex flex-wrap jc-between ai-center">
+                <div class="col-12 col-t-7 col-d-8 flex flex-column jc-start mb-10 t-mb-0">
+                    {%- if section.settings.title != blank -%}
+                        <{{ section.settings.title_dom_type }} class="h3 mb-10 c-white">{{ section.settings.title }}</{{ section.settings.title_dom_type }}>
+                    {%- endif -%}
+                    {%- if section.settings.subtitle != blank -%}
+                        <h6 class="h6 mb-10 c-white">{{ section.settings.subtitle }}</h6>
+                    {%- endif -%}
+                    {%- if section.settings.text -%}
+                        <p class="p1 c-white">{{ section.settings.text }}</p>
+                    {%- endif -%}
+                </div>
+                {%- if section.settings.btn_label != blank and section.settings.btn_url != blank or section.settings.btn_popup == true and section.settings.btn_embedcode != blank -%}
+                <div class="flex jc-start t-jc-end d-tj-end col-12 col-t-5 col-d-4">
+                    {%- if section.settings.btn_popup == true -%}
+                        <button class="btn1 btn-popup" title="{{ section.settings.btn_label | escape }}">{{ section.settings.btn_label }}</button>
+                    {%- else -%}
+                        <a href="{{ section.settings.btn_url }}" class="btn1" title="{{ section.settings.btn_label | escape }}">{{ section.settings.btn_label }}</a>
+                    {%- endif -%}
+                </div>
+                {%- endif -%}
+            </div>
+        </div>
+    </div>
+</div>
+{%- if section.settings.btn_embedcode != blank -%}
+<div class="{{ el_id2 }} w-full relative inactive fade">
+    <div class="page-overlay zi-6 p-opt-popup-overlay active">&nbsp;</div>
+    <div class="container relative flex jc-center ai-center">
+        <div class="w-full max-750 fixed top-50 rounded-24 bg-white zi-7 pt-40 pb-20 pl-20 pr-20 t-pt-45 t-pb-45 t-pl-50 t-pr-50 relative">
+            <button type="button" class="close flex ai-center jc-center absolute top-20 right-20 mb-20 btn-close">{{ settings.icon_close }}</button>
+            <div class="w-full flex jc-center ai-start jotform-box">
+                {{ section.settings.btn_embedcode }}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+if (document.querySelector('#{{el_id}}') && document.querySelector('.{{ el_id2 }}')) {
+    var btn = document.querySelector('.btn-popup');
+    var btn_close = document.querySelector('.btn-close');
+    var body_overlay = document.querySelector('.p-opt-popup-overlay');
+    var modal = document.querySelector('.{{ el_id2 }}');
+    btn.onclick = function( e ) {
+        //console.log('clicked');
+        modal.classList.toggle('active');
+    }
+    btn_close.onclick = function( e ) {
+        //console.log('clicked close');
+        modal.classList.toggle('active');
+    }
+    body_overlay.onclick = function( e ) {
+        //console.log('clicked overlay');
+        modal.classList.toggle('active');
+    }
+}
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+	"name": "Banner Text Only",
+	"settings": [
+        {
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		},
+        {
+            "type": "header",
+            "content": "Banner Settings"
+        },
+        {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background Color"
+        },
+        {
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Title DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"},
+                {"value":"h6","label":"H6"}
+            ],
+            "default": "h3"
+        },
+        {
+            "type" : "textarea",
+            "id" : "title",
+            "label" : "Title"
+        },
+        {
+            "type" : "textarea",
+            "id" : "subtitle",
+            "label" : "Subtitle"
+        },
+        {
+            "type" : "textarea",
+            "id" : "text",
+            "label" : "Text"
+        },
+        {
+            "type" : "text",
+            "id" : "btn_label",
+            "label" : "Button label"
+        },
+        {
+            "type" : "url",
+            "id" : "btn_url",
+            "label" : "Button URL"
+        },
+        {
+            "type" : "checkbox",
+            "id" : "btn_popup",
+            "label" : "Enable popup form"
+        },
+        {
+            "type" : "textarea",
+            "id" : "btn_embedcode",
+            "label" : "Embed script for popup form"
+        }
+	],
+	"presets": [
+		{
+			"name": "Banner Text Only",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

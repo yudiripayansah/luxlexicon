@@ -1,0 +1,125 @@
+{%- if customer -%}
+  <style>
+  .global-input {
+      border: 1px solid #000;
+  }
+  .form-radio-input{
+    appearance: auto;
+  }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" integrity="sha512-ELV+xyi8IhEApPS/pSj66+Jiw+sOT1Mqkzlh8ExXihe4zfqbWkxPRi8wptXIO9g73FSlhmquFlUOuMSoXz5IRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <section class="global-content-top-margin pt-20 t-pt-30 d-pt-50 pb-20 t-pb-30 d-pb-50">
+    <div class="container">
+      <div class="max-800">
+        <h1 class="h3 mb-20">{{ page.title }}</h1>
+        <form id="personal-info">
+          <div class="mb-20">
+            <label for="first_name" class="form-label">First name</label>
+            <input type="text" name="first_name" id="first_name" class="global-input p1 rounded-8" required />
+          </div>
+          <div class="mb-20">
+            <label for="last_name" class="form-label">Last Name</label>
+            <input type="text" name="last_name" id="last_name" class="global-input p1 rounded-8" required />
+          </div>
+          <div class="mb-20">
+            <label for="mobile_number" class="form-label">Mobile number</label>
+            <input type="text" name="mobile_number" id="mobile_number" class="global-input p1 rounded-8" required />
+          </div>
+          <div class="mb-20">
+            <label class="form-label">Gender</label>
+            <div class="field-radio">
+              <div class="input-radio">
+                  <input class="form-radio-input" value="Male" type="radio" name="gender" id="male" checked="true">
+                  <label class="form-radio-label" for="male">Male</label>
+              </div>
+              <div class="input-radio">
+                  <input class="form-radio-input" value="Female" type="radio" name="gender" id="female">
+                  <label class="form-radio-label" for="female">Female</label>
+              </div>
+              <div class="input-radio">
+                  <input class="form-radio-input" value="Non-binary" type="radio" name="gender" id="prefer">
+                  <label class="form-radio-label" for="prefer">Prefer Not to say</label>
+              </div>
+            </div>
+          </div>
+          <div class="mb-20">
+            <label class="form-label">Preferences</label>
+            <div class="field-radio">
+              <div class="input-radio">
+                  <input class="form-radio-input" value="Gifting" type="radio" name="preferences" id="gifting" checked="true">
+                  <label class="form-radio-label" for="gifting">Gifting</label>
+              </div>
+              <div class="input-radio">
+                  <input class="form-radio-input" value="Engagement" type="radio" name="preferences" id="engagement">
+                  <label class="form-radio-label" for="engagement">Engagement</label>
+              </div>
+              <div class="input-radio">
+                  <input class="form-radio-input" value="Wedding" type="radio" name="preferences" id="wedding">
+                  <label class="form-radio-label" for="wedding">Wedding</label>
+              </div>
+            </div>
+          </div>
+          <div class="mb-20">
+            <label for="birthday" class="form-label">Birthday</label>
+            <div class="field-date">
+              <input type="date" class="global-input p1 rounded-8" id="birthday" name="birthday" required>
+            </div>
+          </div>
+          <div class="mb-20">
+            <input type="hidden" name="id" value={{ customer.id }}>
+            <input type="hidden" name="email" value={{ customer.email }}>
+            <input type="hidden" name="address_id" value={{ customer.default_address.id }}>
+            <button type="submit" id="submit" class="btn1 submit-btn">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+        $(document).ready(function() {
+          $(document).on("submit", "#personal-info", function(e) {
+              e.preventDefault();
+              let listfields = $(this).serializeArray();
+              sendPersonalInfo(listfields);
+              return false;
+          });
+        });
+    
+        function sendPersonalInfo(listfields){
+            listfields.push({name: "action", value:"personal-info"});
+            let form = document.querySelector('#personal-info')
+            let submitBtn = form.querySelector('.submit-btn')
+            let prevText = submitBtn.innerHTML;
+            const btnLoading = '<span class="btn-loading"></span>';
+            submitBtn.style.height = `${submitBtn.offsetHeight}px`;
+            submitBtn.style.width = `${submitBtn.offsetWidth}px`;
+            submitBtn.innerHTML = btnLoading;
+            submitBtn.setAttribute('disabled', true);
+            $.ajax({
+                type: "POST",
+                url: "/apps/integration",
+                data: listfields,
+                dataType: "json",
+                success: function(data) {
+                    submitBtn.removeAttribute('disabled');
+                    submitBtn.innerHTML = prevText;
+                    if (data.api == true) {
+                        //Success
+                        alert(data.msg);
+                    } else {
+                        //Failed
+                        alert(data.msg);
+                    }
+                }, 
+                error: function(){
+                  submitBtn.removeAttribute('disabled');
+                  submitBtn.innerHTML = prevText;
+                }
+            });
+        }
+  </script>
+{%- else -%}
+  <script>location.href = "/";</script>
+{%- endif -%}

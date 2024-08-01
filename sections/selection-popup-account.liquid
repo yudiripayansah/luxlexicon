@@ -1,0 +1,189 @@
+{% if customer == blank and template == "index" %}
+
+{% liquid
+    assign el_id = section.id
+    assign ss = section.settings
+%}
+<style>
+    #{{el_id}} .sp-overlay {
+        background: rgba(23, 23, 23, 0.5);
+    }
+    #shopify-section-{{ section.id }} {
+        z-index: 99999;
+    }
+
+    #{{el_id}} .sp-wrap {
+      opacity: 0;
+      visibility: hidden;
+      transition: .5s;
+    }
+    #{{el_id}} #sp-wrap.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #{{el_id}} .sp-box {
+        position:absolute;
+        bottom:0;
+        right:0;
+        width:100%;
+    }
+
+    #{{el_id}} .spb-content{
+        padding:25px 20px;
+    }
+
+    #{{el_id}} .close-popup{
+        position:absolute;
+        top:20px;
+        right:20px;
+        width: 12px;
+        height: 12px;
+        z-index:1;
+    }
+    #{{el_id}} .close-popup svg{
+        width: 12px;
+        height: 12px;
+    }
+
+    @media(min-width: 600px) {
+        #{{el_id}} .sp-box {
+            width:410px;
+        }
+    }
+    
+    @media(min-width: 1024px) {
+        #{{el_id}} .sp-box {
+            width:440px;
+        }
+        #{{el_id}} .spb-content{
+            padding:30px;
+        }
+    }
+</style>
+
+<section id="{{el_id}}">
+    
+    <div class="">
+        {% render 'selection-popup', section: section, type: 'account' %}
+
+        {% comment %} {%- if ss.popup_type == 'account' -%}
+            {% render 'selection-popup', section: section, type: 'account' %}
+        {%- elsif ss.popup_type == 'subscription' -%}
+            {% render 'selection-popup', section: section, type: 'subscription' %}
+        {% endif %} {% endcomment %}
+    </div>
+</section>
+
+<script>
+    let overlay_acc = document.querySelectorAll('.sp-overlay');
+
+    if (!toggleContentSelectionPopup) {
+        function toggleContentSelectionPopup(e) {
+            if(e != null) {
+                e.preventDefault();
+            }
+
+            let body = document.querySelector('body');
+            let type = body.getAttribute('data-content');
+            let popup = document.querySelector('#sp-wrap');
+            popup.classList.toggle('show');
+            body.classList.toggle('overflow');
+        }
+    }
+
+    if (!setCookie) {
+        function setCookie(name, value, days) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+        //expires.setTime(expires.getTime() + 1 * 60 * 1000); // test 1 min
+        const cookieValue = encodeURIComponent(name) + '=' + encodeURIComponent(value) + ';expires=' + expires.toUTCString() + ';path=/';
+        document.cookie = cookieValue;
+        }
+    }
+
+    if(!getCookie){
+        function getCookie(name) {
+        const cookieName = encodeURIComponent(name) + '=';
+        const cookieArray = document.cookie.split(';');
+        for (let i = 0; i < cookieArray.length; i++) {
+            let cookie = cookieArray[i].trim();
+            if (cookie.indexOf(cookieName) === 0) {
+            return decodeURIComponent(cookie.substring(cookieName.length, cookie.length));
+            }
+        }
+        return null;
+        }
+    }
+    
+    {% comment %} function getQueryParamValue(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    } {% endcomment %}
+
+    {% if ss.enable_test_mode %}
+        toggleContentSelectionPopup();
+    {% else %}
+
+    const selection_acc = getCookie('igcPopupAccount');
+    if (!selection_acc) {
+        toggleContentSelectionPopup();
+    }
+    {% endif %}
+  
+    overlay_acc.forEach(function(item){
+      item.addEventListener('click', function(){toggleContentSelectionPopup()})
+    });
+
+    setCookie('igcPopupAccount', 'true', 7); /* expire in 7 days */
+</script>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Create Account Popup",
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "enable_test_mode",
+            "label": "Enable test mode"
+        },
+        {
+            "type": "image_picker",
+            "id": "image_desktop",
+            "label": "Image (Desktop)"
+        },
+        {
+            "type": "image_picker",
+            "id": "image_mobile",
+            "label": "Image (Mobile)"
+        },
+        {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title"
+        },
+        {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text"
+        },
+        {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button Label"
+        },
+        {
+            "type": "url",
+            "id": "button_url",
+            "label": "Button URL"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Create Account Popup"
+        }
+    ]
+  }
+{% endschema %}
+  

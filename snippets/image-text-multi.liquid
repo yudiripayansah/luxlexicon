@@ -1,0 +1,273 @@
+{%- comment -%}
+Description:
+Snippet for displaying image and text content
+
+Variables:
+- el_id: Element id
+- background: Background color hex
+- wrapper_class: The wrapper class name
+- image_mobile: Image for mobile
+- image: Image for desktop
+- image_position: Image position. left, right
+- title: Title text
+- title_class: class name for title
+- text: Text content
+- text_class: String. class for the text
+- text_color: String, hex color for text
+- link_url: Link URL
+- link_label: Link label
+- btn_class: String. Class for the button
+- acc: If image from accentuate
+{%- endcomment -%}
+<style>
+{%- if background != blank -%}
+#{{ el_id }} {
+    background-color: {{ background }};
+}
+{%- endif -%}
+{%- if text_style != blank and text_style == 'html' -%}
+    {%- if text_style == 'html' -%}
+    #{{ el_id }} ul {
+        list-style: disc;
+        margin: 0 15px;
+    }
+    #{{ el_id }} ul li {
+        padding-left: 10px;
+    }
+    {%- endif -%}
+    {%- if text_style == 'html' -%}
+    #{{ el_id }} ol {
+        list-style: decimal;
+        margin: 0 15px;
+    }
+    #{{ el_id }} ol li {
+        padding-left: 10px;
+    }
+    {%- endif -%}
+{%- endif -%}
+#{{ el_id }} br {
+    content: "";
+    margin: .6em;
+    display: block;
+}
+#{{ el_id }} .swiper-box {
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+}
+#{{ el_id }} .col-12.swiper {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+#{{ el_id }} .col-12.text-main-box {
+    padding-left: var(--container_padding);
+    padding-right: var(--container_padding);
+}
+@media only screen and (min-width: 768px) {
+    #{{ el_id }} .t-mb-24 {
+        margin-bottom: 24px;
+    }
+    #{{ el_id }} .t-mb-32 {
+        margin-bottom: 32px;
+    }
+    #{{ el_id }} .swiper-box {
+        padding-left: var(--container_padding_t);
+        padding-right: var(--container_padding_t);
+    }
+}
+@media only screen and (min-width: 1024px) {
+    #{{ el_id }} .d-mb-24 {
+        margin-bottom: 24px;
+    }
+    #{{ el_id }} .d-mb-32 {
+        margin-bottom: 32px;
+    }
+    #{{ el_id }} .swiper-box {
+        padding-left: var(--container_padding_d);
+        padding-right: var(--container_padding_d);
+    }
+}
+@media only screen and (min-width: 1200px) {
+    #{{ el_id }} .max-pl-245 {
+        padding-left: 24.5px;
+    }
+    #{{ el_id }} .max-pr-245 {
+        padding-right: 24.5px;
+    }
+}
+</style>
+
+{%- if btn_class == blank -%}
+    {%- assign btn_class = 'btn1' -%}
+{%- endif -%}
+{%- if heading_size == blank -%}
+    {%- assign heading_size = 'normal' -%}
+{%- endif -%}
+{%- assign image_class = '' -%}
+{%- assign text_class = '' -%}
+{%- assign image_class2 = '' -%}
+{%- assign text_class2 = '' -%}
+{%- if text_position == 'bottom' -%}
+    {%- if image_position == 'right' -%}
+        {%- assign image_class = 'push-t-5' -%}
+        {%- assign text_class = 'pull-t-7' -%}
+        {%- assign image_class2 = 'max-pl-245' -%}
+        {%- assign text_class2 = 'max-pr-245' -%}
+    {%- else -%}
+        {%- assign image_class2 = 'max-pr-245' -%}
+        {%- assign text_class2 = 'max-pl-245' -%}
+    {%- endif -%}
+{%- else -%}
+    {%- if image_position == 'left' -%}
+        {%- assign image_class = 'push-t-5' -%}
+        {%- assign text_class = 'pull-t-7' -%}
+        {%- assign image_class2 = 'max-pr-245' -%}
+        {%- assign text_class2 = 'max-pl-245' -%}
+    {%- else -%}
+        {%- assign image_class2 = 'max-pl-245' -%}
+        {%- assign text_class2 = 'max-pr-245' -%}
+    {%- endif -%}
+{%- endif -%}
+
+<div id="{{ el_id }}" class="image-text relative {{ wrapper_class }}">
+    {%- if heading != blank -%}
+    <div class="container tc mb-30 t-mb-40 d-mb-40">
+        <div class="max-745 t-max-500 d-max-745 mx-auto">
+            {%- if heading != blank -%}
+                {%- if heading_size == 'big' -%}
+                    <{{ section.settings.title_dom_type }} class="h2 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- elsif heading_size == 'normal' -%}
+                    <{{ section.settings.title_dom_type }} class="h3 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- else -%}
+                    <{{ section.settings.title_dom_type }} class="h5 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- endif -%}
+            {%- endif -%}
+
+            {%- if description != blank -%}
+                <div class="rte {% if heading != blank %}mt-10{% endif %}">{{ description | newline_to_br }}</div>
+            {%- endif -%}
+            {%- if label != blank -%}
+            <a href="{{ url }}" class="btn1 mt-30">{{ label }}</a>
+            {%- endif -%}
+        </div>
+    </div>
+    {%- endif -%}
+	<div class="container swiper-box">
+        <div class="row inner t-flex t-ai-center d-flex d-ai-center fade">
+            {%- capture image_ctn -%}
+			<div id="slider-{{ el_id }}" class="col-12 col-t-7 {{ image_class }} {{ image_class2 }} swiper t-no-pl t-no-pr">
+                <div class="t-flex t-flex-wrap t-jc-between t-ai-center swiper-wrapper tc {% if slide_mobile == false %}flex-wrap{% else %}pb-30 t-pb-0 d-pb-0{% endif %}">
+                    {%- assign modulo2 = blocks.size | modulo: 2 -%}
+                    {%- assign bclass = 'col-12 col-t-6 t-mb-24 d-mb-32 no-pl no-pr' -%}
+                    {%- if blocks.size == 2 -%}
+                        {%- assign bclass = 'col-12 col-t-6 no-pl no-pr' -%}
+                    {%- endif -%}
+                    {% for block in blocks %}
+                        {% if forloop.last and modulo2 > 0 %}
+                            {%- assign bclass = 'col-12 col-t-12 no-pl no-pr' -%}
+                        {% endif %}
+
+                        {%- assign img_spacing = 'mb-0 t-mb-0 d-mb-0' -%}
+                        {% if slide_mobile == false and forloop.last == false %}
+                            {%- assign img_spacing = 'mb-30 t-mb-0 d-mb-0' -%}
+                        {% endif %}
+
+                        <div class="{{ bclass }} swiper-slide {{ img_spacing }}">
+                            {%- if block.settings.image_mobile == blank -%}
+                                    {%- render 'global-image-wrapper',
+                                        image: block.settings.image,
+                                        additional_class: 'rounded-20 t-rounded-20 d-rounded-24'
+                                    -%}
+                            {%- else -%}
+                                {%- assign image_id = "image-text-multi-" | append: el_id | append: forloop.index -%}
+                                {%- render 'global-image-wrapper-responsive',
+                                    desktop_image: block.settings.image,
+                                    mobile_image: block.settings.image_mobile,
+                                    image_id: image_id,
+                                    additional_class: 'rounded-20 t-rounded-20 d-rounded-24'
+                                -%}
+                            {%- endif -%}
+                            {%- if block.settings.info != blank -%}
+                            <div class="mt-15 t-mt-15 d-mt-20 tc p3 c-grey">{{ block.settings.info }}</div>
+                            {%- endif -%}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="{{ el_id }}-pagination swiper-pagination show-m hide-t"></div>
+			</div>
+            {%- endcapture -%}
+            {%- capture text_ctn -%}
+			<div class="col-12 col-t-5 pt-20 t-pt-20 d-pt-20 pb-20 t-pb-20 d-pb-20 tc t-tl {{ text_class }} {{ text_class2 }} text-main-box">
+                {%- if title != blank -%}
+                    <h4 class="title h4 mb-10 c-greenb2">{{ title }}</h4>
+                {%- endif -%}
+                {%- if text != blank -%}
+                    {%- if text_style == 'html' -%}
+                        <div class="text rte p1">{{ text }}</div>
+                    {%- else -%}
+                        <div class="text p1">{{ text | newline_to_br }}</div>
+                    {%- endif -%}
+                {%- endif -%}
+                {%- if link_url != blank and link_label != blank -%}
+                    <div class="mt-25">
+                        <a href="{{ link_url }}" class="btn1" title="{{ link_label | escape }}">{{ link_label }}</a>
+                    </div>
+                {%- endif -%}
+			</div>
+            {%- endcapture -%}
+            {%- if text_position == 'bottom' -%}
+                {{ image_ctn }}
+                {{ text_ctn }}
+            {%- else -%}
+                {{ text_ctn }}
+                {{ image_ctn }}
+            {%- endif -%}
+		</div>
+	</div>
+</div>
+{%- if blocks.size > 1 and slide_mobile -%}
+{%- assign function_name = el_id | replace: '-', '_' -%}
+{%- assign prefix = function_name -%}
+<script>
+var {{ prefix }}Init= false;
+var {{ prefix }}Slider = Swiper;
+function sliderInit{{ function_name }}() {
+    const el_id = '#{{ el_id }}';
+    if(window.innerWidth < 768) {
+        if(!{{ prefix }}Init) {
+            {{ prefix }}Init = true;
+            {{ prefix }}Slider = new Swiper('#slider-{{ el_id }}', {
+                slidesPerView: 'auto',
+                spaceBetween: 16,
+                loopedSlides: {{ section.blocks.size }},
+                loop: true,
+                preloadImages: false,
+                lazy: true,
+                pagination: {
+                    el: ".{{ el_id }}-pagination",
+                    clickable: true
+                },
+                on: {
+                    slideChange: function() {
+                        $360.lazyLoadInstance.update();
+                    },
+                    resize: function() {
+                        $360.lazyLoadInstance.update();
+                    }
+                }
+            });
+        } else {
+            if({{ prefix }}Init) {
+                {{ prefix }}Slider.destroy();
+                {{ prefix }}Init = false;
+            }
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    sliderInit{{ function_name }}();
+    window.addEventListener("resize", sliderInit{{ function_name }});
+});
+document.addEventListener('shopify:section:load', () => { {{ prefix }}Init= false;sliderInit{{ function_name }}() });
+</script>
+{%- endif -%}

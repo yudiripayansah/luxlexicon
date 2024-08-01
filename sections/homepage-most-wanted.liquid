@@ -1,0 +1,264 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+<style>
+    #shopify-section-{{ section.id }} .swiper-custom-arrow{
+        box-shadow: 0 1px 7px 0px rgba(0,0,0,.26);
+        -webkit-box-shadow: 0 1px 7px 0px rgba(0,0,0,.26);
+        -moz-box-shadow: 0 1px 7px 0px rgba(0,0,0,.26);
+        display:none;
+    }
+    #shopify-section-{{ section.id }} .swiper-custom-arrow.left{
+        left:-10px;
+    }
+    #shopify-section-{{ section.id }} .swiper-custom-arrow.right{
+        right:-10px;
+    }
+    #shopify-section-{{ section.id }} .swiper-slide{
+        width: 75%;
+        flex: 0 0 75%;
+        padding: 0 7.5px;
+    }
+    #shopify-section-{{ section.id }} .swiper-wrapper{
+        {% comment %} padding: 0 10px; {% endcomment %}
+    }
+    #shopify-section-{{ section.id }} .carousel-wrapper{
+        margin: 0 -7.5px;
+    }
+    #shopify-section-{{ section.id }} .swiper-button{
+        display:none;
+    }
+    #shopify-section-{{ section.id }} .swiper-container{
+        overflow: visible!important;
+        clip-path: inset(-100vw -100vw -100vw -100vw);
+    }
+    #shopify-section-{{ section.id }} .link1 span {
+        font-size: 0;
+        width: 11px;
+        height: 8px;
+    }
+    #shopify-section-{{ section.id }} .link1 span svg {
+        display: block;
+        width: 11px;
+        height: 8px;
+    }
+
+    @media(min-width: 768px) {
+        #shopify-section-{{ section.id }} .swiper-slide{
+            width: 33.3333%;
+            flex: 0 0 33.3333%;
+        }
+    }
+    @media(min-width: 1024px) {
+        #shopify-section-{{ section.id }} .title-container{
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:space-between;
+            align-items: baseline;
+        }
+        #shopify-section-{{ section.id }} .swiper-slide{
+            width: 30%;
+            flex: 0 0 30%;
+            padding: 0 10px;
+        }
+        #shopify-section-{{ section.id }} .swiper-wrapper{
+            {% comment %} padding: 0 14px; {% endcomment %}
+        }
+        #shopify-section-{{ section.id }} .carousel-wrapper{
+            margin: 0 -10px;
+        }
+        #shopify-section-{{ section.id }} .swiper-custom-arrow{
+            display:inline-flex;
+        }
+        #shopify-section-{{ section.id }} .swiper-custom-arrow.left{
+            left:-14px;
+        }
+        #shopify-section-{{ section.id }} .swiper-custom-arrow.right{
+            right:-14px;
+        }
+    }
+    @media(min-width: 1400px) {
+        #shopify-section-{{ section.id }} .swiper-slide{
+            width: 25%;
+            flex: 0 0 25%;
+            padding: 0 10px;
+        }
+    }
+</style>
+
+<section id="{{ section.id }}" class="homepage-most-wanted overflow">
+    <div class="container">
+        <div class="title-container">
+            <{{ section.settings.title_dom_type }} class="h5">{{section.settings.title}}</{{ section.settings.title_dom_type }}>
+            {%if section.settings.link_label != blank%}
+                <a href="{{section.settings.link_url}}" class="link1 mt-15 d-mt-0">{{section.settings.link_label}}<span class="ml-5" style="display:inline-flex;">{{settings.icon_btn_right}}</span></a>
+            {%endif%}
+        </div>
+        <div class="outer-wrapper mt-25 d-mt-30">
+            <div class="carousel-wrapper">
+                <div id="slider-{{ el_id }}" class="swiper swiper-container">
+                    <div class="swiper-wrapper">
+                        {%- for product in section.settings.collection.products limit: section.settings.number_of_product -%}
+                            <div class="swiper-slide">
+                                <div class="product-each-wrapper">
+                                    {%- render 'product-each', product: product -%}
+                                </div>
+                            </div>
+                        {%- endfor -%}
+                    </div>
+
+                    <div class="swiper-custom-arrow left">{{ settings.icon_slide_left }}</div>
+                    <div class="swiper-custom-arrow right">{{ settings.icon_slide_right }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%- assign function_name = el_id | replace: '-', '_' -%}
+{%- assign prefix = el_id | replace: '-', '_' | append: '_prefix' -%}
+<script>
+var {{ prefix }}Init= false;
+var {{ prefix }}Slider = Swiper;
+function sliderInit{{ function_name }}() {
+    const el_id = '#{{ el_id }}';
+    if(!{{ prefix }}Init) {
+        {{ prefix }}Init = true;
+        {{ prefix }}Slider = new Swiper('#slider-{{ el_id }}', {
+            {%if section.settings.enable_autoslide%}
+            autoplay: {
+                delay: {{section.settings.delay_autoslide}}
+            },
+            {%endif%}
+            slidesPerView: 'auto',
+            spaceBetween: 0,
+            loop: false,
+            a11y: false,
+            noSwipingSelector: '#slider-{{ el_id }} .variant-each-button', 
+            pagination: {
+                el: ".{{ el_id }}-pagination",
+                clickable: true
+            },
+            navigation: {
+                nextEl: '#slider-{{ el_id }} .swiper-custom-arrow.right',
+                prevEl: '#slider-{{ el_id }} .swiper-custom-arrow.left'
+            },
+            on: {
+                init: function() {
+                    $360.lazyLoadInstance.update();
+                },
+                slideChange: function() {
+                    $360.lazyLoadInstance.update();
+                },
+                resize: function() {
+                    $360.lazyLoadInstance.update();
+                }
+            }
+        });
+
+        //-- set arrow position
+        if(document.querySelector('#slider-{{ el_id }}.swiper .global-image-wrapper') != null) {
+            const image_height = document.querySelector('#slider-{{ el_id }}.swiper .global-image-wrapper').clientHeight;
+            const arrow_height = document.querySelector('#slider-{{ el_id }}.swiper .swiper-custom-arrow').clientHeight;
+            const arrows = document.querySelectorAll('#slider-{{ el_id }}.swiper .swiper-custom-arrow');
+            const top = (image_height-arrow_height)/2;
+            arrows.forEach(elem => {
+                elem.style.transform = 'unset';
+                elem.style.top = top + 'px';
+            });
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    sliderInit{{ function_name }}();
+    //window.addEventListener("resize", sliderInit{{ function_name }});
+});
+document.addEventListener('shopify:section:load', () => { {{ prefix }}Init= false;sliderInit{{ function_name }}() });
+</script>
+
+{% schema %}
+    {
+        "name": "Homepage Most Wanted",
+        "settings": [
+        {
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Title DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"}
+            ],
+            "default": "h2"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+        },
+        {
+            "type": "text",
+            "id": "link_label",
+            "label": "Link Label"
+        },
+        {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link URL"
+        },
+        {
+            "type": "number",
+            "id": "number_of_product",
+            "label": "Product to show"
+        },
+        {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+        },
+        {
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		}
+        ],
+        "presets": [
+        {
+            "name": "Homepage Most Wanted",
+            "blocks": []
+        }
+        ]
+    }
+{% endschema %}

@@ -1,0 +1,256 @@
+{% comment %} In Good Company Theme {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+
+<style>
+  #{{el_id}} .subtitle-border {
+    border-bottom: 0.5px solid var(--border);
+  }
+  #{{el_id}} .stockist-single-section:last-child {
+    padding-bottom: 0;
+  }
+  #{{el_id}} .stockist-text {
+    max-width: 100%;
+  }
+  @media screen and (min-width: 1024px) {
+    {%-  if section.settings.text_max_width != blank -%}
+      #{{el_id}} .stockist-text {
+        max-width: {{ section.settings.text_max_width }}px;
+      }
+    {%- endif -%}
+  }
+</style>
+
+<div class="stockist">
+  <div class="container">
+    <div class="row stockist-title pb-0 d-pb-100">
+      <div class="col-12 col-d-6">
+        {%- if section.settings.title != blank -%}
+          <{{ section.settings.title_dom_type }} class="{{section.settings.title_size}} pb-8 d-pb-0 medium-500">
+            {{- section.settings.title -}}
+          </{{ section.settings.title_dom_type }}>
+        {%- endif -%}
+      </div>
+      <div class="col-12 col-d-6">
+        <p class="stockist-text p1">{{- section.settings.text -}}</p>
+      </div>
+    </div>
+    <div class="row stockist-content">
+      {%- assign classes = 'hd-pl-0 t-pl-0,hd-pr-0 t-pr-0' | split: ',' -%}
+      {%- for i in (1..4) -%}
+        {%- assign location = 'location_' | append: i -%}
+        {% if section.settings[location] != blank %}
+          <div class="col-12 col-d-6 pt-40 d-pt-0 stockist-single">
+            <p class="h3 pb-15 mb-18 subtitle-border">{{ section.settings[location] }}</p>
+            <div class="flex flex-wrap">
+              {%- assign block_counter = 0 -%}
+              {%- for block in section.blocks -%}
+                {%- if block.settings.location_type == location -%}
+                  {%- assign class_index = block_counter | modulo: 2 -%}
+                  {%- assign class = classes[class_index] -%}
+                  <div class="stockist-single-section pb-25 d-pb-50 col-t-6 col-d-12 col-hd-6 d-pl-0 d-pr-0 {{ class }}">
+                    <p class="p1">{{ block.settings.title }}</p>
+                    <p class="p2 pb-15">{{ block.settings.address | newline_to_br }}</p>
+                    <p class="p2">{{ block.settings.opening | newline_to_br }}</p>
+                    <p class="p2{% if block.settings.link_url != blank and block.settings.link_label != blank %} pb-15{% endif %}">{{ block.settings.phone }}</p>
+                    {% if block.settings.link_url != blank and block.settings.link_label != blank %}
+                      <a class="link3" href="{{ block.settings.link_url }}" class="p2">{{ block.settings.link_label }}</a>
+                    {% endif %}
+                  </div>
+                  {%- assign block_counter = block_counter | plus: 1 -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {% endif %}
+      {%- endfor -%}
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Stockist",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "p1", "label": "P1" },
+        { "value": "p2", "label": "P2" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "number",
+      "id": "text_max_width",
+      "label": "Text max width for desktop and above (in px)"
+    },
+    {
+      "type": "textarea",
+      "id": "location_1",
+      "label": "Location #1"
+    },
+    {
+      "type": "textarea",
+      "id": "location_2",
+      "label": "Location #2"
+    },
+    {
+      "type": "textarea",
+      "id": "location_3",
+      "label": "Location #3"
+    },
+    {
+      "type": "textarea",
+      "id": "location_4",
+      "label": "Location #4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "select",
+          "id": "location_type",
+          "label": "Desktop Image",
+          "options": [
+            { "value": "location_1", "label": "Location 1" },
+            { "value": "location_2", "label": "Location 2" },
+            { "value": "location_3", "label": "Location 3" },
+            { "value": "location_4", "label": "Location 4" }
+          ]
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Street Name"
+        },
+        {
+          "type": "textarea",
+          "id": "address",
+          "label": "Address"
+        },
+        {
+          "type": "textarea",
+          "id": "opening",
+          "label": "Opening hours"
+        },
+        {
+          "type": "textarea",
+          "id": "phone",
+          "label": "Phone number"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link Label"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link Url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stockist"
+    }
+  ]
+}
+{% endschema %}

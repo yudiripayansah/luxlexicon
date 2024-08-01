@@ -1,0 +1,43 @@
+<ul class="global-pagination flex ai-center jc-between">
+	{%- if paginate.previous -%}
+		<li class="arrow-left">
+			{% assign prev_page = paginate.current_page | minus: 1 %}
+			<a href="{{ paginate.previous.url }}" class="pagination-page-num" data-page="{{ prev_page }}">{{ settings.icon_slide_left }}</a>
+		</li>
+	{%- else -%}
+		<li class="disabled arrow-left">
+			{{ settings.icon_slide_left }}
+		</li>
+	{%- endif -%}
+	<div>
+		{%- for part in paginate.parts -%}
+			{%- if part.is_link -%}
+				<li class="">
+					<a href="{{ part.url }}" class="pagination-page-num p3 c-grey" data-page="{{ part.title }}">{{ part.title }}</a>
+				</li>
+			{%- else -%}
+				{%- if part.title == '&hellip;' -%}
+					<li class="">
+						<span class="pagination-page-num p3" data-page="{{ part.title }}">{{ part.title }}</span>
+					</li>
+				{%- else -%}
+					<li class="">
+						<span class="pagination-page-num p3 active" data-page="{{ part.title }}">{{ part.title }}</span>
+					</li>
+				{%- endif -%}
+			{%- endif -%}
+		{%- endfor -%}
+	</div>
+	{%- if paginate.next -%}
+		<li class="arrow-right">
+			<!--{{ paginate.next | json }}-->
+			{% assign next_page = paginate.current_page | plus: 1 %}
+
+			<a href="{{ paginate.next.url }}" class="pagination-page-num" data-page="{{ next_page }}" >{{ settings.icon_slide_right }}</a>
+		</li>
+	{%- else -%}
+		<li class="disabled arrow-right">
+			{{ settings.icon_slide_right }}
+		</li>
+	{%- endif -%}
+</ul>

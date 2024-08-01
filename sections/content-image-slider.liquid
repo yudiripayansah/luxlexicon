@@ -1,0 +1,193 @@
+{%- assign el_id = 'content-image-slider-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{%- render 'content-image-slider',
+    el_id: el_id,
+	bg_color: section.settings.bg_color,
+    title: section.settings.title,
+	blocks: section.blocks,
+	breakpoint_desktop: section.settings.breakpoint_desktop,
+	slides_desktop: section.settings.slides_desktop,
+	breakpoint_tablet: section.settings.breakpoint_tablet,
+	slides_tablet: section.settings.slides_tablet,
+	breakpoint_mobile: section.settings.breakpoint_mobile,
+	slides_mobile: section.settings.slides_mobile,
+	title_class: section.settings.title_class
+-%}
+
+<script>
+if (document.querySelector('#{{el_id}}')) {
+	const brandListing = Vue.createApp({
+		delimiters: ['${', '}'],
+		data() {
+			return {
+				isDesktop: window.innerWidth >= 1024,
+				isMobile: window.innerWidth <= 1023
+			}
+		},
+		mounted(){
+			addEventListener('resize', () => {
+				this.isDesktop = innerWidth >= 1024;
+				this.isMobile = innerWidth <= 1023;
+			})
+		}
+	}).mount('#{{el_id}}');
+}
+</script>
+
+{% schema %}
+{
+	"name": "Content Image Slider",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "number",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "number",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "number",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		},
+		{
+			"type": "header",
+			"content": "General Settings"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background Color"
+		},
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Title"
+		},
+		{
+			"type": "select",
+			"id": "title_dom_type",
+			"label": "Heading DOM Type",
+			"options": [
+				{"value":"h1","label":"H1"},
+				{"value":"h2","label":"H2"},
+				{"value":"h3","label":"H3"},
+				{"value":"h4","label":"H4"},
+				{"value":"h5","label":"H5"},
+				{"value":"h6","label":"H6"}
+			],
+			"default": "h3"
+		},
+		{
+			"type": "header",
+			"content": "Item Per Slide"
+		},
+		{
+			"type": "number",
+			"id": "breakpoint_desktop",
+			"label": "Desktop Breakpoint",
+			"default": 1024
+		},
+		{
+			"type": "range",
+			"id": "slides_desktop",
+			"label": "Desktop Number Slides",
+			"min": 1,
+			"max": 10,
+			"step": 1,
+			"default": 2
+		},
+		{
+			"type": "number",
+			"id": "breakpoint_tablet",
+			"label": "Tablet Breakpoint",
+			"default": 768
+		},
+		{
+			"type": "range",
+			"id": "slides_tablet",
+			"label": "Tablet Number Slides",
+			"min": 1,
+			"max": 10,
+			"step": 1,
+			"default": 1
+		},
+		{
+			"type": "number",
+			"id": "breakpoint_mobile",
+			"label": "Tablet Breakpoint",
+			"default": 375
+		},
+		{
+			"type": "range",
+			"id": "slides_mobile",
+			"label": "Mobile Number Slides",
+			"min": 1,
+			"max": 10,
+			"step": 1,
+			"default": 1
+		}
+	],
+	"blocks" : [
+		{
+			"type": "image",
+			"name": "Image",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image for Desktop"
+				},
+				{
+					"type": "image_picker",
+					"id": "image_mobile",
+					"label": "Image for Mobile"
+				},
+				{
+					"type": "text",
+					"id": "headline",
+					"label": "Headline"
+				},
+				{
+					"type": "text",
+					"id": "subheadline",
+					"label": "Sub Headline"
+				},
+				{
+					"type": "url",
+					"id": "url",
+					"label": "URL"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Content Image Slider",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

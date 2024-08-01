@@ -1,0 +1,289 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "breadcrumbs": {
+      "type": "breadcrumbs",
+      "blocks": {
+        "a8cfe543-0625-4bd4-91e2-721a3a0d806b": {
+          "type": "text",
+          "settings": {
+            "text": "Home",
+            "url": "\/"
+          }
+        },
+        "f9e97851-8789-49af-b087-80636c8103c1": {
+          "type": "text",
+          "settings": {
+            "text": "Collections",
+            "url": "shopify:\/\/collections"
+          }
+        }
+      },
+      "block_order": [
+        "a8cfe543-0625-4bd4-91e2-721a3a0d806b",
+        "f9e97851-8789-49af-b087-80636c8103c1"
+      ],
+      "settings": {
+        "bg_color": "#fffaf0",
+        "first_text": "",
+        "first_url": ""
+      }
+    },
+    "d78f75e7-b13e-41a4-a624-9f76afee352b": {
+      "type": "content-cover",
+      "settings": {
+        "top_padding_m": 35,
+        "bottom_padding_m": 35,
+        "top_padding_t": 40,
+        "bottom_padding_t": 40,
+        "top_padding": 110,
+        "bottom_padding": 110,
+        "bg_color": "#fffaf0",
+        "image": "shopify:\/\/shop_images\/ikea_Soderhamn_hero_img_Soderhamn_3_seater_EDL_Cream_S_CW1128.jpg",
+        "title": "Covers for IKEA sofas",
+        "subtitle": "Redesign your IKEA sofa",
+        "text": "Get beautiful handmade covers for IKEA sofas. We carry various popular styles and fabrics. Shop below for affordable luxury fabrics delivered worldwide."
+      }
+    },
+    "products-custom": {
+      "type": "collection-products-custom",
+      "blocks": {
+        "a935e873-7274-432d-88c7-0161fa2f4793": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/angby_armchair_covers.png",
+            "title": "Angby",
+            "url": "shopify:\/\/collections\/friheten-corner-sofa-bed-cover",
+            "url_type": "collection"
+          }
+        },
+        "bae6cd9b-2686-4d2a-b9c9-c289a1c1c379": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/BSN-15_LSKT_SI_RS-07.png",
+            "title": "Backsalen",
+            "url": "shopify:\/\/products\/belgian-track-arm-left-right-arm-sofa-chaise-bench-seat-sectional-slipcover",
+            "url_type": "product"
+          }
+        },
+        "168543fa-ac2a-4f3f-895d-720b4fd2272b": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/barkaby-armchair-slipcover.png",
+            "title": "Barkaby",
+            "url": "shopify:\/\/products\/belgian-track-arm-left-right-arm-sofa-chaise-bench-seat-sectional-slipcover-brushed-cotton-sand",
+            "url_type": "product"
+          }
+        },
+        "3fe94c21-ca8a-403b-9d73-ae300d74d21c": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/IKEA-Ekenaset-Chair-Cover-Cotton-Canvas-White-Slipcover-CW.png",
+            "title": "Ekenaset",
+            "url": "shopify:\/\/collections",
+            "url_type": "collection"
+          }
+        },
+        "95f1118d-213b-46c7-927d-8eac0e45c479": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ekeskog-armchair-covers.png",
+            "title": "Ekeskog",
+            "url": "shopify:\/\/products\/belgian-track-arm-left-right-arm-sofa-chaise-bench-seat-sectional-slipcover-brushed-cotton-ash",
+            "url_type": "product"
+          }
+        },
+        "f88b0380-eef9-439c-a6b2-e3d20f761763": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/IKEA-Ekolsund-Recliner-Chair-Cover-Cotton-Canvas-White-Slipcover-CW.png",
+            "title": "Ekolsund",
+            "url": "shopify:\/\/collections",
+            "url_type": "collection"
+          }
+        },
+        "d9ddb9a7-cc43-43f7-9d66-4eed81ead464": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ektorp-armchair-covers.png",
+            "title": "Ektorp",
+            "url": "shopify:\/\/products\/belgian-track-arm-left-right-arm-sofa-chaise-bench-seat-sectional-slipcover-brushed-cotton-coal",
+            "url_type": "product"
+          }
+        },
+        "051c1ab7-6ad1-4716-8ab3-8960327adaff": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/EKN_EKN1_EKN1_LNN-07_2X_29506fdb-fac9-4ba8-949d-d63018e9a932.png",
+            "title": "Ekenas",
+            "url": "shopify:\/\/products\/belgian-track-arm-left-right-arm-sofa-chaise-bench-seat-sectional-slipcover-classic-velvet-cobalt",
+            "url_type": "collection"
+          }
+        },
+        "f3870f5f-e1ef-4af6-b209-e9b5b6d34d1a": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/IK-FN-25BM-R_SHRT_SP_RS-17.jpg",
+            "title": "Additional 1",
+            "url": "shopify:\/\/collections\/pre-order-only-boxed-seats-snug-fit-round-arm-sofa-slipcover",
+            "url_type": "collection"
+          }
+        },
+        "6e2eaa3a-0967-4053-a59b-f021ff66914f": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/IK-FN-25BM-L_SHRT_SP_RS-17.jpg",
+            "title": "Additional 2",
+            "url": "shopify:\/\/collections\/angby-armchair-cover",
+            "url_type": "collection"
+          }
+        },
+        "664ac5aa-bd8e-41af-9551-476e5b7f1f88": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/IK-FN-25BM-R_CNRP_SP_RS-17.jpg",
+            "title": "Additional 3",
+            "url": "shopify:\/\/collections\/angby-armchair-cover",
+            "url_type": "collection"
+          }
+        },
+        "13e4a752-c8d0-47cf-80d5-a82cdfa0bae0": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/IK-FN-25BM-R_SHRT_SP_RS-10.jpg",
+            "title": "Additional 4",
+            "url": "shopify:\/\/collections\/bennett-track-arm-78-sofa-slipcover",
+            "url_type": "collection"
+          }
+        },
+        "e011b4d2-daeb-4a6a-a87f-2ba7dfd38e06": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/IK-FN-25BM-L_CNRP_SP_RS-17.jpg",
+            "title": "Additional 5",
+            "url": "shopify:\/\/collections\/beads-sofa-cover",
+            "url_type": "collection"
+          }
+        },
+        "ae4a0e12-e4ec-45ee-b9f0-72370ac599a5": {
+          "type": "product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/IK-FN-25BM-R_SHRT_SP_RS-03.jpg",
+            "title": "Additional 6",
+            "url": "shopify:\/\/collections\/belgian-track-arm-left-right-arm-sofa-chaise-bench-seat-sectional-slipcover",
+            "url_type": "collection"
+          }
+        }
+      },
+      "block_order": [
+        "a935e873-7274-432d-88c7-0161fa2f4793",
+        "bae6cd9b-2686-4d2a-b9c9-c289a1c1c379",
+        "168543fa-ac2a-4f3f-895d-720b4fd2272b",
+        "3fe94c21-ca8a-403b-9d73-ae300d74d21c",
+        "95f1118d-213b-46c7-927d-8eac0e45c479",
+        "f88b0380-eef9-439c-a6b2-e3d20f761763",
+        "d9ddb9a7-cc43-43f7-9d66-4eed81ead464",
+        "051c1ab7-6ad1-4716-8ab3-8960327adaff",
+        "f3870f5f-e1ef-4af6-b209-e9b5b6d34d1a",
+        "6e2eaa3a-0967-4053-a59b-f021ff66914f",
+        "664ac5aa-bd8e-41af-9551-476e5b7f1f88",
+        "13e4a752-c8d0-47cf-80d5-a82cdfa0bae0",
+        "e011b4d2-daeb-4a6a-a87f-2ba7dfd38e06",
+        "ae4a0e12-e4ec-45ee-b9f0-72370ac599a5"
+      ],
+      "settings": {
+        "top_padding_m": 0,
+        "bottom_padding_m": 0,
+        "top_padding_t": 0,
+        "bottom_padding_t": 0,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "bg_color": "#ffffff",
+        "enable_total": true,
+        "enable_switch": true,
+        "enable_search": true,
+        "search_placeholder": "Search for model",
+        "enable_banner": true,
+        "banner_bg_color": "#015760",
+        "enable_banner_icon": true,
+        "banner_img": "shopify:\/\/shop_images\/category-rich-image.png",
+        "banner_title": "Find the perfect fabric for your sofa.",
+        "banner_url": "shopify:\/\/collections"
+      }
+    },
+    "7983a9de-94c8-4424-a50c-834bf11138c2": {
+      "type": "banner-text-only",
+      "settings": {
+        "bg_color": "#34548c",
+        "title": "Don’t see your sofa brand?",
+        "subtitle": "Send us a photo of your sofa. We’ll get back to you within a working day on what to do next.",
+        "text": "",
+        "btn_label": "Contact us",
+        "btn_url": "shopify:\/\/pages\/contact"
+      }
+    },
+    "2ea0bdb3-9ead-4021-ad75-4687f92fb308": {
+      "type": "collection-feature",
+      "blocks": {
+        "9938cedd-c98a-415e-9843-462a5816cba1": {
+          "type": "left",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/13_IKEA-Solsta-Armchair-Covers-Shire-Mustard-Wool-Blends-Couch-Slipcover.jpg",
+            "text": "Choose from a wide range of fabrics, colours and styles for your new IKEA sofa cover. We’ve got linen, cotton, synthetics, velvet and leather that you cannot get from IKEA. Our five <a href=\"\" class=\"link1\">unique cover styles<\/a> —modern, urban, classic, scandi, minimalist—will transform your IKEA sofa."
+          }
+        },
+        "02500748-cb21-42fa-befb-16db40327fa9": {
+          "type": "right",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/13_IKEA-Stockholm-Armchair-Covers-Savannah-Saddle-Bycast-Leather-Couch-Slipcover.jpg",
+            "text": "We deliver to your doorstep for FREE, no matter where you are in the world. Your sofa cover comes thoughtfully packaged in a reusable bag. Smart labels guarantee that slipping on your new covers is hassle-free. Bring your IKEA sofa back to life!"
+          }
+        },
+        "28b6ccc1-1151-4316-947d-a7d4be840bcd": {
+          "type": "right",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/13_IKEA-Armchair-Covers-Ektorp-1-Seater-Liege-Biscuit-Linen-Blends-Couch-Slipcover.jpg",
+            "text": ""
+          }
+        }
+      },
+      "block_order": [
+        "9938cedd-c98a-415e-9843-462a5816cba1",
+        "02500748-cb21-42fa-befb-16db40327fa9",
+        "28b6ccc1-1151-4316-947d-a7d4be840bcd"
+      ],
+      "settings": {
+        "top_padding_m": 20,
+        "bottom_padding_m": 20,
+        "top_padding_t": 30,
+        "bottom_padding_t": 30,
+        "top_padding": 40,
+        "bottom_padding": 40,
+        "bg_color": "#fffaf0",
+        "title": "A brand new look for your IKEA sofa",
+        "text": "The ten most popular IKEA series are Ektorp, Karlstad, Kramfors, Kivik, Friheten, Nockeby, Klippan, Stockholm, Tylosand, and Soderhamn. You may have one of them, but you can find less popular and discontinued models as well on our website. We can even make a unique custom cover for you.",
+        "title_bottom": "",
+        "text_bottom": ""
+      }
+    },
+    "ecbbbff3-8a2b-4bff-96b4-1028b98fe67d": {
+      "type": "banner-text-only",
+      "settings": {
+        "bg_color": "#34548c",
+        "title": "Find your furniture",
+        "subtitle": "Don’t know the furniture brand or model? That’s ok, find it with our furniture filter.",
+        "text": "",
+        "btn_label": "Start Filtering",
+        "btn_url": "shopify:\/\/pages\/contact"
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "d78f75e7-b13e-41a4-a624-9f76afee352b",
+    "products-custom",
+    "7983a9de-94c8-4424-a50c-834bf11138c2",
+    "2ea0bdb3-9ead-4021-ad75-4687f92fb308",
+    "ecbbbff3-8a2b-4bff-96b4-1028b98fe67d"
+  ]
+}

@@ -1,0 +1,17 @@
+<Teleport to="body">
+  <div class="store-availability-popup" :class="{'active': storeAvailabilityPopup}">
+    <div @click="hideStoreAvailability($event)" class="overlay zi-1"></div>
+    <div class="sap-content bg-white t-max-400 d-max-450 w-full absolute right-0 top-0 h-full zi-2">
+      <div class="sapc-heading flex ai-center d-pl-25 d-pr-25 pl-20 pr-20 pt-17 pb-17 jc-between bb-1 b-border h4 medium-500">
+        {{ 'products.store_availability.title' | t }}
+        <a href="#" rel="nofollow" @click="hideStoreAvailability($event)" class="sap-close flex ai-center jc-center">
+          {{ settings.icon_close }}
+        </a>
+      </div>
+      
+      <div id="store-availability-content">
+        <div class="loading"></div>
+      </div>
+    </div>
+  </div>
+</Teleport>

@@ -1,0 +1,509 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+<style>
+    #shopify-section-{{ section.id }} .overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: rgba(0, 0, 0, 0.15);
+    }
+    #shopify-section-{{ section.id }} .area-each:nth-child(1),
+    #shopify-section-{{ section.id }} .area-each:nth-child(2) {
+        margin-top: 0;
+    }
+    #shopify-section-{{ section.id }} .position-each:first-child {
+        margin-top: 0;
+    }
+    #shopify-section-{{ section.id }} .position-main-wrapper .position-each:first-child .wrapper {
+        padding-top: 0;
+        border: 0;
+    }
+
+    @media screen and (min-width: 1024px) {
+        #shopify-section-{{ section.id }} .position-each:nth-child(1),
+        #shopify-section-{{ section.id }} .position-each:nth-child(2) {
+            margin-top: 0;
+        }
+        #shopify-section-{{ section.id }} .position-main-wrapper .position-each:nth-child(1) .wrapper,
+        #shopify-section-{{ section.id }} .position-main-wrapper .position-each:nth-child(2) .wrapper {
+            padding-top: 0;
+            border: 0;
+        }
+        #shopify-section-{{ section.id }} .position-main-wrapper.odd .position-each:nth-last-child(2) .wrapper {
+            border-bottom: 1px solid var(--silver);
+            padding-bottom: 30px;
+            margin-bottom: -30px;
+        }
+    }
+</style>
+
+<section id="career-content">
+    <div class="container">
+        {%- if section.settings.small_title != blank -%}
+            <h6 class="p3 uppercase spacing-2 mb-20 d-mb-25 bold-600" style="color: {{ section.settings.small_title_color }}">{{ section.settings.small_title }}</h6>
+        {%- endif -%}
+
+        <div class="row">
+            <div class="global-flex flex-wrap">
+                {%- for i in (1..4) -%}
+                    {%- assign image = 'area_image_' | append: i -%}
+                    {%- assign title = 'area_title_' | append: i -%}
+
+                    {%- if section.settings[image] != blank -%}
+                        <div class="area-each col-6 col-d-3 mt-15 d-mt-0">
+                            <a href="javascript:void(0)" @click="showArea({{ forloop.index0 }})" rel="nofollow" class="show-m relative width-100">
+                                <div class="image-container relative z-1">
+                                    {%- render 'global-image-wrapper',
+                                        image: section.settings[image]
+                                    -%}
+                                </div>
+                                <div class="overlay z-2"></div>
+                                <div class="text-container tl width-100 h11 c-white pl-15 pr-15 pb-10 d-pl-30 d-pr-30 d-pb-20 ab-bottom z-3 uppercase">
+                                    {{ section.settings[title] }}
+                                </div>
+                            </a>
+                        </div>
+                    {%- endif -%}
+                {%- endfor -%}
+            </div>
+        </div>
+
+        <div class="content-wrapper mt-35 d-mt-40">
+            {%- for i in (1..4) -%}
+                <div class="row position-main-wrapper" data-index="{{ forloop.index0 }}" v-if="areaEnabled[{{ forloop.index0 }}]">
+                    {%- assign title = 'area_title_' | append: i -%}
+                    {%- assign desc = 'area_text_' | append: i -%}
+                    {%- assign title_dom = 'title_dom_type_' | append: i -%}
+
+                    {%- if section.settings[title] -%}
+                        <div class="global-flex flex-wrap">
+                            <div class="col-12 col-d-6">
+                                <{{ section.settings[title_dom] }} class="h5">{{ section.settings[title] }}</{{ section.settings[title_dom] }}>
+                                {%- if section.settings[desc] != blank -%}
+                                    <p class="p2 c-grey mt-10 d-mt-5">{{ section.settings[desc] }}</p>
+                                {%- endif -%}
+                            </div>
+                        </div>
+                    {%- endif -%}
+                    
+                    <div class="global-flex flex-wrap">
+                        {% comment %} <div class="col-12 mt-35 d-mt-40 mb-20 d-mb-30">
+                            <h6 class="p3 uppercase spacing-2 bold-600" style="color: {{ section.settings.small_title_color }}">WE ARE CURRENTLY HIRING FOR</h6>
+                        </div> {% endcomment %}
+
+                        {%- assign pos_count = 0 -%}
+                        <div class="position-each-wrapper hd-w-full" style="order:2">
+                            {%- for block in section.blocks -%}
+                                {%- assign block_type = 'area_' | append: i -%}
+    
+                                {%- if block.type == block_type -%}
+                                    {%- assign pos_count = pos_count | plus: 1 -%}
+                                    {%- assign pagination_class = 'show-m show-d' -%}
+                                    {%- if pos_count > 3 -%}
+                                        {%- assign pagination_class = 'hide-m show-d' -%}
+                                    {%- endif -%}
+
+                                    <div class="position-each col-12 col-d-6 mt-25 d-mt-30 {{ pagination_class }}">
+                                        <div class="wrapper pt-25 d-pt-30 bt-1 b-silver">
+                                            <h6 class="h11 uppercase">{{ block.settings.title }}</h6>
+                                            <p class="p2 c-grey mt-10 t-max-550 d-max-unset hd-max-550">{{ block.settings.text | newline_to_br }}</p>
+    
+                                            {%- if block.settings.link_label != blank -%}
+                                                <div class="link-wrapper mt-10">
+                                                    {%- assign link_id = "link-" | append: block.id -%}
+                                                    {%- render 'link-icon',
+                                                        id: link_id,
+                                                        label: block.settings.link_label,
+                                                        url: block.settings.link_url,
+                                                        text_class: 'p3 uppercase spacing-2 bold-600',
+                                                        icon_color: '#2C2C2C',
+                                                        icon_svg: settings.icon_btn_right,
+                                                        load_inside_vue: true
+                                                    -%}
+                                                </div>
+                                            {%- endif -%}
+                                        </div>
+                                    </div>
+                                {%- endif -%}
+                            {%- endfor -%}
+                        </div>
+
+                        {%- if pos_count > 3 -%}
+                        <div class="load-more-wrapper show-m hide-d mt-30 col-12" style="order:3">
+                            <a href="javascript:void(0)" @click="pagination($event)" data-curr-page="1" data-pos-count="{{ pos_count }}" rel="nofollow" class="load-more btn1">Load More</a>
+                        </div>
+                        {%- endif-%}
+                        
+                        {%- if pos_count > 0 -%}
+                        <div class="col-12 mt-35 d-mt-40 mb-20 d-mb-30" style="order:1;">
+                            <h6 class="p3 uppercase spacing-2 bold-600" style="color: {{ section.settings.small_title_color }}">WE ARE CURRENTLY HIRING FOR</h6>
+                        </div>
+                        {%- else -%}
+                        <div class="col-12 mt-30 mb-0">
+                            <div class="p2 d-max-450 hd-max-550">Thank you for your interest in joining us! Unfortunately, we do not have available positions for this department currently. Nonetheless, you may contact us to enquire about career opportunities <a class="bb-1" style="border-color: rgba(44,44,44,0.4);" href="mailto:careers@skjewellery.com">here</a>.</div>
+                        </div>
+                        {%- endif -%}
+                    </div>
+                </div>
+            {%- endfor -%}
+        </div>
+    </div>
+</section>
+
+<script>
+    const careerContentVue = Vue.createApp({
+        delimiters: ['${','}'], 
+		data() {
+			return {
+                areaEnabled:[null,null,null,null]
+            }
+        },
+        mounted() {
+            this.areaEnabled[0] = true;
+            this.setBorderBottom(0);  
+        },
+        methods: {
+            pagination(e) {
+                const perPage = 3;
+                const thisBtn = e.target.closest('.load-more');
+                const totalItems = Number(thisBtn.getAttribute('data-pos-count'));
+                const currPage = Number(thisBtn.getAttribute('data-curr-page'))+1;
+                const totalPage = Math.floor(totalItems/perPage);
+                const posEach = thisBtn.closest('.position-main-wrapper').querySelectorAll('.position-each');
+
+                let i=0;
+                posEach.forEach(function(pos){
+                    i+=1;
+
+                    if(i<=(perPage*currPage)) {
+                        pos.classList.remove('hide-m');
+                    }
+                });
+
+                if(currPage >= totalPage) {
+                    thisBtn.closest('.load-more-wrapper').classList.remove('show-m');
+                    thisBtn.closest('.load-more-wrapper').classList.add('hide-m');
+                }
+
+                thisBtn.setAttribute('data-curr-page',currPage);
+            },
+            setBorderBottom(index) {
+                const delay = setTimeout(function(){
+                    const posMainWrapper = document.querySelector(`#shopify-section-{{ section.id }} .position-main-wrapper[data-index="${index}"]`);
+                    const childCount = posMainWrapper.querySelectorAll('.position-each').length;
+
+                    if(childCount%2 != 0) {
+                        posMainWrapper.classList.add('odd');
+                    }
+
+                    clearTimeout(delay);
+                },1);
+            },
+            showArea(index) {
+                this.areaEnabled.fill(null);
+                this.areaEnabled[index] = true;
+                this.setBorderBottom(index);
+            }
+        }
+    }).mount('#shopify-section-{{ section.id }} #career-content');
+</script>
+
+{% schema %} 
+    {
+        "name": "Career - Content",
+        "settings": [
+            {
+                "type": "text",
+                "id": "small_title",
+                "label": "Small Title"
+            },
+            {
+                "type": "color",
+                "id": "small_title_color",
+                "label": "Small Title Color"
+            },
+            {
+                "type": "header",
+                "content": "Area #1"
+            },
+            {
+                "type": "text",
+                "id": "area_title_1",
+                "label": "Title"
+            },
+            {
+                "type": "select",
+                "id": "title_dom_type_1",
+                "label": "Title DOM Type",
+                "options": [
+                    {"value":"h1","label":"H1"},
+                    {"value":"h2","label":"H2"},
+                    {"value":"h3","label":"H3"},
+                    {"value":"h4","label":"H4"},
+                    {"value":"h5","label":"H5"},
+                    {"value":"h6","label":"H6"}
+                ],
+                "default": "h5"
+            },
+            {
+                "type": "textarea",
+                "id": "area_text_1",
+                "label": "Text"
+            },
+            {
+                "type": "image_picker",
+                "id": "area_image_1",
+                "label": "Image"
+            },
+            {
+                "type": "header",
+                "content": "Area #2"
+            },
+            {
+                "type": "text",
+                "id": "area_title_2",
+                "label": "Title"
+            },
+            {
+                "type": "select",
+                "id": "title_dom_type_2",
+                "label": "Title DOM Type",
+                "options": [
+                    {"value":"h1","label":"H1"},
+                    {"value":"h2","label":"H2"},
+                    {"value":"h3","label":"H3"},
+                    {"value":"h4","label":"H4"},
+                    {"value":"h5","label":"H5"},
+                    {"value":"h6","label":"H6"}
+                ],
+                "default": "h5"
+            },
+            {
+                "type": "textarea",
+                "id": "area_text_2",
+                "label": "Text"
+            },
+            {
+                "type": "image_picker",
+                "id": "area_image_2",
+                "label": "Image"
+            },
+            {
+                "type": "header",
+                "content": "Area #3"
+            },
+            {
+                "type": "text",
+                "id": "area_title_3",
+                "label": "Title"
+            },
+            {
+                "type": "select",
+                "id": "title_dom_type_3",
+                "label": "Title DOM Type",
+                "options": [
+                    {"value":"h1","label":"H1"},
+                    {"value":"h2","label":"H2"},
+                    {"value":"h3","label":"H3"},
+                    {"value":"h4","label":"H4"},
+                    {"value":"h5","label":"H5"},
+                    {"value":"h6","label":"H6"}
+                ],
+                "default": "h5"
+            },
+            {
+                "type": "textarea",
+                "id": "area_text_3",
+                "label": "Text"
+            },
+            {
+                "type": "image_picker",
+                "id": "area_image_3",
+                "label": "Image"
+            },
+            {
+                "type": "header",
+                "content": "Area #4"
+            },
+            {
+                "type": "text",
+                "id": "area_title_4",
+                "label": "Title"
+            },
+            {
+                "type": "select",
+                "id": "title_dom_type_4",
+                "label": "Title DOM Type",
+                "options": [
+                    {"value":"h1","label":"H1"},
+                    {"value":"h2","label":"H2"},
+                    {"value":"h3","label":"H3"},
+                    {"value":"h4","label":"H4"},
+                    {"value":"h5","label":"H5"},
+                    {"value":"h6","label":"H6"}
+                ],
+                "default": "h5"
+            },
+            {
+                "type": "textarea",
+                "id": "area_text_4",
+                "label": "Text"
+            },
+            {
+                "type": "image_picker",
+                "id": "area_image_4",
+                "label": "Image"
+            },
+            {
+                "type": "header",
+                "content": "Section Padding"
+            },
+            {
+                "type": "text",
+                "id": "top_padding_m",
+                "label": "Top padding (Mobile)"
+            },
+            {
+                "type": "text",
+                "id": "bottom_padding_m",
+                "label": "Bottom padding (Mobile)"
+            },
+            {
+                "type": "text",
+                "id": "top_padding_t",
+                "label": "Top padding (Tablet)"
+            },
+            {
+                "type": "text",
+                "id": "bottom_padding_t",
+                "label": "Bottom padding (Tablet)"
+            },
+            {
+                "type": "text",
+                "id": "top_padding",
+                "label": "Top padding (Desktop)"
+            },
+            {
+                "type": "text",
+                "id": "bottom_padding",
+                "label": "Bottom padding (Desktop)"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "area_1",
+                "name": "Area 1 Entry",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "text",
+                        "label": "Text"
+                    },
+                    {
+                        "type": "text",
+                        "id": "link_label",
+                        "label": "Link Label"
+                    },
+                    {
+                        "type": "url",
+                        "id": "link_url",
+                        "label": "Link URL"
+                    }
+                ]
+            },
+            {
+                "type": "area_2",
+                "name": "Area 2 Entry",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "text",
+                        "label": "Text"
+                    },
+                    {
+                        "type": "text",
+                        "id": "link_label",
+                        "label": "Link Label"
+                    },
+                    {
+                        "type": "url",
+                        "id": "link_url",
+                        "label": "Link URL"
+                    }
+                ]
+            },
+            {
+                "type": "area_3",
+                "name": "Area 3 Entry",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "text",
+                        "label": "Text"
+                    },
+                    {
+                        "type": "text",
+                        "id": "link_label",
+                        "label": "Link Label"
+                    },
+                    {
+                        "type": "url",
+                        "id": "link_url",
+                        "label": "Link URL"
+                    }
+                ]
+            },
+            {
+                "type": "area_4",
+                "name": "Area 4 Entry",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "text",
+                        "label": "Text"
+                    },
+                    {
+                        "type": "text",
+                        "id": "link_label",
+                        "label": "Link Label"
+                    },
+                    {
+                        "type": "url",
+                        "id": "link_url",
+                        "label": "Link URL"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Career - Content",
+                "blocks": []
+            }
+        ]
+    }
+    {% endschema %}

@@ -1,0 +1,201 @@
+{% comment %} JCO Theme - Refinements done bismocii {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #shopify-section-{{ section.id }} .image-container{
+      width:100%;
+  }
+  #shopify-section-{{ section.id }} .image-container .image-display .image-display-wrapper{
+    margin-bottom: 10px;
+  }
+  #shopify-section-{{ section.id }} .image-container .image-display .image-display-wrapper:last-child{
+    margin-bottom: 0;
+  }
+  #shopify-section-{{ section.id }} .text-container{
+      width:100%;
+      margin:0 auto;
+  }
+  @media(min-width: 1024px) {
+    #shopify-section-{{ section.id }} .two-images{
+      display: flex;
+    }
+    #shopify-section-{{ section.id }} .container-image{
+      width: 64.842%;
+      margin: 0;
+      max-width: 1000px;
+    }
+    #shopify-section-{{ section.id }} .image-container .image-display .image-display-wrapper{
+      margin-bottom: 0;
+    }
+    #shopify-section-{{ section.id }} .text-container{
+      display: flex;
+      align-items: center;
+      width: 35.158%;
+    }
+  }
+  @media(min-width: 1920px) {
+    #shopify-section-{{ section.id }} .container-image{
+      width: 60%;
+    }
+    #shopify-section-{{ section.id }} .text-container{
+      width: 40%;
+    }
+  }
+</style>
+
+<section id="{{ section.id }}" class="cta-image-text-before-after">
+  <div class="two-images">
+    <div class="container container-image  pr-15 t-pr-25 d-pr-0">
+      <div class="flex flex-wrap align-flex flex-wrapper">
+        <div class="image-container d-max-1000">
+          <div class="image-display row">
+            {% if section.settings.display_image_1 != blank %}
+              <div class="image-display-wrapper col-12 col-d-6">
+                {%- assign image_id = 'image_1_' | append: section.id -%}
+                {%- render 'global-image-wrapper-responsive', 
+                  image_id: image_id,
+                  desktop_image: section.settings.display_image_1,
+                  mobile_image: section.settings.display_image_1_mobile,
+                  image_change_breakpoint: 'desktop'
+                -%}
+              </div>
+            {% endif %}
+            {% if section.settings.display_image_2 != blank %}
+              <div class="image-display-wrapper col-12 col-d-6">
+                {%- assign image_id = 'image_2_' | append: section.id -%}
+                {%- render 'global-image-wrapper-responsive', 
+                  image_id: image_id,
+                  desktop_image: section.settings.display_image_2,
+                  mobile_image: section.settings.display_image_2_mobile,
+                  image_change_breakpoint: 'desktop'
+                -%}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-container pt-20 d-pt-0 pl-15 pr-15 t-pl-25 t-pr-25 d-pl-35 d-pr-35 max-pl-80 max-pr-80">
+      <div>
+        <{{ section.settings.title_dom_type }} class="{{section.settings.title_size}} mb-10 medium-500">
+          {{- section.settings.title -}}
+        </{{ section.settings.title_dom_type }}>
+
+        <div class="p3 light-300 c-black text-desc d-max-350 hd-max-450 hhd-max-600">
+          {{ section.settings.text | newline_to_br }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Two Images + Text",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    },
+    {
+      "type": "header",
+      "content": "General setting"
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "default": "h3",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "display_image_1",
+      "label": "Display image 1 (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "display_image_1_mobile",
+      "label": "Display image 1 (mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "display_image_2",
+      "label": "Display image 2 (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "display_image_2_mobile",
+      "label": "Display image 2 (mobile)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two Images + Text",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

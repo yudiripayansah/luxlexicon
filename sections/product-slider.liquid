@@ -1,0 +1,147 @@
+{%- assign el_id = 'product-slide-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{%- assign use_handle = false -%}
+{%- assign products = '' -%}
+{%- assign handles = '' -%}
+{%- if section.settings.list_source == 'collection' -%}
+	{%- assign products = collections[section.settings.collection].products -%}
+{%- else -%}
+	{%- assign use_handle = true -%}
+	{%- assign handles = '' -%}
+	{%- for block in section.blocks -%}
+		{%- assign product = block.settings.product -%}
+		{%- assign handles = handles | append: product.handle | append: ','  -%}
+	{%- endfor -%}
+	{%- assign handles = handles | remove_first: ',' -%}
+	{%- assign handles = handles | split: ',' -%}
+{%- endif -%}
+{%- render 'product-slider',
+    el_id: el_id,
+	bg_color: section.settings.bg_color,
+    title: section.settings.title,
+	use_handle: use_handle,
+    products: products,
+    handles: handles,
+    limit: section.settings.number,
+    button_label: section.settings.label,
+    button_url: section.settings.url
+-%}
+
+{% schema %}
+{
+	"name": "Product Slider",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		},
+		{
+			"type": "header",
+			"content": "General Settings"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background Color"
+		},
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Title"
+		},
+		{
+			"type": "text",
+			"id": "label",
+			"label": "Button label"
+		},
+		{
+			"type": "url",
+			"id": "url",
+			"label": "URL"
+		},
+		{
+			"type": "header",
+			"content": "Product List"
+		},
+		{
+			"type": "radio",
+			"id": "list_source",
+			"label": "Product List Source",
+			"options": [
+				{
+					"value": "collection",
+					"label": "Collection"
+				},
+				{
+					"value": "section_blocks",
+					"label": "Section Blocks"
+				}
+			],
+			"default": "collection"
+		},
+		{
+			"type": "collection",
+			"id": "collection",
+			"label": "Collection"
+		},
+		{
+			"type": "range",
+			"id": "number",
+			"label": "Number of products",
+			"min": 4,
+			"max": 40,
+			"step": 1,
+			"default": 6
+		}
+	],
+	"blocks" : [
+		{
+			"type": "product",
+			"name": "Product",
+			"settings": [
+				{
+					"type": "product",
+					"id": "product",
+					"label": "Product"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Product Slider",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

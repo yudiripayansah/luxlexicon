@@ -1,0 +1,11 @@
+{%- comment -%}
+    Love&Co Theme
+    Description:
+    Snippet for displaying cart info
+
+    Variables:
+    - cart_msg_class: String. Class for cart message
+{%- endcomment -%}
+{%- if settings.cart_msg != blank -%}
+    <p class="p4 light-400 {{ cart_msg_class }}">{{ settings.cart_msg | newline_to_br }}</p>
+{%- endif -%}

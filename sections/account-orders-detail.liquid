@@ -1,0 +1,252 @@
+{% comment %} IGC - Yudi {% endcomment %}
+{%- assign el_id = 'change-password-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{% if customer %}
+  <style>
+    #{{el_id}} .account-menu {
+      flex-direction: row;
+    }
+    #{{el_id}} .b-transparent {
+      border-color: transparent;
+    }
+    #{{el_id}} .account-menu-mobile {
+      margin-left: -20px;
+      margin-right: -20px;
+    }
+    #{{el_id}} .poo-mobile > div div > div {
+      width: 30%;
+    }
+    #{{el_id}} .icon-back {
+      margin-top: -4px;
+    }
+    #{{el_id}} .icon-back,
+    #{{el_id}} .icon-back svg {
+      width: 10px;
+      height: 10px;
+    }
+    #{{el_id}} .ln-image {
+      width: 55px;
+    }
+    #{{el_id}} .table-online-order-details td {
+      vertical-align: top;
+    }
+    #{{el_id}} .order-detail-item {
+      width: 50%;
+    }
+    #{{el_id}} .order-detail-qty {
+      width: 25%;
+    }
+    #{{el_id}} .order-detail-price {
+      width: 25%;
+    }
+    #{{el_id}} .order-detail-shipping {
+      width: 50%;
+    }
+    #{{el_id}} .order-detail-status {
+      width: 50%;
+    }
+    @media screen and (min-width: 600px) {
+      #{{el_id}} .ln-image {
+        width: 80px;
+      }
+    }
+    @media screen and (min-width: 1024px) {
+      #{{el_id}} .icon-back {
+        margin-top: -5px;
+      }
+      #{{el_id}} .account-menu-mobile {
+        margin-left: 0px;
+        margin-right: 0px;
+      }
+      #{{el_id}} .account-menu {
+        flex-direction: column;
+      }
+      #{{el_id}} .ln-image {
+        width: 60px;
+      }
+    }
+    @media screen and (min-width: 1366px) {
+      #{{el_id}} .order-detail-item {
+        width: 50%;
+      }
+      #{{el_id}} .order-detail-qty {
+        width: 25%;
+      }
+      #{{el_id}} .order-detail-price {
+        width: 25%;
+      }
+    }
+  </style>
+  <div id="{{ el_id }}">
+    <div class="container">
+      <div class="row">
+        <div class="col-d-3 col-12">
+          {% render 'account-title' %}
+        </div>
+        {% render 'account-menu', active: 'online-order' %}
+        <div class="col-d-5 col-12 mt-30 d-mt-0">
+          <div id="page-online-order-details" class="account-page">
+            <a href="/pages/orders/?type=page-online-order" class="p2 flex ai-center">
+              <span class="icon-back mr-5">
+                {{ settings.icon_btn_left }}
+              </span>
+              {{ 'customer.orders.back_label_online' | t }}
+            </a>
+            <div class="mt-30">
+              <table class="table-online-order-details w-full">
+                <tr>
+                  <td class="h3 bold-600 bb-1 b-border pb-15" colspan="3">Order {{ order.name }}</td>
+                </tr>
+                <tr>
+                  <td class="pt-20 order-detail-shipping">
+                    <div class="p2 c-grey">{{ 'customer.orders.date' | t }}</div>
+                    <div class="p2 mt-0">{{ order.created_at | date: "%d %b %Y" }}</div>
+                  </td>
+                  <td class="pt-20 order-detail-status" colspan="3">
+                    <div class="p2 c-grey">{{ 'customer.orders.status' | t }}</div>
+                    <div class="p2 mt-0">{{ order.financial_status | camelcase }}</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="pt-15 d-pr-50 pr-25">
+                    <div class="p2 c-grey">{{ 'customer.order.shipping_address' | t }}</div>
+                    <div class="p2 mt-0 d-max-175">
+                      {{ order.shipping_address.name -}}
+                      <br>
+                      {{ order.shipping_address.street -}}
+                      <br>
+                      {{ order.shipping_address.city }}, {{ order.shipping_address.province -}}
+                      <br>
+                      {{ order.shipping_address.country }}
+                      {{ order.shipping_address.zip -}}
+                      <br>
+                      {{ order.shipping_address.phone }}
+                    </div>
+                  </td>
+                  <td class="pt-15 d-pr-50 pr-25" colspan="3">
+                    <div class="p2 c-grey">{{ 'customer.order.billing_address' | t }}</div>
+                    <div class="p2 mt-0 d-max-175">
+                      {{ order.billing_address.name -}}
+                      <br>
+                      {{ order.billing_address.street -}}
+                      <br>
+                      {{ order.billing_address.city }}, {{ order.billing_address.province -}}
+                      <br>
+                      {{ order.billing_address.country }}
+                      {{ order.billing_address.zip -}}
+                      <br>
+                      {{ order.billing_address.phone }}
+                    </div>
+                  </td>
+                </tr>
+              </table>
+                <table class="table-online-order-details w-full">
+                <tr>
+                  <td class="d-pt-50 pt-40 pb-12 bb-1 b-border p2 order-detail-item">{{ 'customer.order.item' | t }}</td>
+                  <td class="d-pt-50 pt-40 pb-12 bb-1 b-border p2 order-detail-qty">{{ 'customer.order.quantity' | t }}</td>
+                  <td class="d-pt-50 pt-40 pb-12 bb-1 b-border p2 order-detail-price">{{ 'customer.order.price' | t }}</td>
+                </tr>
+                
+                {% for line_item in order.line_items %}
+                  <tr>
+                    <td class="pt-15 pb-15 bb-1 b-border pr-25 ">
+                      <a href="{{line_item.url}}" class="flex w-full">
+                        <div class="ln-image mr-15">
+                          {%- render 'global-image-wrapper',
+                            image: line_item.product.featured_image,
+                            additional_class: '',
+                            image_id: 'line-item'
+                          %}
+                        </div>
+                        <div class="ln-prod">
+                          <div class="p2 d-max-125 t-max-150 max-150">{{ line_item.title }}</div>
+                          <div class="p2 c-grey">
+                            {%- if line_item.variant.option1 != blank -%}
+                              {{ line_item.options_with_values[0].name }}/ {{ line_item.variant.option1 }}
+                            {% endif %}
+                            {%- if line_item.variant.option2 != blank -%}
+                              {%- if line_item.variant.option1 != blank -%}<br>{% endif %}
+                              {{ line_item.options_with_values[1].name }}/ {{ line_item.variant.option2 }}
+                            {%- endif -%}
+                            {%- if line_item.variant.option3 != blank -%}
+                              {%- if line_item.variant.option1 != blank or line_item.variant.option2 != blank -%}
+                                <br>
+                              {% endif %}
+                              {{ line_item.options_with_values[2].name }}/ {{ line_item.variant.option3 }}
+                            {%- endif -%}
+                          </div>
+                        </div>
+                      </a>
+                    </td>
+                    <td class="pt-15 pb-15 bb-1 b-border p2 ">{{ line_item.quantity }}</td>
+                    <td class="pt-15 pb-15 bb-1 b-border p2 ">{{ line_item.price | money_with_currency }}</td>
+                  </tr>
+                {% endfor %}
+                <tr>
+                  <td></td>
+                  <td class="p2 pt-15 c-grey">{{ 'customer.order.subtotal' | t }}</td>
+                  <td class="p2 pt-15">{{ order.subtotal_price | money_with_currency }}</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td class="p2 pt-3 c-grey">{{ 'customer.order.shipping' | t }}</td>
+                  <td class="p2 pt-3">{{ order.shipping_price | money_with_currency }}</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td class="p2 pt-3 c-grey">{{ 'customer.order.total' | t }}</td>
+                  <td class="p2 pt-3">{{ order.total_price | money_with_currency }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% else %}
+  <script>
+    window.location.href = '/account';
+  </script>
+{% endif %}
+{% schema %}
+{
+  "name": "Account Order Details",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    }
+  ]
+}
+{% endschema %}

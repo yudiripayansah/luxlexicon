@@ -1,0 +1,170 @@
+{%- if section.blocks.size > 0 -%}
+    {%if section.settings.section_id != blank%}
+        {%- assign el_id = section.settings.section_id -%}
+    {%else%}
+        {%- assign el_id = 'accordion-' | append: section.id -%}
+    {%endif%}
+    {%- render 'section-padding', el_id: el_id, section: section -%}
+
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "FAQPage",
+            "@id": "{{ store.url }}",
+            "mainEntity": [
+            {% for block in section.blocks %}
+                {
+                "@type": "Question",
+                "name": "{{ block.settings.title | escape }}",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{ block.settings.description | escape }}"
+                }
+                }{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+            ]
+        }
+    </script>
+
+    <div id="{{ el_id }}" {%if section.settings.section_id != blank%}class="faq-toggle"{%endif%}>
+        <div class="container">
+            <div class="max-{{section.settings.max_width}} t-max-450 d-max-{{section.settings.max_width}}" style="margin:0 auto">
+                <{{ section.settings.title_dom_type }} class="h7 tc">{{section.settings.title}}</{{ section.settings.title_dom_type }}>
+                <div class="faq-wrapper mt-20 d-mt-30 bb-1 b-silver">
+                    {%- for block in section.blocks -%}
+                        {%- assign wrapper_class = 'bt-1 b-silver mb-20' -%}
+                        {%- if forloop.first -%}
+                            {%- assign open_by_default = true -%}
+                        {%else%}
+                            {%- assign open_by_default = false -%}
+                        {%- endif -%}
+                        {%- render 'accordion',
+                            wrapper_class: wrapper_class,
+                            title: block.settings.title,
+                            description: block.settings.description,
+                            title_class: "p2 bold-500 pl-30 relative",
+                            title_no_pb: true,
+                            desc_class: "p2 c-grey pt-10",
+                            default_active: open_by_default,
+                            number: forloop.index,
+                            desc_no_pt: true, 
+                            desc_no_pb: true
+                        -%}
+                    {%- endfor -%}
+                </div>
+                {%if section.settings.link_label != blank%}
+                    <div class="tc pt-20 d-pt-30">
+                        <a href="{{section.settings.link_url}}" class="link3">
+                            {{section.settings.link_label}}<span class="ml-5" style="display:inline-flex;">{{settings.icon_btn_right}}</span>
+                        </a>
+                    </div>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+{%- endif -%}
+
+{% schema %}
+{
+    "name": "FAQ Accordion",
+    "settings": [
+        {
+			"type": "text",
+			"id": "title",
+			"label": "Title"
+		},
+        {
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Title DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"}
+            ],
+            "default": "h3"
+        },
+        {
+			"type": "text",
+			"id": "section_id",
+			"label": "Section ID",
+            "info": "Used for FAQ Navigation"
+		},
+        {
+			"type": "text",
+			"id": "link_label",
+			"label": "Link Label"
+		},
+        {
+			"type": "url",
+			"id": "link_url",
+			"label": "Link URL"
+		},
+        {
+			"type": "number",
+			"id": "max_width",
+			"label": "Max Width"
+		},
+        {
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		}
+    ],
+    "blocks" : [
+        {
+            "type": "accordion",
+            "name": "Accordion",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Question"
+                },
+                {
+                    "type": "textarea",
+                    "id": "description",
+                    "label": "Answer"
+                }
+            ]
+        }
+    ],
+    "presets": [
+		{
+			"name": "FAQ Accordion",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

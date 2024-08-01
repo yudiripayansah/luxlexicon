@@ -1,0 +1,48 @@
+<div class="account-sidebar mb-50 t-mb-0">
+	<div class="hide-m show-t">
+		<ul>
+			<li class="mb-15">
+				<a href="/account" class="p1 {% if template == 'customers/account' or template.suffix == 'orders' %}c-comfort-orange bold-700 pl-10{% endif %}" title="{{ 'customer.account.order_history' | t | escape }}">{{ 'customer.account.order_history' | t }}</a>
+			</li>
+			<li class="mb-15">
+				<a href="/account/addresses" class="p1 {% if template == 'customers/addresses' %}c-comfort-orange bold-700 pl-10{% endif %}" title="{{ 'customer.account.address_book' | t | escape }}">{{ 'customer.account.address_book' | t }}</a>
+			</li>
+			<li>
+				<a href="/account/logout" class="p1" title="{{ 'customer.account.logout' | t | escape }}">{{ 'customer.account.logout' | t }}</a>
+			</li>
+		</ul>
+	</div>
+
+	<div class="hide-t">
+		{%- case template -%}
+			{%- when 'customers/account' -%}
+				{%- assign default_value = '/account' -%}
+				{%- assign default_text = 'customer.account.order_history' | t -%}
+			{%- when 'customers/addresses' -%}
+				{%- assign default_value = '/account/addresses' -%}
+				{%- assign default_text = 'customer.account.address_book' | t -%}
+			{%- else -%}
+				{%- assign default_value = '/account' -%}
+				{%- assign default_text = 'customer.account.order_history' | t -%}
+		{%- endcase -%}
+		{%- if template.suffix == 'orders' -%}
+			{%- assign default_value = '/account' -%}
+			{%- assign default_text = 'customer.account.order_history' | t -%}
+		{%- endif -%}
+
+		{% capture values %}{{ 'customer.account.order_history' | t }},{{ 'customer.account.address_book' | t }},{{ 'customer.account.logout' | t }}{% endcapture %}
+		{%- assign values = values | split: ',' -%}
+		{%- assign option_values = '/account,/account/addresses,/account/logout' | split: ',' -%}
+
+		{%- render 'global-select',
+			default_value: default_value,
+			default_text: default_text,
+			values: values,
+			option_values: option_values,
+			id: 'mobile-account-menu',
+			selected_text_class: 'p1',
+			select_icon: 'plus_min'
+			onchange: 'window.location.href = this.value;'
+		-%}
+	</div>
+</div>

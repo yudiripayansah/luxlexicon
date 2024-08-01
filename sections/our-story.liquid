@@ -1,0 +1,299 @@
+{% comment %} Luxlexicon - Yudi {% endcomment %}
+{% liquid
+  assign el_id = 'our-story-' | append: section.id
+  assign ss = section.settings
+  assign sb = section.blocks
+  assign fn = section.id | replace: '-', ''
+  render 'section-padding', el_id: el_id, section: section
+%}
+<style>
+  #{{el_id}} {
+    flex-direction: column-reverse;
+  }
+  #{{el_id}} .os-left,
+  #{{el_id}} .os-right {
+    flex-direction: column;
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} {
+      flex-direction: row;
+    }
+    #{{el_id}} .os-left,
+    #{{el_id}} .os-right {
+      flex-direction: column;
+    }
+    #{{el_id}} .text-2-container-d {
+      margin-top: auto;
+    }
+  }
+</style>
+<div id="{{el_id}}" class="overflow flex jc-between">
+  <div class="os-left flex jc-between col-12 col-d-5 d-pl-0 pl-0 pr-0 mt-28 d-mt-0">
+    <div class="container d-pt-108 d-pb-108 pr-0 d-pr-0 hide-m show-d">
+      <div class="push-d-2 col-d-10 pl-0 pr-0 d-pl-0 d-pr-0">
+        <{{ ss.title_dom_type }} class="{{ ss.title_size }} c-black">
+          {{ ss.title }}
+        </{{ ss.title_dom_type }}>
+        {% if ss.subtitle != blank %}
+        <div class="h3 d-mt-40">{{ss.subtitle}}</div>
+        {% endif %}
+        
+      {% if ss.text_1 != blank %}
+        <div class="d-mt-24 p1 c-grey60">{{ss.text_1 |  newline_to_br}}</div>
+      {% endif %}
+      </div>
+    </div>
+    <div class="container hide-d">
+      {% if ss.text_2 != blank %}
+        <div class="p1 c-grey60">{{ss.text_2 |  newline_to_br}}</div>
+      {% endif %}
+    </div>
+    <div class="container d-pl-0 d-pr-0 w-full">
+      <div class="osl-image col-12 col-d-10 osr-image w-full d-pl-0 d-pr-0 pl-0 pr-0 mt-36 d-mt-0">
+        {%assign image_id = "osl-image-2" | append: section.id%}
+        {%- render 'global-image-wrapper-responsive',
+            image_id: image_id,
+            desktop_image: ss.image_2,
+            mobile_image: ss.image_m_2,
+            additional_class: 'no-bg'
+        %}
+      </div>
+    </div>
+  </div>
+  <div class="os-right flex jc-between col-12 col-d-7 d-pr-0 pl-0 pr-0">
+    <div class="container hide-d w-full">
+      <{{ ss.title_dom_type }} class="{{ ss.title_size }} c-black">
+        {{ ss.title }}
+      </{{ ss.title_dom_type }}>
+    </div>
+    <div class="container d-pl-0 d-pr-0 w-full">
+      <div class="osr-image col-12 w-full push-d-2 col-d-10 d-pl-0 d-pr-0 pl-0 pr-0 mt-44 d-mt-0">
+        {%assign image_id = "osl-image-1" | append: section.id%}
+        {%- render 'global-image-wrapper-responsive',
+            image_id: image_id,
+            desktop_image: ss.image_1,
+            mobile_image: ss.image_m_1,
+            additional_class: 'no-bg'
+        %}
+      </div>
+    </div>
+    <div class="container hide-d mt-36">
+      {% if ss.subtitle != blank %}
+      <div class="h3 d-mt-40">{{ss.subtitle}}</div>
+      {% endif %}
+      {% if ss.text_1 != blank %}
+      <div class="mt-24 p1 c-grey60">{{ss.text_1 |  newline_to_br}}</div>
+      {% endif %}
+    </div>
+    <div class="container pl-0 d-pl-0 hide-m show-d text-2-container-d">
+      <div class="col-d-10 pl-0 pr-0 d-pl-0 d-pr-0">
+        {% if ss.text_2 != blank %}
+        <div class="p1 c-grey60">{{ss.text_2 |  newline_to_br}}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Our Story",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" },
+        { "value": "h8", "label": "H8" },
+        { "value": "h9", "label": "H9" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "richtext",
+      "id": "text_1",
+      "label": "Text 1"
+    },
+    {
+      "type": "richtext",
+      "id": "text_2",
+      "label": "Text_2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1 (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_m_1",
+      "label": "Image 1 (Mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2 (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_m_2",
+      "label": "Image 2 (Mobile)"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)",
+      "options": [
+          {"value":"nopadding","label":"No padding"},
+          {"value":"small","label":"Small"},
+          {"value":"medium","label":"Medium"},
+          {"value":"large","label":"Large"}
+      ],
+      "default": "medium"
+    }
+  ],
+  "blocks": [
+  ],
+  "presets": [{ "name": "Our Story", "blocks": [] }]
+}
+{% endschema %}

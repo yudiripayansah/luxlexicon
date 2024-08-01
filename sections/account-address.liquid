@@ -1,0 +1,739 @@
+{% comment %} IGC - Yudi {% endcomment %}
+{%- assign el_id = 'account-address-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{% if customer %}
+  <style>
+        .address-popup {
+          opacity: 0;
+          visibility: hidden;
+          transition: 0.3s ease all;
+        }
+        .address-overlay {
+          background: rgba(43, 43, 43, .6);
+          cursor: pointer;
+        }
+        .ac-heading .icons {
+          cursor: pointer;
+        }
+        .address-content-form {
+          transition: 0.5s ease all;
+          transform: translateX(100%);
+        }
+        .address-popup.show {
+          opacity: 1;
+          visibility: visible;
+        }
+        .address-popup.show .address-content-form {
+          transform: translateX(0);
+        }
+        .ac-form .row {
+          margin-left: -7.5px;
+          margin-right: -7.5px;
+        }
+        .ac-form .row > div {
+          padding-left: 7.5px;
+          padding-right: 7.5px;
+        }
+        #{{el_id}} .field-customer {
+          width: 50%;
+        }
+        #{{el_id}} .field-address {
+          width: 50%;
+        }
+        #{{el_id}} .account-menu {
+          flex-direction: row;
+        }
+        #{{el_id}} .b-transparent {
+          border-color: transparent;
+        }
+        #{{el_id}} .account-menu-mobile {
+          margin-left: -20px;
+          margin-right: -20px;
+        }
+        #{{el_id}} .poo-mobile > div div > div {
+          width: 30%;
+        }
+        #{{el_id}} .icon-back {
+          margin-top: -4px;
+        }
+        #{{el_id}} .icon-back,
+        #{{el_id}} .icon-back svg {
+          width: 10px;
+          height: 10px;
+        }
+        #{{el_id}} .ln-image {
+          width: 55px;
+        }
+        #{{el_id}} .table-online-order-details td {
+          vertical-align: top;
+        }
+        .address-content-form .ac-form.ac-form-edit .global-input, .address-content-form .ac-form.ac-form-new .global-input {
+          padding-bottom: 8px;
+        }
+        .ac-form .global-select-div .options li {
+          padding: 6px 20px;
+        }
+        .ac-form .global-select-div .options li:first-child {
+          padding-top: 15px;
+        }
+        .ac-form .global-select-div .options li:last-child {
+          padding-bottom: 15px;
+        }
+        .ac-form .row > div.ac-field-left {
+          padding-right: 5px;
+        }
+        .ac-form .row > div.ac-field-right {
+          padding-left: 5px;
+        }
+        .address-content-form .icons {
+          max-width: 12.34px;
+        }
+        .ac-form .global-select-div .options li:before{
+          content: '';
+          display: none;
+          width: 5px;
+          height: 5px;
+          margin-right: 8px;
+          transform: translateY(-25%);
+          background-color: var(--black)
+        }
+        .ac-form .global-select-div .options li:hover:before{
+          display: inline-block;
+        }
+        .ac-form .global-select-div .options li.active:before{
+          display: inline-block;
+        }
+        .ac-form .options {
+          border-color: var(--black);
+        }
+        .global-input:focus + .global-placeholder,
+        .global-input:not(:placeholder-shown) + .global-placeholder {
+      transform: translateY(-3px);
+    }
+        @media screen and (min-width: 600px) {
+          .address-popup.show .address-content-form {
+            max-width: 400px;
+          }
+        }
+        @media screen and (min-width: 1024px) {
+          #{{el_id}} .field-customer {
+            width: 44%;
+          }
+          #{{el_id}} .field-address {
+            width: 56%;
+          }
+          #{{el_id}} .icon-back {
+            margin-top: -5px;
+          }
+          #{{el_id}} .account-menu-mobile {
+            margin-left: 0px;
+            margin-right: 0px;
+          }
+          #{{el_id}} .account-menu {
+            flex-direction: column;
+          }
+          #{{el_id}} .ln-image {
+            width: 60px;
+          }
+          .address-popup.show .address-content-form {
+            max-width: 450px;
+          }
+          .ac-form .row > div.ac-field-left {
+            padding-right: 7.5px;
+          }
+          .ac-form .row > div.ac-field-right {
+            padding-left: 7.5px;
+          }
+        }
+  </style>
+  <div id="{{ el_id }}">
+    <div class="container">
+      <div class="row">
+        <div class="col-d-3 col-12">
+          {% render 'account-title' %}
+        </div>
+        {% render 'account-menu', active: 'address-book' %}
+        <div class="col-d-5 col-12 mt-30 d-mt-0">
+          {% paginate customer.addresses by 50 %}
+            <table class="w-full">
+              <thead>
+                <tr class="">
+                  <th class="tl field-customer">
+                    <div class="p2 pb-15 bb-1 b-border">{{ 'customer.account.customer_label' | t }}</div>
+                  </th>
+                  <th class="tl field-address">
+                    <div class="p2 pb-15 bb-1 b-border">{{ 'customer.account.address_label' | t }}</div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for address in customer.addresses %}
+                  <tr class="">
+                    <td class="p2 pt-15">
+                      {{ address.first_name }}
+                      {{ address.last_name }}
+                      <br>
+                      {{ customer.email -}}
+                      <br>
+                      {{ address.phone -}}
+                    </td>
+                    <td class="p2 pt-15">
+                      <div>
+                        {{ address.street }}
+                        {{ address.city }}
+                        {{ address.province }}
+                        {% if address.country != blank or address.zip != blank %}<br>{% endif %}
+                        {{ address.country }}
+                        {{ address.zip }}
+                        {%- if address == customer.default_address -%}
+                          <p class="c-grey">({{ 'customer.addresses.default' | t }})</p>
+                        {%- endif -%}
+                      </div>
+                      <div class="mt-10">
+                        <a
+                          href="#"
+                          class="link3 mr-10"
+                          onclick="toggleAddressForm(event,{{address.id}})"
+                          rel="nofollow"
+                        >
+                          {{ 'customer.addresses.edit' | t }}
+                        </a>
+                        <a
+                          href="#"
+                          class="link3"
+                          onclick="Shopify.CustomerAddress.destroy({{ address.id }}, 'Are you sure you wish to delete this address?');return false;"
+                          rel="nofollow"
+                        >
+                          {{ 'customer.addresses.delete' | t }}
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <button
+              type="button"
+              class="mt-30 d-mt-40 btn1 w-full add-btn d-max-400"
+              onclick="toggleAddressForm(event)"
+            >
+              {{ 'customer.addresses.add' | t }}
+            </button>
+          {% endpaginate %}
+        </div>
+      </div>
+    </div>
+    <div class="address-popup-teleport">
+      <Teleport to="body">
+        <div class="address-popup fixed top-0 left-0 w-full h-full zi-9">
+          <div class="address-overlay absolute top-0 left-0 w-full h-full" onclick="toggleAddressForm(event)"></div>
+          <div class="address-content-form w-full h-full d-max-450 absolute top-0 right-0 bg-white">
+            <div class="ac-heading d-p-25 p-20 flex ai-center jc-between bb-1 b-border">
+              <h6 class="h4 medium-500 uppercase ach-text">{{ 'customer.addresses.new_address' | t }}</h6>
+              <span class="icons" onclick="toggleAddressForm(event)">
+                {{ settings.icon_close }}
+              </span>
+            </div>
+            <div class="ac-form ac-form-new d-p-25 p-20">
+              {% form 'customer_address', customer.new_address %}
+                <div class="row">
+                  <div class="col-6 ac-field-left">
+                    <div class="relative overflow pb-1">
+                      <input
+                        type="text"
+                        id="first-name"
+                        class="global-input w-full bb-1 b-black p1 c-black pr-55"
+                        onkeyup="validate(event)"
+                        name="address[first_name]"
+                        value="{{form.first_name}}"
+                        size="40"
+                        placeholder="{{ 'customer.addresses.first_name' | t }}"
+                      >
+                      <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                        {{ 'customer.addresses.first_name' | t }}
+                      </div>
+                    </div>
+                    <div class="p5 mt-2 c-red hide-m absolute error error-first-name"></div>
+                  </div>
+                  <div class="col-6 ac-field-right">
+                    <div class="relative overflow pb-1">
+                      <input
+                        type="text"
+                        id="last-name"
+                        class="global-input w-full bb-1 b-black p1 c-black pr-55"
+                        onkeyup="validate(event)"
+                        name="address[last_name]"
+                        value="{{form.last_name}}"
+                        size="40"
+                        placeholder="{{ 'customer.addresses.last_name' | t }}"
+                      >
+                      <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                        {{ 'customer.addresses.last_name' | t }}
+                      </div>
+                    </div>
+                    <div class="p5 mt-2 c-red hide-m absolute error error-last-name"></div>
+                  </div>
+                  <div class="col-12 mt-20">
+                    <div class="relative overflow pb-1">
+                      <input
+                        type="text"
+                        id="address1"
+                        class="global-input w-full bb-1 b-black p1 c-black pr-50"
+                        onkeyup="validate(event)"
+                        name="address[address1]"
+                        value="{{form.address1}}"
+                        size="40"
+                        placeholder="{{- 'customer.addresses.address1' | t -}}"
+                      >
+                      <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                        {{ 'customer.addresses.address1' | t }}
+                      </div>
+                    </div>
+                    <div class="p5 mt-2 c-red hide-m absolute error error-address1"></div>
+                  </div>
+                  <div class="col-12 mt-20">
+                    <div class="relative overflow pb-1">
+                      <input
+                        type="text"
+                        id="address2"
+                        class="global-input w-full bb-1 b-black p1 c-black pr-50"
+                        onkeyup="validate(event)"
+                        name="address[address2]"
+                        value="{{form.address2}}"
+                        size="40"
+                        placeholder="{{- 'customer.addresses.address2' | t -}}"
+                      >
+                      <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                        {{ 'customer.addresses.address2' | t }}
+                      </div>
+                    </div>
+                    <div class="p5 mt-2 c-red hide-m absolute error error-address2"></div>
+                  </div>
+                  <div class="col-6 mt-20 ac-field-left">
+                    <div class="relative overflow pb-1">
+                      <input
+                        type="text"
+                        id="city"
+                        class="global-input w-full bb-1 b-black p1 c-black pr-25"
+                        onkeyup="validate(event)"
+                        name="address[city]"
+                        value="{{form.city}}"
+                        size="40"
+                        placeholder="{{- 'customer.addresses.city' | t -}}"
+                      >
+                      <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                        {{ 'customer.addresses.city' | t }}
+                      </div>
+                    </div>
+                    <div class="p5 mt-2 c-red hide-m absolute error error-city"></div>
+                  </div>
+                  <div class="col-6 mt-20 ac-field-right pb-1">
+                    {% liquid
+                      assign default_value = 'Singapore'
+                      assign default_text = 'Singapore'
+                      assign select_id = 'address-country-' | append: section.id
+                      assign values = empty
+                      assign option_values = empty
+                      assign values = 'Singapore,Indonesia,Malaysia,Filipine,Thailand,Vietnam'
+                      assign option_values = 'Singapore,Indonesia,Malaysia,Filipine,Thailand,Vietnam'
+                      assign values = values | split: ','
+                      assign option_values = option_values | split: ','
+                    %}
+                    {%- render 'global-select',
+                      default_value: default_value,
+                      default_text: default_text,
+                      values: values,
+                      option_values: option_values,
+                      field_name: 'address[country]',
+                      id: select_id,
+                      selected_text_class: 'p1',
+                      global_select_class: 'bb-1 b-black pl-0 pr-0 pt-0 pb-8'
+                    -%}
+                    <div class="p5 mt-2 c-red hide-m absolute error error-salutation"></div>
+                  </div>
+                  <div class="col-6 mt-20 ac-field-left">
+                    <div class="relative overflow pb-1">
+                      <input
+                        type="text"
+                        id="zip"
+                        class="global-input w-full bb-1 b-black p1 c-black pr-75"
+                        onkeyup="validate(event)"
+                        name="address[zip]"
+                        value="{{form.zip}}"
+                        size="40"
+                        placeholder="{{ 'customer.addresses.zip' | t }}"
+                      >
+                      <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                        {{ 'customer.addresses.zip' | t }}
+                      </div>
+                    </div>
+                    <div class="p5 mt-2 c-red hide-m absolute error error-zip"></div>
+                  </div>
+                  <div class="col-6 mt-20 ac-field-right">
+                    <div class="relative overflow pb-1">
+                      <input
+                        type="text"
+                        id="phone"
+                        class="global-input w-full bb-1 b-black p1 c-black pr-35"
+                        onkeyup="validate(event)"
+                        name="address[phone]"
+                        value="{{form.phone}}"
+                        size="40"
+                        placeholder="{{ 'customer.addresses.phone' | t }}"
+                      >
+                      <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                        {{ 'customer.addresses.phone' | t }}
+                      </div>
+                    </div>
+                    <div class="p5 mt-2 c-red hide-m absolute error error-phone"></div>
+                  </div>
+                  <div class="col-12 mt-20">
+                    <label class="global-radio flex ai-start">
+                      
+                      <input type="checkbox" id="address_default_address_{{ form.id }}" name="address[default]" value="1">
+                      <div class="gr-mark mr-8 d-mt-2 mt-1"></div>
+                      <div class="p1">{{ 'customer.addresses.set_default' | t }}</div>
+                    </label>
+                  </div>
+                  <div class="col-12 mt-25 flex flex-column ai-center jc-center">
+                    <button type="button" class="btn1 w-full submit-btn" onclick="validate(event,true)">
+                      {{ 'customer.addresses.submit' | t }}
+                    </button>
+                    <a href="#" rel="nofollow" onclick="toggleAddressForm(event)" class="mt-10 link3">
+                      {{- 'customer.addresses.cancel' | t -}}
+                    </a>
+                  </div>
+                </div>
+              {% endform %}
+            </div>
+            {% for address in customer.addresses %}
+              <div class="ac-form ac-form-edit ac-form-edit-{{address.id}} d-p-25 p-20 hide-m">
+                {% assign form_id = 'form-address-' | append: address.id %}
+                {% form 'customer_address', address, id: form_id %}
+                  <div class="row">
+                    <div class="col-6 ac-field-left">
+                      <div class="relative overflow pb-1">
+                        <input
+                          type="text"
+                          id="first-name-{{address.id}}"
+                          class="global-input w-full bb-1 b-black p1 c-black pr-55"
+                          onkeyup="validate(event)"
+                          name="address[first_name]"
+                          value="{{form.first_name}}"
+                          size="40"
+                          placeholder="{{ 'customer.addresses.first_name' | t }}"
+                        >
+                        <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                          {{ 'customer.addresses.first_name' | t }}
+                        </div>
+                      </div>
+                      <div class="p2 mt-5 c-red hide-m error error-first-name"></div>
+                    </div>
+                    <div class="col-6 ac-field-right">
+                      <div class="relative overflow pb-1">
+                        <input
+                          type="text"
+                          id="last-name-{{address.id}}"
+                          class="global-input w-full bb-1 b-black p1 c-black pr-55"
+                          onkeyup="validate(event)"
+                          name="address[last_name]"
+                          value="{{form.last_name}}"
+                          size="40"
+                          placeholder="{{ 'customer.addresses.last_name' | t }}"
+                        >
+                        <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                          {{ 'customer.addresses.first_name' | t }}
+                        </div>
+                      </div>
+                      <div class="p2 mt-5 c-red hide-m error error-last-name"></div>
+                    </div>
+                    <div class="col-12 mt-20">
+                      <div class="relative overflow pb-1">
+                        <input
+                          type="text"
+                          id="address1-{{address.id}}"
+                          class="global-input w-full bb-1 b-black p1 c-black pr-50"
+                          onkeyup="validate(event)"
+                          name="address[address1]"
+                          value="{{form.address1}}"
+                          size="40"
+                          placeholder="{{- 'customer.addresses.address1' | t -}}"
+                        >
+                        <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                          {{ 'customer.addresses.address1' | t }}
+                        </div>
+                      </div>
+                      <div class="p2 mt-5 c-red hide-m error error-address1"></div>
+                    </div>
+                    <div class="col-12 mt-20">
+                      <div class="relative overflow pb-1">
+                        <input
+                          type="text"
+                          id="address2-{{address.id}}"
+                          class="global-input w-full bb-1 b-black p1 c-black pr-50"
+                          onkeyup="validate(event)"
+                          name="address[address2]"
+                          value="{{form.address2}}"
+                          size="40"
+                          placeholder="{{- 'customer.addresses.address2' | t -}}"
+                        >
+                        <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                          {{ 'customer.addresses.address2' | t }}
+                        </div>
+                      </div>
+                      <div class="p2 mt-5 c-red hide-m error error-address2"></div>
+                    </div>
+                    <div class="col-6 mt-20 ac-field-left">
+                      <div class="relative overflow pb-1">
+                        <input
+                          type="text"
+                          id="city-{{address.id}}"
+                          class="global-input w-full bb-1 b-black p1 c-black pr-25"
+                          onkeyup="validate(event)"
+                          name="address[city]"
+                          value="{{form.city}}"
+                          size="40"
+                          placeholder="{{- 'customer.addresses.city' | t -}}"
+                        >
+                        <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                          {{ 'customer.addresses.city' | t }}
+                        </div>
+                      </div>
+                      <div class="p2 mt-5 c-red hide-m error error-city"></div>
+                    </div>
+                    <div class="col-6 mt-20 ac-field-right pb-1">
+                      {% liquid
+                        assign default_value = 'Singapore'
+                        assign default_text = 'Singapore'
+                        assign select_id = 'address-country-' | append: section.id | append: address.id
+                        assign values = empty
+                        assign option_values = empty
+                        assign values = 'Singapore,Indonesia,Malaysia,Filipine,Thailand,Vietnam'
+                        assign option_values = 'Singapore,Indonesia,Malaysia,Filipine,Thailand,Vietnam'
+                        assign values = values | split: ','
+                        assign option_values = option_values | split: ','
+                      %}
+                      {%- render 'global-select',
+                        default_value: default_value,
+                        default_text: default_text,
+                        values: values,
+                        option_values: option_values,
+                        id: select_id,
+                        field_name: 'address[country]',
+                        selected_text_class: 'p1',
+                        global_select_class: 'bb-1 b-black pl-0 pr-0 pt-0 pb-8'
+                      -%}
+                      <div class="p2 mt-5 c-red hide-m error error-salutation"></div>
+                    </div>
+                    <div class="col-6 mt-20 ac-field-left">
+                      <div class="relative overflow pb-1">
+                        <input
+                          type="text"
+                          id="zip-{{address.id}}"
+                          class="global-input w-full bb-1 b-black p1 c-black pr-75"
+                          onkeyup="validate(event)"
+                          name="address[zip]"
+                          value="{{form.zip}}"
+                          size="40"
+                          placeholder="{{ 'customer.addresses.zip' | t }}"
+                        >
+                        <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                          {{ 'customer.addresses.zip' | t }}
+                        </div>
+                      </div>
+                      <div class="p2 mt-5 c-red hide-m error error-zip"></div>
+                    </div>
+                    <div class="col-6 mt-20 ac-field-right">
+                      <div class="relative overflow pb-1">
+                        <input
+                          type="text"
+                          id="phone-{{address.id}}"
+                          class="global-input w-full bb-1 b-black p1 c-black pr-35"
+                          onkeyup="validate(event)"
+                          name="address[phone]"
+                          value="{{form.phone}}"
+                          size="40"
+                          placeholder="{{ 'customer.addresses.phone' | t }}"
+                        >
+                        <div class="global-placeholder absolute right-0 bottom-0 pb-8">
+                          {{ 'customer.addresses.phone' | t }}
+                        </div>
+                      </div>
+                      <div class="p2 mt-5 c-red hide-m error error-phone"></div>
+                    </div>
+                    <div class="col-12 mt-20">
+                      <label class="global-radio flex ai-start">
+                        <input type="checkbox" id="address_default_address_{{ form.id }}" name="address[default]" value="1"{% if address == customer.default_address %}checked{% endif %}>
+                        <div class="gr-mark mr-8 d-mt-2 mt-1"></div>
+                        <div class="p1">{{ 'customer.addresses.set_default' | t }}</div>
+                      </label>
+                    </div>
+                    <div class="col-12 mt-25 flex flex-column ai-center jc-center">
+                      <button type="button" class="btn1 w-full submit-btn" onclick="validate(event,true)">
+                        {{ 'customer.account_info.save' | t }}
+                      </button>
+                      <a href="#" rel="nofollow" onclick="toggleAddressForm(event)" class="mt-10 link3">
+                        {{- 'customer.addresses.cancel' | t -}}
+                      </a>
+                    </div>
+                  </div>
+                {% endform %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </Teleport>
+    </div>
+  </div>
+  <script>
+    function validate(e, submit = false) {
+      console.log(e);
+      e.preventDefault();
+      let form = e.target.closest('form');
+      let error_firstName = "{{ 'customer.register.required_field' | t }}";
+      let error_lastName = "{{ 'customer.register.required_field' | t }}";
+      let error_address1 = "{{ 'customer.register.required_field' | t }}";
+      let error_city = "{{ 'customer.register.required_field' | t }}";
+      let error_zip = "{{ 'customer.register.required_field' | t }}";
+      let error_phone = "{{ 'customer.register.required_field' | t }}";
+      let firstName = form.querySelector('input[name="address[first_name]"]');
+      let lastName = form.querySelector('input[name="address[last_name]"]');
+      let address1 = form.querySelector('input[name="address[address1]"]');
+      let city = form.querySelector('input[name="address[city]"]');
+      let zip = form.querySelector('input[name="address[zip]"]');
+      let phone = form.querySelector('input[name="address[phone]"]');
+      let elErrorfirstName = form.querySelector('.error-first-name');
+      let elErrorlastName = form.querySelector('.error-last-name');
+      let elErroraddress1 = form.querySelector('.error-address1');
+      let elErrorcity = form.querySelector('.error-city');
+      let elErrorzip = form.querySelector('.error-zip');
+      let elErrorphone = form.querySelector('.error-phone');
+      let submitBtn = form.querySelector('.submit-btn');
+      let allOk = true;
+      if (firstName.value && lastName.value && address1.value && city.value && zip.value && phone.value) {
+        if (allOk) {
+          elErrorfirstName.classList.add('hide-m');
+          elErrorlastName.classList.add('hide-m');
+          elErroraddress1.classList.add('hide-m');
+          elErrorcity.classList.add('hide-m');
+          elErrorzip.classList.add('hide-m');
+          elErrorphone.classList.add('hide-m');
+          submitBtn.removeAttribute('disabled');
+          if (submit) {
+            form.submit();
+          }
+        }
+      } else {
+        if (!firstName.value) {
+          elErrorfirstName.innerText = error_firstName;
+          elErrorfirstName.classList.remove('hide-m');
+        } else {
+          elErrorfirstName.classList.add('hide-m');
+        }
+        if (!lastName.value) {
+          elErrorlastName.innerText = error_lastName;
+          elErrorlastName.classList.remove('hide-m');
+        } else {
+          elErrorlastName.classList.add('hide-m');
+        }
+        if (!address1.value) {
+          elErroraddress1.innerText = error_address1;
+          elErroraddress1.classList.remove('hide-m');
+        } else {
+          elErroraddress1.classList.add('hide-m');
+        }
+        if (!city.value) {
+          elErrorcity.innerText = error_city;
+          elErrorcity.classList.remove('hide-m');
+        } else {
+          elErrorcity.classList.add('hide-m');
+        }
+        if (!zip.value) {
+          elErrorzip.innerText = error_zip;
+          elErrorzip.classList.remove('hide-m');
+        } else {
+          elErrorzip.classList.add('hide-m');
+        }
+        if (!phone.value) {
+          elErrorphone.innerText = error_phone;
+          elErrorphone.classList.remove('hide-m');
+        } else {
+          elErrorphone.classList.add('hide-m');
+        }
+        submitBtn.setAttribute('disabled', true);
+      }
+    }
+    function toggleAddressForm(e, addressId = null) {
+      e.preventDefault();
+      let menuMobile = document.querySelector('.address-popup');
+      let body = document.querySelector('body');
+      let titleForm = document.querySelector('.address-popup .ach-text');
+      body.classList.toggle('overflow');
+      menuMobile.classList.toggle('show');
+      let forms = document.querySelectorAll('.ac-form');
+      let targetForm = document.querySelector('.ac-form-new');
+      let title = "{{'customer.addresses.new_address' | t}}";
+      if (addressId) {
+        title = "{{'customer.addresses.edit_address' | t}}";
+        targetForm = document.querySelector('.ac-form-edit-' + addressId);
+      }
+      forms.forEach((item) => {
+        item.classList.add('hide-m');
+      });
+      titleForm.innerText = title;
+      targetForm.classList.remove('hide-m');
+    }
+    const accountAddress = Vue.createApp({
+      delimiters: ['${', '}'],
+      data() {
+        return {};
+      },
+      methods: {},
+    }).mount('#{{el_id}} .address-popup-teleport');
+  </script>
+{% else %}
+  <script>
+    window.location.href = '/account';
+  </script>
+{% endif %}
+{% schema %}
+{
+  "name": "Account Addresses",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    }
+  ]
+}
+{% endschema %}

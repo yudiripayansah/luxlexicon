@@ -1,0 +1,28 @@
+<a href="{{product.url}}" class="product-ymal flex ai-start">
+  <div class="pymal-image">
+    {% assign variant = product.selected_or_first_available_variant %}
+    {%- render 'global-image-wrapper', image: product.featured_image -%}
+  </div>
+  <div class="pymal-content pl-15">
+    <h6 class="p2 medium-500">{{ product.title }}</h6>
+    <div class="price-wrapper p2 medium-500 mt-2">
+      {%- assign compare_at_price = product.variant.compare_at_price -%}
+      {%- assign price = product.price -%}
+      {%- if compare_at_price > product.variant.price -%}
+        <span class="onsale c-black">{{ price | money_with_currency }}</span>
+        {%- if product.price < product.compare_at_price -%}
+          <strike class="c-grey">{{ product.compare_at_price | money_with_currency }}</strike>
+        {%- else -%}
+          <strike class="c-grey">{{ compare_at_price | times: product.quantity | money_with_currency }}</strike>
+        {%- endif -%}
+      {%- else -%}
+        {%- if product.price < product.compare_at_price -%}
+          <span class="onsale c-black">{{ price | money_with_currency }}</span>
+          <strike class="c-grey">{{ product.compare_at_price | money_with_currency }}</strike>
+        {%- else -%}
+          <span>{{ price | money_with_currency }}</span>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</a>

@@ -1,0 +1,264 @@
+{% comment %} JCO Theme - refinements progress bismocii {% endcomment %}
+{% assign el_id = 'creative-process-' | append: section.id %}
+{% assign ss = section.settings %}
+{% assign sb = section.blocks %}
+{% render 'section-padding', section: section, el_id: el_id %}
+<style>
+  #{{el_id}} .cp-mobile {
+    width: 100%;
+  }
+  #{{el_id}} .swiper {
+    overflow: visible !important;
+    clip-path: inset(-100vw -100vw -100vw -100vw);
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .cp-left,
+    #{{el_id}} .cp-right {
+      width: 50%;
+    }
+    #{{el_id}} .cp-wrap {
+      height: 100vh;
+    }
+    #{{el_id}} .cp-right .wrapper {
+      width: 100%;
+      height: calc(100% - {{ section.settings.top_padding | times: 2 }}px);
+      transform: translateY(-35px);
+      overflow: hidden;
+    }
+    #{{el_id}} .cp-right .cpr-image,
+    #{{el_id}} .cp-right .global-image-wrapper,
+    #{{el_id}} .cp-right .global-image-wrapper img {
+      height: 100%;
+    }
+    #{{el_id}} .cp-right .global-image-wrapper img {
+      object-fit: cover;
+    }
+  }
+</style>
+<div id="{{el_id}}" class="creative-process-section overflow">
+  <div class="container cp-container hide-m show-d">
+    <div class="cp-wrap flex d-ai-start max-ai-center jc-between">
+      <div class="cp-left relative d-pr-80 max-pr-120">
+        <div class="p5 uppercase spacing-1 medium-500 d-pt-30 max-pt-0">{{ ss.title }}</div>
+        <div class="cpl-wrap d-mt-55 d-max-520 hhd-max-650 w-full">
+          {% for block in sb %}
+            {% assign bs = block.settings %}
+            <div class="cpr-item flex ai-start {% unless forloop.first == true %}d-mt-35{% endunless %}">
+              {% assign number = '0' | append: forloop.index %}
+              <span class="p4 regular-400">{{ number }}</span>
+              <div class="d-ml-12">
+                <h4 class="h4 uppercase spacing-2">
+                  {{ bs.title }}
+                </h4>
+                <div class="p3 d-mt-10">
+                  {{ bs.text }}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="cp-right relative h-full global-flex flex-wrap ai-center">
+        <div class="wrapper relative">
+          {% for block in sb %}
+            {% assign bs = block.settings %}
+            {%- assign image_id = 'cpr-image-' | append: block.id -%}
+            <div class="cpr-image top-0 right-0 {% if forloop.first == true %}{% else %}{% endif %}">
+              {%- render 'global-image-wrapper', image: bs.image_desktop, image_id: image_id -%}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% comment %} mobile version {% endcomment %}
+  <div class="container hide-d">
+    <div class="p5 uppercase spacing-1 medium-500">{{ ss.title }}</div>
+    <div class="cp-mobile swiper mt-25 d-mt-20">
+      <div class="swiper-wrapper">
+        {% for block in sb %}
+          {% assign bs = block.settings %}
+          <div class="swiper-slide">
+            <div class="cpm-item">
+              {%- assign image_id = 'cpr-image-mobile-' | append: block.id -%}
+              <div class="cpmi-image">
+                {%- render 'global-image-wrapper', image: bs.image_desktop, image_id: image_id -%}
+              </div>
+              <div class="cpm-text mt-20 w-full flex ai-start">
+                {% assign number = '0' | append: forloop.index %}
+                <span class="p4 regular-400">{{ number }}</span>
+                <div class="ml-10">
+                  <h4 class="h4 uppercase spacing-2">
+                    {{ bs.title }}
+                  </h4>
+                  <div class="p3 mt-7 d-mt-10">
+                    {{ bs.text }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% comment %} end mobile version {% endcomment %}
+</div>
+{{ 'gsap.min.js' | asset_url | script_tag }}
+{{ 'ScrollTrigger.min.js' | asset_url | script_tag }}
+<script>
+  const creativeProcessSection = document.querySelector('.creative-process-section');
+
+  if (creativeProcessSection != null) {
+    let cprImage = gsap.utils.toArray('.cpr-image');
+    let cprItem = gsap.utils.toArray('.cpr-item');
+    let headerHeight = -15;
+    const height = 100 * cprItem.length + headerHeight;
+
+    const cprImageGsap = gsap.timeline({
+      duration: cprImage.length,
+      scrollTrigger: {
+        trigger: '.creative-process-section',
+        start: 'top top',
+        end: '+=' + height + '%',
+        scrub: true,
+        id: 'imgs',
+      },
+    });
+
+    const cprItemGsap = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.creative-process-section',
+        start: 'top-=' + headerHeight + 'px top',
+        end: '+=' + height + '%',
+        scrub: true,
+        pin: '.cp-container',
+        id: 'pinning',
+      },
+    });
+    cprImage.forEach((elem, i) => {
+      gsap.set(elem, { position: 'absolute', top: 0, left: 0, width: '100%' });
+      cprImageGsap.from(elem, { autoAlpha: 0 }, i);
+
+      if (i != cprImage.length - 1) {
+        cprImageGsap.to(elem, { autoAlpha: 0 }, i + 0.75);
+      }
+    });
+
+    cprItem.forEach((elem, i) => {
+      gsap.set(elem, { position: 'relative', top: 0 });
+      cprImageGsap.from(elem, { y: 700 }, i);
+
+      if (i != cprImage.length - 1) {
+        cprImageGsap.to(elem, { y: 0 }, i + 0.75);
+      }
+    });
+  }
+
+  function initSwiper() {
+    let productListSwiper = new Swiper('#{{ el_id }} .cp-mobile', {
+      slidesPerView: 1.3,
+      slidesPerColumn: 1,
+      spaceBetween: 10,
+      freeMode: false,
+      on: {
+        init: function() {
+            $360.lazyLoadInstance.update();
+        },
+        slideChange: function() {
+            $360.lazyLoadInstance.update();
+        },
+        resize: function() {
+            $360.lazyLoadInstance.update();
+        }
+      }
+    });
+  }
+  initSwiper();
+  document.addEventListener('shopify:section:load', () => { initSwiper() });
+</script>
+{% schema %}
+{
+  "name": "Creative Process",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Padding Settings"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top Padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom Padding (Desktop)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "id": "title",
+          "type": "text",
+          "label": "Title"
+        },
+        {
+          "id": "text",
+          "type": "text",
+          "label": "Text"
+        },
+        {
+          "id": "image_desktop",
+          "type": "image_picker",
+          "label": "Image (Desktop)"
+        },
+        {
+          "id": "image_mobile",
+          "type": "image_picker",
+          "label": "Image (Mobile)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Creative Process",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

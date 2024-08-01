@@ -1,0 +1,315 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{%- assign diamond_coll = collections['diamonds'] -%}
+
+{%- capture main_title -%}
+    <h3 class="h5">Select A Diamond</h3>
+    <p class="mt-5 p2 c-grey">Click on a diamond below to select and refine your search by adjusting the filters below.</p>
+{%- endcapture -%}
+
+<section id="product-diamond-filter" class="pt-40 pb-40 t-pt-60 t-pb-60 d-pt-80 d-pb-80 hide-m bt-1 b-silver d-bt-0">
+    <div class="container">
+        {%- comment -%} Left side {%- endcomment -%}
+        <div class="left-side col-12 pl-0 pr-0 col-d-4 d-pl-0 d-pr-0 col-max-3 max-pl-0 max-pr-0">
+            {%- comment -%} selected ring size {%- endcomment -%}
+            <div class="selected-ring global-flex ai-center jc-between d-pt-15 max-pt-20 hd-pt-30">
+                <p class="p3 c-grey uppercase spacing-2 bold-600">Selected ring size: <span class="size"></span></p>
+                <a href="javascript:void(0)" onclick="$diamondFilter.changeRingSize()" class="p3 uppercase spacing-2 bold-600">change</a>
+            </div>
+            {%- comment -%} end selected ring size {%- endcomment -%}
+            
+            <div class="p3 uppercase spacing-2 bold-600 d-mt-40 pb-15 bb-1 b-silver hide-m show-d">Filter By</div>
+
+            <div class="main-title tc show-m hide-d mt-25 pt-20 bt-1 b-silver">
+                {{ main_title }}
+            </div>
+
+            <div class="show-m hide-d relative width-100">
+                <div onclick="$diamondFilter.toggleFilterMobile(event)" class="btn1 width-100 mt-20 tc mobile-filter-button">Filter By</div>
+            </div>
+
+            <div class="filter-main-wrapper hide-m show-d">
+                {%- comment -%} filter colour {%- endcomment -%}
+                <div class="filter-each-wrapper colour mt-20 d-mt-30">
+                    <p class="p2 uppercase bold-600 mb-5">Colour</p>
+                    <div class="filter-wrapper font-0">
+                        <a href="javascript:void(0)" data-values="{{ shop.metafields.globals.d_filter_colourless }}" onclick="$diamondFilter.filterColour(event)" class="p2 filter-each-box mt-10 mr-10">Colourless</a>
+                        <a href="javascript:void(0)" data-values="{{ shop.metafields.globals.d_filter_near_colourless }}" onclick="$diamondFilter.filterColour(event)" class="p2 filter-each-box mt-10 mr-10">Near Colourless</a>
+                        <a href="javascript:void(0)" data-values="{{ shop.metafields.globals.d_filter_slightly_coloured }}" onclick="$diamondFilter.filterColour(event)" class="p2 filter-each-box mt-10 mr-10">Slightly Coloured</a>
+                    </div>
+                </div>
+                {%- comment -%} end filter colour {%- endcomment -%}
+
+                {%- comment -%} filter clarity {%- endcomment -%}
+                <div class="filter-each-wrapper clarity mt-20 d-mt-30">
+                    <p class="p2 uppercase bold-600 mb-5">Clarity</p>
+                    <div class="filter-wrapper font-0">
+                        <a href="javascript:void(0)" data-values="{{ shop.metafields.globals.d_filter_very_very_slightly_inlcuded }}" onclick="$diamondFilter.filterClarity(event)" class="p2 filter-each-box mt-10 mr-10">Very Very Slightly Included</a>
+                        <a href="javascript:void(0)" data-values="{{ shop.metafields.globals.d_filter_very_slightly_inlcuded }}" onclick="$diamondFilter.filterClarity(event)" class="p2 filter-each-box mt-10 mr-10">Very Slightly Included</a>
+                        <a href="javascript:void(0)" data-values="{{ shop.metafields.globals.d_filter_slightly_inlcuded }}" onclick="$diamondFilter.filterClarity(event)" class="p2 filter-each-box mt-10 mr-10">Slightly Included</a>
+                    </div>
+                </div>
+                {%- comment -%} end filter clarity {%- endcomment -%}
+
+                {%- comment -%} filter carat {%- endcomment -%}
+                <div class="filter-each-wrapper carat mt-20 d-mt-30">
+                    <p class="p2 uppercase bold-600 mb-5">Carat</p>
+                    <div class="filter-wrapper font-0">
+                        <a href="javascript:void(0)" 
+                            onclick="$diamondFilter.filterCarat(event)" 
+                            class="p2 filter-each-check mt-10 mr-30"
+                            data-min="0.30"
+                            data-max="0.49"
+                            data-label="0.30 - 0.49"
+                        >
+                            <div class="checkbox"></div>
+                            <span class="text p2 bold-500">0.30 - 0.49</span>
+                        </a>
+                        <a href="javascript:void(0)" 
+                            onclick="$diamondFilter.filterCarat(event)" 
+                            class="p2 filter-each-check mt-10 mr-30"
+                            data-min="1.00"
+                            data-max="1.49"
+                            data-label="1.00 - 1.49"
+                        >
+                            <div class="checkbox"></div>
+                            <span class="text p2 bold-500">1.00 - 1.49</span>
+                        </a>
+                        <a href="javascript:void(0)" 
+                            onclick="$diamondFilter.filterCarat(event)" 
+                            class="p2 filter-each-check mt-10 mr-30"
+                            data-min="0.50"
+                            data-max="0.69"
+                            data-label="0.50 - 0.69"
+                        >
+                            <div class="checkbox"></div>
+                            <span class="text p2 bold-500">0.50 - 0.69</span>
+                        </a>
+                        <a href="javascript:void(0)" 
+                            onclick="$diamondFilter.filterCarat(event)" 
+                            class="p2 filter-each-check mt-10 mr-30"
+                            data-min="1.50"
+                            data-max="1.99"
+                            data-label="1.50 - 1.99"
+                        >
+                            <div class="checkbox"></div>
+                            <span class="text p2 bold-500">1.50 - 1.99</span>
+                        </a>
+
+                        <a href="javascript:void(0)" 
+                            onclick="$diamondFilter.filterCarat(event)" 
+                            class="p2 filter-each-check mt-10 mr-30"
+                            data-min="0.70"
+                            data-max="0.99"
+                            data-label="0.70 - 0.99"
+                        >
+                            <div class="checkbox"></div>
+                            <span class="text p2 bold-500">0.70 - 0.99</span>
+                        </a>
+
+                        <a href="javascript:void(0)" 
+                            onclick="$diamondFilter.filterCarat(event)" 
+                            class="p2 filter-each-check mt-10 mr-30"
+                            data-min="2.00"
+                            data-max="100"
+                            data-label="2.00 and above"
+                        >
+                            <div class="checkbox"></div>
+                            <span class="text p2 bold-500">2.00 and above</span>  
+                        </a> 
+                    </div>
+                </div>
+                {%- comment -%} end filter carat {%- endcomment -%}
+            </div>
+        </div>
+        {%- comment -%} end Left side {%- endcomment -%}
+
+        {%- comment -%} right side {%- endcomment -%}
+        <div class="right-side col-12 pl-0 pr-0 col-d-8 d-pl-50 d-pr-0 col-max-9 max-pl-120 max-pr-0 mt-5 d-mt-0">
+            <div class="title-container hide-m show-d">
+                {{ main_title }}
+            </div>
+
+            <div class="results-not-found-wrapper relative width-100 mt-35">
+                <div class="max-560"> 
+                    {%- if settings.sd_not_found_title != blank -%}
+                        <h6 class="h9">{{ settings.sd_not_found_title }}</h6>
+                    {%- endif -%}
+
+                    {%- if settings.sd_not_found_image_desktop != blank -%}
+                        <div class="image-wrapper mt-20 d-mt-25">
+                            {%- assign image_id = 'image-diamond-not-found' -%}
+                            {%- render 'global-image-wrapper-responsive',
+                                image_id: image_id,
+                                desktop_image: settings.sd_not_found_image_desktop,
+                                mobile_image: settings.sd_not_found_image_mobile
+                            -%}
+                        </div>
+                    {%- endif -%}
+
+                    {%- if settings.sd_not_found_text != blank -%}
+                        <p class="p2 c-grey mt-15 d-mt-20">{{ settings.sd_not_found_text }}</p>
+                    {%- endif -%}
+                </div>
+            </div>
+
+            <div class="results-outer-wrapper relative width-100 d-mt-50 hide-m">
+                <p class="p3 uppercase spacing-2 bold-600 pb-5 hide-m show-d">Results</p>
+
+                <div class="results-wrapper">
+                    {%- paginate diamond_coll.products by 300 -%}
+                        {%- for pro in diamond_coll.products -%}
+                            {%- assign carat = "" -%}
+                            {%- assign colour = "" -%}
+                            {%- assign clarity = "" -%}
+                            {%- assign cut = "" -%}
+                            {%- assign source = "" -%}
+    
+                            {%- for tag in pro.tags -%}
+                                {%- if tag contains 'carat:' -%}
+                                    {%- assign carat = tag | replace: 'carat:', '' -%}
+                                {%- endif -%}
+                                {%- if tag contains 'colour:' -%}
+                                    {%- assign colour = tag | replace: 'colour:', '' -%}
+                                {%- endif -%}
+                                {%- if tag contains 'clarity:' -%}
+                                    {%- assign clarity = tag | replace: 'clarity:', '' -%}
+                                {%- endif -%}
+                                {%- if tag contains 'cut:' -%}
+                                    {%- assign cut = tag | replace: 'cut:', '' -%}
+                                {%- endif -%}
+                                {%- if tag contains 'source:' -%}
+                                    {%- assign source = tag | replace: 'source:', '' -%}
+                                {%- endif -%}
+                                {%- if tag contains 'shape:' -%}
+                                    {%- assign shape = tag | replace: 'shape:', '' -%}
+                                {%- endif -%}
+                            {%- endfor -%}
+    
+                            <div class="result-each p-10 t-p-20 b-1 b-silver mt-15 {{ visibility }}" data-product-id="{{ pro.id }}"
+                                data-carat="{{ carat }}"
+                                data-colour="{{ colour }}"
+                                data-clarity="{{ clarity }}"
+                                data-shape="{{ shape }}"
+                                data-product-title="{{ pro.title }}"
+                            >
+                                <div class="text-container global-flex width-100 flex-wrap">
+                                    <div class="image-wrapper global-flex ai-center jc-between hd-pt-5 hd-pb-5 hd-pr-20 hd-br-1 b-silver">
+                                        <div class="global-flex ai-center">
+                                            <div class="image-container">
+                                                {%- render 'global-image-wrapper',
+                                                    image: pro.featured_image
+                                                -%}
+                                            </div>
+                                            <span class="price p2 bold-500 ml-10">{{ pro.price | money_with_currency }}</span>
+                                        </div>
+
+                                        <div class="button-wrapper show-m-flex hide-hd">
+                                            <a href="javascript:void(0)" 
+                                                onclick="$diamondFilter.setSelectedDiamond(event,{{ pro.selected_or_first_available_variant.id }},{{ pro.id }})" 
+                                                rel="nofollow" 
+                                                class="btn3 tc btn-select-diamond"
+                                                data-carat="{{ carat }}"
+                                                data-colour="{{ colour }}"
+                                                data-clarity="{{ clarity }}"
+                                                data-cut="{{ cut }}"
+                                                data-source="{{ source }}"
+                                                data-price="{{ pro.selected_or_first_available_variant.price }}"
+                                            >
+                                                SELECT DIAMOND
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="info-each-wrapper width-100 global-flex mt-20 hd-mt-0">
+                                        <div class="info-each global-flex ai-center jc-center pt-5 pb-5 pl-0 pr-5 t-pl-0 t-pr-20 max-pl-20 br-1 b-silver">
+                                            <p class="p2 tc">
+                                                <span class="bold-500">Carat</span><br><span class="bold-600">{{ carat }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="info-each global-flex ai-center jc-center pt-5 pb-5 pl-5 pr-5 t-pl-20 t-pr-20 br-1 b-silver">
+                                            <p class="p2 tc">
+                                                <span class="bold-500">Colour</span><br><span class="bold-600">{{ colour }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="info-each global-flex ai-center jc-center pt-5 pb-5 pl-5 pr-5 t-pl-20 t-pr-20 br-1 b-silver">
+                                            <p class="p2 tc">
+                                                <span class="bold-500">Clarity</span><br><span class="bold-600">{{ clarity }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="info-each global-flex ai-center jc-center pt-5 pb-5 pl-5 pr-5 t-pl-20 t-pr-20 br-1 b-silver">
+                                            <p class="p2 tc">
+                                                <span class="bold-500">Cut</span><br><span class="bold-600 capitalize">{{ cut }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="info-each global-flex ai-center jc-center pt-5 pb-5 pl-5 pr-0 t-pl-20 t-pr-0 max-pr-20 br-0 b-silver">
+                                            <p class="p2 tc">
+                                                <span class="bold-500">Source</span><br><span class="bold-600 capitalize">{{ source }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-wrapper hide-m show-hd-flex">
+                                    <a href="javascript:void(0)" 
+                                        onclick="$diamondFilter.setSelectedDiamond(event,{{ pro.selected_or_first_available_variant.id }},{{ pro.id }})" 
+                                        rel="nofollow" 
+                                        class="btn3 tc btn-select-diamond"
+                                        data-carat="{{ carat }}"
+                                        data-colour="{{ colour }}"
+                                        data-clarity="{{ clarity }}"
+                                        data-cut="{{ cut }}"
+                                        data-source="{{ source }}"
+                                        data-price="{{ pro.selected_or_first_available_variant.price }}"
+                                    >
+                                        SELECT DIAMOND
+                                    </a>
+                                </div>
+                            </div>
+                        {%- endfor -%}
+                    {%- endpaginate -%}
+                </div>
+            </div>
+        </div>
+        {%- comment -%} end right side {%- endcomment -%}
+    </div>
+
+    {%- comment -%} carat size range {%- endcomment -%}
+    <div class="carat-size-range-wrapper hide-m">
+        {%- for variant in product.variants -%}
+            <span class="carat-size-range-each hide-m" data-variant-id="{{ variant.id }}" data-range="{{ variant.metafields.carat.size_range }}"></span>
+        {%- endfor -%}
+    </div>
+    {%- comment -%} end carat size range {%- endcomment -%}
+</section>
+
+<script>
+    {%- comment -%} Set carat range {%- endcomment -%}
+    document.addEventListener("DOMContentLoaded", function() {
+        let carat, range_min, range_max;
+        let carat_range = '';
+        const carat_filters = document.querySelectorAll(`#product-diamond-filter .filter-each-wrapper.carat .filter-each-check`);
+
+        {%- for tag in diamond_coll.all_tags -%}
+            carat_range = '';
+
+            {%- if tag contains 'carat:' -%}
+                carat = Number(`{{ tag | replace: 'carat:', '' }}`).toFixed(2);
+                
+                carat_filters.forEach(function(carat_filter){
+                    if(carat_filter.getAttribute('data-range') != null) {
+                        carat_range = carat_filter.getAttribute('data-range');
+                    } else {
+                        carat_range = '';
+                    }
+
+                    range_min = Number(carat_filter.getAttribute('data-min'));
+                    range_max = Number(carat_filter.getAttribute('data-max'));
+
+                    if(carat>=range_min && carat<=range_max) {
+                        carat_range += carat+",";
+                        carat_filter.setAttribute('data-range',carat_range);
+                    }
+                });
+            {%- endif -%}
+        {%- endfor -%}
+    });
+</script>

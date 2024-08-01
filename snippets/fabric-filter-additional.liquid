@@ -1,0 +1,87 @@
+{%- comment -%}
+Description:
+Snippet for displaying additional fabric filter popup
+{%- endcomment -%}
+{%- assign el_id = 'fabric-filter-adl' -%}
+{%- render 'fabric-filter-content', el_id: el_id -%}
+
+<script>
+const fabricFilterAdlVue = Vue.createApp({
+    delimiters: ['${', '}'],
+    data() {
+        return {
+            showFabricFilter: false,
+            fabricFilters: {
+                features: [],
+                colors: [],
+                materials: []
+            }
+        }
+    },
+    methods: {
+        filterFabric() {
+            if(!this.fabricFilters.features.length && 
+                !this.fabricFilters.colors.length && 
+                !this.fabricFilters.materials.length
+            ) {
+                alert('Please select at list 1 filter!');
+                return;
+            }
+
+            document.querySelectorAll('.additional-fabrics').forEach(groupEl => {
+                groupEl.querySelectorAll('.fabric-img-wrapper').forEach(elWrapper => {
+                    const el = elWrapper.querySelector('.fabric-img');
+                    const feature = el.getAttribute('data-feature');
+                    const color = el.getAttribute('data-color');
+                    const material = el.getAttribute('data-material');
+                    let showIt = true;
+
+                    if(this.fabricFilters.colors.length) {
+                        if(this.fabricFilters.colors.includes(color)) {
+                            showIt = true;
+                        } else {
+                            showIt = false
+                        }
+                    }
+
+                    if(this.fabricFilters.features.length) {
+                        if(this.fabricFilters.features.includes(feature) && showIt) {
+                            showIt = true;
+                        } else {
+                            showIt = false
+                        }
+                    }
+
+                    if(this.fabricFilters.materials.length) {
+                        if(this.fabricFilters.materials.includes(material) && showIt) {
+                            showIt = true;
+                        } else {
+                            showIt = false
+                        }
+                    }
+
+                    if(showIt) {
+                        elWrapper.classList.remove('hide-m');
+                    } else {
+                        elWrapper.classList.add('hide-m');
+                    }
+
+                });
+            });
+
+            this.showFabricFilter = false;
+        },
+        clearFilterFabric() {
+            this.fabricFilters.features = [];
+            this.fabricFilters.colors = [];
+            this.fabricFilters.materials = [];
+            document.querySelectorAll('.additional-fabrics').forEach(groupEl => {
+                groupEl.querySelectorAll('.fabric-img-wrapper').forEach(el => {
+                    el.classList.remove('hide-m');
+                });
+            });
+            this.showFabricFilter = false;
+        },
+    }
+}).mount('#{{ el_id }}-con');
+</script>

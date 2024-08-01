@@ -1,0 +1,17 @@
+{% comment %}
+Description:
+Snippet for rendering all fabric details popup
+{% endcomment %}
+{%- for link in linklists.fabrics.links -%}
+	{%- assign coll = link.object -%}
+	{%- if coll != blank -%}
+		{%- assign coll_title = coll.title | replace: ' Fabrics', '' -%}
+		{%- assign popup_id = coll_title | replace: ' ', '-' | downcase -%}
+		{%- assign popup_id = popup_id | replace: '&', '-' | downcase -%}
+		{%- render 'fabric-details-popup',
+			el_id: popup_id,
+			collection: coll,
+			group_name: link.title
+		-%}
+	{%- endif -%}
+{%- endfor -%}

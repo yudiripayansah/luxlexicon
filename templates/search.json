@@ -1,0 +1,27 @@
+{
+  "wrapper": ".global-content-top-margin",
+  "sections": {
+    "main": {
+      "type": "empty-section",
+      "settings": {}
+    },
+    "collection_and_search_products_6WxVeM": {
+      "type": "collection-and-search-products",
+      "settings": {
+        "hide_pagination": false,
+        "disable_add_to_cart": false,
+        "hide_additional_quick_filter": false,
+        "hide_specific_filter": "",
+        "pagination_type": "infinite",
+        "bipl_enable": false,
+        "bipl_title": "",
+        "bipl_button_label": "",
+        "bipl_button_url": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "collection_and_search_products_6WxVeM"
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "wrapper": "div.collection-con.global-content-top-margin",
+  "sections": {
+    "collection_and_search_products_qYGFKd": {
+      "type": "collection-and-search-products",
+      "blocks": {
+        "quick_filter_custom_QCb6cG": {
+          "type": "quick_filter_custom",
+          "settings": {
+            "filter_value": "Trending",
+            "filter_param_name": "collection_type"
+          }
+        },
+        "quick_filter_custom_pjRWFt": {
+          "type": "quick_filter_custom",
+          "settings": {
+            "filter_value": "New Arrivals",
+            "filter_param_name": "collection_type"
+          }
+        },
+        "quick_filter_custom_hxgjiX": {
+          "type": "quick_filter_custom",
+          "settings": {
+            "filter_value": "Sale",
+            "filter_param_name": "collection_type"
+          }
+        }
+      },
+      "block_order": [
+        "quick_filter_custom_QCb6cG",
+        "quick_filter_custom_pjRWFt",
+        "quick_filter_custom_hxgjiX"
+      ],
+      "settings": {
+        "enable_hero_banner": true,
+        "banner_image_desktop": "shopify:\/\/shop_images\/1440x320.png",
+        "banner_image_mobile": "shopify:\/\/shop_images\/1440x320.png",
+        "hide_pagination": false,
+        "disable_add_to_cart": false,
+        "hide_additional_quick_filter": false,
+        "hide_specific_filter": "filter.p.m.custom.collection_type",
+        "pagination_type": "pagination",
+        "bipl_enable": true,
+        "bipl_video_autoplay": true,
+        "bipl_image_desktop": "shopify:\/\/shop_images\/310x415.png",
+        "bipl_image_mobile": "shopify:\/\/shop_images\/335x250.png",
+        "bipl_position": 7,
+        "bipl_title": "Can’t find the bag you’re looking for?",
+        "bipl_button_label": "Contact Us",
+        "bipl_button_url": "shopify:\/\/pages\/contact"
+      }
+    },
+    "273953f7-b7d3-44d9-aa96-597f545a85a0": {
+      "type": "collection-in-main-heading",
+      "disabled": true,
+      "settings": {
+        "background_color": "#e4f3ec",
+        "title": "",
+        "title_dom_type": "h2",
+        "text": "",
+        "top_padding_m": "40",
+        "bottom_padding_m": "40",
+        "top_padding_t": "",
+        "bottom_padding_t": "",
+        "top_padding": "175",
+        "bottom_padding": "50"
+      }
+    },
+    "product_slider_RCBTF8": {
+      "type": "product-slider",
+      "blocks": {
+        "product_myh74R": {
+          "type": "product",
+          "settings": {
+            "product": "14k-solid-gold-baby-clicker-hoop-6mm"
+          }
+        }
+      },
+      "block_order": [
+        "product_myh74R"
+      ],
+      "disabled": true,
+      "settings": {
+        "top_padding_m": "",
+        "bottom_padding_m": "",
+        "top_padding_t": "",
+        "bottom_padding_t": "",
+        "top_padding": "",
+        "bottom_padding": "",
+        "bg_color": "",
+        "title": "",
+        "label": "",
+        "url": "",
+        "list_source": "section_blocks",
+        "collection": "",
+        "number": 6
+      }
+    },
+    "ca6550e0-623e-4af6-8ec3-2c83b4299e06": {
+      "type": "collection-template-boost-pfs-filter",
+      "blocks": {
+        "21d3fb59-8aad-4525-bdab-d3060ee3ae7a": {
+          "type": "hotspot_entry",
+          "disabled": true,
+          "settings": {
+            "point_x_mobile": "20",
+            "point_y_mobile": "88",
+            "point_x_tablet": "25",
+            "point_y_tablet": "",
+            "point_x_desktop": "70",
+            "point_y_desktop": "50",
+            "product": "lvc-petit-precieux-enchanted-tiara-diamond-ring",
+            "popup_appear": "left_bottom"
+          }
+        },
+        "7b46af32-3bd1-4d0f-8159-2841370d0ce6": {
+          "type": "hotspot_entry",
+          "disabled": true,
+          "settings": {
+            "point_x_mobile": "55",
+            "point_y_mobile": "90",
+            "point_x_tablet": "",
+            "point_y_tablet": "",
+            "point_x_desktop": "51",
+            "point_y_desktop": "70",
+            "product": "lvc-charmes-crossover-mini-ring-diamond-pendant",
+            "popup_appear": "right_bottom"
+          }
+        },
+        "10f866e2-5362-4d78-8c61-2b227fded4be": {
+          "type": "hotspot_entry",
+          "disabled": true,
+          "settings": {
+            "point_x_mobile": "55",
+            "point_y_mobile": "28",
+            "point_x_tablet": "",
+            "point_y_tablet": "",
+            "point_x_desktop": "52",
+            "point_y_desktop": "28",
+            "product": "lvc-noeud-dainty-diamond-bracelet",
+            "popup_appear": "left_top"
+          }
+        }
+      },
+      "block_order": [
+        "21d3fb59-8aad-4525-bdab-d3060ee3ae7a",
+        "7b46af32-3bd1-4d0f-8159-2841370d0ce6",
+        "10f866e2-5362-4d78-8c61-2b227fded4be"
+      ],
+      "disabled": true,
+      "settings": {
+        "cta_1_enable": true,
+        "cta_1_small_title": "CHRISTMAS GIFTS",
+        "cta_1_title": "GIFT IDEAS FOR HER",
+        "cta_1_button_label": "Shop Now",
+        "cta_1_button_url": "shopify:\/\/collections\/sleigh-the-season-with-love",
+        "cta_2_enable": false,
+        "cta_2_bg_color": "",
+        "cta_2_text_color": "",
+        "cta_2_title": "",
+        "cta_2_link_url": "",
+        "cta_3_enable": false,
+        "cta_3_text": "",
+        "cta_3_text_color": "#ffffff",
+        "top_padding_m": "40",
+        "bottom_padding_m": "40",
+        "top_padding_t": "60",
+        "bottom_padding_t": "60",
+        "top_padding": "80",
+        "bottom_padding": "80"
+      }
+    },
+    "collection_text_JzhGeQ": {
+      "type": "collection-text",
+      "disabled": true,
+      "settings": {
+        "title": "RINGS",
+        "description": "Rings help you achieve effortless style. With classic bands for everyday, to bold designs to stand out - we have the perfect pieces to add to your stack. Our modern rings boast beautiful design to suit every aesthetic. Gold rings have a stunning yellow hue, with a warmth that glows from your fingers. Pair alongside your most loved gold jewellery to take advantage of the sunny tones.",
+        "top_padding_m": "40",
+        "bottom_padding_m": "40",
+        "top_padding_t": "40",
+        "bottom_padding_t": "40",
+        "top_padding": "20",
+        "bottom_padding": "60",
+        "top_padding_hd": "20",
+        "bottom_padding_hd": "60",
+        "top_padding_hhd": "30",
+        "bottom_padding_hhd": "70"
+      }
+    }
+  },
+  "order": [
+    "collection_and_search_products_qYGFKd",
+    "273953f7-b7d3-44d9-aa96-597f545a85a0",
+    "product_slider_RCBTF8",
+    "ca6550e0-623e-4af6-8ec3-2c83b4299e06",
+    "collection_text_JzhGeQ"
+  ]
+}

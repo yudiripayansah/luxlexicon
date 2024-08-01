@@ -1,0 +1,138 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "faq_page_title_4P9Rze": {
+      "type": "faq-page-title",
+      "settings": {
+        "enable_border_top": false,
+        "enable_border_bottom": false,
+        "background_color": "#faf7f2",
+        "small_title_color": "",
+        "text_color": "",
+        "line_height_mobile": "",
+        "line_height_tablet": "",
+        "line_height_desktop": "",
+        "advanced_background_color": "",
+        "small_title": "",
+        "title": "Contact us",
+        "title_size": "h1",
+        "title_dom": "h1",
+        "text": "",
+        "text_size": "p2",
+        "text_align": "tl",
+        "link_label": "",
+        "link_url": "",
+        "button_label": "",
+        "button_url": "",
+        "btn_bg_color": "",
+        "btn_text_color": "",
+        "btn_hover_bg_color": "",
+        "btn_hover_text_color": "",
+        "max_width": 600,
+        "max_width_tablet": 600,
+        "max_width_desktop": 600,
+        "max_width_hhd": 600,
+        "max_width_text": 500,
+        "max_width_text_tablet": 500,
+        "max_width_text_desktop": 500,
+        "max_width_text_hhd": 600,
+        "top_padding_m": "medium",
+        "bottom_padding_m": "medium",
+        "top_padding_t": "medium",
+        "bottom_padding_t": "medium",
+        "top_padding": "medium",
+        "bottom_padding": "medium",
+        "top_padding_hd": "medium",
+        "bottom_padding_hd": "medium",
+        "top_padding_hhd": "medium",
+        "bottom_padding_hhd": "medium"
+      }
+    },
+    "contact_us_GJedqL": {
+      "type": "contact-us",
+      "blocks": {
+        "entry_Gg48Ei": {
+          "type": "entry",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/icon.calendar.contact.png",
+            "title": "Book an appointment",
+            "text": "For personalised advice, we invite you to schedule an appointment with us.",
+            "url": "https:\/\/www.google.com",
+            "new_tab": false,
+            "open_chat": false
+          }
+        },
+        "entry_zk8Dpb": {
+          "type": "entry",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/icon.mail.contact.png",
+            "title": "Submit an enquiry",
+            "text": "We welcome you to fill out our contact form.",
+            "url": "",
+            "new_tab": false,
+            "open_chat": false
+          }
+        },
+        "entry_xCfQNd": {
+          "type": "entry",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/icon.chat.contact.png",
+            "title": "Chat with a consultant",
+            "text": "Our trained consultants are available to provide personalised advice.\nOperating hours: Monday-Sunday, 10am-6pm (excluding public holidays)",
+            "url": "",
+            "new_tab": false,
+            "open_chat": true
+          }
+        },
+        "entry_tRzF8A": {
+          "type": "entry",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/icon.phone.contact.png",
+            "title": "Call us",
+            "text": "Operating hours: Monday-Sunday, 10am-6pm (excluding public holidays)\nIf we are not available, we welcome you to leave us a message via WhatsApp.",
+            "url": "",
+            "new_tab": false,
+            "open_chat": false
+          }
+        },
+        "entry_Xqtd94": {
+          "type": "entry",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/icon.whatsapp.contact.png",
+            "title": "WhatsApp us",
+            "text": "Operating hours: Monday-Sunday, 10am-6pm (excluding public holidays)",
+            "url": "",
+            "new_tab": false,
+            "open_chat": false
+          }
+        }
+      },
+      "block_order": [
+        "entry_Gg48Ei",
+        "entry_zk8Dpb",
+        "entry_xCfQNd",
+        "entry_tRzF8A",
+        "entry_Xqtd94"
+      ],
+      "settings": {
+        "top_padding_m": "small",
+        "bottom_padding_m": "small",
+        "top_padding_t": "small",
+        "bottom_padding_t": "small",
+        "top_padding": "medium",
+        "bottom_padding": "medium",
+        "top_padding_hd": "medium",
+        "bottom_padding_hd": "medium",
+        "top_padding_hhd": "medium",
+        "bottom_padding_hhd": "medium",
+        "faq_title": "Explore our Frequently Asked Questions",
+        "faq_label": "EXPLORE FAQs",
+        "faq_url": ""
+      }
+    }
+  },
+  "order": [
+    "faq_page_title_4P9Rze",
+    "contact_us_GJedqL"
+  ]
+}

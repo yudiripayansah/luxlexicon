@@ -1,0 +1,532 @@
+{
+  "wrapper": ".global-content-top-margin",
+  "sections": {
+    "article_heading_qPqmFk": {
+      "type": "article-heading",
+      "settings": {
+        "top_padding_m": 30,
+        "bottom_padding_m": 25,
+        "top_padding_t": 30,
+        "bottom_padding_t": 30,
+        "top_padding": 50,
+        "bottom_padding": 44,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "title_size": "h1",
+        "title_dom_type": "h1",
+        "subtitle": "IMPACT",
+        "title": "FASHION for CANCER"
+      }
+    },
+    "article_main_banner_VkRKKL": {
+      "type": "article-main-banner",
+      "blocks": {
+        "entry_QfcgJD": {
+          "type": "entry",
+          "settings": {
+            "text_color": "#FFFFFF",
+            "text_align": "jc-center tc",
+            "text_align_d": "d-jc-center d-tc",
+            "title": "",
+            "title_dom_type": "h1",
+            "title_size": "h1",
+            "text": "",
+            "text_max_width_mobile": 450,
+            "text_max_width_tablet": 450,
+            "text_max_width_desktop": 450,
+            "text_max_width_hd": 450,
+            "text_max_width_fullhd": 450,
+            "button_label": "",
+            "button_url": "",
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-1.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-1.jpg",
+            "autoplay": false,
+            "youtube_embed_code": ""
+          }
+        }
+      },
+      "block_order": [
+        "entry_QfcgJD"
+      ],
+      "settings": {
+        "bg_color": "",
+        "disable_lazyload": false,
+        "text_over_image": false,
+        "enable_parallax": false,
+        "section_width": "container",
+        "section_width_percentage_d": 1088,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "article_content_dGEAiz": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "<p>This August, IN GOOD COMPANY was proud to present our current and upcoming releases at <a href=\"https:\/\/www.instagram.com\/fashionforcancersg\/\" target=\"_blank\" title=\"https:\/\/www.instagram.com\/fashionforcancersg\/\">Fashion for Cancer<\/a> (FFC), a special charity showcase modelled by cancer survivors of all gender, shape and sizes. This<br\/>initiative rallied local fashion insiders—all of whom came together pro-bono to fundraise for the National Cancer<br\/>Centre’s research and financial assistance programs.<br\/><br\/>The showcase was spearheaded by active ageing ambassador, grandmother of two and entrepreneur Ong Bee<br\/>Yan, who is better known under the handle of <a href=\"https:\/\/www.instagram.com\/grey_evolution\/\" target=\"_blank\" title=\"https:\/\/www.instagram.com\/grey_evolution\/\">@grey_evolution<\/a>. Inspired by their resilience and desire to uplift others, Yan conceived the idea of a fashion show modelled by cancer survivors. For them, walking the runway was a dream come true, a celebration of life, and a symbol of strength and resilience.<br\/><\/p><p>Moved and inspired by her passionate call to aid, a collective of friends from the fashion, music, entertainment<br\/>and production industries, sponsors and cancer survivors all came together to support this meaningful cause.<br\/><\/p><p>We bring you behind the scenes to this unique fundraiser\/fashion showcase.<br\/><br\/><\/p>"
+      }
+    },
+    "article_image_caption_gcWViF": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-2.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-2.jpg",
+        "title": ""
+      }
+    },
+    "article_content_XHg3aX": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "<p>Ong Bee Yan is an icon of empowerment for ageing individuals, and has worked tirelessly to challenge societal<br\/>norms surrounding fashion and beauty. Embracing her natural grey mane, she lives passionately by her motto,<br\/>\"It's never too late to try something new.\"<\/p>"
+      }
+    },
+    "article_image_caption_mMdb3Q": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-3.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-3.jpg",
+        "title": "<a href=\"https:\/\/www.instagram.com\/danielboey\/\" target=\"_blank\"><u>Daniel Boey<\/u><\/a>, godfather of fashion and choreographer for Fashion for Cancer."
+      }
+    },
+    "article_two_cols_image_eXHjkx": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_P8zcAQ": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-4.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-4.jpg",
+            "caption": "Stylist, <u><a href=\"https:\/\/www.instagram.com\/josiahchua\/\" target=\"blank\">Josiah Chua<\/a><\/u>, backstage.",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_c4Aj4b": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-5.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-5.jpg",
+            "caption": "Singer, <a href=\"https:\/\/www.instagram.com\/theonlyhavenz\/\" target=\"blank\"><u>Haven<\/u><\/a>, backstage.<p><\/p>Accessories by  <u><a href=\"https:\/\/www.instagram.com\/mosslupine\/\" target=\"blank\">Moss & Lupine<\/a><\/u>.",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_P8zcAQ",
+        "entry_c4Aj4b"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_two_cols_image_n6Taqb": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_iCGpb9": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-6.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-6.jpg",
+            "caption": "Cancer Survivor\/Model, <u><a href=\"https:\/\/www.instagram.com\/sadiehallxx\/\" target=\"blank\">Sadie Hall<\/a><\/u>, backstage.<p>Outfit by IN GOOD COMPANY<\/p>",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_NPyWYm": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-7.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-7.jpg",
+            "caption": "(Left to right) Cancer survivors \/ models, <p>\n<a href=\"https:\/\/www.instagram.com\/nickyloh\/\" target=\"blank\"><u>Nicky Loh<\/u><\/a>, <a href=\"https:\/\/www.instagram.com\/gabbyyip\/\" target=\"blank\"><u>Gabriel Yip<\/u><\/a>, <a href=\"https:\/\/www.instagram.com\/rongliangchia\/\" target=\"blank\"><u>Chia Rong Liang<\/u><\/a>, <a href=\"https:\/\/www.instagram.com\/zhizhongtay\/\" target=\"blank\"><u>Tay Zhi Zhong<\/u><\/a><\/p><p>\nFootwear by Charles and Keith<\/p>",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_iCGpb9",
+        "entry_NPyWYm"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_image_caption_VhNdgw": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-8.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-8.jpg",
+        "title": "Cancer Survivor\/Model, Charlie Rose Ong (Left), alongside mom, <a href=\"https:\/\/www.instagram.com\/eleventhour\/\" target=\"blank\"><u>Charmaine Seah-Ong<\/u><\/a> and sister, Dahlia Jaymes Ong"
+      }
+    },
+    "article_image_caption_dWAEne": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-9.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-9.jpg",
+        "title": "Event space hosted by <a href=\"https:\/\/oceanusmedia.global\/\" target=\"blank\"><u>Oceanus Media Global<\/u><\/a>, at their Extended Reality (XR) Studio."
+      }
+    },
+    "article_two_cols_image_TjYwHA": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_KRMw88": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-10.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-10.jpg",
+            "caption": "Host of the Show, <a href=\"https:\/\/www.instagram.com\/georginachang\/\" target=\"blank\"><u>Georgina Chang<\/u><\/a>.",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_XjHawi": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-11.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-11.jpg",
+            "caption": "Beatbox Artist, <a href=\"https:\/\/www.instagram.com\/dharni\/\" target=\"blank\"><u>Dharni<\/u><\/a>.",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_KRMw88",
+        "entry_XjHawi"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_two_cols_image_f4CNft": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_wKWHHr": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-12.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-12.jpg",
+            "caption": "Cancer survivors\/Models, (Left to Right): <a href=\"https:\/\/www.instagram.com\/viviennewongsingalong\/\" target=\"blank\"><u>Vivienne Wong<\/u><\/a>, <a href=\"https:\/\/www.instagram.com\/miss_hoo\/\" target=\"blank\"><u>Tracy Hoo<\/u><\/a>, <a href=\"https:\/\/www.instagram.com\/fightingshu\/\" target=\"blank\"><u>Shu Wen Lou<\/u><\/a>, <a href=\"https:\/\/www.instagram.com\/_________gnafxiuh\/\" target=\"blank\"><u>Yvonne Chua<\/u><\/a>, <a href=\"https:\/\/www.instagram.com\/chupachupchar\/\" target=\"blank\"><u>Charlene Koh<\/u><\/a>",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_iewfKE": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-13.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-13.jpg",
+            "caption": "Performance by <a href=\"https:\/\/www.instagram.com\/hanerimilliona\/\" target=\"blank\"><u>Haneri Milliona<\/u><\/a>.",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_wKWHHr",
+        "entry_iewfKE"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_quote_Hetcdt": {
+      "type": "article-quote",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_mobile": 0,
+        "mw_tablet": 360,
+        "mw_desktop": 400,
+        "text": "<h2>“Whether it was in cash, in kind or by way of their counsel and time invested, I am thankful for them hearing me out, and making my vision become a reality.”<br\/><\/h2><h2>— ONG BEE YAN<\/h2>"
+      }
+    },
+    "article_image_caption_6a9Ntr": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-14.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-14.jpg",
+        "title": "Cancer survivor\/Model, Mediacorp Artiste <a href=\"https:\/\/www.instagram.com\/panlinglingg\/\" target=\"blank\"><u>Pan Ling Ling<\/u><\/a>.\u2028<p>Outfit by IN GOOD COMPANY.<\/p>"
+      }
+    },
+    "article_image_caption_C3w8AY": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-15.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Impact_Blog_FFC-15.jpg",
+        "title": ""
+      }
+    },
+    "article_content_BiXMzr": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 50,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_mobile": 0,
+        "mw_desktop": 650,
+        "text": "<p>Beyond showcasing the triumph of cancer survivors, the funds raised through the FFC Charity Fashion Show<br\/>will be dedicated to two key efforts: 50% of the proceeds will go towards cancer research, testing and fostering<br\/>advancements in the field. The remaining 50% will provide vital financial assistance to low-income individuals<br\/>and their families to alleviate their financial burdens.<br\/><\/p><p>IN GOOD COMPANY would like to thank everyone who came forward without hesitation to give their time and<br\/>efforts to support this event. Special mention goes out to Ingrid How (PR & Media), DJ KoFlow (Music), Sharon<br\/>Tan (Stylist) and Philothea Liau (Planning) and the other Cancer Survivors\/Models who were not credited<br\/>above.<br\/><\/p><p>As part of the company’s “A Better Company” social initiatives, we hope to make a small impact by matching the<br\/>proceeds raised through ticket sales. 100% of the tickets were sold and IN GOOD COMPANY has donated<br\/>$20,000 via Fashion for Cancer’s official page on giving.sg.<br\/><\/p>"
+      }
+    },
+    "article_footer_XFNrfV": {
+      "type": "article-footer",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": ""
+      }
+    },
+    "article_related_articles_hcQNnH": {
+      "type": "article-related-articles",
+      "blocks": {
+        "entry_3qNTRx": {
+          "type": "entry",
+          "settings": {
+            "article": "stories\/joie-de-vivre"
+          }
+        },
+        "entry_fcDJzk": {
+          "type": "entry",
+          "settings": {
+            "article": "stories\/tan-kheng-hua-lim-shi-an"
+          }
+        },
+        "entry_pEzkre": {
+          "type": "entry",
+          "settings": {
+            "article": "stories\/in-pursuit-of-timelessness"
+          }
+        }
+      },
+      "block_order": [
+        "entry_3qNTRx",
+        "entry_fcDJzk",
+        "entry_pEzkre"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "article_breadcrumbs_YCHHea": {
+      "type": "article-breadcrumbs",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 40,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_mobile": 320,
+        "mw_tablet": 320,
+        "mw_desktop": 0
+      }
+    }
+  },
+  "order": [
+    "article_heading_qPqmFk",
+    "article_main_banner_VkRKKL",
+    "article_content_dGEAiz",
+    "article_image_caption_gcWViF",
+    "article_content_XHg3aX",
+    "article_image_caption_mMdb3Q",
+    "article_two_cols_image_eXHjkx",
+    "article_two_cols_image_n6Taqb",
+    "article_image_caption_VhNdgw",
+    "article_image_caption_dWAEne",
+    "article_two_cols_image_TjYwHA",
+    "article_two_cols_image_f4CNft",
+    "article_quote_Hetcdt",
+    "article_image_caption_6a9Ntr",
+    "article_image_caption_C3w8AY",
+    "article_content_BiXMzr",
+    "article_footer_XFNrfV",
+    "article_related_articles_hcQNnH",
+    "article_breadcrumbs_YCHHea"
+  ]
+}

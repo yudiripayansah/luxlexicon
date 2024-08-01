@@ -1,0 +1,11 @@
+{%- assign count = 0 -%}
+{%- for item in cart.items -%}
+    {%- if item.properties['_group_id'] == blank -%}
+        {%- assign count = count | plus: item.quantity -%}
+    {%- else -%}
+        {%- if item.properties['_group_parent'] != blank -%}
+            {%- assign count = count | plus: item.quantity -%}
+        {%- endif -%}
+    {%- endif -%}
+{%- endfor -%}
+{{ count }}

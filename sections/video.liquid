@@ -1,0 +1,285 @@
+{% comment %} Love&Co Theme {% endcomment %}
+
+<style>
+  #shopify-section-{{ section.id }} .global-video-wrapper video{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+  }
+  #shopify-section-{{ section.id }} .play-button {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 2;
+    padding-left: 3px;
+  }
+  #shopify-section-{{ section.id }} .play-button svg {
+    display: block;
+    width: 14px;
+    height: 14px;
+  }
+  .video-popup-wrapper {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: rgba(108,108,108,.8);
+    z-index: 1000000;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: .5s ease all;
+    overflow-y: auto;
+  }
+  .video-popup-wrapper.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  .video-popup-wrapper .popup-outer-wrapper {
+    position: relative;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  .video-popup-wrapper .popup-inner-wrapper {
+    position: relative;
+    width: 100%;
+    font-size: 0;
+    height: auto;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
+  }
+  .video-popup-wrapper .popup-inner-wrapper iframe {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+  .video-popup-wrapper .popup-inner-wrapper .close-popup {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    font-size: 0;
+    top: -40px;
+    right: 25px;
+  }
+  .video-popup-wrapper .popup-inner-wrapper .close-popup svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+  .video-popup-wrapper .popup-inner-wrapper .close-popup svg * {
+    stroke: #fff;
+  }
+
+  @media screen and (min-width: 768px) {
+    .video-popup-wrapper .popup-inner-wrapper {
+      width: 80%;
+    }
+    .video-popup-wrapper .popup-inner-wrapper .close-popup {
+      right: 0;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .video-popup-wrapper .popup-inner-wrapper {
+      width: 70%;
+    }
+  }
+</style>
+
+<section class="video-banner">
+	{%- comment -%} video popup wrapper {%- endcomment -%}
+	<teleport to="body">
+		<div id="" class="video-popup-wrapper" @click="hidePopup($event)" v-if="showVideoPopup" :class="{ 'show': showVideoPopupFade }">
+		  <div class="popup-outer-wrapper">
+			<div class="popup-inner-wrapper relative pl-25 pr-25 t-pl-0 t-pr-0">
+			  <a href="javascript:void(0)" rel="nofollow" @click="togglePopup($event)" class="close-popup">{{ settings.icon_close }}</a>
+	
+			  <iframe class="hide-m" id="video-popup-iframe" src="" frameborder="0" allowfullscreen></iframe>
+			  <video class="hide-m" id="video-popup-video" controls playsinline>
+				<source src="" type="video/mp4">
+			  </video>
+			</div>
+		  </div>
+		</div>
+	</teleport>
+	{%- comment -%} end video popup wrapper {%- endcomment -%}
+
+	<div class="main-wrapper relative">
+		{%- assign id = "video-banner-" | append: block.id -%}
+		
+		{%- assign video_type_desktop = '' -%}
+        {%- assign video_url_desktop = '' -%}
+        {%- for vid_source in section.settings.video_desktop.sources -%}
+            {%- if vid_source.mime_type == 'video/mp4' -%}
+                {%- assign video_type_desktop = vid_source.mime_type -%}
+                {%- assign video_url_desktop = vid_source.url -%}
+            {%- endif -%}
+        {%- endfor -%}
+
+        {%- assign video_type_mobile = '' -%}
+        {%- assign video_url_mobile = '' -%}
+        {%- for vid_source in section.settings.video_mobile.sources -%}
+            {%- if vid_source.mime_type == 'video/mp4' -%}
+                {%- assign video_type_mobile = vid_source.mime_type -%}
+                {%- assign video_url_mobile = vid_source.url -%}
+            {%- endif -%}
+        {%- endfor -%}
+
+		{%- if section.settings.play_on == 'inline' -%}
+			{%- render
+				'global-video-wrapper-responsive',
+					desktop_image: section.settings.poster_image_desktop,
+					mobile_image: section.settings.poster_image_mobile,
+					desktop_video_url: video_url_desktop,
+					mobile_video_url: video_url_mobile,
+					video_id: id,
+					load_inside_vue: true
+			-%}	
+		{%- else -%}
+			{%- render 'global-image-wrapper-responsive',
+				image_id: id,
+				desktop_image: section.settings.poster_image_desktop,
+				mobile_image: section.settings.poster_image_mobile,
+				load_inside_vue: true
+			-%}
+			<a href="javascript:void(0)" data-video-url-desktop="{{ video_url_desktop }}" data-video-url-mobile="{{ video_url_mobile }}" @click="togglePopup($event)" rel="no-follow" class="play-button">{{ settings.icon_play }}</a>
+		{%- endif -%}
+	</div>
+</section>
+
+<script>
+  const videoBannerVue = Vue.createApp({
+    delimiters: ['${','}'], 
+		data() {
+			return {
+				showVideoPopup: false,
+				showVideoPopupFade: false,
+				videoURLDesktop: null,
+				videoURLMobile: null,
+				iframeObj: null,
+				videoObj: null
+			}
+		},
+		mounted() {
+		},
+    methods: {
+      hidePopup(e) {
+        if(e.target.classList.contains('popup-outer-wrapper')) {
+          this.togglePopup();
+        }
+      },
+      setVideo() {
+		if(screen.width > 1023) {
+			if(this.videoURLDesktop.indexOf('.mp4') >= 0) {
+				this.videoObj.querySelector('source').setAttribute('src', this.videoURLDesktop);
+
+				this.iframeObj.classList.add('hide-m');
+				this.videoObj.classList.remove('hide-m');
+
+				this.videoObj.load();
+			}
+		} else {
+			if(this.videoURLMobile.indexOf('.mp4') >= 0) {
+				this.videoObj.querySelector('source').setAttribute('src', this.videoURLMobile);
+
+				this.iframeObj.classList.add('hide-m');
+				this.videoObj.classList.remove('hide-m');
+
+				this.videoObj.load();
+			}
+		}
+      },
+      togglePopup(e) {
+        const this_obj = this;
+        let button_obj = null;
+
+        if(e != null) {
+          button_obj = e.target.closest('.play-button')
+        }
+
+        if(!this_obj.showVideoPopup) {
+          this_obj.showVideoPopup = true;
+
+          setTimeout(() => {
+            this.iframeObj = document.querySelector('#video-popup-iframe');
+            this.videoObj = document.querySelector('#video-popup-video');
+            this_obj.showVideoPopupFade = true;
+            this_obj.videoURLDesktop = button_obj.getAttribute('data-video-url-desktop');
+			this_obj.videoURLMobile = button_obj.getAttribute('data-video-url-mobile');
+
+            this_obj.setVideo();
+          }, 100);
+        } else {
+          this_obj.showVideoPopupFade = false;
+
+          setTimeout(() => {
+            this_obj.showVideoPopup = false;
+          }, 500);
+        }
+      }
+    }
+  }).mount('#shopify-section-{{ section.id }} .video-banner');
+</script>
+
+{% schema %}
+{
+	"name": "Video Banner",
+	"settings": [
+		{
+			"type": "image_picker",
+			"id": "poster_image_desktop",
+			"label": "Poster Image (Desktop)"
+		},
+		{
+			"type": "video",
+			"id": "video_desktop",
+			"label": "Video (Desktop)"
+		},
+		{
+			"type": "image_picker",
+			"id": "poster_image_mobile",
+			"label": "Poster Image (Mobile)"
+		},
+		{
+			"type": "video",
+			"id": "video_mobile",
+			"label": "Video (Mobile)"
+		},
+		{
+            "type": "select",
+            "id": "play_on",
+            "label": "Play on",
+            "options": [
+              {
+                "value": "inline",
+                "label": "Inline"
+              },
+              {
+                "value": "popup",
+                "label": "Popup"
+              }
+            ],
+            "default": "inline"
+        }
+	],
+	"presets": [
+		{
+			"name": "Video Banner"
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,134 @@
+<style>
+  .page-faq-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+  .page-faq-left {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    transition: 0.3s ease all;
+  }
+  .site-header.fixed {
+    position: relative;
+  }
+  .page-faq-right .accordion .description .table::-webkit-scrollbar {
+    display: none; /* Hide default scrollbar for WebKit browsers */
+  }
+  .page-faq-right .accordion .description .table {
+    overflow-x: scroll;
+    padding-bottom: 25px;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+  }
+  .custom-scrollbar {
+    position: relative;
+    width: 100%; /* Adjust width as needed */
+    height: 2px; /* Adjust height as needed */
+    background: #d3d2d2;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .custom-scrollbar-thumb {
+    height: 100%;
+    width: 25%; /* Adjust width as needed */
+    background: #231d1d;
+    cursor: pointer;
+    position: absolute;
+  }
+  .page-faq-right .accordion .description .table th {
+    min-width: 150px;
+    text-align: left; 
+  }
+  .accordion .description b {
+    font-weight: 500;
+  }
+  @media screen and (max-width: 768px) {
+    .page-faq > .container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+  @media screen and (max-width: 1023px) {
+    .page-faq.global-content-top-margin {
+      margin-top: 0 !important;
+    }
+    .site-header .header-con__inner::after {
+      display: none;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    .page-faq-right .accordion .description .table {
+      padding-bottom: 25px;
+    }
+    .page-faq-right .accordion .description .table.d-pb-5 {
+      padding-bottom: 5px;
+    }
+    .custom-scrollbar {
+      margin-bottom: 25px;
+    }
+    .site-header.fixed {
+      position: fixed;
+    }
+
+    .page-faq-wrap {
+      flex-direction: row;
+    }
+    .page-faq-left {
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+    }
+    .page-faq-right {
+      
+    }
+    .page-faq-right .accordion .description .table th {
+      min-width: 160px;
+    }
+  }
+
+  @media screen and (min-width: 1800px) {
+    .page-faq-left {
+    }
+    .page-faq-right .accordion .description .table {
+      overflow-x: hidden;
+    }
+    .page-faq-right .accordion .description .table.hhd-pb-5 {
+      padding-bottom: 5px;
+    }
+    .custom-scrollbar {
+      display: none;
+    }
+  }
+</style>
+<div class="page-faq global-content-top-margin">
+  {% section 'faq-page-title' %}
+  <div class="container">
+    <div class="page-faq-wrap">
+      <div class="page-faq-left d-pt-100 d-pb-100 col-12 col-d-3 push-d-1 pl-0 pr-0 d-pl-0 d-pr-0">
+        {% section 'faq-navigation' %}
+      </div>
+      <div class="page-faq-right d-pt-44 d-pb-100 col-12 col-d-7 push-d-1 pl-0 pr-0 d-pl-0 d-pr-0">
+        {% section 'faq-content-1' %}
+        {% section 'faq-content-2' %}
+        {% section 'faq-content-3' %}
+        {% section 'faq-content-4' %}
+        {% section 'faq-content-5' %}
+        {% section 'faq-content-6' %}
+        {% section 'faq-content-7' %}
+        {% section 'faq-content-8' %}
+        {% section 'faq-content-9' %}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  window.addEventListener("resize", setStickyNavigationFaq())
+  setStickyNavigationFaq()
+  function setStickyNavigationFaq(){
+    let siteHeader = document.querySelector('#site-header');
+    let hh = siteHeader.clientHeight
+    let pfl = document.querySelector('.page-faq-left')
+    pfl.style.top = hh + 'px'
+  }
+</script>

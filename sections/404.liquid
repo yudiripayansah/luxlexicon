@@ -1,0 +1,143 @@
+{% comment %} Luxlexicon - Yudi {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% assign ss = section.settings %}
+<style>
+  #{{el_id}} {
+    {% if ss.bg_color != blank %}
+      background-color: {{ss.bg_color}};
+    {% endif %}
+  }
+  #{{el_id}} .nf-title {
+    {% if ss.title_color != blank %}
+    color: {{ss.title_color}};
+    {% endif %}
+  }
+  #{{el_id}} .nf-text {
+    {% if ss.text_color != blank %}
+    color: {{ss.text_color}};
+    {% endif %}
+  }
+  #{{el_id}} .nf-btn {
+    {% if ss.btn_bg_color != blank %}
+    background-color: {{ss.btn_bg_color}};
+    {% endif %}
+    {% if ss.btn_text_color != blank %}
+    color: {{ss.btn_text_color}};
+    {% endif %}
+    {% if ss.btn_border_color != blank %}
+    border-color: {{ss.btn_border_color}};
+    {% endif %}
+  }
+</style>
+<div class="404 d-pt-200 d-pb-200 pt-168 pb-168">
+  <div class="container">
+    <div class="flex ai-center jc-center">
+      <div class="tc">
+        {%-  if ss.title != blank -%}
+          <{{ ss.title_dom_type }} class="{{ ss.title_size }} c-white nf-title">
+            {{- ss.title | newline_to_br -}}
+          </{{ ss.title_dom_type }}>
+        {%- endif -%}
+        {%-  if ss.text != blank -%}
+          <div class="p1 c-white nf-text mt-16">
+            {{- ss.text | newline_to_br -}}
+          </div>
+        {%- endif -%}
+        {%-  if ss.btn_label != blank -%}
+          <a href="{{ss.btn_url}}" class="btn1 nf-btn mt-36">
+            {{- ss.btn_label -}}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+</script>
+{% schema %}
+{
+  "name": "404",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "p1", "label": "P1" },
+        { "value": "p2", "label": "P2" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button Label"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button Url"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_color",
+      "label": "Button Background color"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button Text color"
+    },
+    {
+      "type": "color",
+      "id": "btn_border_color",
+      "label": "Button Border color"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "404"
+    }
+  ]
+}
+{% endschema %}

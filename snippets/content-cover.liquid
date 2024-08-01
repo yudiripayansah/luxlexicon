@@ -1,0 +1,101 @@
+{% comment %}
+Description:
+Snippet for displaying content cover with image and text
+
+Variables:
+- el_id: String, element id
+- bg_color: String, background color
+- title: String, the title text
+- title_color: String, color for the title
+- sub_title: String, the sub title text
+- sub_title_color: String, color for the sub title
+- description: String, description text
+- description_color: String, description color
+- image: Object, image object
+- image_mobile: Object, image object for mobile
+- image_class: String. Classes for .image-con
+{% endcomment %}
+<style>
+#{{ el_id }} .ctn-cover .rbox .image-con {
+    width: calc(100% + 32px);
+    margin-left: -16px;
+}
+#{{ el_id }} .ctn-cover .rbox .description p,
+#{{ el_id }} .ctn-cover .lbox .description p {
+    padding-bottom: 5px;
+}
+#{{ el_id }} .ctn-cover .rbox .description p:last-child,
+#{{ el_id }} .ctn-cover .lbox .description p:last-child {
+    padding-bottom: 0;
+}
+
+@media screen and (min-width: 768px) {
+    #{{ el_id }} .ctn-cover .rbox .image-con {
+        width: 100%;
+        margin-left: 0;
+    }
+    #{{ el_id }} .ctn-cover .rbox .description p,
+    #{{ el_id }} .ctn-cover .lbox .description p {
+        padding-bottom: 5px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    #{{ el_id }} .ctn-cover .rbox .description p,
+    #{{ el_id }} .ctn-cover .lbox .description p {
+        padding-bottom: 10px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    #{{ el_id }} .ctn-cover .lbox {
+        padding-right: 33px;
+    }
+    #{{ el_id }} .ctn-cover .rbox {
+        padding-left: 32px;
+    }
+}
+</style>
+<div id="{{ el_id }}" class="w-full" {% if bg_color != blank %}style="background-color: {{ bg_color }}"{% endif %}>
+    <div class="container">
+        <div class="row ctn-cover d-flex">
+            <div class="col-12 col-t-5 lbox flex flex-column ai-start jc-center">
+                {%- if title != blank -%}
+                    <{{ section.settings.title_dom_type }} class="h2 bold-700 c-greenb2">{{ title }}</{{ section.settings.title_dom_type }}>
+                {%- endif -%}
+                {%- if sub_title != blank -%}
+                    <h3 class="p1 mt-5 t-mt-10 d-mt-10 bold-700 hide-m show-t c-comfort-black">{{ sub_title }}</h3>
+                {%- endif -%}
+                {%- if description != blank -%}
+                    <div class="description p1 mt-5 t-mt-10 d-mt-10 rte hide-m show-t c-comfort-black">
+                        {{ description }}
+                    </div>
+                {%- endif -%}
+            </div>
+            <div class="col-12 col-t-7 rbox flex flex-column ai-start jc-center relative">
+                {%- if image != blank -%}
+                    <div class="image-con mb-20 d-mb-0 {{ image_class }}">
+                        {%- assign image_id = 'concov-img-' | append: el_id -%}
+                        {%- if image_mobile == blank -%}
+                            {%- assign image_mobile = image -%}
+                        {%- endif -%}
+                        {%- render 'global-image-wrapper-responsive',
+                            image_id: image_id,
+                            desktop_image: image,
+                            mobile_image: image_mobile,
+                            additional_class: 'no-bg t-rounded-24'
+                        -%}
+                    </div>
+                {%- endif -%}
+                {%- if sub_title != blank -%}
+                    <h3 class="p1 mt-5 bold-700 hide-t c-comfort-black">{{ sub_title }}</h3>
+                {%- endif -%}
+                {%- if description != blank -%}
+                    <div class="description p1 mt-5 hide-t rte c-comfort-black">
+                        {{ description }}
+                    </div>
+                {%- endif -%}
+            </div>
+        </div>
+    </div>
+</div>

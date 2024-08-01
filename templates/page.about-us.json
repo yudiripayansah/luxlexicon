@@ -1,0 +1,384 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "our_story_EfWtkC": {
+      "type": "our-story",
+      "settings": {
+        "title": "A love for Hermès at the centre of everything we do",
+        "title_dom_type": "h1",
+        "title_size": "h1",
+        "subtitle": "Our Story",
+        "text_1": "<p>The company was founded in 2016 as a luxury handbag reseller and authenticated luxury consignment platform of Hermès Birkin and Kelly handbags.<br\/> <br\/>The love for Hermès is at the centre of everything we do here. Through our close relationships with our clients who are privileged customers of the brand, LuxLexicon gains private access to the best and widest selection of Hermès Birkin and Kelly bags, elusive to the vast majority of consumers.<\/p>",
+        "text_2": "<p>LuxLexicon believes your relationship with us is built on trust. We aim to put your mind at ease when it comes to making a purchase with us. Every item offered for sale is guaranteed to be authentic and backed by the LuxLexicon promise. We are experts in the brand that we sell, and every item goes through a rigorous due diligence examination by our in-house authentication expert.<\/p>",
+        "image_1": "shopify:\/\/shop_images\/1-d.png",
+        "image_m_1": "shopify:\/\/shop_images\/1-m.png",
+        "image_2": "shopify:\/\/shop_images\/2-d.png",
+        "image_m_2": "shopify:\/\/shop_images\/2-m.png",
+        "top_padding_m": "small",
+        "bottom_padding_m": "small",
+        "top_padding_t": "medium",
+        "bottom_padding_t": "medium",
+        "top_padding": "nopadding",
+        "bottom_padding": "large",
+        "top_padding_hd": "nopadding",
+        "bottom_padding_hd": "large",
+        "top_padding_hhd": "nopadding",
+        "bottom_padding_hhd": "large"
+      }
+    },
+    "icons_grid_DARHMH": {
+      "type": "icons-grid",
+      "blocks": {
+        "entry_G3BbyX": {
+          "type": "entry",
+          "settings": {
+            "icon_image": "shopify:\/\/shop_images\/icon.seal.svg",
+            "icon_size": "small",
+            "title": "Authentic and backed by the LuxLexicon promise"
+          }
+        },
+        "entry_Xr6KzK": {
+          "type": "entry",
+          "settings": {
+            "icon_image": "shopify:\/\/shop_images\/icon.service.svg",
+            "icon_size": "small",
+            "title": "Rigorously examined by our in-house experts"
+          }
+        },
+        "entry_iDymxW": {
+          "type": "entry",
+          "settings": {
+            "icon_image": "shopify:\/\/shop_images\/icon.money.back.svg",
+            "icon_size": "small",
+            "title": "100% money-back authenticity guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "entry_G3BbyX",
+        "entry_Xr6KzK",
+        "entry_iDymxW"
+      ],
+      "settings": {
+        "title": "The LuxLexicon promise",
+        "title_size": "h1",
+        "title_dom_type": "h2",
+        "bg_color": "#faf7f2",
+        "title_text_color": "",
+        "top_padding_m": "large",
+        "bottom_padding_m": "large",
+        "top_padding_t": "large",
+        "bottom_padding_t": "large",
+        "top_padding": "large",
+        "bottom_padding": "large",
+        "top_padding_hd": "large",
+        "bottom_padding_hd": "large",
+        "top_padding_hhd": "large",
+        "bottom_padding_hhd": "large"
+      }
+    },
+    "homepage_banner_nBHzXc": {
+      "type": "homepage-banner",
+      "blocks": {
+        "entry_GV74RU": {
+          "type": "entry",
+          "settings": {
+            "title_color": "#000",
+            "title_color_d": "#fff",
+            "text_color": "#666",
+            "text_color_d": "#fff",
+            "text_position": "ai-start jc-start",
+            "text_position_d": "ai-start d-jc-start",
+            "text_align": "tl",
+            "text_align_d": "d-tl",
+            "title": "",
+            "title_dom_type": "h1",
+            "title_size": "h1",
+            "text": "",
+            "text_max_width_mobile": 450,
+            "text_max_width_tablet": 450,
+            "text_max_width_desktop": 450,
+            "text_max_width_hd": 450,
+            "text_max_width_fullhd": 450,
+            "button_label": "",
+            "button_url": "",
+            "btn_background_color": "#000",
+            "btn_background_color_d": "#fff",
+            "btn_text_color": "#fff",
+            "btn_text_color_d": "#000",
+            "btn_border_color": "#000",
+            "btn_border_color_d": "#fff",
+            "desktop_image": "shopify:\/\/shop_images\/banner.png",
+            "mobile_image": "shopify:\/\/shop_images\/banner-mobile.png"
+          }
+        }
+      },
+      "block_order": [
+        "entry_GV74RU"
+      ],
+      "settings": {
+        "cta_title": "",
+        "cta_text": "",
+        "cta_link_label": "",
+        "cta_url": "",
+        "top_padding_m": "nopadding",
+        "bottom_padding_m": "nopadding",
+        "top_padding_t": "nopadding",
+        "bottom_padding_t": "nopadding",
+        "top_padding": "nopadding",
+        "bottom_padding": "nopadding",
+        "top_padding_hd": "nopadding",
+        "bottom_padding_hd": "nopadding",
+        "top_padding_hhd": "nopadding",
+        "bottom_padding_hhd": "nopadding"
+      }
+    },
+    "contact_us_GJedqL": {
+      "type": "contact-us",
+      "blocks": {
+        "entry_Gg48Ei": {
+          "type": "entry",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/icon.calendar.jpg",
+            "title": "Book an appointment",
+            "text": "For personalised advice, we invite you to schedule an appointment with us.",
+            "url": "",
+            "new_tab": false,
+            "open_chat": false
+          }
+        }
+      },
+      "block_order": [
+        "entry_Gg48Ei"
+      ],
+      "disabled": true,
+      "settings": {
+        "top_padding_m": "medium",
+        "bottom_padding_m": "medium",
+        "top_padding_t": "medium",
+        "bottom_padding_t": "medium",
+        "top_padding": "medium",
+        "bottom_padding": "medium",
+        "top_padding_hd": "medium",
+        "bottom_padding_hd": "medium",
+        "top_padding_hhd": "medium",
+        "bottom_padding_hhd": "medium",
+        "faq_title": "",
+        "faq_label": "",
+        "faq_url": ""
+      }
+    },
+    "faq_page_title_4P9Rze": {
+      "type": "faq-page-title",
+      "disabled": true,
+      "settings": {
+        "enable_border_top": false,
+        "enable_border_bottom": false,
+        "background_color": "#faf7f2",
+        "small_title_color": "",
+        "text_color": "",
+        "line_height_mobile": "",
+        "line_height_tablet": "",
+        "line_height_desktop": "",
+        "advanced_background_color": "",
+        "small_title": "",
+        "title": "Contact us",
+        "title_size": "h1",
+        "title_dom": "h1",
+        "text": "",
+        "text_size": "p2",
+        "text_align": "tl",
+        "link_label": "",
+        "link_url": "",
+        "button_label": "",
+        "button_url": "",
+        "btn_bg_color": "",
+        "btn_text_color": "",
+        "btn_hover_bg_color": "",
+        "btn_hover_text_color": "",
+        "max_width": 600,
+        "max_width_tablet": 600,
+        "max_width_desktop": 600,
+        "max_width_hhd": 600,
+        "max_width_text": 500,
+        "max_width_text_tablet": 500,
+        "max_width_text_desktop": 500,
+        "max_width_text_hhd": 600,
+        "top_padding_m": "medium",
+        "bottom_padding_m": "medium",
+        "top_padding_t": "medium",
+        "bottom_padding_t": "medium",
+        "top_padding": "medium",
+        "bottom_padding": "medium",
+        "top_padding_hd": "medium",
+        "bottom_padding_hd": "medium",
+        "top_padding_hhd": "medium",
+        "bottom_padding_hhd": "medium"
+      }
+    },
+    "about_team_YKGQHH": {
+      "type": "about-team",
+      "blocks": {
+        "entry_iJdEbA": {
+          "type": "entry",
+          "settings": {
+            "photo_desktop": "shopify:\/\/shop_images\/image.photo-1.team.jpg",
+            "photo_mobile": "shopify:\/\/shop_images\/image.photo-1.team.jpg",
+            "name": "Florence Low",
+            "role": "Founder"
+          }
+        },
+        "entry_4cri3z": {
+          "type": "entry",
+          "settings": {
+            "photo_desktop": "shopify:\/\/shop_images\/image.photo-2.team.jpg",
+            "photo_mobile": "shopify:\/\/shop_images\/image.photo-2.team.jpg",
+            "name": "John",
+            "role": "Director"
+          }
+        },
+        "entry_V6YYN9": {
+          "type": "entry",
+          "settings": {
+            "photo_desktop": "shopify:\/\/shop_images\/image.photo-3.team.jpg",
+            "photo_mobile": "shopify:\/\/shop_images\/image.photo-3.team.jpg",
+            "name": "Sarah",
+            "role": "Director"
+          }
+        },
+        "entry_MViX8V": {
+          "type": "entry",
+          "settings": {
+            "photo_desktop": "shopify:\/\/shop_images\/image.photo-4.team.jpg",
+            "photo_mobile": "shopify:\/\/shop_images\/image.photo-4.team.jpg",
+            "name": "Benjamin",
+            "role": "Sales Expert"
+          }
+        },
+        "entry_B7ncUe": {
+          "type": "entry",
+          "settings": {
+            "photo_desktop": "shopify:\/\/shop_images\/image.photo-3.team.jpg",
+            "photo_mobile": "shopify:\/\/shop_images\/image.photo-3.team.jpg",
+            "name": "Olivia",
+            "role": "Sales Expert"
+          }
+        },
+        "entry_KKH8bU": {
+          "type": "entry",
+          "settings": {
+            "photo_desktop": "shopify:\/\/shop_images\/image.photo-4.team.jpg",
+            "photo_mobile": "shopify:\/\/shop_images\/image.photo-4.team.jpg",
+            "name": "Joseph",
+            "role": "Customer Experience"
+          }
+        },
+        "entry_akKymg": {
+          "type": "entry",
+          "settings": {
+            "photo_desktop": "shopify:\/\/shop_images\/image.photo-1.team.jpg",
+            "photo_mobile": "shopify:\/\/shop_images\/image.photo-1.team.jpg",
+            "name": "Jenny",
+            "role": "Customer Experience"
+          }
+        },
+        "entry_86XDct": {
+          "type": "entry",
+          "disabled": true,
+          "settings": {
+            "photo_desktop": "shopify:\/\/shop_images\/image.photo-2.team.jpg",
+            "photo_mobile": "shopify:\/\/shop_images\/image.photo-2.team.jpg",
+            "name": "Michael",
+            "role": "Customer Experience"
+          }
+        }
+      },
+      "block_order": [
+        "entry_iJdEbA",
+        "entry_4cri3z",
+        "entry_V6YYN9",
+        "entry_MViX8V",
+        "entry_B7ncUe",
+        "entry_KKH8bU",
+        "entry_akKymg",
+        "entry_86XDct"
+      ],
+      "settings": {
+        "top_padding_m": "large",
+        "bottom_padding_m": "large",
+        "top_padding_t": "large",
+        "bottom_padding_t": "large",
+        "top_padding": "large",
+        "bottom_padding": "large",
+        "top_padding_hd": "large",
+        "bottom_padding_hd": "large",
+        "top_padding_hhd": "large",
+        "bottom_padding_hhd": "large",
+        "title": "At LuxLexicon, our dedication to excellence drives us to meticulously manage every detail, from selection to delivery, ensuring you receive an exceptional experience.",
+        "title_size": "h1",
+        "title_dom_type": "h1",
+        "title_max_width": ""
+      }
+    },
+    "icons_grid_horizontal_dzHBQL": {
+      "type": "icons-grid-horizontal",
+      "blocks": {
+        "entry_Lhqjdz": {
+          "type": "entry",
+          "settings": {
+            "icon_image": "shopify:\/\/shop_images\/icon.sale.tag_184a1492-c960-4129-ac42-d530a3aba142.png",
+            "title": "Premier valuation",
+            "text": "Our experienced team ensures your designer bags are priced to reflect their true worth."
+          }
+        },
+        "entry_GdwAMw": {
+          "type": "entry",
+          "settings": {
+            "icon_image": "shopify:\/\/shop_images\/icon.service_1.svg",
+            "title": "Fast payouts",
+            "text": "Receive your earnings shortly after your bags sell, with no lengthy waiting periods."
+          }
+        },
+        "entry_tcGTm3": {
+          "type": "entry",
+          "settings": {
+            "icon_image": "shopify:\/\/shop_images\/icon.profile.svg",
+            "title": "Curated audience",
+            "text": "Your items will be presented to an exclusive, fashion-forward clientele."
+          }
+        }
+      },
+      "block_order": [
+        "entry_Lhqjdz",
+        "entry_GdwAMw",
+        "entry_tcGTm3"
+      ],
+      "settings": {
+        "title": "Why consign with us?",
+        "title_size": "h1",
+        "title_dom_type": "h3",
+        "bg_color": "#faf7f2",
+        "title_text_color": "",
+        "top_padding_m": "medium",
+        "bottom_padding_m": "medium",
+        "top_padding_t": "medium",
+        "bottom_padding_t": "medium",
+        "top_padding": "medium",
+        "bottom_padding": "medium",
+        "top_padding_hd": "medium",
+        "bottom_padding_hd": "medium",
+        "top_padding_hhd": "medium",
+        "bottom_padding_hhd": "medium"
+      }
+    }
+  },
+  "order": [
+    "our_story_EfWtkC",
+    "icons_grid_DARHMH",
+    "homepage_banner_nBHzXc",
+    "contact_us_GJedqL",
+    "faq_page_title_4P9Rze",
+    "about_team_YKGQHH",
+    "icons_grid_horizontal_dzHBQL"
+  ]
+}

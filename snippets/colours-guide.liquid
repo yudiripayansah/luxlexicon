@@ -1,0 +1,216 @@
+{%- comment -%}
+Description:
+Snippet for displaying image and text content
+
+Variables:
+- el_id: Element id
+- background: Background color hex
+- heading: Header title
+- heading_size: Header size
+- heading_desc: Header text
+- heading_label: Button label
+- heading_url: Button URL
+- title: Title for text
+- label1: Subtitle 1
+- text1: Text for subtitle 1
+- label2: Subtitle 2
+- text2: Text for subtitle 2
+- label3: Subtitle 3
+- text3: Text for subtitle 3
+- colors: Data colors
+- infos: Data infos
+- icons: Data icons
+{%- endcomment -%}
+<style>
+{%- if background != blank -%}
+#{{ el_id }} {
+    background-color: {{ background }};
+}
+{%- endif -%}
+#{{ el_id }} .each-fabric .btn-box {
+    position: absolute;
+    left: 0;
+    bottom: 10%;
+}
+#{{ el_id }} .each-icon {
+    height: 35px
+}
+#{{ el_id }} .each-icon2 {
+    width: 50px;
+    height: 50px
+}
+@media only screen and (min-width: 768px) {
+    #{{ el_id }} .t-mb-24 {
+        margin-bottom: 24px;
+    }
+    #{{ el_id }} .t-mb-32 {
+        margin-bottom: 32px;
+    }
+}
+@media only screen and (min-width: 1024px) {
+    #{{ el_id }} .d-mb-24 {
+        margin-bottom: 24px;
+    }
+    #{{ el_id }} .d-mb-32 {
+        margin-bottom: 32px;
+    }
+}
+@media only screen and (min-width: 1201px) {
+    #{{ el_id }} .max-pl-245 {
+        padding-left: 24.5px;
+    }
+    #{{ el_id }} .max-pr-245 {
+        padding-right: 24.5px;
+    }
+}
+</style>
+<div id="{{ el_id }}" class="w-full relative">
+	{%- if heading != blank -%}
+    <div class="container tc mb-30 t-mb-40 d-mb-40">
+        <div class="max-745 mx-auto">
+            {%- if heading != blank -%}
+                {%- if heading_size == 'big' -%}
+                    <{{ section.settings.title_dom_type }} class="h2 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- elsif heading_size == 'normal' -%}
+                    <{{ section.settings.title_dom_type }} class="h3 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- else -%}
+                    <{{ section.settings.title_dom_type }} class="h5 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- endif -%}
+            {%- endif -%}
+            {%- if heading_desc != blank -%}
+                <div class="rte {% if heading != blank %}mt-10{% endif %}">{{ heading_desc | newline_to_br }}</div>
+            {%- endif -%}
+            {%- if heading_label != blank -%}
+            <a href="{{ heading_url }}" class="btn1 mt-30">{{ heading_label }}</a>
+            {%- endif -%}
+        </div>
+    </div>
+    {%- endif -%}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-t-6 max-pr-245">
+                {%- if colors.size > 0 -%}
+                    {%- for color in colors -%}
+                        <div class="each-fabric relative" v-show="images[{{ forloop.index0 }}].view">
+                            {%- render 'global-image-wrapper', image: color.settings.image_swatch, additional_class: 'no-bg' -%}
+                            {%- if color.settings.btn_label != blank and color.settings.btn_url != blank -%}
+                            <div class="w-full hide-m show-t">
+                                <div class="w-full btn-box flex jc-center ai-center">
+                                <a href="{{ color.settings.btn_url }}" class="btn1">{{ color.settings.btn_label }}</a>
+                            </div>
+                            </div>
+                            {%- endif -%}
+                        </div>
+                    {%- endfor -%}
+                {%- endif -%}
+            </div>
+            <div class="col-12 col-t-6 max-pl-245">
+                {%- if title != blank -%}
+                <h5 class="h5 c-greenb2 pt-20 t-pt-0 d-pt-0 pb-15 t-pb-20 d-pb-20">{{ title }}</h5>
+                {%- endif -%}
+                {%- if label1 != blank -%}
+                <div class="p1 tl c-comfort-black bold-700 pb-0 t-pb-0 d-pb-0">{{ label1 }}</div>
+                {%- endif -%}
+                {%- if text1 != blank -%}
+                <div class="p1 text tl c-comfort-black pb-20 t-pb-25 d-pb-25">{{ text1 }}</div>
+                {%- endif -%}
+
+                {%- if label2 != blank -%}
+                <div class="p1 text tl c-comfort-black bold-700 pb-5 t-pb-5 d-pb-5">{{ label2 }}</div>
+                {%- endif -%}
+                {%- if colors.size > 0 -%}
+                <div class="w-full flex jc-start ai-start colgap-10 pb-20 t-pb-30 d-pb-30">
+                    {%- for color in colors -%}
+                        <div class="each-icon2 pointer" @click="showImage('{{ forloop.index0 }}')">
+                            {%- render 'global-image-wrapper', image: color.settings.image_icon, additional_class: 'no-bg' -%}
+                        </div>
+                    {%- endfor -%}
+                </div>
+                {%- endif -%}
+
+                {%- if label3 != blank or text3 != blank or label4 != blank or text4 != blank -%}
+                <div class="p1 text tl c-comfort-black pb-20 t-pb-25 d-pb-25">
+                    {%- if label3 != blank -%}
+                    <span class="bold-700">{{ label3 | append: ': '}}</span>
+                    {%- endif -%}
+                    {%- if text3 != blank -%}
+                    <span>{{ text3 }}</span>
+                    {%- endif -%}
+                    {%- if label4 != blank -%}
+                    <span class="pl-10 pr-10">|</span>
+                    <span class="bold-700">{{ label4 | append: ': '}}</span>
+                    {%- endif -%}
+                    {%- if text4 != blank -%}
+                    <span>{{ text4 }}</span>
+                    {%- endif -%}
+                </div>
+                {%- endif -%}
+
+                {%- if infos.size > 0 -%}
+                <div class="w-full tl pb-20 t-pb-30 d-pb-30">
+                    {%- for info in infos -%}
+                        <p class="p1 w-full">- {{ info.settings.title }}</p>
+                    {%- endfor -%}
+                </div>
+                {%- endif -%}
+
+                {%- if icons.size > 0 -%}
+                <div class="w-full flex jc-start ai-start colgap-30 pb-30 t-pb-30 d-pb-30">
+                    {%- for icon in icons -%}
+                        <div class="tc">
+                            <div class="tc pb-10 each-icon">{{ icon.settings.icon }}</div>
+                            <div class="tc p3 c-comfort-black pt-10">{{ icon.settings.title | newline_to_br }}</div>
+                        </div>
+                    {%- endfor -%}
+                </div>
+                {%- endif -%}
+
+                {%- if colors.size > 0 -%}
+                <div class="w-full show-m hide-t">
+                    <div class="w-full flex jc-start ai-start">
+                        {%- for color in colors -%}
+                            {%- if color.settings.btn_label != blank and color.settings.btn_url != blank -%}
+                                <a href="{{ color.settings.btn_url }}" class="btn1" v-show="images[{{ forloop.index0 }}].view">{{ color.settings.btn_label }}</a>
+                            {%- endif -%}
+                        {%- endfor -%}
+                    </div>
+                </div>
+                {%- endif -%}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+{%- assign el_suffix = el_id | replace: '-', '_' -%}
+if (document.querySelector('#{{el_id}}')) {
+    const vCtn{{ el_suffix }} = Vue.createApp({
+        delimiters: ['${', '}'],
+        data() {
+            return {
+                images: [
+                    {% for color in colors %}
+                        {%- unless forloop.first -%}
+                            { view: false }
+                        {%- else -%}
+                            { view: true }
+                        {%- endunless -%}
+                        {%- unless forloop.last -%},{%- endunless -%}
+                    {% endfor %}
+                ]
+            }
+        },
+        methods: {
+            showImage(el) {
+                // console.log('el', el);
+                for (let i = 0; i < this.images.length; i++) {
+                    if(i == el) {
+                        this.images[i].view = true;
+                    } else {
+                        this.images[i].view = false;
+                    }
+                }
+            }
+        }
+    }).mount('#{{el_id}}');
+}
+</script>

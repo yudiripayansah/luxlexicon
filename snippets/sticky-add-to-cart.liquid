@@ -1,0 +1,157 @@
+<style>
+    #sticky-atc {
+        bottom: 0;
+        left: 0;
+        transition: all 0.3s linear;
+        transform: translateY(100%);
+        box-shadow: 0px 0px 6px #00000029;
+    }
+    #sticky-atc.show {
+        transform: translateY(0);
+    }
+    #sticky-atc .left-side .image-con {
+        width: 100px;
+    }
+    #sticky-atc .right-side .btn1 {
+        padding: 20px 40px;
+        white-space: nowrap;
+        text-align: center;
+    }
+    #sticky-atc .btn1.darker.atc[data-available="false"] {
+        background-color: #f0f0f0;
+    }
+    #sticky-atc .right-side .btn1:hover,
+    #sticky-atc .btn1.darker.atc[data-available="false"]:hover {
+        background-color: #6C6C6C;
+    }
+    #sticky-atc .btn1.darker {
+        background-color: #81C8A6;
+    }
+    #sticky-atc .left-side.has-book {
+        display: none;
+    }
+    #sticky-atc .right-side.has-book {
+        flex: 0 0 100%;
+    }
+    #sticky-atc .right-side.has-book .btn1.atc {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    #sticky-atc .right-side.has-book .btn1 {
+        flex: 1;
+    }
+
+    @media screen and (min-width: 768px) {
+        #sticky-atc .left-side.has-book {
+            display: flex;
+        }
+        #sticky-atc .right-side.has-book {
+            flex: unset;
+        }
+        #sticky-atc .right-side.has-book .btn1.atc {
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+        #sticky-atc .right-side.has-book .btn1 {
+            flex: unset;
+        }
+    }
+
+    @media screen and (min-width: 1024px) {
+        #sticky-atc .right-side .btn1,
+        #sticky-atc .right-side.has-book .btn1.atc {
+            padding: 20px 60px;
+        }
+    }
+</style>
+
+{%- assign atc_label = 'products.product.add_to_bag' | t -%}
+{%- unless product.selected_or_first_available_variant.available -%}
+    {%- assign atc_label = 'Notify Me' -%}
+{%- endunless -%}
+
+<div id="sticky-atc" class="fixed w-full bg-white zi-2">
+    <div class="flex jc-between">
+        <div class="left-side flex ai-center {% if product.tags contains "category:Wedding Bands" or product.tags contains "category:Lab Grown Rings" or product.tags contains "collection:LVC 9IN" %} has-book {% endif %}">
+            <div class="container d-pr-0">
+                <p class="p2 bold-600 hide-m show-d">{{ product.title }}</p>
+                <div class="sticky-atc-price p2 pr-20 show-m hide-d">{%- render 'product-price', product: product -%}</div>
+            </div>
+        </div>
+        <div class="right-side w-full w-auto flex ai-center jc-between {% if product.tags contains "category:Wedding Bands" or product.tags contains "category:Lab Grown Rings" or product.tags contains "collection:LVC 9IN" %} has-book {% endif %}">
+            <div class="sticky-atc-price p2 pr-20 hide-m show-d">{%- render 'product-price', product: product -%}</div>
+            {%- if product.tags contains "category:Wedding Bands" or product.tags contains "category:Lab Grown Rings" -%}
+                <a href="/pages/book-appointment" class="btn1">{{ 'products.product.book_appointment' | t }}</a>
+                <button type="button" @click="scrollToProductForm($event)" class="btn1 atc darker" {% unless product.selected_or_first_available_variant.available %} data-available="false" {% endunless %}>{{ atc_label }}</button>
+            {%- elsif product.tags contains "collection:LVC 9IN" -%}
+                <a href="/pages/book-appointment" class="btn1">{{ 'products.product.book_appointment' | t }}</a>
+                <button type="button" @click="scrollToProductFormAndAdd($event)" class="btn1 atc darker" {% unless product.selected_or_first_available_variant.available %} data-available="false" {% endunless %}>{{ atc_label }}</button>
+            {%- else -%}
+                <button type="button" @click="scrollToProductFormAndAdd($event)" class="btn1 darker atc" {% unless product.selected_or_first_available_variant.available %} data-available="false" {% endunless %}>{{ atc_label }}</button>
+            {%- endif -%}  
+        </div>
+    </div>
+</div>
+<script>
+    Vue.createApp({
+        mounted() {
+            window.addEventListener('load', function() {
+                //-- scroll behaviour
+                const pdp_sticky_atc = document.querySelector('#sticky-atc');
+                const pdp_footer = document.querySelector('#site-footer');
+                const pdp_footer_top = pdp_footer.offsetTop - 400;
+                const pdp_top = document.querySelector('#product-page-top');
+                const pdp_top_height = pdp_top.offsetHeight;
+                const pdp_top_ot = pdp_top.offsetTop;
+
+                window.addEventListener("scroll", () => {
+                    const scrollPos = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+                    if(scrollPos > pdp_top_height && scrollPos < pdp_footer_top) {
+                        pdp_sticky_atc.classList.add('show');
+                    } else {
+                        pdp_sticky_atc.classList.remove('show');
+                    }
+                });
+            });
+        },
+        methods: {
+            scrollToProductForm(e) {
+                const atc_button = document.querySelector('#product-form .product-form-wrapper');
+                atc_button.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                /* if variant is not available */
+                const this_button = e.target.closest('.btn1');
+                if(this_button != null) {
+                    if(this_button.getAttribute('data-available') == 'false') {
+                        const notify_button = document.querySelector('.product-form-wrapper button.add-to-cart');
+                        if(notify_button != null) {
+                            notify_button.click();
+                        }
+                    }
+                }
+            },
+            scrollToProductFormAndAdd(e) {
+                const atc_button = document.querySelector('#product-form .product-form-wrapper');
+                atc_button.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                {%- if product.variants.size == 1 -%}
+                    const atc_button_add = document.querySelector('.product-form-wrapper button.add-to-cart');
+                    if(atc_button_add != null) {
+                        atc_button_add.click();
+                    }
+                {%- endif -%}
+
+                /* if variant is not available */
+                const this_button = e.target.closest('.btn1');
+                if(this_button != null) {
+                    if(this_button.getAttribute('data-available') == 'false') {
+                        const notify_button = document.querySelector('.product-form-wrapper button.add-to-cart');
+                        if(notify_button != null) {
+                            notify_button.click();
+                        }
+                    }
+                }
+            }
+        }
+    }).mount('#sticky-atc');
+</script>

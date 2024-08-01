@@ -1,0 +1,55 @@
+{% comment %} JCO Theme - bismocii refinements {% endcomment %}
+{%- assign variant = product.selected_or_first_available_variant -%}
+<div
+    class="product-info relative">    
+
+    {%- comment -%} product tags {%- endcomment -%}
+    {%- assign has_tags = false -%}
+    {%- if settings.pg_enable_labels and settings.pg_tag_1 != blank -%}
+        <div class="pro-tags-container">
+            {%- for i in (1..10) -%}
+                {%- assign tag = "pg_tag_" | append: i -%}
+                {%- assign bg_color = "pg_tag_bg_" | append: i -%}
+                {%- assign text_color = "pg_tag_color_" | append: i -%}
+                {%- assign border_color = "pg_tag_border_color_" | append: i -%}
+
+                {%- if product.tags contains settings[tag] -%}
+                    {%- assign has_tags = true -%}
+                    {%- assign tag_text = settings[tag] | split: ':' | last -%}
+                    <div class="tag-each p6 uppercase mb-5 mr-5 show-m-inline-block pt-2 pb-2 pl-6 pr-6 regular-400" style="color: {{ settings[text_color] }}; background-color: {{ settings[bg_color] }}; border: 1px solid {{ settings[border_color] }}">{{ tag_text }}</div>
+                {%- endif -%}
+            {%- endfor -%}
+        </div>
+    {%- endif -%}
+
+    <div
+        class="global-flex jc-between width-100 {% if has_tags %} mt-5 {% endif %}">
+        <h1
+            class="h2"
+            id="product-title">
+            {{ product.title }}
+        </h1>
+    </div>
+
+    <div class="global-flex flex-wrap mt-8 d-mt-10 width-100">
+        <div class="product-info-price p1">
+            {%- render 'product-price', product: product -%}
+        </div> 
+    </div>
+
+    {%- assign has_colors = false -%}
+    {%- for collection in product.collections -%}
+        {%- if collection.template_suffix == 'set' -%}
+            {%- assign has_colors = true -%}
+        {%- endif -%}
+    {%- endfor -%}
+
+    {%- if has_colors -%}
+        {%- render 'product-colors', product: product -%}
+    {%- endif -%}
+
+    <div id="product-individual-content" class="mt-25">
+        {%- render 'product-variants', product: product -%}
+        {%- render 'product-details', product: product -%}
+    </div>
+</div>

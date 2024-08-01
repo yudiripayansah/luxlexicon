@@ -1,0 +1,399 @@
+{% comment %} JCO Theme - Adi done {% endcomment %}
+{% assign el_id = 'image-text-section' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #{{el_id}} {
+    {% if section.settings.background_color != blank %}
+    background-color: {{section.settings.background_color}};
+    {% endif %}
+    {% if section.settings.text_color != blank %}
+    color: {{section.settings.text_color}};
+    {% endif %}
+  }
+  #{{el_id}} .image-container{
+    width:100%;
+  }
+  #{{el_id}} .text-container{
+    width:100%;
+  }
+  #{{el_id}} .block-wrapper {
+    border-color: #ccc;
+  }
+
+  {%- if section.settings.image_position_mobile == 'image-first' -%}
+      #{{el_id}} .flex-wrapper{
+          flex-direction: row;
+      }
+  {%- endif -%}
+  {%- if section.settings.image_position_mobile == 'text-first' -%}
+    #{{el_id}} .flex-wrapper{
+        flex-direction: column-reverse;
+    }
+  {%- endif -%}
+  {%- if section.settings.image_position_mobile == 'follow-desktop' -%}
+    {%if section.settings.image_position == "row-reverse"%}
+      #{{el_id}} .flex-wrapper{
+        flex-direction:column-reverse;
+      }
+    {%endif%}
+    {%if section.settings.image_position == "row"%}
+      #{{el_id}} .flex-wrapper{
+        flex-direction:row;
+      }
+    {%endif%}
+  {%- endif -%}
+  @media screen and (max-width: 1023px) {
+    #{{el_id}}.image-text > .container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+  @media screen and (min-width: 600px) {
+    #{{el_id}} .text-wrapper {
+      max-width: unset;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .flex-wrapper{
+        {% if section.settings.image_position == "row-reverse" %}
+        flex-direction:column-reverse;
+        {% endif %}
+        align-items: stretch;
+    }
+    #{{el_id}} .image-container{
+        width: calc(50% - 8px);
+    }
+    #{{el_id}} .text-wrapper{
+      width: calc(50% - 8px);
+    }
+    #{{el_id}} .text-container{
+        max-width:{{section.settings.content_max_width}}px;
+    }
+
+    #{{el_id}} .flex-wrapper{
+        flex-direction:{{section.settings.image_position}};
+        justify-content: space-between;
+    }
+    #{{el_id}} .global-image-wrapper {height:100%;}
+    #{{el_id}} .flex-wrapper .image{height:100%;object-fit:cover}
+  }
+  @media screen and (min-width: 1440px) {
+    {% if section.settings.content_max_width_hd != blank and section.settings.content_max_width_hd != 0 %}
+    #{{el_id}} .text-container{
+      max-width:{{section.settings.content_max_width_hd}}px;
+    }
+    {% endif %}
+  }
+  @media screen and (min-width: 1920px) {
+    {% if section.settings.content_max_width_hhd != blank and section.settings.content_max_width_hhd != 0 %}
+    #{{el_id}} .text-container{
+      max-width:{{section.settings.content_max_width_hhd}}px;
+    }
+    #{{el_id}} .text-wrapper {
+      max-width: {{section.settings.content_max_width_hhd}}px;
+    }
+    {% endif %}
+  }
+</style>
+
+<section id="{{ el_id }}" class="image-text">
+  <div class="{{section.settings.section_width}}">
+    <div class="flex flex-wrap align-flex flex-wrapper">
+      <div class="image-container">
+        {% assign image_id = 'image-text-consigment-' | append: section.id %}
+        {%- render 'global-image-wrapper-responsive',
+          image_id: image_id,
+          desktop_image: section.settings.desktop_image,
+          mobile_image: section.settings.mobile_image
+        %}
+      </div>
+      <div class="text-wrapper d-pl-52 d-pr-52 hd-pl-104 hd-pr-104 d-pt-68 d-pb-68">
+        <div
+          data-image-pos="{{ section.settings.image_position }}"
+          class="text-container {{section.settings.text_align}} pt-44 pb-44 pr-20 pl-20 d-p-0"
+        >
+          <{{ section.settings.title_dom_type }} class="{{section.settings.title_size}} pb-12 d-pb-4 title uppercase">
+            {{- section.settings.title -}}
+          </{{ section.settings.title_dom_type }}>
+
+          {%- for block in section.blocks -%}
+            <div class="block-wrapper global-flex pt-24{% unless forloop.last %} pb-24{% endunless %}{% unless forloop.first %} bt-1{% endunless %}">
+              <div class="block-number mr-12 d-mr-8">
+                <p class="h3">{{ forloop.index }}.</p>
+              </div>
+              <div class="block-text">
+                <p class="h3">{{ block.settings.title }}</p>
+                <p class="p2 pt-8 c-grey60">{{ block.settings.text }}</p>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Consignment-How it works",
+  "settings": [
+    {
+      "type": "radio",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "", "label": "Full Width" },
+        { "value": "container", "label": "Contained" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color"
+    },
+    {
+      "type": "number",
+      "id": "content_max_width",
+      "label": "Content Max Width (desktop)",
+      "default": 500
+    },
+    {
+      "type": "number",
+      "id": "content_max_width_hd",
+      "label": "Content Max Width (1440)"
+    },
+    {
+      "type": "number",
+      "id": "content_max_width_hhd",
+      "label": "Content Max Width (1920)"
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "radio",
+      "id": "text_align",
+      "label": "Text Align",
+      "options": [
+        { "value": "tc", "label": "Center" },
+        { "value": "tl", "label": "Left" },
+        { "value": "tr", "label": "Right" }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "radio",
+      "id": "image_position",
+      "label": "Image Position (Desktop)",
+      "options": [
+        { "value": "row", "label": "Left" },
+        { "value": "row-reverse", "label": "Right" }
+      ]
+    },
+    {
+      "type": "radio",
+      "id": "image_position_mobile",
+      "label": "Image Position (Mobile)",
+      "options": [
+        { "value": "image-first", "label": "Image First" },
+        { "value": "follow-desktop", "label": "Follow Desktop" },
+        { "value": "text-first", "label": "Text First" }
+      ],
+      "default": "follow-desktop"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Consignment-How it works",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,151 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+<style>
+    #shopify-section-{{ section.id }} .price-item{
+        margin:0 12.5px;
+    }
+    #shopify-section-{{ section.id }}{
+        box-shadow: 0px 3px 6px #0000000D;
+    }
+    #shopify-section-{{ section.id }} .flex-wrapper{
+        display:flex;
+        white-space:nowrap;
+        overflow:auto;
+        {% comment %} justify-content:center; {% endcomment %}
+        margin:0 -12.5px;
+    }
+    #shopify-section-{{ section.id }} .price-item{
+        opacity:0.4;
+    }
+    #shopify-section-{{ section.id }} .price-item.filter-active{
+        opacity:1;
+        border-bottom:1px solid #959595;
+        padding-bottom:3px;
+    }
+    #shopify-section-{{ section.id }} .flex-each{
+        display:inline-block;
+    }
+
+    @media(min-width: 768px) {
+        #shopify-section-{{ section.id }} .flex-wrapper{
+            margin:0 -20px;
+            padding-left:0;
+            justify-content:center;
+        }
+    }
+    
+    @media(min-width: 1024px) {
+        {% comment %} #shopify-section-{{ section.id }} .flex-wrapper{
+            margin:0 -20px;
+            padding-left:0;
+            justify-content:center;
+        } {% endcomment %}
+        #shopify-section-{{ section.id }} .price-item{
+            margin:0 20px;
+            
+        }
+    }
+
+</style>
+
+<section id="{{ section.id }}" class="collection-in-gift-guide-price-filter">
+    <div class="container">
+        <div class="flex-wrapper pt-20 pb-20">
+            <div class="flex-each cursor" onclick="filterCollectionPrice()">
+                {% comment %} href="{{collection.url}}" {% endcomment %}
+                <a>
+                    <div class="p3 bold-600 cursor uppercase price-item spacing-2 filter-active" data-tag="">ALL</div>
+                </a>
+            </div>
+            {%for block in section.blocks%}
+                {% comment %} {%assign block_tag = block.settings.product_tag | remove: 'price:' | replace: ' ', '+' | replace: '$', '%24'%} {% endcomment %}
+                <div class="flex-each cursor" onclick="filterCollectionPrice('{{'?limit=18&pf_p_price=' | append: block.settings.price_min | append: '%3A' | append: block.settings.price_max}}')">
+                    {% comment %} href="{{ collection.url | append: '?limit=18&pf_p_price=' | append: block.settings.price_min | append: '%3A' | append: block.settings.price_max }}" {% endcomment %}
+                    <a>
+                        <div class="p3 bold-600 cursor uppercase price-item spacing-2 choice-{{forloop.index}}" data-tag="{{block.settings.product_tag}}" data-url="{{'?limit=18&pf_p_price=' | append: block.settings.price_min | append: '%3A' | append: block.settings.price_max}}">{{block.settings.title}}</div>
+                    </a>
+                </div>
+            {%endfor%}
+        </div>
+    </div>
+</section>
+
+<script>
+
+    function filterCollectionPrice(price_param){
+        
+        let tag_param = document.querySelector(".collection-in-gift-guide-main-heading").querySelector(".category-picker-link.hide-m").getAttribute("data-url");
+        
+        if(tag_param){
+            if(price_param){
+                window.location.href = tag_param + price_param.replace("?limit=18","");
+            }else{
+                window.location.href = tag_param;
+            }
+        }else{
+            if(price_param){
+                window.location.href = price_param;
+            }else{
+                window.location.href = "{{collection.url}}";
+            }
+        }
+        
+    }
+
+    if (window.location.href.includes('pf_p_price=0%3A300')) {
+        document.querySelector('.filter-active').classList.remove("filter-active");
+        document.querySelector('.choice-1').classList.add("filter-active");
+    }
+    if (window.location.href.includes('pf_p_price=300%3A500')) {
+        document.querySelector('.filter-active').classList.remove("filter-active");
+        document.querySelector('.choice-2').classList.add("filter-active");
+    }
+    //if (window.location.href.includes('pf_p_price=0%3A500')) {
+    //    document.querySelector('.filter-active').classList.remove("filter-active");
+    //    document.querySelector('.choice-2').classList.add("filter-active");
+    //}
+    if (window.location.href.includes('pf_p_price=501%3A9999')) {
+        document.querySelector('.filter-active').classList.remove("filter-active");
+        document.querySelector('.choice-3').classList.add("filter-active");
+    }
+</script>
+
+{% schema %}
+    {
+        "name": "Give Guide Price Filter",
+        "settings": [
+
+        ],
+        "blocks": [
+            {
+                "type": "entry",
+                "name": "Entry",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "number",
+                        "id": "price_min",
+                        "label": "Price Min"
+                    },
+                    {
+                        "type": "number",
+                        "id": "price_max",
+                        "label": "Price Max"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+        {
+            "name": "Gift Guide Price Filter",
+            "blocks": []
+        }
+        ]
+    }
+{% endschema %}

@@ -1,0 +1,185 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+<style>
+    #shopify-section-{{ section.id }} .product-each-wrapper:nth-child(1),
+    #shopify-section-{{ section.id }} .product-each-wrapper:nth-child(2) {
+        margin-top: 0;
+    }    
+    #shopify-section-{{ section.id }} .left-side .global-image-wrapper {
+        height: 100%;
+    }
+    #shopify-section-{{ section.id }} .left-side .global-image-wrapper img {
+        height: 100%;
+        object-fit: cover;
+    }
+    #shopify-section-{{ section.id }} .link1 span {
+        font-size: 0;
+        width: 11px;
+        height: 8px;
+    }
+    #shopify-section-{{ section.id }} .link1 span svg {
+        display: block;
+        width: 11px;
+        height: 8px;
+    }
+    #shopify-section-{{ section.id }} .product-each {
+        justify-content: unset;
+    }
+</style>
+
+<section id="{{ section.id }}" class="lookbook overflow">
+    <div class="container">
+        <div class="title-container hide-m d-flex jc-between ai-end d-max-900 d-ml-auto d-mr-auto hd-max-unset">
+            <{{ section.settings.title_dom_type }} class="{{ section.settings.title_dom_size }}">{{section.settings.title | newline_to_br }}</{{ section.settings.title_dom_type }}>
+            {%if section.settings.link_label != blank%}
+                <a href="{{section.settings.link_url}}" class="link1 mb-10">{{section.settings.link_label}}<span class="ml-5" style="display:inline-flex;">{{settings.icon_btn_right}}</span></a>
+            {%endif%}
+        </div>
+        <div class="outer-wrapper d-max-900 d-ml-auto d-mr-auto hd-max-unset d-mt-40">
+            <div class="row">
+                <div class="global-flex flex-wrap">
+                    <div class="col-12 col-d-6 left-side">
+                        {%- assign image_id = 'lookbook-mood-image' -%}
+                        {%- render 'global-image-wrapper-responsive',
+                            image_id: image_id,
+                            desktop_image: section.settings.image_desktop,
+                            mobile_image: section.settings.image_mobile
+                        -%}
+                    </div>
+                    <div class="title-container col-12 show-m hide-d mt-40">
+                        <{{ section.settings.title_dom_type }} class="{{ section.settings.title_dom_size }}">{{section.settings.title | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                        {%if section.settings.link_label != blank%}
+                            <a href="{{section.settings.link_url}}" class="link1 mt-15">{{section.settings.link_label}}<span class="ml-5" style="display:inline-flex;">{{settings.icon_btn_right}}</span></a>
+                        {%endif%}
+                    </div>
+                    <div class="col-12 col-d-6 right-side mt-30 d-mt-0">
+                        <div class="row">
+                            <div class="global-flex flex-wrap">
+                                {%- for block in section.blocks -%}
+                                    <div class="product-each-wrapper col-6 mt-30 d-mt-20">
+                                        {%- render 'product-each-lookbook', product: block.settings.product -%}
+                                    </div>
+                                {%- endfor -%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+    {
+        "name": "Lookbook V2",
+        "settings": [
+        {
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Title DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"}
+            ],
+            "default": "h2"
+        },
+        {
+            "type": "select",
+            "id": "title_dom_size",
+            "label": "Title Font Size",
+            "options": [
+                {"value":"h1","label":"h1"},
+                {"value":"h2","label":"h2"},
+                {"value":"h3","label":"h3"},
+                {"value":"h4","label":"h4"},
+                {"value":"h5","label":"h5"}
+            ],
+            "default": "h2"
+        },
+        {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title"
+        },
+        {
+            "type": "image_picker",
+            "id": "image_desktop",
+            "label": "Image (desktop)"
+        },
+        {
+            "type": "image_picker",
+            "id": "image_mobile",
+            "label": "Image (desktop)"
+        },
+        {
+            "type": "text",
+            "id": "link_label",
+            "label": "Link Label"
+        },
+        {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link URL"
+        },
+        {
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		}
+        ],
+        "blocks":[
+            {
+                "type": "product",
+                "limit": 4,
+                "name": "Product",
+                "settings": [
+                    {
+                        "type": "product",
+                        "id": "product",
+                        "label": "Product"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+        {
+            "name": "Lookbook V2",
+            "blocks": []
+        }
+        ]
+    }
+{% endschema %}

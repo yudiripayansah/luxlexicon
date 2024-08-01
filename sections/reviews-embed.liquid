@@ -1,0 +1,475 @@
+{% comment %} JCO Revamp - junio-done {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{%- assign ss = section.settings -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+
+<style>
+    #{{ el_id }}{
+      scroll-margin-top: 52px;
+    }
+    #{{ el_id }} .stamped-widget-title{text-align:center;}
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-title {
+      font-size: 14px;
+      font-weight: 400!important;
+      line-height: 1.5;
+      letter-spacing: 0.5px;
+    }
+    #shopify-section-reviews_embed_qwhL4A #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-message, #shopify-section-reviews_embed_qwhL4A #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-author, #stamped-reviews-widget[data-widget-type="full-page"] a.stamped-review-product, #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-date {
+        color: #2B2B2B!important;
+        font-weight: 300;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-author.stamped-style-color-text {
+      color: var(--black)!important;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] a.stamped-review-product {
+      font-size: unset!important;
+      font-weight: 300!important;
+  }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-message:before, #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-message:after {
+        font-family: "Outfit", sans-serif!important;
+        font-size: 13px!important;
+        width: 6px;
+        position: relative;
+        display: inline-block;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-verified-label[data-verified-type="2"]:after {
+      font-family: 'stamped-font', 'FontAwesome', "Outfit", sans-serif!important;
+      font-weight: 300!important;
+      line-height: 1.5;
+      letter-spacing: 0.5px;
+  }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-message {
+        margin-top: 3px!important;
+        margin-bottom: 10px!important;
+    }
+    #shopify-section-template--15259852341361__reviews_embed_3rCJ8j .stamped-reviews-wrapper .stamped-ratings-wrapper:first-child {
+      border-top: none !important;
+    }
+    #shopify-section-template--15259852341361__reviews_embed_3rCJ8j #stamped-reviews-widget[data-widget-type="full-page"] .stamped-widget-title {
+      margin-bottom: 20px!important;
+    }
+    #{{ el_id }} .stamped-pagination{
+      transform:none !important;
+      margin-bottom: 0px !important;
+    }
+    #{{ el_id }} .stamped-pagination{transform:none !important;}
+    #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-ratings-wrapper:nth-child(odd), #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-ratings-wrapper:nth-child(even) {
+        width: 100% !important;
+        padding-top: 26px !important;
+        margin-bottom: 0px !important;
+        padding-bottom: 25px !important;
+        border-top: 1px solid #DEDEDE;
+    }
+
+    #{{ el_id }} .reviews-embed {
+        max-width: 838px;
+    }
+    #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-verified-label {
+        color: #E8A9A7;
+        font-size: 13px;
+        line-height: 1.5;
+        letter-spacing: 0.1px;
+        font-weight: 400!important;
+        margin-left: 5px;
+    }
+    #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-message, #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-author {
+        font-size: 13px;
+        line-height: 1.5;
+        letter-spacing: 0.1px;
+        font-weight: 300;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-date {
+        font-size: 12px;
+        line-height: 1.5;
+        letter-spacing: 0.5px;
+        font-weight: 300;
+        color: #2B2B2B;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-image {
+        margin-right: 15px !important;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-products-reviews-title {
+        font-size: 12px;
+        font-style: normal!important;
+        font-weight: 300!important;
+        line-height: 1.5;
+        letter-spacing: 0.1px;
+    }
+    #shopify-section-reviews_embed_qwhL4A #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-author {
+      margin-bottom: 3px;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-pagination a {
+        cursor: pointer;
+        padding: 7px 12px;
+        border: 0px solid #eee!important;
+        font-size: 12px;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] #stamped-pagination-next a:before {
+        content: ''!important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6.856' height='12.297' viewBox='0 0 6.856 12.297'%3E%3Cpath d='M204.481,11794.877l5.795,5.795-5.795,5.795' transform='translate(-204.127 -11794.523)' fill='none' stroke='%232c2c2c' stroke-width='1'%3E%3C/path%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 8px;
+        height: 10px;
+        display: inline-block;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] #stamped-pagination-prev a:before {
+      content: ''!important;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6.856' height='12.297' viewBox='0 0 6.856 12.297'%3E%3Cpath d='M204.481,11794.877l5.795,5.795-5.795,5.795' transform='translate(-204.127 -11794.523)' fill='none' stroke='%232c2c2c' stroke-width='1'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 8px;
+      height: 10px;
+      display: inline-block;
+      transform: rotate(180deg);
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-pagination-page {
+        color: #2B2B2B;
+        opacity: 0.5;
+        font-weight: 300;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-pagination-page.is-active {
+        opacity: 1;
+        font-weight: 400!important;
+    }
+    #{{ el_id }} .stamped-fa-star, .stamped-fa-star-o, .stamped-fa-star-half-o {
+        color: #E8A9A7;
+    }
+    #{{ el_id }} .stamped-full-page-tabs {
+        display: none!important;
+    }
+    #{{ el_id }} .stamped-widget-title {
+      {%- if ss.show_review_summary != true -%}
+        display: none!important;
+      {% endif %}
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-widget-title {
+      margin-bottom: 40px!important;
+    }
+    #{{ el_id }} .stamped-widget-stars {
+      display: block !important;
+    }
+    #{{ el_id }} .stamped-widget-text {
+      margin-left: 0 !important;
+      font-size: 13px;
+    }
+    #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-widget-buttons {
+      display: none !important;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-image {
+      width: 60px!important;
+      height: 60px!important;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-rating, #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-title, #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-message, #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-author, #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-location, #stamped-reviews-widget[data-widget-type="full-page"] .stamped-products-reviews-title, #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-message-image-block {
+      margin-left: 80px!important;
+    }
+    .fa-star:before, .stamped-fa-star:before {
+      content: ''!important;
+      background: url('https://cdn.shopify.com/s/files/1/0057/0189/4257/files/icon-star.svg?v=1715760573') no-repeat center center;
+      width: 18px;
+      height: 18px;
+      display: flex;
+    }
+    .fa-star-half-o:before, .stamped-fa-star-half-o:before {
+      content: ''!important;
+      background: url('https://cdn.shopify.com/s/files/1/0057/0189/4257/files/icon-star-half.svg?v=1716175634') no-repeat center center;
+      width: 18px;
+      height: 18px;
+      display: flex;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-verified-label[data-verified-type="2"]:after {
+      content: 'Verified Buyer'!important;
+      background: url('https://cdn.shopify.com/s/files/1/0057/0189/4257/files/icon-verified.svg?v=1715761126') no-repeat left center;
+      padding-left: 15px;
+      background-size: contain;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-pagination a {
+      padding: 7px 7.5px!important;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] span.stamped-pagination-page {
+      padding: 0px!important;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] #stamped-pagination-next {
+      margin-left: 0px!important;
+    }
+    #stamped-reviews-widget[data-widget-type="full-page"] #stamped-pagination-prev {
+      margin-right: 0px!important;
+    }
+    @media screen and (max-width: 480px) {
+        #stamped-reviews-widget[data-widget-type="full-page"] .stamped-pagination a{padding: 7px !important;font-size:12px;}
+
+
+    }
+    @media screen and (min-width: 1024px) {
+        #{{ el_id }} .stamped-reviews-wrapper .stamped-ratings-wrapper:first-child {
+          border-top: 1px solid #DEDEDE !important;
+        }
+        #shopify-section-template--15259852341361__reviews_embed_3rCJ8j #stamped-reviews-widget[data-widget-type="full-page"] .stamped-widget-title {
+          margin-bottom: 40px!important;
+        }
+        #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-verified-label {
+            font-size: 13px;
+        }
+        #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-message:before, #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-message:after {
+            font-size: 14px!important;
+        }
+        #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-wrapper {
+          {%- if ss.review_column == "twocolumn" -%}
+            display: flex !important;
+            flex-wrap: wrap !important;
+            margin-left: calc(-{{ss.review_column_gap}}px/2)!important;
+            margin-right: calc(-{{ss.review_column_gap}}px/2)!important;
+          {% endif %}
+        }
+        #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-ratings-wrapper:nth-child(odd), #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-ratings-wrapper:nth-child(even) {
+            padding-top: 30px !important;
+            padding-bottom: 30px !important;
+            {%- if ss.review_column == "twocolumn" -%}
+              width:calc(50% - {{ss.review_column_gap}}px)!important;
+              margin-left: calc({{ss.review_column_gap}}px/2)!important;
+              margin-right: calc({{ss.review_column_gap}}px/2)!important;
+            {% endif %}
+        }
+        #{{ el_id }} .reviews-embed {
+          {%- if ss.review_full_screen -%}
+            max-width: 100% !important;
+          {% endif %}
+        }
+        #{{ el_id }} div#stamped-reviews-widget[data-widget-type="full-page"] {
+          {%- if ss.review_full_screen -%}
+            max-width: 100% !important;
+          {% endif %}
+        }
+        #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-message, #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-author {
+            font-size: 13px;
+        }
+        #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-date {
+            font-size: 12px!important;
+        }
+        #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-image {
+            margin-right: 20px !important;
+        }
+        #stamped-reviews-widget[data-widget-type="full-page"] .stamped-products-reviews-title {
+            font-size: 12px;
+        }
+        #stamped-reviews-widget[data-widget-type="full-page"] .stamped-pagination a {
+            font-size: 14px;
+        }
+    }
+    @media screen and (min-width: 1366px) {
+      #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-message, #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-author {
+        font-size: 14px;
+      }
+      #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-title {
+        font-size: 16px;
+      }
+      #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-verified-label {
+        font-size: 14px;
+      }
+      #stamped-reviews-widget[data-widget-type="full-page"] .stamped-products-reviews-title {
+        font-size: 13px;
+      }
+      #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-date {
+        font-size: 13px!important;
+      }
+    }
+    @media screen and (min-width: 1920px) {
+      #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-message, #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-author {
+        font-size: 15px;
+      }
+      #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-title {
+        font-size: 16px;
+      }
+      #{{ el_id }} #stamped-reviews-widget[data-widget-type="full-page"] .stamped-verified-label {
+        font-size: 15px;
+      }
+      #stamped-reviews-widget[data-widget-type="full-page"] .stamped-products-reviews-title {
+        font-size: 14px;
+      }
+      #stamped-reviews-widget[data-widget-type="full-page"] .stamped-reviews-date {
+        font-size: 14px!important;
+      }
+    }
+</style>
+
+<section class="reviews-embed ml-auto mr-auto overflow">
+  <div class="container {% if ss.review_container_padding == false %}d-pl-0 d-pr-0{% endif %}">
+    <div class="flex flex-row {% if ss.btn_label == blank %} jc-center {% else %} jc-between {% endif %} ai-center {% if ss.btn_label != blank %} mb-20 d-mb-30 {% else %} {% if template contains 'product' %} mb-25 d-mb-40 {% else %} mb-10 {% endif %} {% endif %}">
+      <h2 class="{{ ss.title_size }} uppercase">
+        {{ ss.title }}
+      </h2>
+      {%- if ss.btn_label != blank -%}
+        <a href="{{ ss.btn_url }}" class="btn3">
+          {{ ss.btn_label }}
+        </a>
+      {%- endif -%}
+    </div>
+    {{ ss.embed_code }}
+  </div>
+</section>
+
+<script>
+  {%- if template contains 'product' -%}
+      document.addEventListener('click', function(e){
+          if(e.target.closest('#stamped-badge-2')) {
+              const elem_top = document.querySelector('#{{ el_id }}').offsetTop;
+              const header_height = document.querySelector('.header-con-outer').offsetHeight;
+              window.scrollTo({ top: elem_top-header_height, behavior: 'smooth' });
+          }
+      });
+  {%- endif -%}
+</script>
+
+{% schema %}
+{
+  "name": "Reviews Embed",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Reviews"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3 spacing-3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5 spacing-2", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" },
+        { "value": "h8", "label": "H8" },
+        { "value": "h9", "label": "H9" }
+      ],
+      "default": "h5 spacing-2"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button",
+      "default": "READ ALL"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_review_summary",
+      "label": "Show Review Summary"
+    },
+    {
+      "type": "html",
+      "id": "embed_code",
+      "label": "Embed Code"
+    },
+    {
+      "type": "checkbox",
+      "id": "review_full_screen",
+      "label": "Make Review section Full screen (desktop)"
+    },
+    {
+      "type": "checkbox",
+      "id": "review_container_padding",
+      "label": "Apply container padding (desktop)"
+    },
+    {
+      "type": "radio",
+      "id": "review_column",
+      "label": "Review Column Desktop",
+      "options": [
+        {
+          "value": "onecolumn",
+          "label": "One Column"
+        },
+        {
+          "value": "twocolumn",
+          "label": "Two Column"
+        }
+      ],
+      "default": "onecolumn"
+    },
+    {
+      "type": "number",
+      "id": "review_column_gap",
+      "label": "Review Column Gap (Two column only)",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews Embed",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

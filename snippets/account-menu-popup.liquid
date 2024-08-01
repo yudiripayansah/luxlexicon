@@ -1,0 +1,63 @@
+{% if customer %}
+  <div class="account-menu-popup fixed top-0 left-0 w-full h-full zi-9 hide-d">
+    <div class="amp-overlay absolute top-0 left-0 w-full h-full" onclick="toggleMenu()"></div>
+    <div class="amp-content absolute bottom-0 left-0 w-full bg-white pt-25 pb-25 pl-20 pr-20">
+      <ul>
+        <li class="">
+          <a
+            href="/account?type=account-info"
+            class="amp-link {% if active == 'account-info' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+            data-target="account-info"
+          >
+            {{- 'customer.account.account_info' | t -}}
+          </a>
+        </li>
+        <li class="mt-25">
+          <a
+            href="/account?type=account-voucher"
+            class="amp-link {% if active == 'account-voucher' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+            data-target="account-voucher"
+          >
+            {{- 'customer.account.vouchers' | t -}}
+          </a>
+        </li>
+        <li class="mt-25">
+          <a
+            href="/pages/orders/?type=page-offline-order"
+            class="amp-link {% if active == 'offline-order' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+            data-target="page-offline-order"
+          >
+            {{- 'customer.account.offline_orders' | t -}}
+          </a>
+        </li>
+        <li class="mt-25">
+          <a
+            href="/pages/orders/?type=page-online-order"
+            class="amp-link {% if active == 'online-order' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+            data-target="page-online-order"
+          >
+            {{- 'customer.account.online_orders' | t -}}
+          </a>
+        </li>
+        <li class="mt-25">
+          <a
+            href="/account/addresses"
+            class="amp-link {% if active == 'address-book' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+            data-target="address-book"
+          >
+            {{- 'customer.account.address_book' | t -}}
+          </a>
+        </li>
+        <li class="mt-25">
+          <a
+            href="/pages/wishlist"
+            class="amp-link {% if active == 'wishlist' %}pb-3 bb-1 b-black{% else %}hover-underline{% endif %} h4 uppercase"
+            data-target="wishlist"
+          >
+            {{- 'customer.account.wishlist' | t -}}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+{% endif %}

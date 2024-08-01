@@ -1,0 +1,306 @@
+{% comment %} in-good-company {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  {%- if section.settings.mw_mobile != blank and section.settings.mw_mobile != 0 -%}
+    #{{el_id}} .article-video-caption-wrapper {
+      margin: 0 auto;
+      max-width: {{ section.settings.mw_mobile }}px;
+    }
+  {%- endif -%}
+  #{{el_id}} .video-control-button svg {
+    width: 12.5px;
+    height: 12.5px;
+  }
+  #{{el_id}} .video-control {
+    cursor: pointer;
+  }
+  #{{el_id}} .global-image-wrapper.global-video-wrapper iframe, #{{el_id}} .global-image-wrapper.global-video-wrapper video {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  @media screen and (min-width: 600px) {
+    {%- if section.settings.mw_tablet != blank and section.settings.mw_tablet != 0  -%}
+      #{{el_id}} .article-video-caption-wrapper {
+        margin: 0 auto;
+        max-width: {{ section.settings.mw_tablet }}px;
+      }
+    {%- endif -%}
+  }
+  @media screen and (min-width: 1024px) {
+    {%- if section.settings.mw_desktop != blank and section.settings.mw_desktop != 0  -%}
+      #{{el_id}} .article-video-caption-wrapper {
+        margin: 0 auto;
+        max-width: {{ section.settings.mw_desktop }}px;
+      }
+    {%- else -%}
+      #{{el_id}} .article-video-caption-wrapper {
+        max-width: 100%;
+      }
+    {%- endif -%}
+  }
+</style>
+
+<div class="article-video-caption">
+  <div class="container">
+    <div class="article-video-caption-wrapper">
+      <div class="relative video-wrapper">
+        {%- assign youtube_iframe = section.settings.youtube_embed_code -%}
+        {% if section.settings.video_d != blank or youtube_iframe != blank %}
+          {%- assign video_id = 'article-video-caption-' | append: el_id -%}
+          {%- assign video_url_desktop = '' -%}
+          {%- for vid_source in section.settings.video_d.sources -%}
+            {%- if vid_source.mime_type == 'video/mp4' -%}
+              {%- assign video_url_desktop = vid_source.url -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {% assign autoplay = false %}
+          {% assign muted = false %}
+
+          {%- assign video_url_mobile = '' -%}
+          {%- for vid_source in section.settings.video_m.sources -%}
+            {%- if vid_source.mime_type == 'video/mp4' -%}
+              {%- assign video_url_mobile = vid_source.url -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- render 'global-video-wrapper-responsive',
+            desktop_image: section.settings.desktop_image,
+            mobile_image: section.settings.mobile_image,
+            desktop_video_url: video_url_desktop,
+            mobile_video_url: video_url_mobile,
+            video_id: video_id,
+            autoplay: autoplay,
+            preload: false,
+            muted: muted,
+            loop: true,
+            load_inside_vue: true,
+            youtube_iframe: youtube_iframe
+          -%}
+          <div class="video-control z-2 flex ai-center jc-center absolute bottom-25 left-auto right-25">
+            <div
+              @click="playVid('{{video_id}}',$event)"
+              class="cv-playButton video-control-button flex ai-center jc-center"
+            >
+              {{ settings.icon_play }}
+            </div>
+
+            <div
+              @click="pauseVid('{{video_id}}',$event)"
+              class="cv-pauseButton video-control-button ai-center jc-center hide-m"
+            >
+              {{ settings.icon_pause }}
+            </div>
+          </div>
+        {%- else -%}
+          {%- assign image_id = 'article-image-caption-' | append: el_id -%}
+          {%- assign preload = '' -%}
+          {%- if section.index == 1 -%}
+            {%- assign preload = true -%}
+          {%- endif -%}
+          {%- render 'global-image-wrapper-responsive',
+            image_id: image_id,
+            desktop_image: section.settings.desktop_image,
+            mobile_image: section.settings.mobile_image,
+            additional_class: 'no-bg',
+            preload: preload
+          %}
+        {%- endif -%}
+      </div>
+      <p class="p2 pt-15 c-grey">{{ section.settings.title }}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  var articleVideoVue = null;
+  function initArticleVideoVue() {
+    articleVideoVue = Vue.createApp({
+      delimiters: ['${', '}'],
+      data() {
+        return {
+          activeIndex: 1,
+        };
+      },
+      created() {
+        console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      },
+      methods: {
+        playVid(id, e) {
+          const parent = e.target.closest('#{{ el_id }} .video-wrapper');
+          const video_parent_elem = document.querySelector(`#${id}.global-video-wrapper`);
+          e.target.closest('.video-control-button').classList.add('hide-m');
+          e.target.closest('.video-control-button').classList.remove('flex');
+
+          if (video_parent_elem.classList.contains('youtube')) {
+            const iframe_elem = video_parent_elem.querySelector('iframe');
+            const iframe_src = iframe_elem.getAttribute('src');
+
+            let url_char = '&';
+            if (iframe_src.indexOf('?') < 0) {
+              url_char = '?';
+            }
+
+            iframe_elem.style.opacity = 1;
+            iframe_elem.style.zIndex = 10;
+            iframe_elem.setAttribute('src', `${iframe_src}${url_char}autoplay=1`);
+          } else {
+            const video_elem = document.querySelector(`#${id}.global-video-wrapper video`);
+            if (video_elem != null) {
+              video_elem.play();
+            }
+
+            parent.querySelector('.cv-pauseButton').classList.remove('hide-m');
+            parent.querySelector('.cv-pauseButton').classList.add('flex');
+          }
+        },
+        pauseVid(id,e) {
+            const parent = e.target.closest('#{{ el_id }} .video-wrapper');
+            const video_elem = document.querySelector(`#${id}.global-video-wrapper video`);
+            if(video_elem != null) {
+              video_elem.pause();
+            }
+
+            e.target.closest('.video-control-button').classList.add('hide-m');
+            
+            e.target.closest('.video-control-button').classList.remove('flex');
+            parent.querySelector('.cv-playButton').classList.remove('hide-m');
+            parent.querySelector('.cv-playButton').classList.add('flex');
+        },
+      },
+    }).mount('#{{el_id}} .article-video-caption');
+  }
+  initArticleVideoVue();
+  document.addEventListener('shopify:section:load', () => {
+    initArticleVideoVue();
+
+    $360.lazyLoadInstance.update();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Article - Video + Caption",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "number",
+      "id": "mw_mobile",
+      "label": "Max width mobile"
+    },
+    {
+      "type": "number",
+      "id": "mw_tablet",
+      "label": "Max width tablet"
+    },
+    {
+      "type": "number",
+      "id": "mw_desktop",
+      "label": "Max width desktop"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "video",
+      "id": "video_d",
+      "label": "Video Desktop"
+    },
+    {
+      "type": "video",
+      "id": "video_m",
+      "label": "Video Mobile"
+    },
+    {
+      "type": "html",
+      "id": "youtube_embed_code",
+      "label": "Yotube Embed Code"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Caption"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article - Video + Caption"
+    }
+  ]
+}
+{% endschema %}

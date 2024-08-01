@@ -1,0 +1,161 @@
+{%- comment -%}
+Description:
+Snippet for displaying image and text content
+
+Variables:
+- el_id: Element id
+- background: Background color hex
+- heading: Header title
+- heading_size: Header size
+- heading_desc: Header text
+- heading_label: Button label
+- heading_url: Button URL
+- title: Title for text
+- text: Text content
+- btn_label: Label button
+- btn_url: URL button
+- image_left: Left image
+- image_right: Right image
+- blocks: section.blocks
+{%- endcomment -%}
+<style>
+{%- if background != blank -%}
+#{{ el_id }} {
+    background-color: {{ background }};
+}
+{%- endif -%}
+#{{ el_id }} a.jx-knightlab {
+    display: none;
+}
+#{{ el_id }} .img-box {
+    width: calc(33.33% - 20px);
+    max-width: 100px;
+}
+#{{ el_id }} .img-box .each-icon {
+    width: 41px;
+    padding-bottom: 50px !important;
+}
+#{{ el_id }} .img-box .each-icon .image {
+    width: 41px;
+    height: 41px;
+}
+@media only screen and (min-width: 768px) {
+    #{{ el_id }} .img-box {
+        max-width: 100px;
+    }
+}
+@media only screen and (min-width: 1024px) {
+    #{{ el_id }} .img-box {
+        max-width: 100px;
+    }
+}
+@media only screen and (min-width: 1200px) {
+    #{{ el_id }} .max-pl-245 {
+        padding-left: 24.5px;
+    }
+    #{{ el_id }} .max-pr-245 {
+        padding-right: 24.5px;
+    }
+}
+</style>
+
+<div id="{{ el_id }}" class="w-full relative">
+	{%- if heading != blank -%}
+    <div class="container tc mb-30 t-mb-40 d-mb-40">
+        <div class="max-745 mx-auto">
+            {%- if heading != blank -%}
+                {%- if heading_size == 'big' -%}
+                    <{{ section.settings.title_dom_type }} class="h2 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- else -%}
+                    <{{ section.settings.title_dom_type }} class="h3 c-greenb2">{{ heading | newline_to_br }}</{{ section.settings.title_dom_type }}>
+                {%- endif -%}
+            {%- endif -%}
+            {%- if heading_desc != blank -%}
+                <div class="rte {% if heading != blank %}mt-10{% endif %}">{{ heading_desc | newline_to_br }}</div>
+            {%- endif -%}
+            {%- if heading_label != blank -%}
+            <a href="{{ heading_url }}" class="btn1 mt-30">{{ heading_label }}</a>
+            {%- endif -%}
+        </div>
+    </div>
+    {%- endif -%}
+    <div class="container">
+        <div class="row flex jc-between ai-center flex-wrap">
+            <div class="col-12 col-t-7 push-t-5 max-pl-245 relative">
+                <div class="w-full h-full juxtapose-box">
+                    <div class="juxtapose">
+                        <img src="{{ image_left | img_url: '2000x' }}">
+                        <img src="{{ image_right | img_url: '2000x' }}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-t-5 pull-t-7 max-pr-245">
+                {%- if title != blank -%}
+                <h5 class="h5 c-greenb2 pb-30 pt-30 t-pt-0 pb-10">{{ title }}</h5>
+                {%- endif -%}
+                {%- if text != blank -%}
+                <div class="p1 text tl c-comfort-black pb-20 t-pb-25 d-pb-25">{{ text }}</div>
+                {%- endif -%}
+
+                {%- if blocks.size > 0 -%}
+                <div class="w-full flex flex-wrap jc-start ai-start colgap-30 pb-25 t-pb-35 d-pb-35">
+                    {%- for icon in blocks -%}
+                        <div class="tc img-box">
+                            <div class="flex jc-center ai-center flex-column">
+                                {%- render 'global-image-wrapper', image: icon.settings.icon, additional_class: 'no-bg each-icon' -%}
+                            </div>
+                            <div class="tc p3 c-comfort-black pt-10">{{ icon.settings.title | newline_to_br }}</div>
+                        </div>
+                    {%- endfor -%}
+                </div>
+                {%- endif -%}
+
+                {%- if btn_label != blank and btn_url != blank -%}
+                <div class="w-full flex jc-start ai-start">
+                    <a href="{{ btn_url }}" class="btn1">{{ btn_label }}</a>
+                </div>
+                {%- endif -%}
+            </div>
+        </div>
+    </div>
+</div>
+{{ 'juxtapose.min.js' | asset_url | script_tag }}
+<script>
+{%- assign el_suffix = el_id | replace: '-', '_' -%}
+if (document.querySelector('#{{el_id}}')) {
+    const vCtn{{ el_suffix }} = Vue.createApp({
+        delimiters: ['${', '}'],
+        data() {
+            return {
+                bw: 0,
+                jw: 0,
+                jh: 0,
+                jr: 0
+            }
+        },
+        mounted(){
+            addEventListener('resize', () => {
+                this.updateJuxtaPose();
+            }),
+            this.getJuxtaPose()
+        },
+        methods: {
+            getJuxtaPose() {
+                let jBox = document.querySelector('.juxtapose-box').getBoundingClientRect();
+                let j = document.querySelector('.juxtapose').getBoundingClientRect();
+                this.bw = jBox.width;
+                this.jw = j.width;
+                this.jh = j.height;
+                this.jr = j.width / j.height;
+            },
+            updateJuxtaPose() {
+                let jBox = document.querySelector('.juxtapose-box').getBoundingClientRect();
+                let nw = jBox.width;
+                let nh = nw * this.jr;
+                document.querySelector('.juxtapose').style.width = ''+nw+'px';
+                document.querySelector('.juxtapose').style.height = ''+nh+'px';
+            }
+        }
+    }).mount('#{{el_id}}');
+}
+</script>

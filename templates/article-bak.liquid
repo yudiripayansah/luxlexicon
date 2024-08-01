@@ -1,0 +1,376 @@
+{% comment %} JCO Revamp - bismocii refinements done {% endcomment %}
+<style>
+  .article-container .title-container {
+  }
+  .article-container .gradient-overlay {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(44, 44, 44, 0.3), rgba(44, 44, 44, 0));
+    /*background: linear-gradient(180deg, #2c2c2c65 30%, #2c2c2cbe 100%);*/
+    mix-blend-mode: multiply;
+  }
+
+  .article-container .flex-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .article-container .main-container {
+    width: 100%;
+  }
+  .article-container .side-container {
+    width: 100%;
+  }
+  .article-container .icon {
+    width: 30px;
+    height: 30px;
+  }
+  .article-container .icon svg,
+  .article-container .icon svg * {
+    width: 30px;
+    height: 30px;
+  }
+  .article-container .rte strong {
+    font-weight: 600;
+  }
+  .article-container .rte h4 {
+    margin-top: 15px;
+    margin-bottom: 20px;
+  }
+  .article-container .rte img {
+    height: 100%;
+    margin-bottom: 20px;
+  }
+  .article-container .featured-product-each .image-container {
+    width: 105px;
+  }
+  .article-container .featured-product-each .text-container {
+    width: calc(100% - 105px);
+    padding-left: 20px;
+  }
+
+  .article-container .article-each-wrapper .global-image-wrapper {
+    padding-bottom: 60% !important;
+  }
+  .article-container .article-each-wrapper .global-image-wrapper .image {
+    height: 100%;
+    object-fit: cover;
+  }
+  .aa-link {
+    display: inline-block;
+  }
+  .str-heading .swiper-button {
+      position: relative;
+      top: unset;
+      margin-top: unset;
+      left: unset;
+      right: unset;
+      transform: unset;
+      width: 8px;
+      height: 15px;
+  }
+  .str-heading .swiper-button svg {
+    width: 8px;
+    height: 15px;
+  }
+  .article-container .swiper {
+      overflow: visible !important;
+      clip-path: inset(-100vw -100vw -100vw -100vw);
+  }
+  .article-container .swiper .swiper-slide {
+    width: 280px;
+  }
+  .article-container .rte blockquote {
+    border-left: 2px solid #FADCDA;
+    padding-left: 20px;
+    font-size: 22px;
+    line-height: 30px;
+    letter-spacing: 0.22px;
+    font-weight: 400;
+  }
+  
+  .article-container .article-each .global-image-wrapper {
+    padding-bottom: 76% !important;
+    /* height: auto !important; */
+  }
+  .article-container .article-each .global-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* position: relative; */
+  }
+
+  @media screen and (min-width: 768px) {
+    .article-container .title-container {
+      min-width: 420px;
+    }
+    .article-container .rte h4 {
+      margin-top: 20px;
+      margin-bottom: 25px;
+    }
+    .article-container .rte img {
+      margin-bottom: 25px;
+    }
+    .article-container .flex-wrapper-tablet {
+      display: flex;
+      margin: 0 -10px;
+    }
+    .article-container .flex-wrapper-tablet .article-each-wrapper {
+      padding-left: 10px;
+      padding-right: 10px;
+      width: 50%;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    .article-container .main-container {
+      width: 60%;
+      padding-right: 80px;
+    }
+    .article-container .publish-date {
+      align-items: center;
+    }
+    .article-container .flex-wrapper-tablet {
+      display: block;
+      margin: 0;
+    }
+    .article-container .flex-wrapper-tablet .article-each-wrapper {
+      padding-left: 0;
+      padding-right: 0;
+      width: unset;
+    }
+    .read-more-article {
+      margin-left: -5px;
+      margin-right: -5px;
+    }
+    .read-more-article .article-each-wrapper {
+      width: calc(100% / 3);
+    }
+    .article-container .rte blockquote {
+      padding-left: 30px;
+      font-size: 29px;
+      line-height: 40px;
+      letter-spacing: 0.29;
+    }
+  }
+
+  @media screen and (min-width: 1400px) {
+    .article-container .side-container {
+      width: 25%;
+    }
+  }
+  @media screen and (min-width: 1800px) {
+    .mc-wrapper {
+      max-width: 46%;
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="global-content-top-margin">
+  <article class="article-container">
+    <div class="title-container hhd-pt-100 hhd-pb-100 max-pt-80 max-pb-80 d-pt-70 d-pb-70 t-pt-60 t-pb-60 pt-50 pb-50">
+      <div class="container">
+        <div class="p5 uppercase spacing-1 medium-500 mb-15">{{ article.tags[0] }}</div>
+        <h1 class="h3 regular-400 spacing-0">{{ article.title }}</h1>
+      </div>
+    </div>
+    <div class="banner-container relative">
+      {%liquid 
+        assign image_id = 'banner_image_' | append: article.id 
+        assign image_desktop = article.image
+        assign image_mobile = article.image
+        assign desktop_acc = false
+        assign mobile_acc = false
+        comment
+        if article.metafields.banner_image.banner_image_desktop != blank
+          assign desktop_acc = true
+          assign image_desktop = article.metafields.banner_image.banner_image_desktop
+        endif
+        if article.metafields.banner_image.banner_image_mobile != blank
+          assign mobile_acc = true
+          assign image_mobile = article.metafields.banner_image.banner_image_mobile
+        endif
+        endcomment
+      %}
+      {%- render 'global-image-wrapper-responsive',
+        image_id: image_id,
+        desktop_image: image_desktop,
+        mobile_image: image_mobile,
+        mobile_acc: mobile_acc,
+        desktop_acc: desktop_acc
+      %}
+    </div>
+    <div class="main-content hhd-mt-100 max-mt-80 d-mt-70 t-mt-60 mt-50">
+      <div class="container">
+        <div class="w-full d-max-625 mc-wrapper ml-auto mr-auto">
+          <div class="rte">
+            {{ article.content }}
+          </div>
+          <div class="d-flex share mt-30">
+            <div class="flex ai-center">
+              <div class="p3 light-300 mr-10">{{ 'blogs.article.share' | t }}</div>
+              <a
+                href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url | url_encode }}{{ article.url | url_encode }}"
+                target="_blank"
+                class="mr-10"
+              >
+                <div class="icon">{{ settings.icon_facebook_circled }}</div>
+              </a>
+              <a
+                href="https://twitter.com/intent/tweet?text={{ article.title | url_encode }}&amp;url={{ shop.url | url_encode }}{{ article.url | url_encode }}"
+                target="_blank"
+                class="mr-10"
+              >
+                <div class="icon">{{ settings.icon_twitter_circled }}</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="shop-the-range-container hhd-mt-100 max-mt-80 d-mt-70 t-mt-60 mt-50 overflow">
+      <div class="container str-heading">
+        <div class="flex ai-center jc-between w-full">
+          <h4 class="h4 str-title">{{ 'blogs.article.shop_the_range' | t }}</h4>
+          <div class="buttons d-flex d-ai-center">
+            <div class="hide-m show-d swiper-button-prev swiper-button mr-30 ml-40">
+              {{ settings.icon_slide_left }}
+            </div>
+            <div class="hide-m show-d swiper-button-next swiper-button">{{ settings.icon_slide_right }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="container str-content mt-25 d-mt-30 t-pb-25 pb-15 d-pb-80 bb-1 b-border">
+        <!-- Featured Products -->
+        <div class="swiper str-product-swiper">
+          <div class="swiper-wrapper">
+            {% for i in (1..10) %}
+              {% assign prod = 'product_' | append: i %}
+              {%- assign prodHandle = article.metafields.featured_product[prod] -%}
+              {% if all_products[prodHandle] != blank %}
+                {%- assign prodObj = all_products[prodHandle] -%}
+                <div class="swiper-slide">
+                  {% render 'product-each', product: prodObj %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <!-- End Featured Products -->
+      </div>
+    </div>
+    <div class="related-container hhd-mt-100 hhd-pb-100 max-mt-80 max-pb-80 d-mt-70 d-pb-70 t-mt-60 t-pb-60 mt-50 pb-50  overflow">
+      <div class="container">
+        <!-- Related Articles -->
+        {%- assign curr_handle = article.handle -%}
+        {%- assign max_articles = blog.articles_count | minus: 1 -%}
+        {%- assign more = '' -%}
+        {% paginate blog.articles by 500 %}
+          {%- for i in (1..10) -%}
+            {%- for j in (1..30) -%}
+              {% assign min = 0 %}
+              {% assign max = max_articles %}
+              {% assign diff = max | minus: min %}
+              {% assign randomNumber = 'now' | date: '%N' | modulo: diff | plus: min %}
+              {%- unless more contains blog.articles[randomNumber].handle
+                or curr_handle contains blog.articles[randomNumber].handle
+              -%}
+                {%- assign more = more | append: blog.articles[randomNumber].handle | append: '|' -%}
+                {%- break -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endfor -%}
+        {% endpaginate %}
+
+        {%- assign more = more | split: '|' -%}
+        {%- if more.size > 0 -%}
+          <h4 class="h4 spacing-2 medium-500 uppercase">{{ 'blogs.article.read_more' | t }}</h4>
+          <div class="d-mt-30 mt-25 read-more-article">
+            <div class="swiper related-swiper">
+              <div class="swiper-wrapper">
+                {%- for m in more | limit: 3 -%}
+                  {%- if m != '' -%}
+                    {%- assign article_obj = articles[m] -%}
+                    <div class="swiper-slide article-each">
+                      {%- render 'article-each', article: article_obj -%}
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+        <!-- End Related Articles -->
+      </div>
+    </div>
+  </article>
+</div>
+<script>
+  function initSwiperArt(){
+    let shopTheRange = new Swiper(".str-product-swiper", {
+      slidesPerView: 'auto',
+      slidesPerColumn: 1,
+      spaceBetween: 10,
+      freeMode: false,
+      breakpoints: {
+          600: {
+              slidesPerView: 'auto',
+              spaceBetween: 10,
+              freeMode: false,
+          },
+          1024: {
+              slidesPerView: 'auto',
+              spaceBetween: 10,
+              freeMode: false,
+              navigation: {
+                  nextEl: ".str-heading .swiper-button-next",
+                  prevEl: ".str-heading .swiper-button-prev",
+              }
+          }
+      },
+      on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+    });
+    let readMore = new Swiper(".related-swiper", {
+      slidesPerView: 'auto',
+      slidesPerColumn: 1,
+      spaceBetween: 10,
+      freeMode: false,
+      breakpoints: {
+          600: {
+              slidesPerView: 1.5,
+              spaceBetween: 10,
+              freeMode: false,
+          },
+          1024: {
+              slidesPerView: 3,
+              spaceBetween: 10,
+              freeMode: false
+          }
+      },
+      on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+    });
+  }
+  initSwiperArt()
+  document.addEventListener('shopify:section:load', () => { initSwiperArt() });
+</script>

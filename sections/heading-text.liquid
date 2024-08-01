@@ -1,0 +1,370 @@
+{% comment %} In Good Company Theme - Adi on progress{% endcomment %}
+{%- assign el_id = 'shopify-section-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+<style>
+  #{{el_id}} .heading .italic {
+    font-style: italic;
+  }
+  #{{el_id}} .heading span {
+    display: inline-block;
+  }
+  #{{el_id}} .heading{
+    {%- if section.settings.heading_color != blank -%}
+    color: {{ section.settings.heading_color }};
+    {%- endif -%}
+  }
+  #{{el_id}} .desc-text-wrapper{
+    {% if section.settings.max-width != blank and section.settings.max-width != 0 %}
+    max-width: {{ section.settings.max-width }}px;
+    {% endif %}
+    {%- if section.settings.text_color != blank -%}
+    color: {{ section.settings.text_color }};
+    {%- endif -%}
+  }
+  {%- if section.settings.bg_color != blank -%}
+  #{{el_id}} {
+    background-color: {{ section.settings.bg_color }};
+  }
+  {%- endif -%}
+  #{{el_id}} .italic {
+    font-style: italic;
+  }
+  #{{el_id}} .no-text-transform {
+    text-transform: none;
+  }
+  #{{el_id}} .rte p:last-of-type {
+    padding-bottom: 0;
+  }
+  #{{el_id}} .rte br {
+    content: '';
+    display: block;
+    height: 10px;
+  }
+  #{{el_id}} .rte h1,
+  #{{el_id}} .rte h2,
+  #{{el_id}} .rte h3,
+  #{{el_id}} .rte h4 {
+    margin-bottom: 0;
+  }
+
+  @media screen and (min-width:600px) {
+    #{{el_id}} .desc-text-wrapper{
+      {% if section.settings.max-width-t != blank and section.settings.max-width-t != 0 %}
+      max-width: {{ section.settings.max-width-t }}px;
+      {% endif %}
+    }
+  }
+  @media screen and (min-width:1024px) {
+    #{{el_id}} .desc-text-wrapper{
+      {% if section.settings.max-width-d != blank and section.settings.max-width-d != 0 %}
+      max-width: {{ section.settings.max-width-d }}px;
+      {% endif %}
+    }
+  }
+  @media screen and (min-width:1366px) {
+    {% if section.settings.max-width-hd != blank %}
+    #{{el_id}} .desc-text-wrapper{
+      {% if section.settings.max-width-d != blank and section.settings.max-width-d != 0 %}
+      max-width: {{ section.settings.max-width-hd }}px;
+      {% endif %}
+    }
+    {% endif %}
+  }
+  @media screen and (min-width:1920px) {
+    {% if section.settings.max-width-hhd != blank %}
+    #{{el_id}} .desc-text-wrapper{
+      {% if section.settings.max-width-d != blank and section.settings.max-width-d != 0 %}
+      max-width: {{ section.settings.max-width-hhd }}px;
+      {% endif %}
+    }
+    {% endif %}
+  }
+</style>
+<div {% if section.settings.section_id != blank %}id="{{ section.settings.section_id }}" {% endif %}class="container">
+  <div class="heading-text-wrapper flex flex-column d-flex-row">
+    <div class="col-d-6 d-pl-0">
+      {%- if section.settings.heading != blank -%}
+        <{{ section.settings.title_text_element }} class="heading {{ section.settings.title_text_size }} bold-500 spacing-0 {% if section.settings.text != blank %}pb-8{% endif %}">
+          {{ section.settings.heading | newline_to_br }}
+        </{{ section.settings.title_text_element }}>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.text != blank -%}
+      <div
+        class="col-d-5 col-hd-4 d-pr-0 hd-pr-0 desc-text-wrapper rte p1 flex flex-column jc-{{ section.settings.heading_position_m }} d-jc-{{ section.settings.heading_position_d }}"
+        style="color: {{ section.settings.text_color }};"
+      >
+        {{ section.settings.text | newline_to_br }}
+        {% if section.settings.link_label != blank or section.settings.link_label2 != blank %}
+          <div class="{{ section.settings.link_gap_mobile }} {{ section.settings.link_gap_pc }}">
+            {% if section.settings.link_label != blank and section.settings.link_url != blank %}
+              <a href="{{section.settings.link_url}}" class="p1 link1 mr-15">
+                {{ section.settings.link_label }}
+              </a>
+            {%- endif -%}
+            {% if section.settings.link_label2 != blank and section.settings.link_url2 != blank %}
+              <a href="{{section.settings.link_url2}}" class="p1 link1">
+                {{ section.settings.link_label2 }}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  window.addEventListener("DOMContentLoaded", (event) => {
+    const links = document.querySelector('#{{el_id}} .heading-text-wrapper .desc-text-wrapper a');
+    if(links){
+      links.classList.add('link1');
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Heading + Text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section ID",
+      "info": "For anchor link. input example: section-name"
+    },
+    {
+      "type": "number",
+      "id": "max-width",
+      "label": "Text Width on Mobile"
+    },
+    {
+      "type": "number",
+      "id": "max-width-t",
+      "label": "Text Width on Tablet"
+    },
+    {
+      "type": "number",
+      "id": "max-width-d",
+      "label": "Text Width on Desktop"
+    },
+    {
+      "type": "number",
+      "id": "max-width-hd",
+      "label": "Text Width on HD (1366)"
+    },
+    {
+      "type": "number",
+      "id": "max-width-hhd",
+      "label": "Text Width on HHD (1920)"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "title_text_element",
+      "label": "Title text element",
+      "options": [
+        {
+          "value": "h1",
+          "label": "h1"
+        },
+        {
+          "value": "h2",
+          "label": "h2"
+        },
+        {
+          "value": "h3",
+          "label": "h3"
+        },
+        {
+          "value": "h4",
+          "label": "h4"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "select",
+      "id": "title_text_size",
+      "label": "Title text size",
+      "options": [
+        {
+          "value": "h1",
+          "label": "h1"
+        },
+        {
+          "value": "h2",
+          "label": "h2"
+        },
+        {
+          "value": "h3",
+          "label": "h3"
+        },
+        {
+          "value": "h4",
+          "label": "h4"
+        },
+        {
+          "value": "h5",
+          "label": "h5"
+        },
+        {
+          "value": "h6",
+          "label": "h6"
+        },
+        {
+          "value": "h7",
+          "label": "h7"
+        },
+        {
+          "value": "h8",
+          "label": "h8"
+        },
+        {
+          "value": "h9",
+          "label": "h9"
+        },
+        {
+          "value": "p1",
+          "label": "p1"
+        },
+        {
+          "value": "p2",
+          "label": "p2"
+        },
+        {
+          "value": "p3",
+          "label": "p3"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link Label"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "text",
+      "id": "link_label2",
+      "label": "Link Label 2"
+    },
+    {
+      "type": "url",
+      "id": "link_url2",
+      "label": "Link URL 2"
+    },
+    {
+      "type": "radio",
+      "id": "link_gap_pc",
+      "label": "Gap between link and text (PC)",
+      "options": [
+        { "value": "d-mt-10", "label": "10 px" },
+        { "value": "d-mt-15", "label": "15 px" },
+        { "value": "d-mt-20", "label": "20 px" }
+      ],
+      "default": "d-mt-15"
+    },
+    {
+      "type": "radio",
+      "id": "link_gap_mobile",
+      "label": "Gap between link and text (Mobile)",
+      "options": [
+        { "value": "mt-10", "label": "10 px" },
+        { "value": "mt-15", "label": "15 px" },
+        { "value": "mt-20", "label": "20 px" }
+      ],
+      "default": "mt-10"
+    },
+    {
+      "type": "header",
+      "content": "Section Paddings"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heading + Text",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

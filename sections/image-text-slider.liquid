@@ -1,0 +1,217 @@
+{%- assign el_id = 'shopify-section-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+
+<style>
+	{%- if background != blank -%}
+		#{{ el_id }} {
+			background-color: {{ background }};
+		}
+	{%- endif -%}
+
+	#shopify-section-{{ section.id }} .swiper {
+        overflow: visible!important;
+        clip-path: inset(-100vw -100vw -100vw -100vw);
+    }
+	#shopify-section-{{ section.id }} .swiper .swiper-slide {
+		width: 90%;
+	}
+
+	@media screen and (min-width: 600px) {
+		#shopify-section-{{ section.id }} .swiper .swiper-slide {
+			width: 45%;
+		}
+	}
+
+	@media screen and (min-width: 1024px) {
+		#shopify-section-{{ section.id }} .swiper .swiper-slide {
+			width: 25%;
+		}
+	}
+</style>
+
+<div {% if section.settings.section_id != blank %}id="{{ section.settings.section_id }}" {% endif %}class="image-text-slider relative overflow">
+	{%- if section.blocks.size > 4 -%}
+		<div class="container hide-m show-d-flex ai-center jc-end mb-30">
+			<div class="arrow-container global-flex ai-center">
+				<div class="swiper-grid-arrow left mr-15">{{ settings.icon_slide_left }}</div>
+                <div class="swiper-grid-arrow right">{{ settings.icon_slide_right }}</div>
+			</div>
+		</div>
+	{%- endif -%}
+    
+	<div class="container">
+		<div class="row">
+			<div class="swiper">
+				<div class="swiper-wrapper">
+					{%- for block in section.blocks -%}
+						<div class="swiper-slide col-12 col-d-3">
+							<div class="content-wrapper">
+								{%- if block.settings.url != blank -%}
+									<a href="{{ block.settings.url }}" class="show-m">
+								{%- endif -%}
+								{%- assign image_id = "image-text-slider-" | append: block.id -%}
+								{%- render 'global-image-wrapper-responsive',
+									desktop_image: block.settings.image,
+									mobile_image: block.settings.image_mobile,
+									image_id: image_id
+								-%}
+								{%- if block.settings.url != blank -%}
+									</a>
+								{%- endif -%}
+
+								{%- if block.settings.title != blank -%}
+									<div class="relative w-full mt-15">
+										{%- if block.settings.url != blank -%}
+											<a href="{{ block.settings.url }}" class="p1 show-m-inline-block hover-underline">{{ block.settings.title }}</a>
+										{%- else -%}
+											<p class="p1">{{ block.settings.title }}</p>
+										{%- endif -%}
+									</div>
+								{%- endif -%}
+							</div>
+						</div>
+					{%- endfor -%}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% if section.blocks.size > 1 %}
+	<script>
+        function initSwiperIts1(){
+            new Swiper('#{{ el_id }} .swiper', {
+                slidesPerView: 'auto',
+                navigation: {
+                    nextEl: '#{{ el_id }} .swiper-grid-arrow.right',
+                    prevEl: '#{{ el_id }} .swiper-grid-arrow.left'
+                },
+                on: {
+					init: function() {
+						$360.lazyLoadInstance.update();
+					},
+					slideChange: function() {
+						$360.lazyLoadInstance.update();
+					},
+					resize: function() {
+						$360.lazyLoadInstance.update();
+					}
+				}
+            });
+        };
+        initSwiperIts1();
+        document.addEventListener('shopify:section:load', () => { initSwiperIts1() });
+	</script>
+{% endif %}
+
+
+{% schema %}
+{
+	"name": "Image + Text Slider",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		},
+		{
+		  "type": "text",
+		  "id": "top_padding_hd",
+		  "label": "Top padding (HD)"
+		},
+		{
+		  "type": "text",
+		  "id": "bottom_padding_hd",
+		  "label": "Bottom padding (HD)"
+		},
+		{
+		  "type": "text",
+		  "id": "top_padding_hhd",
+		  "label": "Top padding (HHD)"
+		},
+		{
+		  "type": "text",
+		  "id": "bottom_padding_hhd",
+		  "label": "Bottom padding (HHd)"
+		},
+		{
+			"type": "header",
+			"content": "General Settings"
+		},
+		{
+		  "type": "text",
+		  "id": "section_id",
+		  "label": "Section ID",
+		  "info": "For anchor link. input example: section-name"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background Color"
+		}
+	],
+    "blocks": [
+        {
+            "type": "entry",
+            "name": "Entry",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image for Desktop"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "image_mobile",
+                    "label": "Image for Mobile"
+                },
+                {
+                    "type" : "textarea",
+                    "id" : "title",
+                    "label" : "Title"
+                },
+                {
+                    "type" : "url",
+                    "id" : "url",
+                    "label" : "URL"
+                }
+            ]
+        }
+    ],
+	"presets": [
+		{
+			"name": "Image + Text Slider",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

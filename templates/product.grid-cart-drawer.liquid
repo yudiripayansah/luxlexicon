@@ -1,0 +1,19 @@
+{% layout none %}
+
+{%- assign existed = false -%}
+{%- for item in cart.items -%}
+  {%- if item.product.handle == product.handle -%}
+    {%- assign existed = true -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- unless existed -%}
+  <div class="grid-each">
+    <a href="{{ product.url }}" class="show-m">
+      {%- render 'global-image-wrapper',
+        image: product.featured_image
+      -%}
+    </a>
+  </div>
+{%- endunless -%}

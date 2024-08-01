@@ -1,0 +1,310 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "homepage_banner_yLtzEt": {
+      "type": "homepage-banner",
+      "blocks": {
+        "entry_PhE7fw": {
+          "type": "entry",
+          "settings": {
+            "text_color": "#FFFFFF",
+            "text_align": "jc-center tc",
+            "text_align_d": "d-jc-center d-tc",
+            "title": "SALE",
+            "title_dom_type": "h1",
+            "title_size": "h2",
+            "text": "Women",
+            "text_max_width_mobile": 270,
+            "text_max_width_tablet": 270,
+            "text_max_width_desktop": 284,
+            "text_max_width_hd": 284,
+            "text_max_width_fullhd": 284,
+            "button_label": "",
+            "button_url": "",
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_MainBanner_Desktop-1_Edit.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_MainBanner_Mobile-1_6061a5a2-0da4-4f8a-b417-2fe64d50ba3f.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "entry_PhE7fw"
+      ],
+      "settings": {
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "heading_text_t7wEaA": {
+      "type": "heading-text",
+      "settings": {
+        "max-width-t": 0,
+        "max-width-d": 404,
+        "bg_color": "",
+        "heading_color": "",
+        "text_color": "",
+        "heading": "Sale - Women",
+        "title_text_element": "h3",
+        "title_text_size": "h2",
+        "text": "<p>Refresh your wardrobe with styles at exclusive prices.<\/p>",
+        "link_label": "",
+        "link_url": "",
+        "link_label2": "",
+        "link_url2": "",
+        "link_gap_pc": "d-mt-15",
+        "link_gap_mobile": "mt-10",
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 80,
+        "bottom_padding": 0,
+        "top_padding_hd": "100",
+        "bottom_padding_hd": "0",
+        "top_padding_hhd": "120",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "gifting_t8qDde": {
+      "type": "gifting",
+      "blocks": {
+        "entry_cHPYjQ": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/1_IGC_Shopify_Featured_Dresses.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/1_IGC_Shopify_Featured_Dresses.jpg",
+            "title": "Shop Tops",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_WKhNcJ": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/2_IGC_Shopify_Featured_Bags.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/2_IGC_Shopify_Featured_Bags.jpg",
+            "title": "Shop Bags",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_yU7e9k": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/3_IGC_Shopify_Featured_Bottoms.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/3_IGC_Shopify_Featured_Bottoms.jpg",
+            "title": "Shop Bottoms",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_QKRf9J": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/4_IGC_Shopify_Featured_Jackets.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/4_IGC_Shopify_Featured_Jackets.jpg",
+            "title": "Shop Jackets",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_UQzCJF": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/5_IGC_Shopify_Featured_Accessories.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/5_IGC_Shopify_Featured_Accessories.jpg",
+            "title": "Shop Accessories",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_8n3Jh9": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/6_IGC_Shopify_Featured_Dresses.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/6_IGC_Shopify_Featured_Dresses.jpg",
+            "title": "Shop Dresses",
+            "link_url": "https:\/\/www.google.com"
+          }
+        }
+      },
+      "block_order": [
+        "entry_cHPYjQ",
+        "entry_WKhNcJ",
+        "entry_yU7e9k",
+        "entry_QKRf9J",
+        "entry_UQzCJF",
+        "entry_8n3Jh9"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 60,
+        "top_padding_t": 60,
+        "bottom_padding_t": 60,
+        "top_padding": 80,
+        "bottom_padding": 80,
+        "top_padding_hd": "100",
+        "bottom_padding_hd": "100",
+        "top_padding_hhd": "120",
+        "bottom_padding_hhd": "120",
+        "title": "SHOP BY CATEGORY",
+        "title_size": "h4",
+        "title_dom_type": "h3"
+      }
+    },
+    "homepage_banner_pVQeix": {
+      "type": "homepage-banner",
+      "blocks": {
+        "entry_LTwTT9": {
+          "type": "entry",
+          "settings": {
+            "text_color": "#FFFFFF",
+            "text_align": "jc-center tc",
+            "text_align_d": "d-jc-center d-tc",
+            "title": "",
+            "title_dom_type": "h1",
+            "title_size": "h1",
+            "text": "",
+            "text_max_width_mobile": 450,
+            "text_max_width_tablet": 450,
+            "text_max_width_desktop": 450,
+            "text_max_width_hd": 450,
+            "text_max_width_fullhd": 450,
+            "button_label": "",
+            "button_url": "",
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_MainBanner_Desktop-2.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_MainBanner_Mobile-2.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "entry_LTwTT9"
+      ],
+      "settings": {
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "heading_text_bneGUW": {
+      "type": "heading-text",
+      "settings": {
+        "max-width-t": 0,
+        "max-width-d": 404,
+        "bg_color": "",
+        "heading_color": "",
+        "text_color": "",
+        "heading": "Sale - Men",
+        "title_text_element": "h3",
+        "title_text_size": "h2",
+        "text": "<p>Refresh your wardrobe with styles at exclusive prices.<\/p>",
+        "link_label": "",
+        "link_url": "",
+        "link_label2": "",
+        "link_url2": "",
+        "link_gap_pc": "d-mt-15",
+        "link_gap_mobile": "mt-10",
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 80,
+        "bottom_padding": 0,
+        "top_padding_hd": "100",
+        "bottom_padding_hd": "0",
+        "top_padding_hhd": "120",
+        "bottom_padding_hhd": "0"
+      }
+    },
+    "gifting_mj4mCN": {
+      "type": "gifting",
+      "blocks": {
+        "entry_BXCcQb": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/1_IGC_Shopify_Featured_Men_Tops.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/1_IGC_Shopify_Featured_Men_Tops.jpg",
+            "title": "Shop Tops",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_yxzrX8": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/2_IGC_Shopify_Featured_Men_Jackets.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/2_IGC_Shopify_Featured_Men_Jackets.jpg",
+            "title": "Shop Jackets",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_V8Yb8P": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/3_IGC_Shopify_Featured_Men_Bottoms.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/3_IGC_Shopify_Featured_Men_Bottoms.jpg",
+            "title": "Shop Bottoms",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_By88Lx": {
+          "type": "entry",
+          "disabled": true,
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/dummy_404x583_ffffff_cccccc.png",
+            "mobile_image": "shopify:\/\/shop_images\/dummy_123x164_ffffff_cccccc.png",
+            "title": "Under $150",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_NhMqbE": {
+          "type": "entry",
+          "disabled": true,
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/dummy_404x583_ffffff_cccccc.png",
+            "mobile_image": "shopify:\/\/shop_images\/dummy_123x164_ffffff_cccccc.png",
+            "title": "Under $50",
+            "link_url": "https:\/\/www.google.com"
+          }
+        },
+        "entry_WYVH4p": {
+          "type": "entry",
+          "disabled": true,
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/dummy_404x583_ffffff_cccccc.png",
+            "mobile_image": "shopify:\/\/shop_images\/dummy_123x164_ffffff_cccccc.png",
+            "title": "Under $100",
+            "link_url": "https:\/\/www.google.com"
+          }
+        }
+      },
+      "block_order": [
+        "entry_BXCcQb",
+        "entry_yxzrX8",
+        "entry_V8Yb8P",
+        "entry_By88Lx",
+        "entry_NhMqbE",
+        "entry_WYVH4p"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 80,
+        "bottom_padding": 0,
+        "top_padding_hd": "100",
+        "bottom_padding_hd": "0",
+        "top_padding_hhd": "120",
+        "bottom_padding_hhd": "0",
+        "title": "SHOP BY CATEGORY",
+        "title_size": "h4",
+        "title_dom_type": "h3"
+      }
+    }
+  },
+  "order": [
+    "homepage_banner_yLtzEt",
+    "heading_text_t7wEaA",
+    "gifting_t8qDde",
+    "homepage_banner_pVQeix",
+    "heading_text_bneGUW",
+    "gifting_mj4mCN"
+  ]
+}

@@ -1,0 +1,80 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{%- if product.metafields.testimonial.enable != blank -%}
+    <section class="product-testimonials pt-40 pb-40 t-pt-60 t-pb-60 d-pt-80 d-pb-80" style="background: {{ product.metafields.testimonial.bg_color }}">
+        <div class="container">
+            {%- if product.metafields.testimonial.section_title != blank -%}
+                <h6 class="p3 uppercase spacing-2 bold-600 c-darkgreen tc">{{ product.metafields.testimonial.section_title }}</h6>
+            {%- endif -%}
+
+            <div class="carousel-outer-wrapper mt-20 d-mt-30 t-max-350 d-max-450 max-max-590 mr-auto ml-auto">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        {%- for i in (1..10) -%}
+                            {%- assign testimonial = 'testimonial_' | append: i -%}
+                            {%- assign testimonial = product.metafields.testimonial[testimonial] -%}
+
+                            {%- if testimonial != blank -%}
+                                <div data-index="{{ forloop.index0 }}" class="swiper-slide tc">
+                                    <p class="h9">{{ testimonial }}</p>
+                                </div>
+                            {%- endif -%}
+                        {%- endfor -%}
+                    </div>
+                </div>
+            </div>
+
+            <div class="author-wrapper relative width-100 mt-25 d-mt-30 tc">
+                {%- for i in (1..10) -%}
+                    {%- assign author = 'author_' | append: i -%}
+                    {%- assign author = product.metafields.testimonial[author] -%}
+
+                    {%- if author != blank -%}
+                <a href="javascript:void(0)" rel="nofollow" data-index="{{ forloop.index0 }}" onclick="pdpTestimonialSetActiveAuthor({{ forloop.index0 }})" class="p3 bold-600 spacing-2 uppercase ml-10 mr-10 author-each {% if forloop.first %} active {% endif %}">{{ author }}</a>
+                    {%- endif -%}
+                {%- endfor -%}
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let pdp_testimonials_carousel;
+
+        function pdpTestimonialSetActiveAuthor(index) {
+            const active_author = document.querySelector('.product-testimonials .author-each.active');
+            active_author.classList.remove('active');
+
+            const curr_active_author = document.querySelector(`.product-testimonials .author-each[data-index="${index}"]`);
+            curr_active_author.classList.add('active');
+
+            pdp_testimonials_carousel.slideTo(index);
+        }
+        function initSwiperPtes(){
+            //-- init swiper
+            pdp_testimonials_carousel = new Swiper(".product-testimonials .swiper", {
+                direction: 'horizontal',
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: false,
+                on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+            });
+            pdp_testimonials_carousel.on('slideChangeTransitionEnd', function () {
+                const curr_active_slide = document.querySelector('.product-testimonials .swiper-slide.swiper-slide-active').getAttribute('data-index');
+                pdpTestimonialSetActiveAuthor(curr_active_slide);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            initSwiperPtes()
+        });
+        document.addEventListener('shopify:section:load', () => { initSwiperPtes() });
+    </script>
+{%- endif -%}

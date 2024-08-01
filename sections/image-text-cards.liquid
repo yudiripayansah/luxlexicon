@@ -1,0 +1,263 @@
+{%- assign el_id = 'image-text-cards-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{%- render 'image-text-cards',
+	el_id: el_id,
+	background: section.settings.bg_color,
+	title: section.settings.title,
+	title_size: section.settings.title_size,
+	subtitle: section.settings.subtitle,
+	text: section.settings.text,
+	slide_desktop: section.settings.slide_desktop,
+	slide_desktop_no: section.settings.slide_desktop_no,
+	pagination_desktop: section.settings.pagination_desktop,
+	slide_mobile: section.settings.slide_mobile,
+	slide_mobile_no: section.settings.slide_mobile_no,
+	pagination_mobile: section.settings.pagination_mobile,
+	more_btn: section.settings.more_btn,
+	more_btn_label: section.settings.more_btn_label,
+	more_btn_url: section.settings.more_btn_url,
+	blocks: section.blocks,
+	perrow: section.settings.perrow
+-%}
+{% schema %}
+{
+	"name": "Image + Text Cards",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		},
+		{
+			"type": "header",
+			"content": "General Settings"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background Color"
+		},
+		{
+			"type" : "textarea",
+			"id" : "title",
+			"label" : "Title"
+		},
+		{
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Title DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"}
+            ],
+            "default": "h3"
+        },
+		{
+            "type": "select",
+            "id": "title_size",
+            "label": "Title Size",
+            "options": [
+				{
+                    "value": "smaller",
+                    "label": "Smaller"
+                },
+                {
+                    "value": "normal",
+                    "label": "Normal"
+                },
+                {
+                    "value": "big",
+                    "label": "Big"
+                }
+            ],
+            "default": "normal"
+        },
+		{
+			"type" : "textarea",
+			"id" : "subtitle",
+			"label" : "Sub Title"
+		},
+		{
+			"type" : "textarea",
+			"id" : "text",
+			"label" : "Text"
+		},
+		{
+			"type": "radio",
+			"id": "perrow",
+			"label": "Card per row (Desktop)",
+			"options": [
+				{
+					"value": "two",
+					"label": "2"
+				},
+				{
+					"value": "three",
+					"label": "3"
+				},
+				{
+					"value": "four",
+					"label": "4"
+				}
+			],
+			"default": "two"
+		},
+		{
+			"type" : "checkbox",
+			"id" : "slide_desktop",
+			"label" : "Enable Slider in Desktop"
+		},
+		{
+			"type" : "checkbox",
+			"id" : "pagination_desktop",
+			"label" : "Enable Slider Pagination in Desktop",
+			"default": true
+		},
+		{
+			"type" : "number",
+			"id" : "slide_desktop_no",
+			"label" : "View Per Slide in Desktop",
+			"default": 0
+		},
+		{
+			"type" : "checkbox",
+			"id" : "slide_mobile",
+			"label" : "Enable Slider in Mobile"
+		},
+		{
+			"type" : "checkbox",
+			"id" : "pagination_mobile",
+			"label" : "Enable Slider Pagination in Mobile",
+			"default": true
+		},
+		{
+			"type" : "number",
+			"id" : "slide_mobile_no",
+			"label" : "View Per Slide in Mobile",
+			"default": 0
+		},
+		{
+			"type" : "checkbox",
+			"id" : "more_btn",
+			"label" : "Enable More Button"
+		},
+		{
+			"type" : "text",
+			"id" : "more_btn_label",
+			"label" : "More Button Label"
+		},
+		{
+			"type" : "url",
+			"id" : "more_btn_url",
+			"label" : "More Button URL"
+		}
+	],
+	"blocks": [
+		{
+			"type": "image",
+			"name": "Image",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image for Desktop"
+				},
+				{
+					"type": "image_picker",
+					"id": "image_mobile",
+					"label": "Image for Mobile"
+				},
+				{
+					"type" : "textarea",
+					"id" : "title",
+					"label" : "Title"
+				},
+				{
+					"type" : "textarea",
+					"id" : "subtitle",
+					"label" : "Sub Title"
+				},
+				{
+					"type" : "textarea",
+					"id" : "text",
+					"label" : "Text"
+				},
+				{
+					"type" : "textarea",
+					"id" : "info",
+					"label" : "Info",
+					"info": "Info for image"
+				},
+				{
+					"type" : "url",
+					"id" : "url",
+					"label" : "URL"
+				},
+				{
+					"type" : "checkbox",
+					"id" : "btn_enable",
+					"label" : "Enable Button"
+				},
+				{
+					"type" : "text",
+					"id" : "btn_label",
+					"label" : "Button Label"
+				},
+				{
+					"type" : "checkbox",
+					"id" : "author_enable",
+					"label" : "Enable Author"
+				},
+				{
+					"type" : "text",
+					"id" : "author_name",
+					"label" : "Author Name"
+				},
+				{
+					"type" : "url",
+					"id" : "author_url",
+					"label" : "Author URL"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Image + Text Cards",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,192 @@
+{% comment %} JCO Theme {% endcomment %}
+{%- assign el_id = "shopify-section-" | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+
+{%- if product.tags contains 'hidden' -%}
+    <script>
+        window.location.href = '/';
+    </script>
+{%- else -%}
+    <script>
+        function updateQueryString(key, value, url) {
+            if (!url) url = window.location.href;
+        
+            let updated = ''
+            var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
+                hash;
+        
+            if (re.test(url)) {
+                if (typeof value !== 'undefined' && value !== null) {
+                    updated = url.replace(re, '$1' + key + "=" + value + '$2$3');
+                } else {
+                    hash = url.split('#');
+                    url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
+                    if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
+                        url += '#' + hash[1];
+                    }
+                    updated = url;
+                }
+            } else {
+                if (typeof value !== 'undefined' && value !== null) {
+                    var separator = url.indexOf('?') !== -1 ? '&' : '?';
+                    hash = url.split('#');
+                    url = hash[0] + separator + key + '=' + value;
+                    if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
+                        url += '#' + hash[1];
+                    }
+                    updated = url;
+                } else {
+                    updated = url;
+                }
+            }
+        
+            window.history.replaceState({ path: updated }, '', updated);
+        }
+    </script>
+
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org/",
+            "@type": "Product",
+            "name": "{{ product.title | escape }}",
+            "brand": {
+                "@type": "Brand",
+                "name": "{{ product.vendor }}"
+            },
+            "description": "{{ page_description | escape }}",
+            "image": "{{ product.featured_image | img_url:'1000x' }}",
+            "sku": "{{ product.variants.first.sku }}",
+            "gtin14": "{{ product.variants.first.barcode }}",
+            "offers": {
+                "@type": "Offer",
+                "priceCurrency": "{{ shop.currency }}",
+                "url":"{{ shop.url }}{{ product.url }}",
+                "price": "{{ product.price |money_without_currency  |strip_html | replace:',','' }}",
+                "itemCondition" : "http://schema.org/NewCondition",
+                "availability" : "{% if product.available == true %}http://schema.org/InStock{% else %}http://schema.org/OutOfStock{% endif %}"
+            }
+        }
+    </script>
+
+    <style>
+        #{{ el_id }} .product-form .swatch {
+            width: 30px;
+            height: 30px;
+            margin-right: 6px;
+        }
+        #{{ el_id }} .product-form .swatch .swatch-inner {
+            width: 22px;
+            height: 22px;
+        }
+        #{{ el_id }} .product-form .swatch.variant-each-button.not-available::after {
+            content: "";
+            position: absolute;
+            background-color: #fff;
+            height: 100%;
+            width: 1px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+        #{{ el_id }} .product-form .box.variant-each-button {
+            position: relative;
+        }
+        #{{ el_id }} .product-form .box.variant-each-button.not-available {
+            color: var(--border);
+            background: 
+            linear-gradient(to top left,
+                rgba(0,0,0,0) 0%,
+                rgba(0,0,0,0) calc(50% - 0.8px),
+                var(--border) 50%,
+                rgba(0,0,0,0) calc(50% + 0.8px),
+                rgba(0,0,0,0) 100%);
+        }
+        #{{ el_id }} .product-form .box.variant-each-button.not-available.active {
+            color: var(--black);
+            background: 
+            linear-gradient(to top left,
+                rgba(0,0,0,0) 0%,
+                rgba(0,0,0,0) calc(50% - 0.8px),
+                var(--black) 50%,
+                rgba(0,0,0,0) calc(50% + 0.8px),
+                rgba(0,0,0,0) 100%);
+        }
+        #{{ el_id }} button.add-to-cart[data-available="false"] {
+            opacity: 1;
+        }
+        #{{ el_id }} button.add-to-cart[data-available="false"]:hover {
+            
+        }
+    </style>
+{%- endif -%}
+
+<div id="product-page-top" class="relative width-100">
+    <div class="container main-container">
+        <div class="global-flex flex-wrap">
+            <div class="left-side col-12 pl-0 pr-0 push-d-1 col-d-5">
+                <div id="product-images-wrapper">
+                    {%- render 'product-images', product: product -%}
+                </div>
+            </div>
+            <div class="right-side col-12 pl-20 pr-20 push-d-1 col-d-5 d-pl-50 d-pr-10 col-hhd-4 hhd-pl-100 product-info-wrapper">
+                <div class="d-pt-50 hhd-pt-100 pt-35 product-info-outer-wrapper">
+                    {%- render 'product-info', product: product -%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+    {
+        "name": "PDP - Product Top",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Section Padding"
+            },
+            {
+                "type": "number",
+                "id": "top_padding_m",
+                "label": "Top padding (Mobile)",
+                "default": 0
+            },
+            {
+                "type": "number",
+                "id": "bottom_padding_m",
+                "label": "Bottom padding (Mobile)",
+                "default": 0
+            },
+            {
+                "type": "number",
+                "id": "top_padding_t",
+                "label": "Top padding (Tablet)",
+                "default": 0
+            },
+            {
+                "type": "number",
+                "id": "bottom_padding_t",
+                "label": "Bottom padding (Tablet)",
+                "default": 0
+            },
+            {
+                "type": "number",
+                "id": "top_padding",
+                "label": "Top padding (Desktop)",
+                "default": 0
+            },
+            {
+                "type": "number",
+                "id": "bottom_padding",
+                "label": "Bottom padding (Desktop)",
+                "default": 0
+            }
+        ],
+        "presets": [
+            {
+                "name": "Product Top",
+                "blocks": []
+            }
+        ]
+    }
+{% endschema %}

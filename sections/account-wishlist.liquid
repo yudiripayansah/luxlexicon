@@ -1,0 +1,217 @@
+{% comment %} IGC - Yudi {% endcomment %}
+{%- assign el_id = 'change-password-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{% if customer %}
+  <style>
+    #{{el_id}} .account-menu {
+      flex-direction: row;
+    }
+    #{{el_id}} .b-transparent {
+      border-color: transparent;
+    }
+    #{{el_id}} .account-menu-mobile {
+      margin-left: -20px;
+      margin-right: -20px;
+    }
+    #{{el_id}} .poo-mobile > div div > div {
+      width: 30%;
+    }
+    #{{el_id}} .icon-back {
+      margin-top: -4px;
+    }
+    #{{el_id}} .icon-back,
+    #{{el_id}} .icon-back svg {
+      width: 10px;
+      height: 10px;
+    }
+    #{{el_id}} .ln-image {
+      width: 55px;
+    }
+    #{{el_id}} .table-online-order-details td {
+      vertical-align: top;
+    }
+    #{{ el_id }} .main-wrapper-each:nth-child(2n - 1) .details-con {
+        padding-left: 15px;
+    }
+    #{{ el_id }} .main-wrapper-each:nth-child(2n) .details-con {
+        padding-right: 15px;
+    } 
+    #{{ el_id }} #wishlist-products {
+      row-gap: 30px;
+    }
+
+    @media screen and (max-width: 1023px) {
+      #{{el_id}} .right-side {
+        width: calc(100% + 15px);
+        margin-left: -7.5px;
+        padding: 0;
+      }
+    }
+
+    @media screen and (min-width: 1024px) {
+      #{{el_id}} .icon-back {
+        margin-top: -5px;
+      }
+      #{{el_id}} .account-menu-mobile {
+        margin-left: 0px;
+        margin-right: 0px;
+      }
+      #{{el_id}} .account-menu {
+        flex-direction: column;
+      }
+      #{{el_id}} .ln-image {
+        width: 60px;
+      }
+      #{{ el_id }} .main-wrapper-each:nth-child(2n - 1) .details-con {
+        padding-left: unset;
+      }
+      #{{ el_id }} .main-wrapper-each:nth-child(2n) .details-con {
+        padding-right: unset;
+      } 
+    }
+  </style>
+  <div id="{{ el_id }}">
+    <div class="container">
+      <div class="row">
+        <div class="col-d-3 col-12">
+          {% render 'account-title' %}
+        </div>
+        {% render 'account-menu', active: 'wishlist' %}
+
+        <div class="col-d-5 col-12 mt-30 d-mt-0 overflow right-side">
+          <div class="row">
+            <div class="global-flex flex-wrap" id="wishlist-products">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    if(!window.SwymCallbacks){
+        window.SwymCallbacks = [];
+    }
+
+    window.SwymCallbacks.push(async function(){
+      const wishlist_products_elem = document.querySelector('#wishlist-products');
+      if(wishlist_products_elem != null) {
+        _swat.fetchWrtEventTypeET(function(products){
+          if(products.length <= 0) {
+            wishlist_products_elem.innerHTML = '<div class="container"><h2 class="p1">{{ "customer.account.no_wishlist_found" | t }}</h2></div>';
+          } else {
+            products.forEach(function(pro){
+              const handle = pro.du.split('/');
+              try {
+                let req = axios.get(window.Shopify.routes.root + `products/${handle[handle.length-1]}?view=product-each-wishlist`)
+                if(req.data){
+                  let html = document.getElementById('wishlist-products').innerHTML;
+                  html += `<div data-epi="${pro.epi}" data-empi="${pro.empi}" class="col-6 main-wrapper-each">${req.data}</div>`;
+                  document.getElementById('wishlist-products').innerHTML = html;
+                  $360.lazyLoadInstance.update();
+                  const curr_wishlist = document.querySelector(`.main-wrapper-each[data-epi="${pro.epi}"]`);
+                  if(curr_wishlist != null) {
+                    if(curr_wishlist.querySelector(`[data-variant-id="${pro.epi}"]`) != null) {
+                      curr_wishlist.querySelector(`[data-variant-id="${pro.epi}"]`).classList.remove('hide-m');
+                    }
+                    const links = curr_wishlist.querySelectorAll('a.product-link');
+                    links.forEach(function(link){
+                      const url = link.getAttribute('href');
+                      const new_url = url + '?variant=' + pro.epi
+                      link.setAttribute('href', `${new_url}`);
+                    });
+                  }
+                } else {
+                  wishlist_products_elem.innerHTML = '<div class="container"><h2 class="p1">{{ "customer.account.no_wishlist_found" | t }}</h2></div>';
+                }
+              } catch (error) {
+                console.log(error.message);
+              }
+            });
+          }
+        });
+      }
+      
+      document.addEventListener('click', function(e){
+        if(e.target.closest('.remove-wishlist')) {
+          e.preventDefault();
+
+          /** remove from wishlist **/
+          const elem = e.target.closest('.main-wrapper-each');
+          const data_pro = {
+            epi: Number(elem.getAttribute('data-epi')),
+            empi: Number(elem.getAttribute('data-empi'))
+          }
+
+          _swat.removeFromWishList(data_pro, function(e){
+						elem.remove();
+
+            const all_wishlist = document.querySelectorAll('.main-wrapper-each');
+            if(all_wishlist.length <= 0) {
+              wishlist_products_elem.innerHTML = '<div class="container"><h2 class="p1">{{ "customer.account.no_wishlist_found" | t }}</h2></div>';
+            }
+					});
+        }
+
+        if(e.target.closest('.add-to-cart')) {
+          e.preventDefault();
+
+          /** add to cart **/
+          const elem = e.target.closest('.main-wrapper-each');
+          const var_id = elem.getAttribute('data-epi');
+
+          $360.addToCart({
+						qty: 1,
+						variantId: var_id,
+					},function() { $360.refreshCartPage();initSwiperYmal()});
+        }
+      });
+    });
+  </script>
+{% else %}
+  <script>
+    window.location.href = '/account';
+  </script>
+{% endif %}
+{% schema %}
+{
+  "name": "Account Wishlist",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    }
+  ]
+}
+{% endschema %}

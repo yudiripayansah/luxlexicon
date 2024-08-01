@@ -1,0 +1,346 @@
+{% comment %} Luxlexicon {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #{{ el_id }} .pdp-testimonial {
+    {% if section.settings.background_color != blank %}
+      background: {{section.settings.background_color}};
+    {% endif %}
+  }
+  #{{ el_id }} .pdp-testimonial .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #{{ el_id }} .pdp-testimonial .swiper .navigation svg circle,
+  #{{ el_id }} .pdp-testimonial .swiper .navigation svg path {
+    stroke: #ffffff;
+  }
+  #{{ el_id }} .pdp-testimonial .swiper-slide-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #{{ el_id }} .pdp-testimonial .swiper-rating {
+    display: flex
+  }
+  #{{ el_id }} .pdp-testimonial .swiper-rating svg{
+    width: 16px;
+    height: 16px;
+  }
+  #{{ el_id }} .pdp-testimonial .swiper-slide-inner{
+    {% if section.settings.max_m != blank %}
+      max-width: {{section.settings.max_m}}px;
+    {% else %}
+      max-width: 100%;
+    {% endif %}
+  }
+  #{{ el_id }} .pdp-testimonial .swiper-pagination {
+    bottom: 20px;
+    top: auto;
+  }
+  #shopify-section-{{ section.id }} .swiper-pagination + .swiper-pagination-progressbar{
+    height:1px;
+    width:calc(100% - 40px);
+    left: 20px;
+  }
+  #shopify-section-{{ section.id }} .swiper-pagination-progressbar{
+    background:rgba(255, 255, 255, 0.25);;
+  }
+  #shopify-section-{{ section.id }} .swiper-pagination-progressbar-fill{
+      background:#ffffff;
+  }
+  #{{ el_id }} .pdp-testimonial .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background: #ffffff;
+  }
+  @media screen and (min-width: 600px) {
+    {% if section.settings.max_t != blank %}
+      #{{ el_id }} .pdp-testimonial .swiper-slide-inner{
+        max-width: {{section.settings.max_t}}px;
+      }
+    {% endif %}
+  }
+  @media screen and (min-width: 1024px) {
+    {% if section.settings.max_d != blank %}
+      #{{ el_id }} .pdp-testimonial .swiper-slide-inner{
+        max-width: {{section.settings.max_d}}px;
+      }
+    {% endif %}
+  }
+  @media screen and (min-width: 1440px) {
+    {% if section.settings.max_hd != blank %}
+      #{{ el_id }} .pdp-testimonial .swiper-slide-inner{
+        max-width: {{section.settings.max_hd}}px;
+      }
+    {% endif %}
+  }
+  @media screen and (min-width: 1920px) {
+    {% if section.settings.max_hhd != blank %}
+      #{{ el_id }} .pdp-testimonial .swiper-slide-inner{
+        max-width: {{section.settings.max_hhd}}px;
+      }
+    {% endif %}
+  }
+</style>
+
+<section class="pdp-testimonial overflow">
+  <div class="outer-wrapper">
+    <div class="carousel-wrapper">
+      <div
+        class="swiper swiper-container"
+      >
+        <div class="navigation hide-m show-d">
+          <div class="swiper-button-prev">{{ settings.icon_slide_left }}</div>
+          <div class="swiper-button-next">{{ settings.icon_slide_right }}</div>
+        </div>
+        <div class="swiper-wrapper">
+          <div class="swiper-slide d-pt-112 d-pb-112 d-pl-0 d-pr-0 pt-60 pb-80 pl-20 pr-20">
+            <div class="swiper-slide-inner">
+              <div class="swiper-rating">
+                {%- for i in (1..5) -%}
+                  <span class="{%- unless forloop.last -%}mr-12{%- endunless -%}">{{ settings.icon_star }}</span>
+                {%- endfor -%}
+              </div>
+              <p class="h5 pt-24 d-pt-40 tc c-white">
+                Highly recommend LuxLexicon for fuss free consignment/sale of luxury items.<br>
+                I appreciate the door step collection by the friendly team, they are professional, polite, transparent
+                and gave great advice on pricing of items for consignment.
+              </p>
+              <p class="p2 pt-24 d-pt-32 c-white">Jane D</p>
+            </div>
+          </div>
+          <div class="swiper-slide d-pt-112 d-pb-112 d-pl-0 d-pr-0 pt-60 pb-80 pl-20 pr-20">
+            <div class="swiper-slide-inner">
+              <div class="swiper-rating">
+                {%- for i in (1..5) -%}
+                  <span class="{%- unless forloop.last -%}mr-12{%- endunless -%}">{{ settings.icon_star }}</span>
+                {%- endfor -%}
+              </div>
+              <p class="h5 pt-40 tc c-white">
+                Highly recommend LuxLexicon for fuss free consignment/sale of luxury items.<br>
+                I appreciate the door step collection by the friendly team, they are professional, polite, transparent
+                and gave great advice on pricing of items for consignment.
+              </p>
+              <p class="p2 pt-32 c-white">Jane D</p>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination swiper-pagination-bullets mt-85 hide-m show-d"></div>
+        <div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal hide-d"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initSwiper() {
+    const productListSwiper = new Swiper('#{{ el_id }} .pdp-testimonial .swiper', {
+      slidesPerView: 1,
+      slidesPerColumn: 1,
+      freeMode: false,
+      navigation: {
+        nextEl: '#{{ el_id }} .swiper-button-next',
+        prevEl: '#{{ el_id }} .swiper-button-prev',
+      },
+      pagination: {
+        el: `#{{ el_id }} .swiper .swiper-pagination-progressbar`,
+        clickable: true,
+        type: 'progressbar',
+      },
+      breakpoints: {
+        600: {
+          slidesPerView: 1,
+        },
+        1024: {
+          slidesPerView: 1,
+          pagination: {
+            el: `#{{ el_id }} .swiper .swiper-pagination-bullets`,
+            clickable: true,
+            type: 'bullets',
+          },
+        },
+      },
+    });
+  }
+  initSwiper();
+  document.addEventListener('shopify:section:load', () => {
+    initSwiper();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "PDP - Testimonial",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "General Padding"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "text",
+      "id": "max_m",
+      "label": "Max width mobile",
+      "default": "270"
+    },
+    {
+      "type": "text",
+      "id": "max_t",
+      "label": "Max width tablet"
+    },
+    {
+      "type": "text",
+      "id": "max_d",
+      "label": "Max width desktop",
+      "default": "890"
+    },
+    {
+      "type": "text",
+      "id": "max_hd",
+      "label": "Max width hd (1400px)"
+    },
+    {
+      "type": "text",
+      "id": "max_hhd",
+      "label": "Max width hhd (1920px)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP - Testimonial",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

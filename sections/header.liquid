@@ -1,0 +1,819 @@
+{% comment %} IGC Theme {% endcomment %}
+{%- assign transparent_class = '' -%}
+{%- if section.settings.transparent_header_template contains template -%}
+  {%- assign transparent_class = 'transparent' -%}
+  <style>
+    .global-content-top-margin .shopify-section:first-child {
+      margin-top: -90px;
+    }
+
+    @media screen and (min-width: 1024px) {
+      .global-content-top-margin .shopify-section:first-child {
+        margin-top: -112px;
+      }
+    }
+  </style>
+{%- endif -%}
+
+<style>
+  .header-bar .close-ann-bar svg * {
+    stroke: {{ section.settings.color_text }};
+  }
+</style>
+
+<div id="header-con">
+  <header id="site-header" class="site-header fixed {{ transparent_class }}" :class="{ 'hidden': hideSiteHeader }">
+    <div class="header-con-outer bb-1 b-border d-bb-0 relative w-full zi-3">
+      <div class="header-con container relative z-1">
+        <div class="header-con__inner flex ai-center pt-19 pb-19 d-pt-12 d-pb-12 relative z-2">
+          <div class="global-flex ai-center">
+            <button
+              @click="toggleMobileMenu"
+              type="button"
+              class="header-mobile-menu hide-d">
+              <span class="icon-size icon-menu flex ai-center jc-center">{{ settings.icon_menu }}</span>
+              <span class="icon-size icon-close-menu ai-center jc-center hide-m">{{ settings.icon_close }}</span>
+            </button>
+            <div class="header-search-form-toggle icon-size hide-d ml-16" @click="headerSearchHandler($event);" :class="{ 'showSearchForm': showSearchForm }">
+                <button type="button" class="flex jc-center ai-center">
+                  {{ settings.icon_search }}
+                </button>
+            </div>
+          </div>
+  
+          <nav class="header-nav hide-m show-d-flex">
+            <a href="#" @click="headerSearchHandler($event);" rel="nofollow" class="desktop-search-trigger show-m-inline-flex ai-center">
+              <span class="icon-size mr-12">{{ settings.icon_search }}</span>
+              <span class="p3 c-grey40">{{ 'general.search.placeholder' | t }}</span>
+            </a>
+          </nav>
+
+          <a
+            @mouseover="activeSubmenu = null;"
+            href="/"
+            class="header-logo">
+            {%- if section.settings.logo_type == 'image' -%}
+              <div class="logo-black width-100">
+                {%- render 'global-image-wrapper', image: section.settings.logo_image_black, preload: true, additional_class: 'no-bg' -%}
+              </div>
+              <div class="logo-white hide-m width-100">
+                {%- render 'global-image-wrapper', image: section.settings.logo_image_white, preload: true, additional_class: 'no-bg' -%}
+              </div>
+            {%- else -%}
+              <div class="logo-black">{{ section.settings.logo_svg_black }}</div>
+              <div class="logo-white hide-m">{{ section.settings.logo_svg_white }}</div>
+            {%- endif -%}
+          </a>
+  
+          <ul @mouseover="activeSubmenu = null; mainNavMouseLeave();" class="header-right">
+            {% comment %}
+            <li class="header-search-form-toggle hide-m show-d d-mr-25" @click="headerSearchHandler($event);" :class="{ 'showSearchForm': showSearchForm }">
+              <button type="button" class="flex jc-center ai-center h4 uppercase c-black">
+                {{ 'layout.navigation.search' | t }}
+              </button>
+            </li>
+            {% endcomment %}
+            
+            {%- if section.settings.cta_button_label != blank -%}
+              <li class="header-account-link hide-m show-d-inline-block mr-16 d-mr-20">
+                <a href="{{ section.settings.cta_button_url }}" class="btn5">{{ section.settings.cta_button_label }}</a>
+              </li>
+            {%- endif -%}
+
+            {%- if section.settings.phone_number != blank -%}
+              <li class="header-account-link hide-m show-d-inline-block mr-16 d-mr-20">
+                <a
+                  href="tel:{{ section.settings.phone_number }}"
+                  title="Contact"
+                  class="flex jc-center ai-center h4 uppercase">
+                  <span class="show-m-inline-block icon-size">{{ settings.icon_phone }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+
+            <li class="header-account-link hide-m show-d-inline-block mr-16 d-mr-20">
+              <a
+                href="/pages/wishlist"
+                title="Wishlist"
+                class="flex jc-center ai-center h4 uppercase">
+                <span class="show-m-inline-block icon-size">{{ settings.icon_heart }}</span>
+              </a>
+            </li>
+            <li class="header-account-link show-m-inline-block mr-16 d-mr-20">
+              <a
+                href="/account"
+                title="Account"
+                class="flex jc-center ai-center h4 uppercase">
+                <span class="show-m-inline-block icon-size">{{ settings.icon_account }}</span>
+              </a>
+            </li>
+            <li class="relative cart-icon">
+              <a
+                href="/cart"
+                class="header-cart-link h4 uppercase header-icon-heights header-icons header-carts flex jc-center ai-center"
+                @click.prevent="showHeaderCart" onclick="initSwiperYmal()">
+                <span class="show-m-inline-block icon-size">{{ settings.icon_cart }}</span>
+
+                <span class="header-cart-number ml-5 h4 {% if cart.item_count > 0 %}flex{% else %}hide-m{% endif %}">
+                  <span class="cart-count h4">{%- render 'custom-cart-count' -%}</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} Desktop Nav {% endcomment %}
+    <div class="header-con-outer hide-m show-d bb-1 bt-1 b-border relative w-full zi-3">
+      <div class="header-con container relative z-1">
+        <ul class="nav flex jc-center">
+          {% for parent in linklists[section.settings.main_linklist].links %}
+            {% assign block = section.blocks[forloop.index0] %}
+              <li
+                @mouseover="showDropdown({{ forloop.index }},$event)"
+                class="mb-10 d-mb-0 pt-14 pb-14 parent relative mr-14 ml-14 {% if block != blank and block.settings.enable %}with-children{% endif %}"
+                {% if block != blank and block.settings.enable %}data-id="menu-dropdown-{{ forloop.index }}"{% endif %}>
+                <a
+                  href="{{ parent.url }}"
+                  class="header-link flex jc-center ai-center h4 c-black"
+                  {% if block != blank and block.settings.enable %} :class="{active: activeSubmenu == {{ forloop.index }}}" data-no-instant{% endif %}>
+                  <span class="text h4">{{ parent.title }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% comment %} end Desktop Nav {% endcomment %}
+  </header>
+      
+  {%- comment -%} Search form {%- endcomment -%} 
+  {%- render 'search-dropdown', section: section -%}
+  {%- comment -%} end search form {%- endcomment -%}
+
+  <div class="mobile-menu-wrapper bg-white zi-3" :class="{active: showMobileMenu}">
+    <div class="relative w-full h-full">
+      <div class="page-1-wrapper">
+        {%- if section.settings.cta_image != blank and section.settings.cta_button_label != blank -%}
+          <div class="cta-mobile global-flex ai-center bg-cream">
+            <div class="image-container">
+              {%- render 'global-image-wrapper',
+                image: section.settings.cta_image
+              -%}
+            </div>
+            <div class="text-container pl-20">
+              <h3 class="h3">{{ section.settings.cta_title }}</h3>
+              {%- if section.settings.cta_desc != blank -%}
+                <p class="p3 c-grey60 mt-6">{{ section.settings.cta_desc }}</p>
+              {%- endif -%}
+              
+              <a href="{{ section.settings.cta_button_url }}" class="btn5 mt-12 mb-5">{{ section.settings.cta_button_label }}</a>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="outer-wrapper pt-28 pb-28 bb-1 b-border">
+          <ul class="mobile-menu container">
+            {%- for parent in linklists[section.settings.main_linklist].links -%}
+              {%- assign block = section.blocks[forloop.index0] -%}
+              <li class="parent {% if block != blank and block.settings.enable %}with-children{% endif %} {% unless forloop.first %} mt-20 {% endunless %}">
+                <a
+                  href="{{ parent.url }}"
+                  {% if block != blank and block.settings.enable %} @click.prevent="toggleMobileMenuDrop($event, '{{ parent.title | handleize }}')" {% endif %}
+                  class="main-menu-title flex jc-between ai-center">
+                  <span class="text h4 c-black flex ai-center">{{ parent.title }}</span>
+  
+                  {%- if block != blank and block.settings.enable -%}
+                    <span class="icon">{{ settings.icon_btn_right }}</span>
+                  {%- endif -%}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+  
+        <div class="relative w-full pt-28 pb-28 additional-links-wrapper">
+          <div class="container">
+            {%- if section.settings.phone_number != blank -%}
+              <div class="relative w-full pb-20 bb-1 b-border">
+                <a
+                  href="tel:{{ section.settings.phone_number }}"
+                  title="Contact"
+                  class="show-m-inline-flex jc-center ai-center link1">
+                  <span class="show-m-inline-block icon-size mr-12">{{ settings.icon_phone }}</span>
+                  <span>{{ "general.navigation.contact" | t }}</span>
+                </a>
+              </div>
+            {%- endif -%}
+  
+            <div class="relative w-full pt-20">
+              <a
+                href="/pages/wishlist"
+                title="Wishlist"
+                class="show-m-inline-flex jc-center ai-center link1">
+                <span class="show-m-inline-block icon-size mr-12">{{ settings.icon_heart }}</span>
+                <span>{{ "general.navigation.wishlist" | t }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} menu dropdown mobile {% endcomment %}
+      <div class="menu-dropdown-mobile-wrapper">
+        {%- for parent in linklists[section.settings.main_linklist].links -%}
+          {%- assign block = section.blocks[forloop.index0] -%}
+          
+          {%- assign mm_block_index = 0 -%}
+          {%- if block != blank and block.settings.enable -%}
+            {%- assign mm_block_index = mm_block_index | plus: 1 -%}
+            <div data-title="{{ parent.title | handleize }}" class="mobile-menu-dropdown pb-28 {% unless forloop.first %} hide-m {% endunless %} relative">
+                <div class="relative w-full bb-1 b-border">
+                  <a href="#" rel="nofollow" @click.prevent="toggleMobileMenuDrop($event, '{{ parent.title | handleize }}')" class="container link-icon pt-20 pb-20">
+                    <span class="icon">{{ settings.icon_btn_left }}</span>
+                    <span class="h4 ml-12 c-black">{{ parent.title }}</span>
+                  </a>
+                </div>
+
+                <div class="container">
+                  {%- unless block.settings.simple_dropdown -%}
+                    {%- for submenu_1 in linklists[block.settings.menu].links -%}
+                      <div class="submenu-1-item pt-28 pb-28 bb-1 b-border">
+                        <h4 class="p3 c-grey40 mb-24">{{ submenu_1.title | replace: 'two_col:', '' }}</h4>
+                        <div class="row">
+                          <ul class="submenu-2 global-flex flex-wrap jc-start">
+                            {%- for submenu_2 in submenu_1.links -%}
+                              {%- unless submenu_2.title contains 'all_link:' -%}
+                                <li class="col-6">
+                                  <a
+                                    href="{{ submenu_2.url }}"
+                                    title="{{ submenu_2.title | escape }}"
+                                    class="h4 c-black">{{ submenu_2.title }}</a>
+                                </li>
+                              {%- else -%}
+                                <li class="col-12">
+                                  {%- assign id = block.id | append: forloop.index -%}
+                                  {%- assign label = submenu_2.title | replace: 'all_link:', '' -%}
+                                  {%- render 'link-icon', 
+                                    id: id,
+                                    label: label, 
+                                    url: submenu_2.url,
+                                    text_class: 'link2 mr-0 c-black',
+                                    icon_svg: settings.icon_btn_right,
+                                    right_icon: true,
+                                    icon_width: 8,
+                                    icon_height: 8,
+                                    load_inside_vue: true,
+                                    icon_color: '#0D0D0D'
+                                    icon_color_hover: '#0D0D0D'
+                                  -%}
+                                </li>
+                              {%- endunless -%}
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      </div>
+                    {%- endfor -%}
+                  {%- else -%}
+                    {% comment %} simple dropdown {% endcomment %}
+                    <div class="submenu-1-item pt-28 pb-28">
+                      <div class="row">
+                        <ul class="submenu-2 global-flex flex-wrap jc-start">
+                          {%- for submenu_2 in linklists[block.settings.menu].links -%}
+                            {%- unless submenu_2.title contains 'all_link:' -%}
+                              <li class="col-12">
+                                <a
+                                  href="{{ submenu_2.url }}"
+                                  title="{{ submenu_2.title | escape }}"
+                                  class="h4 c-black">{{ submenu_2.title }}</a>
+                              </li>
+                            {%- else -%}
+                              <li class="col-12">
+                                {%- assign id = block.id | append: forloop.index -%}
+                                {%- assign label = submenu_2.title | replace: 'all_link:', '' -%}
+                                {%- render 'link-icon', 
+                                  id: id,
+                                  label: label, 
+                                  url: submenu_2.url,
+                                  text_class: 'link2 mr-0 c-black',
+                                  icon_svg: settings.icon_btn_right,
+                                  right_icon: true,
+                                  icon_width: 8,
+                                  icon_height: 8,
+                                  load_inside_vue: true,
+                                  icon_color: '#0D0D0D'
+                                  icon_color_hover: '#0D0D0D'
+                                -%}
+                              </li>
+                            {%- endunless -%}
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    </div>
+                    {% comment %} end simple dropdown {% endcomment %}
+                  {%- endunless -%}
+                </div>
+
+              {%- if block.settings.enable_image_content -%}
+                <div class="right-side global-flex jc-between w-full pt-32">
+                  {%- assign custom_class = '' -%}
+                  {%- if block.settings.image_2 != blank -%}
+                    {%- assign custom_class = 'two-col' -%}
+                  {%- endif -%}
+
+                  <div class="image-wrapper relative {{ custom_class }} w-full overflow">
+                    <div class="row">
+                      <div class="container global-flex">
+                        {%- for i in (1..2) -%}
+                          {%- assign image = "image_" | append: i -%}
+                          {%- assign title = "image_title_" | append: i -%}
+                          {%- assign url = "image_url_" | append: i -%}
+                          {%- assign label = "link_label_" | append: i -%}
+
+                          {%- if block.settings[image] != blank -%}
+                            <div class="image-each pl-8 pr-8 relative w-full">
+                              {%- if block.settings[url] != blank -%}
+                                <a href="{{ block.settings[url] }}" class="show-m relative">
+                              {%- else -%}
+                                <div class="show-m relative">
+                              {%- endif -%}
+                                  {%- render 'global-image-wrapper',
+                                    image: block.settings[image],
+                                    size: '1000x'
+                                  -%}
+
+                                  <div class="global-image-overlay z-2"></div>
+
+                                  {%- if block.settings[title] != blank -%}
+                                    <div class="ab-bottom-left w-full p-16 z-3">
+                                      <h3 class="h2 c-white">{{ block.settings[title] }}</h3>
+
+                                      {%- if block.settings[label] != blank -%}
+                                        <div class="w-full relative mt-10"> 
+                                          {%- assign id = block.id | append: forloop.index | append: 'img' -%}
+                                          {%- assign label = block.settings[label] | replace: 'all_link:', '' -%}
+                                          {%- render 'link-icon', 
+                                            id: id,
+                                            label: label, 
+                                            text_class: 'link2 mr-0 c-white',
+                                            icon_svg: settings.icon_btn_right,
+                                            right_icon: true,
+                                            icon_width: 8,
+                                            icon_height: 8,
+                                            load_inside_vue: true,
+                                            icon_color: '#ffffff'
+                                            icon_color_hover: '#ffffff'
+                                          -%}
+                                        </div>
+                                      {%- endif -%}
+                                    </div>
+                                  {%- endif -%}
+                              {%- if block.settings[url] != blank -%}
+                                </a>
+                              {%- else -%}
+                                </div>
+                              {%- endif -%}
+                            </div>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {% comment %} end menu dropdown mobile {% endcomment %}
+    </div>
+  </div>
+
+  {% comment %} menu dropdown desktop {% endcomment %}
+  {%- for block in section.blocks -%}
+    {%- if block != blank and block.settings.enable -%}
+      {% assign parent_index = forloop.index %}
+      <div
+        id="menu-dropdown-{{ forloop.index }}"
+        class="menu-dropdown"
+        :class="{show: activeSubmenu == {{ forloop.index }}}">
+        {%- unless block.settings.simple_dropdown -%}
+          {% comment %} Big dropdown {% endcomment %}
+          <div class="global-flex jc-between container pl-0 pr-0 d-pt-40 d-pb-40">
+            <div class="relative width-100">
+              <div class="container">
+                <div class="row">
+                  <div class="global-flex desktop-dropdown-wrapper">
+                    {% comment %} left side {% endcomment %}
+                    <div class="col-12 left-side">
+                      <ul class="submenu-1 submenu-item-wrapper relative global-flex flex-wrap ai-start">
+                        {%- for submenu_1 in linklists[block.settings.menu].links -%}
+                          {%- assign custom_class = '' -%}
+                          {%- if submenu_1.title contains 'two_col:' -%}
+                            {%- assign custom_class = 'two-col' -%}
+                          {%- endif -%}
+
+                          <li class="submenu-1-item submenu-item {{ custom_class }} mr-32">
+                            {%- unless submenu_1.url contains '#' -%}
+                              <a
+                                href="{{ submenu_1.url }}"
+                                class="p3 c-grey40 mb-20 show-m"
+                                title="{{ submenu_1.title | escape }}">
+                            {%- else -%}
+                              <p class="p3 c-grey40 mb-20 show-m">
+                            {%- endunless -%}
+
+                              {{ submenu_1.title | replace: 'two_cols:', '' }}
+
+                            {%- unless submenu_1.url contains '#' -%}
+                              </a>
+                            {%- else -%}
+                              </p>
+                            {%- endunless -%}
+
+                              <ul>
+                                {%- for submenu_2 in submenu_1.links -%}
+                                  {%- unless submenu_2.title contains 'all_link:' -%}
+                                    <li class="show-m {% unless forloop.last %} mb-16 {% endunless %}">
+                                      <a href="{{ submenu_2.url }}" class="h4 show-m-inline-block c-black">{{ submenu_2.title }}</a>
+                                    </li>
+                                  {%- else -%}
+                                    <li class="show-m pt-4">
+                                      {%- assign id = block.id | append: forloop.index -%}
+                                      {%- assign label = submenu_2.title | replace: 'all_link:', '' -%}
+                                      {%- render 'link-icon', 
+                                        id: id,
+                                        label: label, 
+                                        url: submenu_2.url,
+                                        text_class: 'link2 mr-0 c-black',
+                                        icon_svg: settings.icon_btn_right,
+                                        right_icon: true,
+                                        icon_width: 8,
+                                        icon_height: 8,
+                                        load_inside_vue: true,
+                                        icon_color: '#0D0D0D'
+                                        icon_color_hover: '#0D0D0D'
+                                      -%}
+                                    </li>
+                                  {%- endunless -%}
+                                {%- endfor -%}
+                              </ul>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                    {% comment %} end left side {% endcomment %}
+
+                    {% comment %} right side {% endcomment %}
+                    <div class="col-12 right-side global-flex jc-end">
+                      {%- assign custom_class = '' -%}
+                      {%- if block.settings.image_2 != blank -%}
+                        {%- assign custom_class = 'two-col' -%}
+                      {%- endif -%}
+
+                      <div class="image-wrapper relative {{ custom_class }} w-full">
+                        <div class="row">
+                          <div class="global-flex">
+                            {%- for i in (1..2) -%}
+                              {%- assign image = "image_" | append: i -%}
+                              {%- assign title = "image_title_" | append: i -%}
+                              {%- assign url = "image_url_" | append: i -%}
+                              {%- assign label = "link_label_" | append: i -%}
+    
+                              {%- if block.settings[image] != blank -%}
+                                <div class="image-each pl-8 pr-8 relative w-full">
+                                  {%- if block.settings[url] != blank -%}
+                                    <a href="{{ block.settings[url] }}" class="show-m relative">
+                                  {%- else -%}
+                                    <div class="show-m relative">
+                                  {%- endif -%}
+                                      {%- render 'global-image-wrapper',
+                                        image: block.settings[image],
+                                        size: '1000x'
+                                      -%}
+
+                                      <div class="global-image-overlay z-2"></div>
+
+                                      {%- if block.settings[title] != blank -%}
+                                        <div class="ab-bottom-left w-full p-24 z-3">
+                                          <h3 class="h2 c-white">{{ block.settings[title] }}</h3>
+
+                                          {%- if block.settings[label] != blank -%}
+                                            <div class="w-full relative mt-8">
+                                              {%- assign id = block.id | append: forloop.index | append: 'img' -%}
+                                              {%- assign label = block.settings[label] | replace: 'all_link:', '' -%}
+                                              {%- render 'link-icon', 
+                                                id: id,
+                                                label: label, 
+                                                text_class: 'link2 mr-0 c-white',
+                                                icon_svg: settings.icon_btn_right,
+                                                right_icon: true,
+                                                icon_width: 8,
+                                                icon_height: 8,
+                                                load_inside_vue: true,
+                                                icon_color: '#ffffff'
+                                                icon_color_hover: '#ffffff'
+                                              -%}
+                                            </div>
+                                          {%- endif -%}
+                                        </div>
+                                      {%- endif -%}
+                                  {%- if block.settings[url] != blank -%}
+                                    </a>
+                                  {%- else -%}
+                                    </div>
+                                  {%- endif -%}
+                                </div>
+                              {%- endif -%}
+                            {%- endfor -%}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% comment %} end right side {% endcomment %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% comment %} end Big dropdown {% endcomment %}
+        {%- else -%}
+          {% comment %} Simple dropdown {% endcomment %}
+          <div class="simple-dropdown-wrapper d-p-24 d-pr-48" >
+            <ul>
+              {%- for submenu_1 in linklists[block.settings.menu].links -%}
+                {%- unless submenu_1.title contains 'all_link:' -%}
+                  <li class="show-m {% unless forloop.last %} mb-16 {% endunless %}">
+                    <a href="{{ submenu_1.url }}" class="h4 show-m-inline-block c-black">{{ submenu_1.title }}</a>
+                  </li>
+                {%- else -%}
+                  <li class="show-m pt-4">
+                    {%- assign id = block.id | append: forloop.index -%}
+                    {%- assign label = submenu_1.title | replace: 'all_link:', '' -%}
+                    {%- render 'link-icon', 
+                      id: id,
+                      label: label, 
+                      url: submenu_1.url,
+                      text_class: 'link2 mr-0 c-black',
+                      icon_svg: settings.icon_btn_right,
+                      right_icon: true,
+                      icon_width: 8,
+                      icon_height: 8,
+                      load_inside_vue: true,
+                      icon_color: '#0D0D0D'
+                      icon_color_hover: '#0D0D0D'
+                    -%}
+                  </li>
+                {%- endunless -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+          {% comment %} end Simple dropdown {% endcomment %}
+        {%- endunless -%}
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+  {% comment %} end menu dropdown desktop {% endcomment %}
+
+  <div
+    class="page-overlay header-overlay"
+    :class="{'active': activeSubmenu}"
+    @mouseover="activeSubmenu = null;setStickyElemsToAbove();">&nbsp;</div>
+</div>
+
+<script>
+  /** Header bar carousel */
+  function headerBarCarouselInit() {
+    let header_bar_carousel;
+    header_bar_carousel = new Swiper("#header-bar .swiper", {
+      direction: 'horizontal',
+      slidesPerView: 1,
+      watchSlidesProgress: true,
+      {% if header_bar_count > 1 %}
+      loop: true,
+      autoplay: {
+        delay: 3500
+      },
+      {% endif %}
+      navigation: {
+        nextEl: '#header-bar .swiper-next',
+        prevEl: '#header-bar .swiper-prev'
+      },
+      on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    headerBarCarouselInit();
+  });
+  document.addEventListener('shopify:section:load', () => { headerBarCarouselInit() });
+</script>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Transparent Header"
+      },
+      {
+        "type": "textarea",
+        "id": "transparent_header_template",
+        "label": "Templates",
+        "info": "The header will be transparent on these templates. Input separated by comma."
+      },
+      {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "radio",
+        "id": "logo_type",
+        "label": "Logo type",
+        "options": [
+          {
+            "value": "image",
+            "label": "Image"
+          }, {
+            "value": "svg",
+            "label": "SVG"
+          }
+        ],
+        "default": "image"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_image_black",
+        "label": "Logo image (black)"
+      },
+      {
+        "type": "textarea",
+        "id": "logo_svg_black",
+        "label": "Logo SVG (black)"
+      }, {
+        "type": "image_picker",
+        "id": "logo_image_white",
+        "label": "Logo image (white)"
+      }, {
+        "type": "textarea",
+        "id": "logo_svg_white",
+        "label": "Logo SVG (white)"
+      }, 
+      {
+        "type": "header",
+        "content": "CTAs"
+      },
+      {
+        "type": "text",
+        "id": "phone_number",
+        "label": "Phone Number"
+      },
+      {
+        "type": "image_picker",
+        "id": "cta_image",
+        "label": "Image",
+        "info": "Will appear on mobile"
+      },
+      {
+        "type": "text",
+        "id": "cta_title",
+        "label": "Title",
+        "info": "Will appear on mobile"
+      },
+      {
+        "type": "textarea",
+        "id": "cta_desc",
+        "label": "Description",
+        "info": "Will appear on mobile"
+      },
+      {
+        "type": "text",
+        "id": "cta_button_label",
+        "label": "Button Label"
+      },
+      {
+        "type": "url",
+        "id": "cta_button_url",
+        "label": "Button URL"
+      },
+      {
+        "type": "header",
+        "content": "Main Menu"
+      }, {
+        "type": "link_list",
+        "id": "main_linklist",
+        "label": "Menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "header",
+        "content": "Search Popup"
+      },
+      {
+        "type": "text",
+        "id": "search_suggestion_title",
+        "label": "Suggestion Title",
+        "default": "Suggestions"
+      }, 
+      {
+        "type": "link_list",
+        "id": "search_suggestion_links",
+        "label": "Suggestion Links"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "dropdown",
+        "name": "Mega Dropdown",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "enable",
+            "label": "Enable dropdown"
+          },
+          {
+            "type": "checkbox",
+            "id": "simple_dropdown",
+            "label": "Simple dropdown type?"
+          },
+          {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Submenu"
+          },
+          {
+            "type": "header",
+            "content": "Image Content"
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_image_content",
+            "label": "Enable module"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_1",
+            "label": "Image (Desktop) #1"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_mobile_1",
+            "label": "Image (Mobile) #1"
+          }, 
+          {
+            "type": "text",
+            "id": "image_title_1",
+            "label": "Image Title #1"
+          },
+          {
+            "type": "text",
+            "id": "link_label_1",
+            "label": "Link Label #1"
+          },
+          {
+            "type": "url",
+            "id": "image_url_1",
+            "label": "URL #1"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_2",
+            "label": "Image (Desktop) #2"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_mobile_2",
+            "label": "Image (Mobile) #2"
+          }, 
+          {
+            "type": "text",
+            "id": "image_title_2",
+            "label": "Image Title #2"
+          },
+          {
+            "type": "text",
+            "id": "link_label_2",
+            "label": "Link Label #2"
+          },
+          {
+            "type": "url",
+            "id": "image_url_2",
+            "label": "URL #2"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

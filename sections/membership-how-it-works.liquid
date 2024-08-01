@@ -1,0 +1,205 @@
+{% comment %} in-good-company {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #{{el_id}} .member-icon {
+    width: 18px;
+    height: 13px;
+  }
+  #{{el_id}} .member-icon img {
+    width: 18px;
+    height: 13px;
+    background: var(--white);
+  }
+</style>
+
+<div class="membership-how">
+  <div class="container">
+    <div class="row">
+      <div class="global-flex flex-wrap">
+        <div class="col-12 col-d-6">
+          {%- assign image_id = 'image-membership-how-' | append: section.id -%}
+          {%- assign preload = '' -%}
+          {%- if section.index == 1 -%}
+            {%- assign preload = true -%}
+          {%- endif -%}
+          {%- render 'global-image-wrapper-responsive',
+            image_id: image_id,
+            desktop_image: section.settings.desktop_image,
+            mobile_image: section.settings.mobile_image,
+            additional_class: 'no-bg',
+            preload: preload
+          %}
+        </div>
+        <div class="col-12 col-d-1 hide-m show-d">
+        </div>
+        <div class="col-12 col-d-4">
+          <{{ section.settings.title_dom_type }} class="{{section.settings.title_size}} c-black pt-30 d-pt-135">
+            {{- section.settings.title -}}
+          </{{ section.settings.title_dom_type }}>
+          <div class="pt-30">
+            {%- for block in section.blocks -%}
+              <div class="{%unless forloop.last%}pb-20 d-pb-20{% endunless %} global-flex flex-wrap ai-center">
+                {%- if block.settings.icon -%}
+                  <div class="member-icon mr-20">
+                    {%- render 'global-image-wrapper', image: block.settings.icon -%}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.title != blank -%}
+                  <div>
+                    <p class="h3">{{ forloop.index }}. {{ block.settings.title }}</p>
+                    <p class="p2 c-grey">{{ block.settings.text }}</p>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Membership - How It Works",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Membership - How It Works"
+    }
+  ]
+}
+{% endschema %}

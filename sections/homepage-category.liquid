@@ -1,0 +1,484 @@
+{% comment %} JCO Theme {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    {% if section.settings.border == true %}
+    border-top: 1px solid #dedede;
+    {% endif %}
+  }
+  #shopify-section-{{ section.id }} .flex-wrapper{
+      display:flex;
+      flex-wrap:wrap;
+      margin-left: calc(-{{section.settings.pcgap}}px/2);
+      margin-right: calc(-{{section.settings.pcgap}}px/2);
+  }
+  #shopify-section-{{ section.id }} .image-container{
+    width:calc(50% - {{section.settings.pcgap}}px);
+    margin-left: calc({{section.settings.pcgap}}px/2);
+    margin-right: calc({{section.settings.pcgap}}px/2);
+  }
+  #shopify-section-{{ section.id }} .top-container{
+      display:flex;
+      align-items: center;
+      justify-content:space-between;
+      {% if section.settings.title_section_gap_mobile != blank %}
+      padding-bottom: {{ section.settings.title_section_gap_mobile }}px;
+      {% endif %}
+  }
+  #shopify-section-{{ section.id }} .text-content{
+      position:absolute;
+      width:100%;
+      bottom:16px;
+      text-align: center;
+  }
+  #shopify-section-{{ section.id }} .swiper-container{
+    overflow: visible!important;
+    clip-path: inset(-100vw -100vw -100vw -100vw);
+  }
+  #shopify-section-{{ section.id }} .carousel-wrapper{
+    margin-left: calc(-{{section.settings.pcgap}}px/2);
+    margin-right: calc(-{{section.settings.pcgap}}px/2);
+  }
+  #shopify-section-{{ section.id }} .swiper-slide{
+    width: 75%;
+    padding-left: calc({{section.settings.pcgap}}px/2);
+    padding-right: calc({{section.settings.pcgap}}px/2);
+  }
+  @media(min-width: 600px) {
+    #shopify-section-{{ section.id }} .top-container{
+        {% if section.settings.title_section_gap_t != blank %}
+        padding-bottom: {{ section.settings.title_section_gap_t }}px;
+        {% endif %}
+    }
+    #shopify-section-{{ section.id }} .swiper-slide{
+      width: 41%;
+      padding-left: calc({{section.settings.pcgap}}px/2);
+      padding-right: calc({{section.settings.pcgap}}px/2);
+    }
+    #shopify-section-{{ section.id }} .text-content{
+      bottom:25px;
+    }
+  }
+
+  @media(min-width: 1024px) {
+    #shopify-section-{{ section.id }} .flex-wrapper{
+      margin-left: calc(-{{section.settings.pcgap}}px/2);
+      margin-right: calc(-{{section.settings.pcgap}}px/2);
+    }
+    #shopify-section-{{ section.id }} .image-container{
+        width:calc({% if section.settings.pc_image_count == "fourimages" %} 25% {% else %} 33.33333333% {% endif %} - {{section.settings.pcgap}}px);
+        margin-left: calc({{section.settings.pcgap}}px/2);
+        margin-right: calc({{section.settings.pcgap}}px/2);
+    }
+    #shopify-section-{{ section.id }} .text-content{
+      bottom:25px;
+    }
+    #shopify-section-{{ section.id }} .top-container{
+        {% if section.settings.title_section_gap_pc != blank %}
+        padding-bottom: {{ section.settings.title_section_gap_pc }}px;
+        {% endif %}
+    }
+  }
+</style>
+
+<section id="{{ section.id }}" class="homepage-category overflow">
+  <div class="container">
+    {% if section.settings.title != blank or section.settings.link_label != blank %}
+      <div class="top-container">
+        {% if section.settings.title != blank %}
+          <{{ section.settings.title_dom_type }} class="{{ section.settings.title_size }} {{ section.settings.title_spacing }} uppercase medium-500">
+            {{- section.settings.title -}}
+          </{{ section.settings.title_dom_type }}>
+        {% endif %}
+        {% if section.settings.link_label != blank %}
+          <a href="{{section.settings.link_url}}" class="btn3">
+            {{- section.settings.link_label -}}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+  <div
+    class="container {% if section.settings.container_padding == "no" %}pl-0 pr-0 {% endif %} show-d hide-m"
+    style="overflow:hidden"
+  >
+    <div class="flex-wrapper">
+      {% for block in section.blocks %}
+        <div class="image-container relative {%if forloop.index == 1 or forloop.index == 2 %}mb-5 d-mb-0{% endif %}">
+          {%- if block.settings.url != blank -%}
+            <a href="{{block.settings.url}}">
+          {%- endif -%}
+            {% assign image_id = 'homepage-category' | append: forloop.index %}
+            {%- render 'global-image-wrapper-responsive',
+              image_id: image_id,
+              desktop_image: block.settings.desktop_image,
+              mobile_image: block.settings.mobile_image
+            %}
+            <div class="text-content pl-20 pr-20">
+              <p style="color: {{block.settings.color}}" class="p3 regular-400 spacing-1">
+                {{ block.settings.title }}
+              </p>
+            </div>
+          {%- if block.settings.url != blank -%}
+            </a>
+          {%- endif -%}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% if section.settings.radio_ui == 'grid' %}
+    <div
+      class="container {% if section.settings.container_padding == "no" %}pl-0 pr-0 {% endif %} hide-d show-m"
+      style="overflow:hidden"
+    >
+      <div class="flex-wrapper">
+        {% for block in section.blocks %}
+          <div class="image-container relative {%if forloop.index == 1 or forloop.index == 2 %}mb-5 d-mb-0{% endif %}">
+            {%- if block.settings.url != blank -%}
+              <a href="{{block.settings.url}}">
+            {%- endif -%}
+              {% assign image_id = 'homepage-category' | append: forloop.index %}
+              {%- render 'global-image-wrapper-responsive',
+                image_id: image_id,
+                desktop_image: block.settings.desktop_image,
+                mobile_image: block.settings.mobile_image
+              %}
+              <div class="text-content pl-20 pr-20">
+                <p style="color: {{block.settings.color}}" class="p3 regular-400 spacing-1">
+                  {{ block.settings.title }}
+                </p>
+              </div>
+            {%- if block.settings.url != blank -%}
+              </a>
+            {%- endif -%}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <div class="container hide-d show-m">
+      <div class="carousel-wrapper">
+        <div
+          id="slider-{{ el_id }}"
+          class="swiper swiper-container"
+        >
+          <div class="swiper-wrapper">
+            {%- for product in section.blocks -%}
+              <div class="swiper-slide">
+                {%- if product.settings.url != blank -%}
+                  <a href="{{product.settings.url}}">
+                {% endif %}
+                <div class="product-each-wrapper">
+                  {%- render 'global-image-wrapper-responsive',
+                    desktop_image: product.settings.desktop_image,
+                    mobile_image: product.settings.mobile_image
+                  %}
+                  <div class="text-content pl-20 pr-20">
+                    <p class="p4 regular-400 pt-10 d-pt-15 spacing-1" style="color: {{product.settings.color}}">
+                      {{ product.settings.title }}
+                    </p>
+                  </div>
+                </div>
+                {%- if product.settings.url != blank -%}
+                  </a>
+                {% endif %}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+{%- assign function_name = el_id | replace: '-', '_' -%}
+{%- assign prefix = el_id | replace: '-', '_' | append: '_prefix' -%}
+<script>
+  var {{ prefix }}Init= false;
+  var {{ prefix }}Slider = Swiper;
+  function sliderInit{{ function_name }}() {
+      const el_id = '#{{ el_id }}';
+      if(!{{ prefix }}Init) {
+          {{ prefix }}Init = true;
+          {{ prefix }}Slider = new Swiper('#slider-{{ el_id }}', {
+              {%if section.settings.enable_autoslide%}
+              autoplay: {
+                  delay: {{section.settings.delay_autoslide}}
+              },
+              {%endif%}
+              slidesPerView: 'auto',
+              spaceBetween: 0,
+              loop: false,
+              a11y: false,
+              noSwipingSelector: '#slider-{{ el_id }} .variant-each-button',
+              pagination: {
+                  el: ".{{ el_id }}-pagination",
+                  clickable: true
+              },
+              navigation: {
+                  nextEl: '#slider-{{ el_id }} .swiper-arrow.right',
+                  prevEl: '#slider-{{ el_id }} .swiper-arrow.left'
+              },
+              on: {
+                  init: function() {
+                      $360.lazyLoadInstance.update();
+                  },
+                  slideChange: function() {
+                      $360.lazyLoadInstance.update();
+                  },
+                  resize: function() {
+                      $360.lazyLoadInstance.update();
+                  }
+              }
+          });
+      }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+      sliderInit{{ function_name }}();
+      //window.addEventListener("resize", sliderInit{{ function_name }});
+  });
+  document.addEventListener('shopify:section:load', () => { {{ prefix }}Init= false;sliderInit{{function_name}}() });
+</script>
+
+{% schema %}
+{
+  "name": "Homepage Category",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "border",
+      "label": "Enable Border"
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "p1", "label": "P1" },
+        { "value": "p2", "label": "P2" },
+        { "value": "p3", "label": "P3" },
+        { "value": "p4", "label": "P4" },
+        { "value": "p5", "label": "P5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_spacing",
+      "label": "Title spacing",
+      "options": [
+        { "value": "spacing-1", "label": "Spacing 1" },
+        { "value": "spacing-2", "label": "Spacing 2" },
+        { "value": "spacing-3", "label": "Spacing 3" }
+      ],
+      "default": "spacing-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link Label"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hd",
+        "label": "Bottom padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hhd",
+        "label": "Top padding (HHD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hhd",
+        "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "title_section_gap_mobile",
+      "label": "Title section gap with content (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "title_section_gap_t",
+      "label": "Title section gap with content (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "title_section_gap_pc",
+      "label": "Title section gap with content (Desktop)"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "number",
+      "id": "pcgap",
+      "label": "PC Image Gap",
+      "default": 5
+    },
+    {
+      "type": "radio",
+      "id": "container_padding",
+      "options": [
+        {
+          "label": "Present",
+          "value": "yes"
+        },
+        {
+          "label": "Absent",
+          "value": "no"
+        }
+      ],
+      "label": "Container Padding (only affects PC and grid mobile display)"
+    },
+    {
+      "type": "radio",
+      "id": "pc_image_count",
+      "options": [
+        {
+          "label": "3 Images",
+          "value": "threeimages"
+        },
+        {
+          "label": "4 Images",
+          "value": "fourimages"
+        }
+      ],
+      "label": "PC images count"
+    },
+    {
+      "type": "number",
+      "id": "mobilegap",
+      "label": "Mobile Image Gap",
+      "default": 5
+    },
+    {
+      "type": "radio",
+      "id": "radio_ui",
+      "options": [
+        {
+          "label": "Column Grid",
+          "value": "grid"
+        },
+        {
+          "label": "Carousel",
+          "value": "carousel"
+        }
+      ],
+      "label": "Mobile Layout"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Text Color"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage Category",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

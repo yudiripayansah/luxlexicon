@@ -1,0 +1,37 @@
+{%- if product.metafields.custom.enable == 'true' -%}
+    <div id="custom-measurements" class="bg-beige-5 pt-30 pb-30 d-pt-50 d-pb-100 hide-m">
+        <div class="container fade">
+            <div class="row">
+                <div class="col-12 col-d-5 mb-30 d-mb-0">
+                    <div class="d-pr-40">
+                        <h2 class="h3 c-greenb2 mb-40">{{ product.metafields.custom.title }}</h2>
+                        {%- for num in (1..4) -%}
+                            {%- assign title_setting = 'title_for_point_' | append: num -%}
+                            {%- assign content_setting = 'content_for_point_' | append: num -%}
+                            {%- assign wrapper_class = 'bb-1 b-border-orange' -%}
+                            {%- if num == 1 -%}
+                                {%- assign wrapper_class = 'bt-1 bb-1 b-border-orange' -%}
+                            {%- endif -%}
+                            {% capture desc_html %}<div class="rte p2">{{ product.metafields.custom[content_setting] }}</div>{% endcapture %}
+                            {%- render 'accordion',
+                                icon_rotate: true,
+                                wrapper_class: wrapper_class,
+                                title_class: 'p1 bold-700',
+                                title: product.metafields.custom[title_setting],
+                                desc_html: desc_html,
+                                desc_no_pt: true
+                            -%}
+                        {%- endfor -%}
+                    </div>
+                </div>
+                <div class="col-12 col-d-7">
+                    {%- render 'global-image-wrapper',
+                        acc: true,
+                        image: product.metafields.custom.section_image[0],
+                        additional_class: 'rounded-24'
+                    -%}
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endif -%}

@@ -1,0 +1,100 @@
+{% comment %} Love&Co Theme {% endcomment %}
+<style>
+    .product-image-text .image-container{
+        width: 100%;
+    }
+    .product-image-text .text-container{
+        width:100%;
+        padding-left:25px;
+        padding-right:25px;
+        max-width: 450px;
+        margin:0 auto;
+    }
+    .product-image-text .content-button{
+        color: #2C2C2C;
+        background-color: #FFFFFF;
+    }
+    .product-image-text .content-button:hover{
+        color: #FFFFFF;
+        background-color: #81c8a6; 
+    }
+    @media(min-width: 768px) {
+        .product-image-text .text-container{
+            padding-left:30px;
+            padding-right:30px;
+        }
+    }
+    @media(min-width: 1024px) {
+        .product-image-text .image-container{
+            width:50%;
+        }
+        .product-image-text .text-container{
+            width:50%;
+            padding-left:40px;
+            padding-right:40px;
+            max-width: 480px;
+        }
+        .product-image-text .flex-wrapper{
+            flex-direction: row;
+        }
+    }
+</style>
+{%- for i in (1..2) -%}
+    {%- assign namespace = "image_text_" | append: i -%}
+    
+    {%- if product.metafields[namespace].enable != blank -%}
+        <style>
+            {%- if product.metafields[namespace].image_pos == "Right" -%}
+                @media(min-width: 1024px) {
+                    #product-image-text-{{ i }} .flex-wrapper {
+                        flex-direction: row-reverse;
+                    }
+                    #product-image-text-{{ i }} .text-container .p2 {
+                        max-width: 400px;
+                        margin-left: auto;
+                        margin-right: auto;
+                    }
+
+                    {%- if product.metafields[namespace].max_width != blank  -%}
+                        #product-image-text-{{ i }} .text-container {
+                            max-width: {{ product.metafields[namespace].max_width }};
+                        }
+                    {%- endif -%}
+                }
+            {%- endif -%}
+        </style>
+
+        <section id="product-image-text-{{ i }}" class="product-image-text">
+            <div class="">
+                <div class="flex flex-wrap align-flex flex-wrapper" style="background: {{product.metafields[namespace].bg_color}};">
+                    <div class="image-container">
+                        {%- assign image_id = "image-pdp-content-" | append: i -%}
+                        {%- render 'global-image-wrapper-responsive',
+                            image_id: image_id,
+                            desktop_image: product.metafields[namespace].desktop_image[0],
+                            mobile_image: product.metafields[namespace].mobile_image[0],
+                            desktop_acc: true,
+                            mobile_acc: true
+                        %}
+                    </div>
+        
+                    <div class="text-container pt-40 pb-40 t-pt-60 t-pb-60 tc">
+                        {%- if product.metafields[namespace].small_title != blank -%}
+                            <div class="p3 bold-600 spacing-2 uppercase pb-10 d-pb-15 c-darkgreen">{{ product.metafields[namespace].small_title }}</div>
+                        {%- endif -%}
+                        
+                        <div class="h6 c-black">{{ product.metafields[namespace].title | newline_to_br }}</div>
+
+                        {%- if product.metafields[namespace].text != blank -%}
+                            <div class="p2 mt-5 d-mt-10 c-grey">{{ product.metafields[namespace].text | newline_to_br }}</div>
+                        {%- endif -%}
+                        
+                        {%- if product.metafields[namespace].button_label != blank -%}
+                            <a href="{{ product.metafields[namespace].button_url }}" class="btn2 show-m-inline-block content-button mt-25 d-mt-30">{{ product.metafields[namespace].button_label }}</a>
+                        {%- endif -%}
+                    </div>
+                </div>
+            <div>
+        </section>
+    {%- endif -%}
+{%- endfor -%}

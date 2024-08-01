@@ -1,0 +1,1802 @@
+<!--asd filasdasd-->
+    <!--{{collection.filters.size}}-->
+{%- if request.page_type == "collection" -%}
+    {%- assign products_count = collection.products_count -%}
+    
+    {% comment %} Exclude filters {% endcomment %}
+    {%- assign shop_exclude_filters = shop.metafields.collection_filter.exclude -%}
+    {%- assign collection_exclude_filters = collection.metafields.collection_filter.exclude -%}
+    {%- assign exclude_filters = shop_exclude_filters -%}
+    {%- if collection_exclude_filters != blank -%}
+        {% capture exclude_filters %}{{ exclude_filters }}|{{ collection_exclude_filters }}{% endcapture %}
+    {%- endif -%}
+    {% comment %} End Exclude filters {% endcomment %}
+
+    {% comment %} Rename filters {% endcomment %}
+    {%- assign rename_filters = collection.metafields.collection_filter.rename | split: '|' -%}
+    {% comment %} End Rename filters {% endcomment %}
+
+    {%- assign filters = collection.filters -%}
+    <!--asd fil-->
+    <!--{{filters.size}}-->
+{%- else -%}
+    {%- assign products_count = search.results_count -%}
+
+    {% comment %} Exclude filters {% endcomment %}
+    {%- assign exclude_filters = shop.metafields.collection_filter.exclude -%}
+    {% comment %} End Exclude filters {% endcomment %}
+
+    {%- assign filters = search.filters -%}
+{%- endif -%}
+
+<style>
+    .shopify-section:not(#shopify-section-header){
+        z-index:unset !important;
+    }
+
+    #shopify-section-{{ section.id }} .noUi-connects{
+        height:3px;
+        transform: translateY(-1px);
+    }
+
+    #shopify-section-{{ section.id }} #collection-filter {
+        transition:0.3s all ease;
+        position:fixed;
+        bottom:0;
+        width:100%;
+    }
+
+    #shopify-section-{{ section.id }} .grid-mode,
+    #shopify-section-{{ section.id }} .grid-mode svg{
+        width:16px;
+        height:20px;
+    }
+
+    #shopify-section-{{ section.id }} .grid-mode:not(.active){
+        opacity:0.3;
+    }
+
+    #shopify-section-{{ section.id }} .global-select-div .options{
+        position:unset;
+        display:block;
+        margin-left:unset;
+    }
+
+    #shopify-section-{{ section.id }} .global-select-div.active{
+        padding-bottom:24px;
+    }
+    
+    #shopify-section-{{ section.id }} .global-select-div .options li:first-child{
+        padding:24px 0 10px 0;
+    }
+    #shopify-section-{{ section.id }} .global-select-div .options li{
+        padding:10px 0 10px 0;
+    }
+    #shopify-section-{{ section.id }} .global-select-div .options li:last-child{
+        padding:10px 0 24px 0;
+    }
+
+    #shopify-section-{{ section.id }} .product-card-wrapper {
+        margin-bottom:40px;
+    }
+
+    #shopify-section-{{ section.id }} .container-indicator:not(.container) .product-card-wrapper.crooked .details-con {
+        padding-left:20px;
+    }
+
+    #shopify-section-{{ section.id }} .quick-filters .swiper-slide .filter-trigger{
+        display:inline-block;
+        cursor: pointer;
+        border:1px solid #CCCCCC;
+        padding:9px 11px;
+    }
+    #shopify-section-{{ section.id }} .quick-filters .swiper-slide .filter-trigger.active{
+        border-color:#0D0D0D;
+    }
+
+    #shopify-section-{{ section.id }} .quick-filters .quick-filter-color{
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+    }
+
+    #shopify-section-{{ section.id }} .swiper-slide { 
+        width: fit-content; 
+    }
+
+    #shopify-section-{{ section.id }} .filter-custom-each{
+        width:70%;
+        margin:0 40px 10px 40px;
+    }
+    #shopify-section-{{ section.id }} .filter-custom-each.active{
+        border-color:var(--black) !important;
+    }
+    
+    #shopify-section-{{ section.id }} .hero-banner-title{
+        position: absolute;
+        bottom:16px;
+        left:20px;
+    }
+
+    #shopify-section-{{ section.id }} .bipl-banner .link-icon .text {
+        line-height: 1.2;
+        margin-right: 0;
+    }
+
+    #shopify-section-{{ section.id }} .arrow-left,
+    #shopify-section-{{ section.id }} .arrow-left svg,
+    #shopify-section-{{ section.id }} .arrow-right,
+    #shopify-section-{{ section.id }} .arrow-right svg{
+        width:28px;
+        height:28px;
+    }
+
+    @media only screen and (min-width: 600px) {
+        #shopify-section-{{ section.id }} .filter-custom-each{
+            width:50%;
+        }
+    }
+    @media only screen and (max-width: 1023px) {
+        #shopify-section-{{ section.id }} .btn1:hover{
+            color:#ffffff;
+            background-color:#e8a9a7;
+            border-color:rgba(0,0,0,0);
+        }
+    }
+
+    @media only screen and (min-width: 1024px) {
+        #shopify-section-{{ section.id }} .quick-filters .swiper-slide .filter-trigger{
+            padding:10px 12px;
+        }
+
+        #shopify-section-{{ section.id }} .hero-banner-title{
+            position: absolute;
+            bottom:48px;
+            left:48px;
+        }
+
+        #shopify-section-{{ section.id }} .filter-custom-each{
+            width:calc(33.3333% - 15px);
+            margin:0 7.5px 10px 7.5px;
+            max-width:250px;
+        }
+
+        #shopify-section-{{ section.id }} .product-card-wrapper {
+            margin-bottom:56px;
+        }
+        #shopify-section-{{ section.id }} .container-indicator:not(.container) .product-card-wrapper.crooked .details-con {
+            padding-left:unset;
+        }
+    }
+
+    #shopify-section-{{ section.id }} .noUi-origin{
+        width:100%;
+    }
+    
+    #shopify-section-{{ section.id }} .noUi-horizontal{
+        height:1px;
+    }
+
+    #shopify-section-{{ section.id }} .noUi-target{
+        border-radius:unset;
+        box-shadow:unset;
+        background:#E0E0E0;
+    }
+
+    #shopify-section-{{ section.id }} .noUi-horizontal .noUi-handle{
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        right: -5px;
+        top: -4px;
+    }
+
+    #shopify-section-{{ section.id }} .noUi-handle{
+        border:unset;
+        background:#272522;
+        box-shadow:unset;
+    }
+
+    #shopify-section-{{ section.id }} .noUi-connect{
+        background:#272522;
+    }
+
+    #shopify-section-{{ section.id }} .noUi-handle:after,
+    #shopify-section-{{ section.id }} .noUi-handle:before{
+        content: none;
+    }
+
+    {%if section.settings.hide_additional_quick_filter%}
+        #shopify-section-{{ section.id }} .each-filter[data-param-name="filter.p.m.custom.personalised_filter"] {
+            display: none;
+        }
+        #shopify-section-{{ section.id }} .each-filter[data-param-name="filter.p.m.custom.trimester"] {
+            display: none;
+        }
+    {%endif%}
+
+    #shopify-section-{{ section.id }} .swiper {
+        overflow: visible !important;
+        clip-path: inset(-100vw -100vw -100vw -100vw);
+    }
+
+    #shopify-section-{{ section.id }} .product-each-add-to-cart-desktop{
+        bottom:20px;
+    }
+
+    #shopify-section-{{ section.id }} video {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        left: 0;
+        top: 0;
+    }
+
+    #shopify-section-{{ section.id }} .video-control {
+        cursor: pointer;
+        position:absolute;
+        bottom:25px;
+        right:25px;
+    }
+    
+    #shopify-section-{{ section.id }} .video-control-button svg {
+        width: 12.5px;
+        height: 12.5px;
+    }
+    #shopify-section-{{ section.id }} .order-first{
+        order:2;
+    }
+    #shopify-section-{{ section.id }} .order-second{
+        order:1;
+    }
+    #shopify-section-{{ section.id }} .order-third{
+        order:3;
+    }
+    #shopify-section-{{ section.id }} .products-outer-wrapper {
+        margin: 0 -12.5px;
+    }
+    
+    @media screen and (min-width: 1024px) {
+        #shopify-section-{{ section.id }} .desktop-filter{
+            width:240px;
+        }
+        #shopify-section-{{ section.id }} .desktop-filter .filter-title .icon-plus{
+            display:none;
+        }
+        #shopify-section-{{ section.id }} .desktop-filter .filter-title.expand .icon-plus{
+            display:block;
+        }
+        #shopify-section-{{ section.id }} .desktop-filter .filter-title.expand .icon-minus{
+            display:none;
+        }
+
+        #shopify-section-{{ section.id }} .desktop-products-wrapper{
+            width:75%;
+        }
+
+        #shopify-section-{{ section.id }} .arrow-left,
+        #shopify-section-{{ section.id }} .arrow-left svg,
+        #shopify-section-{{ section.id }} .arrow-right,
+        #shopify-section-{{ section.id }} .arrow-right svg{
+            width:36px;
+            height:36px;
+        }
+
+        #shopify-section-{{ section.id }} .video-wrapper.h-full{
+            height:calc(100% - 50px);
+        }
+        #shopify-section-{{ section.id }} .products-outer-wrapper {
+            margin: unset;
+        }
+        #shopify-section-{{ section.id }} .video-control {
+            bottom:75px;
+        }
+    }
+
+</style>
+
+{% if section.settings.enable_hero_banner and request.page_type == "collection" %}
+    <div class="relative">
+        {% assign image_id = 'collection-' | append: collection.title | handleize  %}
+        {% if collection.featured_image != blank %}
+            <!--using featured image-->
+            {%- render 'global-image-wrapper-responsive',
+                image_id: image_id,
+                desktop_image: collection.featured_image,
+                mobile_image: collection.featured_image
+            %}
+        {%else %}
+        <!--using section settings-->
+            {%- render 'global-image-wrapper-responsive',
+                image_id: image_id,
+                desktop_image: section.settings.banner_image_desktop,
+                mobile_image: section.settings.banner_image_mobile
+            %}
+        {%endif %}
+        <div class="hero-banner-title">
+            <div class="h1 c-white">{{collection.title}}</div>
+        </div>
+    </div>
+{% else %}
+    <div class="container">
+        <div class="hero-banner-title">
+            <div class="h1">{{collection.title}}</div>
+        </div>
+    </div>
+{% endif %}
+
+{%- assign max_price_range_global = 0 -%}
+{%- if products_count > 0 -%}
+    <div id="collection-main-content" class="fade">
+        <div class="container overflow pb-24 d-pb-36 bb-1 b-border">
+            <!--page type {{ request.page_type }}-->
+            {% if request.page_type == 'collection' %}
+            <div class="mt-24 d-mt-36">
+                {%- render 'breadcrumbs', class_color: 'c-black' -%}
+            </div>
+            {% endif %}
+            {% if request.page_type == 'collection' %}
+                <div class="flex jc-between ai-center mt-20">
+                {%- assign qfc = section.blocks | where:"type","quick_filter_custom" -%}
+                {%- if qfc.size > 0 -%}
+                        <div class="swiper quick-filters width-100">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="view-all filter-trigger filter cursor" :class="{'active' : filters.length == 0}" @click="clearFilter">
+                                        <div class="flex flex-wrap ai-center">
+                                            <div class="link5">All</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {%- for block in qfc -%}
+                                    <!--{{block.settings.filter_value }}-->
+                                    {%- for filter in filters -%}
+                                        <!--{{ filter.param_name }}-->
+                                        <!--{{ block.settings.filter_param_name }}-->
+                                        {%if filter.param_name contains block.settings.filter_param_name%}
+                                            {%- for filter_value in filter.values -%}
+                                                {%assign fvv = filter_value.value | handleize %}
+                                                {%assign bfv = block.settings.filter_value | handleize %}
+                                                {%if fvv == bfv%}
+                                                    {%- assign param_name = filter.values[0].param_name -%}
+                                                        <div class="swiper-slide">
+                                                            <div id="filter{{ forloop.index }}" :class="{ 'active': containsValue('{{param_name}}','{{filter_value.value}}') }" class="filter-trigger filter cursor" data-param-name="{{ block.settings.filter_param_name }}" data-value="{{ filter_value.label }}" @click="clickCustom($event,true)">
+                                                                <div class="flex flex-wrap ai-center">
+                                                                    <div class="link5">{{ filter_value.label }}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {%break%}
+                                                {% endif %}
+                                            {%- endfor -%}
+                                            {%break%}
+                                        {%endif %}
+                                    {%- endfor -%}
+                                {%- endfor -%}
+                            </div>
+                        </div>
+                        <div class="hide-m show-d sort-by-desktop" style="flex:1;white-space:nowrap;">
+                            sort by
+                        </div>
+                {%- endif -%}
+                </div>
+            {% else %}
+                <div class="">
+                    <h1 class="h2 pt-10 d-pt-0">{{ 'general.search.banner_title' | t }} '{{ search.terms }}'</h1>
+                    {% comment %} <h1 class="h3 spacing-3 uppercase">{{ search.terms }}</h1> {% endcomment %}
+                </div>
+            {% endif %}
+        </div>
+
+        
+        <div id="collection-filter" class="w-full bg-white pt-16 pb-16 zi-2 hide-d bt-1 b-border">
+            <div class="container">
+                <div class="flex jc-between ai-center">
+
+                    <div class="">
+                        <button @click="toggleFilterMobile" type="button" class="toggle-filter-mobile flex ai-center pt-16 pb-16 pl-32 pr-32 b-1">
+                            <span class="icon flex ai-center jc-center mr-7">{{ settings.icon_filter }}</span>
+                            <span class="text p2 c-black pt-2 uppercase">{{ 'collections.filters.title' | t }}</span>
+                            <span v-if="filters.length" class="text p2 ml-5 c-black">
+                                <span>(</span>
+                                <span v-html="filters.length"></span>
+                                <span>)</span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="grid-wrapper flex">
+                        <div class="grid-mode split" :class="{ 'active': gridMode == 'half' }" @click="splitColumnMobile">
+                            {{settings.icon_grid_split }}
+                        </div>
+                        <div class="ml-12 grid-mode merge" :class="{ 'active': gridMode == 'full' }" @click="mergeColumnMobile">
+                            {{settings.icon_grid_merge }}
+                        </div>
+                        {% comment %} {% capture sort_values %}
+                            {{ 'collections.sorting.best_selling' | t }}|{{ 'collections.sorting.date_descending' | t }}|{{ 'collections.sorting.price_ascending' | t }}|{{ 'collections.sorting.price_descending' | t }}
+                        {% endcapture %}
+                        {%- assign sort_values = sort_values | split: '|' -%}
+                        {%- assign sort_option_values = 'best-selling,created-descending,price-ascending,price-descending' | split: ',' -%}
+                        {%- assign sort_label = 'collections.sorting.title' | t -%}
+                        {%- assign default_text = 'collections.sorting.best_selling' | t -%}
+    
+                        <div class="" @click="toggleSortOverlay">
+                            {%- render 'global-select-sort',
+                                id: 'collection-sort-by',
+                                global_select_class: 'no-border pr-0',
+                                label: sort_label,
+                                label_class: 'p2 mr-5',
+                                selected_inline: true,
+                                values: sort_values,
+                                option_values: sort_option_values,
+                                default_value: 'best-selling',
+                                default_text: default_text,
+                                selected_text_class: 'p',
+                                vue_model: 'sortBy',
+                                vue_onchange: 'applyFilter'
+                            -%}
+                        </div> {% endcomment %}
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="filter-wrapper">
+                <div class="">
+                    <div class="page-overlay zi-6" @click="toggleFilterMobile" :class="{'active': filterActiveMobile}" ></div>
+                    <div class="main-filter bg-white zi-7 relative" :class="{'active-mobile': filterActiveMobile}">
+                        <div class="flex ai-center jc-between filter-header-mobile pt-19 pb-19 pl-20 pr-20 d-pl-25 d-pr-25 bb-1 b-border">
+                            <div class="h3">Filter & Sort</div>
+                            <button @click="toggleFilterMobile" type="button" class="close font-0">{{ settings.icon_close }}</button>
+                        </div>
+                        {% comment %} <div class="top-con bg-background pt-40 pl-15 pr-15 t-pl-35 t-pr-35">
+                            <h3 class="h5">{{ 'collections.filters.title' | t }}</h3>
+                        </div> {% endcomment %}
+
+                        <div class="each-filter-wrapper">
+                            {% comment %} now includes sorting too {% endcomment %}
+                            {% comment %} {% capture sort_values %}
+                                {{ 'collections.sorting.best_selling' | t }}|{{ 'collections.sorting.date_descending' | t }}|{{ 'collections.sorting.price_ascending' | t }}|{{ 'collections.sorting.price_descending' | t }}
+                            {% endcapture %} {% endcomment %}
+                            {% capture sort_values %}
+                                {{ 'collections.sorting.date_descending' | t }}|{{ 'collections.sorting.price_ascending' | t }}|{{ 'collections.sorting.price_descending' | t }}
+                            {% endcapture %}
+                            {%- assign sort_values = sort_values | split: '|' -%}
+                            {% comment %} {%- assign sort_option_values = 'best-selling,created-descending,price-ascending,price-descending' | split: ',' -%} {% endcomment %}
+                            {%- assign sort_option_values = 'created-descending,price-ascending,price-descending' | split: ',' -%}
+                            {%- assign sort_label = 'collections.sorting.title' | t -%}
+                            {%- assign default_text = 'collections.sorting.best_selling' | t -%}
+
+                            <div class="">
+                                {%- render 'global-select-sort',
+                                    id: 'collection-sort-by',
+                                    global_select_class: '',
+                                    label: sort_label,
+                                    label_class: 'p2',
+                                    selected_inline: true,
+                                    values: sort_values,
+                                    option_values: sort_option_values,
+                                    default_value: 'created-descending',
+                                    default_text: ,
+                                    selected_text_class: 'p2',
+                                    vue_model: 'sortBy',
+                                    vue_onchange: 'applyFilter',
+                                    select_icon: 'plus_min'
+                                -%}
+                            </div>
+
+                            {%- for filter in filters -%}
+                                {%- assign max_price_range = filter.range_max | money_without_currency | replace: ',', '' -%}
+                                {%- assign param_name = filter.values[0].param_name -%}
+                                {%- assign cb_id = 'coll-filter-' | append: filter.label | handleize -%}
+
+                                {%- unless exclude_filters contains filter.label -%}
+                                    {%- assign label_text = filter.label -%}
+
+                                    {%- for rf in rename_filters -%}
+                                        {%- assign rf_splitted = rf | split: '=' -%}
+                                        {%- if rf_splitted[0] == filter.label -%}
+                                            {%- assign label_text = rf_splitted[1] -%}
+                                        {%- endif -%}
+                                    {%- endfor -%}
+                                    
+                                    <div class="each-filter relative {%unless param_name == 'filter.p.m.info.color_name'%}bb-1 b-border{%endunless%} {% if section.settings.hide_specific_filter contains param_name %}hide-m{%endif %}" data-param-name="{{param_name}}">
+                                        <button @click="setExpandedFilter($event, '{{ label_text }}')" type="button" class="filter-title cursor flex ai-center jc-between pt-24 pb-24" :class="{expand: expandedFilter == '{{ label_text }}'}">
+                                            {%- if filter.type == 'list' -%}
+                                                <div class="p1 flex ai-center no-wrap-whitespace">{{ label_text }} 
+                                                    
+                                                    <span v-if="filterGroup['{{ param_name }}']" class="p3 ml-5">(${filterGroup['{{ param_name }}'].length})</span>
+                                                </div>
+                                            {%- else -%}
+                                                <div class="p1 flex ai-center no-wrap-whitespace">{{ label_text }}
+                                                    <template v-if="filterGroup.priceMin || filterGroup.priceMax">
+                                                        <span v-if="filterGroup.priceMin && filterGroup.priceMax" class="p4 ml-5">(2)</span>
+                                                        <span v-else class="p2 ml-5">(1)</span>
+                                                    </template>
+                                                </div> 
+                                                
+                                            {%- endif -%}
+                                            {% comment %} <div class="hide-m show-d">
+                                                <span class="icon flex ai-center jc-center">{{ settings.icon_select }}</span>
+                                            </div> {% endcomment %}
+                                            <div class="">
+                                                <span class="icon bigger icon-plus flex ai-center jc-center">{{ settings.icon_plus }}</span>
+                                                <span class="icon bigger icon-minus flex ai-center jc-center">{{ settings.icon_minus }}</span>
+                                            </div>
+                                        </button>
+                                        {%- case filter.type -%}
+                                            {%- when 'boolean', 'list' -%}
+                                                {% comment %} :class="{'hide-m': expandedFilter != '{{ label_text }}'}" {% endcomment %}
+                                                <div class="filter-options bg-white zi-2" v-cloak>
+                                                    <div class="">
+                                                        {%- for filter_value in filter.values -%}
+                                                            {%assign is_color_filter = false %}
+                                                            {%if filter_value.param_name contains "color"%}
+                                                                {%assign is_color_filter = true %}
+                                                            {%endif%}
+                                                            <!--filter_value.param_name-->
+                                                            <!--{{filter_value.param_name}}-->
+                                                            <div class="{% unless forloop.first %}mt-20{%endunless%} {% if forloop.last %}mb-24{%endif %}">
+                                                                <label class="block cb-container">
+                                                                    <input 
+                                                                        type="checkbox" 
+                                                                        id="{{ cb_id }}" 
+                                                                        name="{{ param_name }}" 
+                                                                        value="{{ param_name }}={{ filter_value.value }}" 
+                                                                        v-model="filters"
+                                                                        @change="delayFilter"
+                                                                    >
+                                                                    <div class="flex ai-center">
+                                                                        {% if is_color_filter %}
+                                                                            <div class="mr-5 checkmark-color swatch-{{filter_value.label | handleize}}"></div>
+                                                                        {% endif %}
+                                                                        <div class="p2">{{ filter_value.label }}<span class="c-grey ml-2">({{ filter_value.count }})</span></div>
+                                                                    </div>
+                                                                    <span class="checkmark squared"></span>
+                                                                </label>
+                                                            </div>
+                                                            
+                                                        {%- endfor -%}
+                                                    </div>
+                                                    {% comment %} <div class="hide-m d-flex d-jc-between p-20">
+                                                        <button type="button" @click="applyFilter" class="btn3 w-full">{{ 'collections.filters.apply' | t }}</button>
+                                                        <button v-if="filterGroup['{{ param_name }}']" type="button" @click="clearFilterGroup('{{ param_name }}')" class="p3 ml-15">{{ 'collections.filters.clear_group' | t }}</button>
+                                                    </div> {% endcomment %}
+                                                </div>
+                                            {%- when 'price_range' -%}
+                                                {%- assign max_price_range_global = filter.range_max | money_without_currency | replace: ',', '' -%}
+                                                <div class="filter-options bg-white zi-1 rounded-5" :class="{'hide-m': expandedFilter != '{{ label_text }}'}">
+                                                    <div class="pt-5 pb-20">
+                                                        <div id="price-slider" class="mb-15 pl-5 pr-5"></div>
+                                                        <div class="flex ai-center">
+                                                            <div class="flex ai-center relative" style="width:calc(50% - 20px)">
+                                                                <span class="p2 absolute left-15">{{ cart.currency.symbol }}</span>
+                                                                <input
+                                                                    type="number"
+                                                                    id="Filter-{{ filter.min_value.param_name }}"
+                                                                    class="p1 b-1 b-border lh-1 p-10 tr w-full b-radius-5"
+                                                                    name="{{ filter.min_value.param_name }}"
+                                                                    placeholder="0"
+                                                                    min="0"
+                                                                    max="{{ max_price_range }}"
+                                                                    v-model="filterPrice.min" 
+                                                                    @change="priceRangeChange"
+                                                                    @keyup="priceRangeChange"
+                                                                >
+                                                            </div>
+                                                            <div class="p2 pl-15 pr-15" style="width:40px">to</div>
+                                                            <div class="flex ai-center relative" style="width:calc(50% - 20px)">
+                                                                <span class="absolute p2 left-15">{{ cart.currency.symbol }}</span>
+                                                                <input
+                                                                    type="number"
+                                                                    id="Filter-{{ filter.max_value.param_name }}"
+                                                                    class="p1 b-1 b-border lh-1 p-10 tr w-full b-radius-5"
+                                                                    name="{{ filter.max_value.param_name }}"
+                                                                    :placeholder="{{ max_price_range }}"
+                                                                    min="0"
+                                                                    max="{{ max_price_range }}"
+                                                                    v-model="filterPrice.max" 
+                                                                    @change="priceRangeChange"
+                                                                    @keyup="priceRangeChange"
+                                                                >
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                    {% comment %} <div class="hide-m d-flex d-jc-between p-20">
+                                                        <button type="button" @click="applyFilter" class="btn3 w-full">{{ 'collections.filters.apply' | t }}</button>
+                                                        <button v-if="filterGroup.priceMin || filterGroup.priceMax" type="button" @click="removeFilterPrice" class="p3 ml-15">{{ 'collections.filters.clear_group' | t }}</button>
+                                                    </div> {% endcomment %}
+                                                </div>
+                                            {%- endcase -%}
+                                    </div>
+                                {%- endunless -%}
+                            {%- endfor -%}
+                        </div>
+
+                        <div class="bottom-con w-full absolute bottom-0 left-0 pl-20 pr-20 pt-13 pb-13 bt-1 b-border bg-white flex" style="gap:15px">
+                            <button @click="closeFilter()" class="btn1" style="width:50%" :class="{'btn2': filters.length}">VIEW PRODUCTS</button>
+                            <button @click="clearFilter()" class="btn1" style="width:50%">{{ 'collections.filters.clear_group' | t }}</button>
+                        </div>
+                    </div>
+
+                    {% comment %} <ul v-if="filtersObj.length" class="filtered-list flex flex-wrap mt-15 hide">
+                        <template v-for="(filtered, i) in filtersObj" :key="i">
+                            <li v-if="filtered.key != 'filter.v.price.gte' && filtered.key != 'filter.v.price.lte'" class="mr-15 mb-15">
+                                <button @click="removeFilter(i)" type="button" class="b-1 b-border flex ai-center p4 pt-5 pb-5 pl-15 pr-15">
+                                    <span class="text mr-5">${filtered.value}</span>
+                                    <span class="icon flex ai-center jc-center">{{ settings.icon_close }}</span>
+                                </button>
+                            </li>
+                        </template>
+                        <li v-if="filterGroup.priceMin || filterGroup.priceMax" class="mr-15 mb-15">
+                            <button @click="removeFilterPrice" type="button" class="b-1 b-border flex ai-center p4 pt-5 pb-5 pl-15 pr-15">
+                                <span>
+                                    <span v-if="filterGroup.priceMin" class="text mr-5">${formatMoney(filterGroup.priceMin * 100)}</span>
+                                    <span v-else class="text mr-5">${formatMoney(0)}</span>
+                                    <span> - </span>
+                                    <span v-if="filterGroup.priceMax" class="text mr-5">${formatMoney(filterGroup.priceMax * 100)}</span>
+                                    <span v-else class="text mr-5">${formatMoney(maxPriceRange * 100)}</span>
+                                </span>
+                                <span class="icon flex ai-center jc-center">{{ settings.icon_close }}</span>
+                            </button>
+                        </li>
+                    </ul>
+
+                    <button v-if="filtersObj.length" @click="clearFilter" type="button" class="btn3">{{ 'collections.filters.clear_all' | t }}</button> {% endcomment %}
+                </div>
+            </div>
+        </div>
+
+        <div class="container pt-24 d-pt-36 container-indicator overflow">
+            <div class="flex jc-between">
+            <div class="desktop-filter hide-m show-d">
+                <div class="each-filter-wrapper">
+                    {% comment %} now includes sorting too {% endcomment %}
+                    {% comment %} {% capture sort_values %}
+                        {{ 'collections.sorting.best_selling' | t }}|{{ 'collections.sorting.date_descending' | t }}|{{ 'collections.sorting.price_ascending' | t }}|{{ 'collections.sorting.price_descending' | t }}
+                    {% endcapture %} {% endcomment %}
+                    {% capture sort_values %}
+                        {{ 'collections.sorting.date_descending' | t }}|{{ 'collections.sorting.price_ascending' | t }}|{{ 'collections.sorting.price_descending' | t }}
+                    {% endcapture %}
+                    {%- assign sort_values = sort_values | split: '|' -%}
+                    {% comment %} {%- assign sort_option_values = 'best-selling,created-descending,price-ascending,price-descending' | split: ',' -%} {% endcomment %}
+                    {%- assign sort_option_values = 'created-descending,price-ascending,price-descending' | split: ',' -%}
+                    {%- assign sort_label = 'collections.sorting.title' | t -%}
+                    {%- assign default_text = 'collections.sorting.best_selling' | t -%}
+
+                    <div class="">
+                        {%- render 'global-select-sort',
+                            id: 'collection-sort-by',
+                            global_select_class: '',
+                            label: sort_label,
+                            label_class: 'p2',
+                            selected_inline: true,
+                            values: sort_values,
+                            option_values: sort_option_values,
+                            default_value: 'created-descending',
+                            default_text: ,
+                            selected_text_class: 'p2',
+                            vue_model: 'sortBy',
+                            vue_onchange: 'applyFilter',
+                            select_icon: 'plus_min'
+                        -%}
+                    </div>
+
+                    {%- for filter in filters -%}
+                        {%- assign max_price_range = filter.range_max | money_without_currency | replace: ',', '' -%}
+                        {%- assign param_name = filter.values[0].param_name -%}
+                        {%- assign cb_id = 'coll-filter-' | append: filter.label | handleize -%}
+
+                        {%- unless exclude_filters contains filter.label -%}
+                            {%- assign label_text = filter.label -%}
+
+                            {%- for rf in rename_filters -%}
+                                {%- assign rf_splitted = rf | split: '=' -%}
+                                {%- if rf_splitted[0] == filter.label -%}
+                                    {%- assign label_text = rf_splitted[1] -%}
+                                {%- endif -%}
+                            {%- endfor -%}
+                            
+                            <div class="each-filter relative {%unless param_name == 'filter.p.m.info.color_name'%}bb-1 b-border{%endunless%} {% if section.settings.hide_specific_filter contains param_name %}hide-m{%endif %}" data-param-name="{{param_name}}">
+                                <button @click="setExpandedFilter($event, '{{ label_text }}')" type="button" class="filter-title cursor flex ai-center jc-between pt-24 pb-24 width-100" :class="{expand: expandedFilter == '{{ label_text }}'}">
+                                    {%- if filter.type == 'list' -%}
+                                        <div class="p1 flex ai-center no-wrap-whitespace">{{ label_text }} 
+                                            
+                                            <span v-if="filterGroup['{{ param_name }}']" class="p3 ml-5">(${filterGroup['{{ param_name }}'].length})</span>
+                                        </div>
+                                    {%- else -%}
+                                        <div class="p1 flex ai-center no-wrap-whitespace">{{ label_text }}
+                                            <template v-if="filterGroup.priceMin || filterGroup.priceMax">
+                                                <span v-if="filterGroup.priceMin && filterGroup.priceMax" class="p4 ml-5">(2)</span>
+                                                <span v-else class="p2 ml-5">(1)</span>
+                                            </template>
+                                        </div> 
+                                        
+                                    {%- endif -%}
+                                    <div class="">
+                                        <span class="icon bigger icon-plus flex ai-center jc-center">{{ settings.icon_plus }}</span>
+                                        <span class="icon bigger icon-minus flex ai-center jc-center">{{ settings.icon_minus }}</span>
+                                    </div>
+                                </button>
+                                {%- case filter.type -%}
+                                    {%- when 'boolean', 'list' -%}
+                                        <div class="filter-options bg-white zi-2" v-cloak>
+                                            <div class="">
+                                                {%- for filter_value in filter.values -%}
+                                                    {%assign is_color_filter = false %}
+                                                    {%if filter_value.param_name contains "color"%}
+                                                        {%assign is_color_filter = true %}
+                                                    {%endif%}
+                                                    <div class="{% unless forloop.first %}mt-20{%endunless%} {% if forloop.last %}mb-24{%endif %}">
+                                                        <label class="block cb-container">
+                                                            <input 
+                                                                type="checkbox" 
+                                                                id="{{ cb_id }}" 
+                                                                name="{{ param_name }}" 
+                                                                value="{{ param_name }}={{ filter_value.value }}" 
+                                                                v-model="filters" 
+                                                                @change="delayFilter"
+                                                            >
+                                                            <div class="flex ai-center">
+                                                                {% if is_color_filter %}
+                                                                    <div class="mr-5 checkmark-color swatch-{{filter_value.label | handleize}}"></div>
+                                                                {% endif %}
+                                                                <div class="p2">{{ filter_value.label }}<span class="c-grey ml-2">({{ filter_value.count }})</span></div>
+                                                            </div>
+                                                            <span class="checkmark squared"></span>
+                                                        </label>
+                                                    </div>
+                                                    
+                                                {%- endfor -%}
+                                            </div>
+                                        </div>
+                                    {%- when 'price_range' -%}
+                                        {%- assign max_price_range_global = filter.range_max | money_without_currency | replace: ',', '' -%}
+                                        <div class="filter-options bg-white zi-1 rounded-5" :class="{'hide-m': expandedFilter != '{{ label_text }}'}">
+                                            <div class="pt-5 pb-20">
+                                                <div id="price-slider" class="mb-15 pl-5 pr-5"></div>
+                                                <div class="flex ai-center">
+                                                    <div class="flex ai-center relative" style="width:calc(50% - 20px)">
+                                                        <span class="p2 absolute left-15">{{ cart.currency.symbol }}</span>
+                                                        <input
+                                                            type="number"
+                                                            id="Filter-{{ filter.min_value.param_name }}"
+                                                            class="p1 b-1 b-border lh-1 p-10 tr w-full b-radius-5"
+                                                            name="{{ filter.min_value.param_name }}"
+                                                            placeholder="0"
+                                                            min="0"
+                                                            max="{{ max_price_range }}"
+                                                            v-model="filterPrice.min" 
+                                                            @change="priceRangeChange"
+                                                            @keyup="priceRangeChange"
+                                                        >
+                                                    </div>
+                                                    <div class="p2 pl-15 pr-15" style="width:40px">to</div>
+                                                    <div class="flex ai-center relative" style="width:calc(50% - 20px)">
+                                                        <span class="absolute p2 left-15">{{ cart.currency.symbol }}</span>
+                                                        <input
+                                                            type="number"
+                                                            id="Filter-{{ filter.max_value.param_name }}"
+                                                            class="p1 b-1 b-border lh-1 p-10 tr w-full b-radius-5"
+                                                            name="{{ filter.max_value.param_name }}"
+                                                            :placeholder="{{ max_price_range }}"
+                                                            min="0"
+                                                            max="{{ max_price_range }}"
+                                                            v-model="filterPrice.max" 
+                                                            @change="priceRangeChange"
+                                                            @keyup="priceRangeChange"
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {%- endcase -%}
+                            </div>
+                        {%- endunless -%}
+                    {%- endfor -%}
+                </div>
+            </div>
+
+            <div class="desktop-products-wrapper">{% comment %} style="margin-bottom:-1px;" {% endcomment %}
+                <div {%if section.settings.pagination_type == 'infinite' %} id="AjaxinateContainer" {% endif %} class="row flex flex-wrap products-outer-wrapper" ref="collection-products" {% if request.page_type == 'search' %}style="display:none"{% endif %}>
+                    {%- if section.settings.disable_add_to_cart -%}
+                        {%- render 'collection-and-search-products' , load_inside_vue : true, show_more : show_more, section: section, disable_atc: true -%}
+                    {%- else -%}
+                        {%- render 'collection-and-search-products' , load_inside_vue : true, show_more : show_more, section: section -%}
+                    {%- endif -%}
+                </div>
+                <div v-if="expandedFilter != null || expandedSort != null" class="overlay" style="z-index:3"></div>
+            </div>
+ 
+            {% comment %} PAGINATION SHOW MORE {% endcomment %}
+            {% comment %} {%- if request.page_type == "collection" -%}
+                {%- if collection.metafields.banner_in_product_list.enable -%}
+                    {%- if section.settings.pagination_type == 'show_more' -%}  
+                        <div v-if="productsDisplayedCount < totalProducts" class="mt-20 mb-40 d-mt-10 tc {% if section.settings.hide_pagination %}hide-m{% endif %}">
+                            <button @click="showMore" class="btn1" ref="show-more-btn">{{ 'collections.general.show_more' | t }}</button>
+                            {% comment %} <p class="p4 pt-20">{{ 'collections.general.showing_text' | t }}</p> {% endcomment %}
+                        </div>
+                    {%- endif -%}
+                {%- else -%}
+                    {%- if section.settings.pagination_type == 'show_more' -%}  
+                        <div v-if="productsDisplayedCount < totalProducts" class="mt-20 mb-40 d-mt-10 tc {% if section.settings.hide_pagination %}hide-m{% endif %}">
+                            <div class="flex p6 regular-400 uppercase pb-20 jc-center">
+                                <div class="p6 regular-400" ref="current-products"></div>
+                                <div class="p6 regular-400">&nbsp;/&nbsp;</div>
+                                <div ref="total-products" class="total-products p6 regular-400"></div>
+                            </div>
+                            <button @click="showMore" class="btn1" ref="show-more-btn">{{ 'collections.general.show_more' | t }}</button>
+                            {% comment %} <p class="p4 pt-20">{{ 'collections.general.showing_text' | t }}</p> {% endcomment %}
+                        </div>
+                    {%- endif -%}
+                {%- endif -%}
+            {%- else -%}
+                {%- if section.settings.pagination_type == 'show_more' -%}  
+                    <div v-if="productsDisplayedCount < totalProducts" class="mt-20 mb-40 d-mt-10 d-mb-80 tc {% if section.settings.hide_pagination %}hide-m{% endif %}">
+                        <div class="flex p6 regular-400 uppercase pb-20 jc-center">
+                            <div class="p6 regular-400" ref="current-products"></div>
+                            <div class="p6 regular-400">&nbsp;/&nbsp;</div>
+                            <div ref="total-products" class="total-products p6 regular-400"></div>
+                        </div>
+                        <button @click="showMore" class="btn1" ref="show-more-btn">{{ 'collections.general.show_more' | t }}</button>
+                        {% comment %} <p class="p4 pt-20">{{ 'collections.general.showing_text' | t }}</p> {% endcomment %}
+                    </div>
+                {%- endif -%}
+            {%- endif -%} {% endcomment %}
+            </div>
+        </div>
+
+    </div>
+
+    {%- if max_price_range == blank -%}
+    {%- assign max_price_range = 0 -%}
+    {%- endif -%}
+
+    {%- if request.page_type == "collection" -%}
+        {%- assign products_count = collection.products_count -%}
+        {%- assign product_displayed_count = collection.products.size -%}
+        {%- assign current_page = 1 -%}
+    {%- else -%}
+        {%- assign products_count = search.results_count -%}
+        {%- assign product_displayed_count = search.results.size -%}
+    {%- endif -%}
+
+    <script>
+        function toggleSortCollapsible(e){
+            console.log("toggleSortCollapsible");
+            const {slideToggle} = window.domSlider;
+            let elem = e.target.closest('.toggle-sort-collapsible');
+            slideToggle({element: elem.nextElementSibling});
+        }
+
+        function initCollectionProductsVue() {
+            return Vue.createApp({
+                delimiters: ['${', '}'],
+                data() {
+                    return {
+                        filters: [],
+                        filterPrice: {min: null, max: null},
+                        filtersObj: [],
+                        filterGroup: {},
+                        sortBy: null,
+                        searchKeyword: null,
+                        maxPriceRange: {{ max_price_range_global }},
+                        expandedFilter: null,
+                        expandedSort: null,
+                        filterActiveMobile: false,
+                        currentPage: {{ current_page }},
+                        productsDisplayedCount: {{ product_displayed_count }},
+                        totalProducts: {{ products_count }},
+                        priceSlider: null,
+                        gridMode: "half",
+                        prevScrollPos: 0
+                    }
+                },
+                mounted() {
+                    const this_obj = this;
+        
+                    let urlParams = window.location.href.split('?');
+                    if(urlParams.length > 1) {
+                        this.filters = urlParams[1].split('&').filter(f => {
+                            const keyVal = f.split('=');
+        
+                            if(keyVal[0] == 'filter.v.price.gte') {
+                                this.filterPrice.min = keyVal[1];
+                            }
+        
+                            if(keyVal[0] == 'filter.v.price.lte') {
+                                this.filterPrice.max = keyVal[1];
+                            }
+        
+                            if(keyVal[0] == 'sort_by') {
+                                this.sortBy = keyVal[1];
+                                $360.setGlobalSelectDivValue('collection-sort-by', this.sortBy)
+                            }
+        
+                            if(keyVal[0] == 'q') {
+                                this.searchKeyword = keyVal[1];
+                            }
+        
+                            const acceptedParams = [
+                                'filter.p.tag',
+                                'filter.p.product_type',
+                                'filter.p.vendor',
+                                'filter.p.m',
+                                'filter.v.availability',
+                                'filter.v.option',
+                                'filter.v.m'
+                            ];
+        
+                            for (let i = 0; i < acceptedParams.length; i++) {
+                                if(keyVal[0].includes(acceptedParams[i])) {
+                                    return f;
+                                }
+                            }
+                        });
+                        this.filters = this.filters.map(f => decodeURI(f));
+                        //console.log("filter from url");
+                        //console.log(this.filters);
+                        document.querySelector("#shopify-section-{{ section.id }}").scrollIntoView();
+                        this.applyFilter(true)
+                    }
+        
+                    document.addEventListener('click', (e) => {
+                        const target = e.target;
+                        if(
+                            (!target.closest('.filter-title') && !e.target.classList.contains('filter-title')) && 
+                            (!target.closest('.filter-options') && !e.target.classList.contains('filter-options'))
+                        ) {
+                            this.expandedFilter = null;
+                        }
+        
+                        if(!target.closest('.sort-wrapper') && !e.target.classList.contains('sort-wrapper')){
+                            this.expandedSort = null;
+                        }
+        
+                        {% comment %} if(target.classList.contains('pagination-page-num') && target.getAttribute('href')) {
+                            e.preventDefault();
+                            const pageNum = parseInt(target.getAttribute('data-page'));
+                            this.goToPage(pageNum);
+                        } {% endcomment %}
+
+                        if(target.closest('.pagination-page-num')) {
+                            if(target.closest('.pagination-page-num').getAttribute('href')){
+                                e.preventDefault();
+                                const pageNum = parseInt(target.closest('.pagination-page-num').getAttribute('data-page'));
+                                this.goToPage(pageNum);
+                            }
+                        }
+                    });
+        
+                    if(document.getElementById('price-slider')) {
+                        this.priceSlider = document.getElementById('price-slider');
+                        noUiSlider.create(this.priceSlider, {
+                            start: [0, this.maxPriceRange],
+                            connect: true,
+                            step: 10,
+                            range: {
+                                'min': 0,
+                                'max': this.maxPriceRange
+                            }
+                        });
+        
+                        this.priceSlider.noUiSlider.on('slide', () => {
+                            const prices = this.priceSlider.noUiSlider.get();
+                            this.filterPrice.min = parseFloat(prices[0]);
+                            this.filterPrice.max = parseFloat(prices[1]);
+                        });
+        
+                        this.priceSlider.noUiSlider.set([this.filterPrice.min, this.filterPrice.max]);
+                    }
+        
+                    /* init quick filters swiper */
+                    this.initQuickFiltersSwiper();
+        
+                    if(this.$refs['current-products']){
+                        this.$refs['current-products'].innerHTML = this.productsDisplayedCount;
+                    }
+                    //this.$refs['total-products'].innerHTML = this.totalProducts + " items";
+                    document.querySelectorAll('.total-products').forEach(elem => {
+                        elem.innerHTML = this.totalProducts + " {{ 'general.search.products' | t }}";
+                    });
+        
+                    //let header_height = $('header').outerHeight();
+                    //let top_filter_pos = document.querySelector('#collection-filter').offsetTop;
+                    const rect = document.querySelector('.container-indicator').getBoundingClientRect();
+                    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+                    const top_filter_pos = rect.top + scrollTop;
+
+                    console.log("top_filter_pos");
+                    console.log(top_filter_pos);
+
+                    window.addEventListener('scroll', function() {
+                        //console.log(window.scrollY);
+                        //console.log(top_filter_pos);
+                        {% comment %} if( window.scrollY >= top_filter_pos) {
+                            document.querySelector('#collection-filter').classList.add('sticky');
+                        } else {
+                            document.querySelector('#collection-filter').classList.remove('sticky');
+                        } {% endcomment %}
+                    });
+
+                    {% comment %} const delay = setTimeout(function(){
+                        $360.triggerBackInStockInit();
+                        clearTimeout(delay);
+                    }, 5000); {% endcomment %}
+                    
+                },
+                methods: {
+                    initQuickFiltersSwiper() {
+                        new Swiper('#shopify-section-{{ section.id }} .quick-filters', {
+                            loop: false,
+                            preloadImages: true,
+                            slidesPerView: 'auto',
+                            spaceBetween: 12,
+                            breakpoints: {
+                                1024: {
+                                    //spaceBetween: 15
+                                }
+                            },
+                            lazy: false,
+                            {% comment %} on: {
+                                init: function() {
+                                    $360.lazyLoadInstance.update();
+                                    //document.querySelector("#shopify-section-{{ section.id }} #view-all").style.height = document.querySelector("#shopify-section-{{ section.id }} #filter1").clientHeight + "px";
+                                },
+                                afterInit: function(){},
+                                slideChange: function() {
+                                    $360.lazyLoadInstance.update();
+                                },
+                                resize: function() {
+                                    $360.lazyLoadInstance.update();
+                                }
+                            } {% endcomment %}
+                        });
+                    },
+                    containsValue(param_name, filter_value) {
+                        //console.log("contains value");
+                        //console.log(param_name);
+                        //console.log(filter_value);
+                        //console.log(this.filterGroup[param_name]);
+                        if(this.filterGroup[param_name]){
+                            return this.filterGroup[param_name].includes(filter_value);
+                        }
+                    },
+                    applyFilter(loadProducts = true) {
+                        this.currentPage = 1;
+                        let queryStrings = this.searchKeyword ? `&q=${this.searchKeyword}&type=product` : '';
+        
+                        this.filtersObj = [];
+                        this.filterGroup = {};
+        
+                        this.filters.forEach(f => {
+                            const keyVal = f.split('=');
+                            if(keyVal[0] != 'filter.v.price.gte' && keyVal[0] != 'filter.v.price.lte') {
+                                const filter = `${keyVal[0]}=${encodeURIComponent(keyVal[1])}`;
+                                queryStrings = `${queryStrings}&${filter}`;
+                            
+                                this.filtersObj.push({
+                                    key: keyVal[0],
+                                    value: keyVal[1],
+                                });
+        
+                                if(this.filterGroup.hasOwnProperty(keyVal[0])) {
+                                    this.filterGroup[keyVal[0]] = [...this.filterGroup[keyVal[0]], keyVal[1]];
+                                } else {
+                                    this.filterGroup[keyVal[0]] = [keyVal[1]];
+                                }
+                            }
+                        });
+                        //console.log("this.filterGroup");
+                        //console.log(this.filterGroup);
+                        
+                        if(this.filterPrice.min > 0) {
+                            queryStrings = `${queryStrings}&filter.v.price.gte=${this.filterPrice.min}`;
+                            this.filtersObj.push({
+                                key: 'filter.v.price.gte',
+                                value: this.filterPrice.min,
+                            });
+                            this.filterGroup.priceMin = this.filterPrice.min;
+                        }
+                        if(this.filterPrice.max > 0) {
+                            queryStrings = `${queryStrings}&filter.v.price.lte=${this.filterPrice.max}`;
+                            this.filtersObj.push({
+                                key: 'filter.v.price.lte',
+                                value: this.filterPrice.max,
+                            });
+                            this.filterGroup.priceMax = this.filterPrice.max;
+                        }
+        
+                        if(loadProducts) {
+                            queryStrings = queryStrings.substring(1);
+                            let url = window.location.href.split('?')[0];
+                            let updatedUrl = queryStrings == '' ? url : `${url}?${queryStrings}`;
+                            if(this.sortBy) {
+                                updatedUrl = queryStrings == '' ? `${updatedUrl}?sort_by=${this.sortBy}` : `${updatedUrl}&sort_by=${this.sortBy}`;
+                            }
+                            //window.location.href = updatedUrl;
+                            window.history.replaceState({ path: updatedUrl }, '', updatedUrl);
+                            this.getProducts(updatedUrl)
+                            this.expandedFilter = null;
+                        }
+        
+                        //if(window.innerWidth < 1024) {
+                            //this.filterActiveMobile = false
+                        //}
+                        //this.closeFilterMobile();
+                        
+                        $360.setGlobalSelectDivValue('collection-sort-by', this.sortBy);
+                    },
+                    delayFilter(){
+                        const this_obj = this;
+                        setTimeout(function() {
+                            this_obj.applyFilter();
+                        }, 100);
+                    },
+                    closeFilter(){
+                        this.closeFilterMobile();
+                    },
+                    priceRangeChange() {
+                        this.priceSlider.noUiSlider.set([this.filterPrice.min, this.filterPrice.max]);
+                    },
+                    showMore() {
+                        const button = this.$refs['show-more-btn'];
+                        button.style.height = `${button.offsetHeight}px`;
+                        button.style.width = `${button.offsetWidth}px`;
+                        button.innerHTML = $360.btnLoading();
+                        button.setAttribute('disabled', true);
+        
+                        this.currentPage++;
+                        this.getProducts(this.buildGetProductsUrl(), true);
+                    },
+                    toggleSortOverlay() {
+                        if(this.expandedFilter != null) {
+                            if(this.expandedSort != null) {
+                                return
+                            }else{
+                                this.expandedSort = true;
+                            }
+                        }else{
+                            if(this.expandedSort) {
+                                this.expandedSort = null;
+                                return
+                            }
+                            this.expandedSort = true;
+                        }
+                    },
+                    goToPage(pageNum) {
+                        $360.scrollTo('#collection-main-content', -50);
+                        this.currentPage = pageNum;
+                        this.getProducts(this.buildGetProductsUrl());
+                    },
+                    buildGetProductsUrl() {
+                        const currentUrl = window.location.href;
+                        const parameters = new URLSearchParams(window.location.search);
+                        const searchQuery = parameters.get('q');
+        
+                        let url = `${currentUrl}?page=${this.currentPage}`;
+                        if(this.filtersObj.length || this.sortBy || searchQuery) {
+                            url = `${currentUrl}&page=${this.currentPage}`;
+                        }
+        
+                        return url;
+                    },
+                    removeFilter(index) {
+                        this.filters.splice(index, 1);
+                        this.applyFilter();
+                    },
+                    removeFilterPrice() {
+                        this.filterPrice.min = null;
+                        this.filterPrice.max = null;
+                        if(this.priceSlider) {
+                            this.priceSlider.noUiSlider.set([0, this.maxPriceRange]);
+                        }
+                        this.applyFilter();
+                    },
+                    clearFilterGroup(key) {
+                        const index = this.filtersObj.findIndex(fo => fo.key == key);
+        
+                        if(index > -1) {
+                            this.filters.splice(index, 1);
+                            this.filtersObj.splice(index, 1);
+                            this.clearFilterGroup(key);
+                        } else {
+                            this.applyFilter();
+                        }
+        
+                        if(window.innerWidth < 1024) {
+                            this.filterActiveMobile = false
+                        }
+                    },
+                    clearFilter(apply = true) {
+                        this.filters = [];
+                        this.filterPrice.min = null;
+                        this.filterPrice.max = null;
+                        if(this.priceSlider) {
+                            this.priceSlider.noUiSlider.set([0, this.maxPriceRange]);
+                        }
+                        
+                        if(apply){
+                            let active_filters = document.querySelectorAll('#shopify-section-{{ section.id }} .filter-trigger.active');
+                            active_filters.forEach(elem => {
+                                elem.classList.remove('active');
+                            });
+                            active_filters = document.querySelectorAll('#shopify-section-{{ section.id }} .filter-custom-each.active');
+                            active_filters.forEach(elem => {
+                                elem.classList.remove('active');
+                            });
+        
+                            if(document.querySelector('#shopify-section-{{ section.id }} .view-all')){
+                                document.querySelector('#shopify-section-{{ section.id }} .view-all').classList.add('active');
+                            }
+                            this.applyFilter();
+                        }
+                        
+                    },
+                    clickColor(e) {
+                        e.target.closest('.filter').classList.toggle('active');
+                        let check_input = document.querySelector('#shopify-section-{{ section.id }} .filter-options input[type="checkbox"][value="filter.v.option.color='+e.target.closest('.filter').getAttribute("data-value")+'"]');
+                        //if(!check_input){
+                        //    check_input = document.querySelector('#shopify-section-{{ section.id }} .filter-options input[type="checkbox"][value="filter.v.option.colour='+e.target.closest('.filter').getAttribute("data-value")+'"]');
+                        //}
+                        check_input.click();
+                        e.target.closest('.quick-filters').querySelector('.view-all').classList.remove('active');
+                        this.applyFilter();
+                    },
+                    clickCustom(e, toggle_view_all) {
+                        this.clearFilter(false);
+                        this.filters.push("filter.p.m.custom."+e.target.closest('.filter').getAttribute("data-param-name")+"="+e.target.closest('.filter').getAttribute("data-value"));
+                            
+                        {% comment %} e.target.closest('.filter').classList.toggle('active');
+                        let check_input = document.querySelector('#shopify-section-{{ section.id }} .filter-options input[type="checkbox"][value="filter.p.m.custom.'+e.target.closest('.filter').getAttribute("data-param-name")+'='+e.target.closest('.filter').getAttribute("data-value")+'"]');
+                        check_input.click();
+                        if(toggle_view_all){
+                            e.target.closest('.quick-filters').querySelector('.view-all').classList.remove('active');
+                        } {% endcomment %}
+                        this.applyFilter();
+                    },
+                    splitColumnMobile() {
+                        document.querySelector('.container-indicator').classList.remove('container');
+                        document.querySelectorAll('.product-card-wrapper').forEach(elem => {
+                            elem.classList.remove('col-12');
+                        });
+                        this.gridMode = "half";
+                        {% comment %} document.querySelector('.grid-mode.active').classList.remove('active');
+                        document.querySelector('.grid-mode.split').classList.add('active'); {% endcomment %}
+                    },
+                    mergeColumnMobile() {
+                        document.querySelector('.container-indicator').classList.add('container');
+                        document.querySelectorAll('.product-card-wrapper').forEach(elem => {
+                            elem.classList.add('col-12');
+                        });
+                        this.gridMode = "full";
+                        {% comment %} document.querySelector('.grid-mode.active').classList.remove('active');
+                        document.querySelector('.grid-mode.merge').classList.add('active'); {% endcomment %}
+                    },
+                    async getProducts(collUrl, showMore = false) {
+                        console.log("GET PRODUCTS");
+                        this_obj = this;
+                        const urlSplitted = collUrl.split('?');
+                        let url;
+                        if(showMore) {
+                            if(this.gridMode == "half"){
+                                url = urlSplitted.length > 1 ? `${collUrl}&view=product-list-more` : `${collUrl}?view=product-list-more`;
+                            }else{
+                                url = urlSplitted.length > 1 ? `${collUrl}&view=product-list-more-full` : `${collUrl}?view=product-list-more-full`;
+                            }
+                            //url = urlSplitted.length > 1 ? `${collUrl}&view=product-list-more` : `${collUrl}?view=product-list-more`;
+                        }else{
+                            if(this.gridMode == "half"){
+                                url = urlSplitted.length > 1 ? `${collUrl}&view=product-list` : `${collUrl}?view=product-list`;
+                            }else{
+                                url = urlSplitted.length > 1 ? `${collUrl}&view=product-list-full` : `${collUrl}?view=product-list-full`;
+                            }
+                            //url = urlSplitted.length > 1 ? `${collUrl}&view=product-list` : `${collUrl}?view=product-list`;
+                        }
+                        const { data } = await axios.get(url);
+                        const htmlDom = new DOMParser().parseFromString(data, 'text/html');
+                        const productCount = htmlDom.querySelectorAll('.product-each').length;
+        
+                        if(showMore) {
+                            this.productsDisplayedCount += productCount;
+                            this.$refs['collection-products'].insertAdjacentHTML('beforeend', data);
+        
+                            const button = this.$refs['show-more-btn'];
+                            button.innerHTML = "{{ 'collections.general.show_more' | t }}";
+                            button.removeAttribute('disabled');
+                            button.style.height = '';
+                            button.style.width = '';
+                        } else {
+                            if(productCount > 0){
+                            this.productsDisplayedCount = productCount;
+                            }
+                            console.log("productCount");
+                            console.log(htmlDom);
+                            console.log(productCount);
+                            this.totalProducts = parseInt(htmlDom.querySelector('.product-card-wrapper').getAttribute('data-total-products'));
+                            this.$refs['collection-products'].innerHTML = data;
+                        }
+        
+                        setTimeout(function() {
+                            $360.lazyLoadInstance.update();
+                            if(document.querySelector("#AjaxinateContainer")){
+                                document.querySelector("#AjaxinateContainer").style.display = "flex"; // prevent visual glitch between initial and after get product
+                            }
+
+                            if(document.querySelector('.fade')) {
+                                document.querySelectorAll('.fade:not(.animated)').forEach(function(el) {
+                                    new Waypoint({
+                                        element: el,
+                                        handler: function(direction) {
+                                            this.element.classList.add('animated')
+                                        },
+                                        offset: '75%',
+                                    });
+                                });
+                            }
+
+                            {% comment %} document.querySelector("#AjaxinateContainer").querySelectorAll(".product-card-wrapper .swiper").forEach(elem => {
+                                if(!elem.classList.contains('swiper-initialized')){
+                                    let string_id = elem.getAttribute('data-string');
+                                    new Swiper(`#slider-${string_id}`, {
+                            
+                                        slidesPerView: 1,
+                                        loop: false,
+                                        a11y: false,
+                                        navigation: {
+                                            nextEl: `#product-card${string_id} .swiper-slider-arrow.right`,
+                                            prevEl: `#product-card${string_id} .swiper-slider-arrow.left`
+                                        }
+                                    });
+                                }
+                            }); {% endcomment %}
+                        }, 300);
+        
+                        setTimeout(function() {
+                            //console.log("this.productsDisplayedCount,this.totalProducts")
+                            //console.log(this_obj.productsDisplayedCount,this_obj.totalProducts)
+                            
+                            if(this_obj.$refs['current-products']){
+                                this_obj.$refs['current-products'].innerHTML = this_obj.productsDisplayedCount;
+                            }
+                            
+                            //this_obj.$refs['total-products'].innerHTML = this_obj.totalProducts + " items";
+                            document.querySelectorAll('.total-products').forEach(elem => {
+                                elem.innerHTML = this_obj.totalProducts + " {{ 'general.search.products' | t }}";
+                            });
+                        }, 2000);
+                    },
+                    setExpandedFilter(e, title) {
+                        {% comment %} if(window.innerWidth >= 1024) {
+                            this.expandedSort = null;
+                            if(title == this.expandedFilter) {
+                                this.expandedFilter = null;
+                                return
+                            }
+                            this.expandedFilter = title;
+                        } else {
+                            const button = e.target.classList.contains('filter-title') ? e.target : e.target.closest('.filter-title');
+                            const {slideToggle} = window.domSlider;
+                            slideToggle({element: button.nextElementSibling});
+                            if(button.classList.contains('expand')) {
+                                button.classList.remove('expand');
+                            } else {
+                                button.classList.add('expand');
+                            }
+                        } {% endcomment %}
+                        const button = e.target.classList.contains('filter-title') ? e.target : e.target.closest('.filter-title');
+                        const {slideToggle} = window.domSlider;
+                        slideToggle({element: button.nextElementSibling});
+                        if(button.classList.contains('expand')) {
+                            button.classList.remove('expand');
+                        } else {
+                            button.classList.add('expand');
+                        }
+                    },
+                    setExpandedSort(e) {
+
+                    },
+                    toggleFilterMobile() {
+                        this.filterActiveMobile = !this.filterActiveMobile;
+        
+                        if(this.filterActiveMobile) {
+                            //document.querySelector("#collection-filter").classList.add("zi-4");
+                            if(document.getElementById('dummy-chat-button-iframe')) {
+                                document.getElementById('dummy-chat-button-iframe').style.display = 'none';
+                            } 
+                            if(document.getElementById('smile-ui-container')) {
+                                document.getElementById('smile-ui-container').style.display = 'none';
+                            } 
+                        } else {
+                            //document.querySelector("#collection-filter").classList.remove("zi-4");
+                            if(document.getElementById('dummy-chat-button-iframe')) {
+                                document.getElementById('dummy-chat-button-iframe').style.display = 'block';
+                            } 
+                            if(document.getElementById('smile-ui-container')) {
+                                document.getElementById('smile-ui-container').style.display = 'block';
+                            } 
+                        }
+        
+                        // expand first accordion if there's no open one
+                        if(!document.querySelector('.filter-title .expand')){
+                            //document.querySelector('.filter-title').click()
+                        }
+        
+                        document.querySelector('body').classList.toggle('nooverflow');
+                    },
+                    closeFilterMobile() {
+                        if(this.filterActiveMobile) {
+                            this.filterActiveMobile = false;
+                            //document.querySelector("#collection-filter").classList.remove("zi-4");
+                            if(document.getElementById('dummy-chat-button-iframe')) {
+                                document.getElementById('dummy-chat-button-iframe').style.display = 'none';
+                            } 
+                            if(document.getElementById('smile-ui-container')) {
+                                document.getElementById('smile-ui-container').style.display = 'none';
+                            } 
+                        }
+        
+                        document.querySelector('body').classList.remove('nooverflow');
+                    },
+                    playVid(id,e) {
+                        const parent = e.target.closest('.video-wrapper');
+                        const video_parent_elem = document.querySelector(`#${id}.global-video-wrapper`);
+                        console.log("11");
+                        console.log(parent);
+                        console.log(video_parent_elem);
+                        e.target.closest('.video-control-button').classList.add('hide-m');
+      
+                        if(video_parent_elem.classList.contains('youtube')) {
+                          const iframe_elem = video_parent_elem.querySelector('iframe');
+                          const iframe_src = iframe_elem.getAttribute('src');
+      
+                          let url_char = '&';
+                          if(iframe_src.indexOf('?') < 0) {
+                              url_char = '?';
+                          }
+      
+                          iframe_elem.style.opacity = 1;
+                          iframe_elem.style.zIndex = 10;
+                          iframe_elem.setAttribute('src',`${iframe_src}${url_char}autoplay=1`);
+                        } else {
+                          const video_elem = document.querySelector(`#${id}.global-video-wrapper video`);
+                          if(video_elem != null) {
+                              video_elem.play();
+                          }
+      
+                          parent.querySelector('.cv-pauseButton').classList.remove('hide-m');
+                        }                  
+                    },
+                    pauseVid(id,e) {
+                        const parent = e.target.closest('.video-wrapper');
+                        const video_elem = document.querySelector(`#${id}.global-video-wrapper video`);
+                        if(video_elem != null) {
+                          video_elem.pause();
+                        }
+      
+                        e.target.closest('.video-control-button').classList.add('hide-m');
+                        parent.querySelector('.cv-playButton').classList.remove('hide-m');
+                    },
+                    formatMoney(num) {
+                        return $360.formatMoney(num);
+                    }
+                }
+            });
+        }
+
+        let collectionProductVue = initCollectionProductsVue();
+        collectionProductVue.mount('#collection-main-content');
+
+        document.addEventListener('shopify:section:load', () => {
+            const main_content_elem = document.querySelector('#collection-main-content');
+            if(main_content_elem != null) {
+                main_content_elem.classList.add('animated');
+                collectionProductVue.unmount();
+
+                collectionProductVue = initCollectionProductsVue();
+                collectionProductVue.mount('#collection-main-content');
+            }
+        });
+    </script> 
+
+    {% if section.settings.pagination_type == 'infinite' %}
+    <script>
+        'use strict';
+        var Ajaxinate = function t(e) {
+          (this.settings = Object.assign(
+            {
+              method: 'scroll',
+              container: '#AjaxinateContainer',
+              pagination: '#AjaxinatePagination',
+              offset: 0,
+              loadingText: 'Loading',
+              callback: null,
+            },
+            e || {}
+          )),
+            (this.addScrollListeners = this.addScrollListeners.bind(this)),
+            (this.addClickListener = this.addClickListener.bind(this)),
+            (this.checkIfPaginationInView = this.checkIfPaginationInView.bind(this)),
+            (this.stopMultipleClicks = this.stopMultipleClicks.bind(this)),
+            (this.removeClickListener = this.removeClickListener.bind(this)),
+            (this.removeScrollListener = this.removeScrollListener.bind(this)),
+            (this.destroy = this.destroy.bind(this)),
+            (this.containerElement = document.querySelector(this.settings.container)),
+            (this.paginationElement = document.querySelector(this.settings.pagination)),
+            this.initialize();
+        };
+        (Ajaxinate.prototype.initialize = function t() {
+          this.containerElement && { click: this.addClickListener, scroll: this.addScrollListeners }[this.settings.method]();
+        }),
+          (Ajaxinate.prototype.addScrollListeners = function t() {
+            this.paginationElement &&
+              (document.addEventListener('scroll', this.checkIfPaginationInView),
+              window.addEventListener('resize', this.checkIfPaginationInView),
+              window.addEventListener('orientationchange', this.checkIfPaginationInView));
+          }),
+          (Ajaxinate.prototype.addClickListener = function t() {
+            this.paginationElement &&
+              ((this.nextPageLinkElement = this.paginationElement.querySelector('a')),
+              (this.clickActive = !0),
+              void 0 !== this.nextPageLinkElement &&
+                null !== this.nextPageLinkElement &&
+                this.nextPageLinkElement.addEventListener('click', this.stopMultipleClicks));
+          }),
+          (Ajaxinate.prototype.stopMultipleClicks = function t(e) {
+            e.preventDefault(),
+              this.clickActive &&
+                ((this.nextPageLinkElement.innerHtml = this.settings.loadingText),
+                (this.nextPageUrl = this.nextPageLinkElement.href),
+                (this.clickActive = !1),
+                this.loadMore());
+          }),
+          (Ajaxinate.prototype.checkIfPaginationInView = function t() {
+            var e = this.paginationElement.getBoundingClientRect().top - this.settings.offset,
+              i = this.paginationElement.getBoundingClientRect().bottom + this.settings.offset;
+            e <= window.innerHeight &&
+              i >= 0 &&
+              ((this.nextPageLinkElement = this.paginationElement.querySelector('a')),
+              this.removeScrollListener(),
+              this.nextPageLinkElement &&
+                ((this.nextPageLinkElement.innerHtml = this.settings.loadingText),
+                (this.nextPageUrl = this.nextPageLinkElement.href),
+                this.loadMore()));
+          }),
+          (Ajaxinate.prototype.loadMore = function t() {
+            (this.request = new XMLHttpRequest()),
+              (this.request.onreadystatechange = function t() {
+                if (4 === this.request.readyState && 200 === this.request.status) {
+                  var e = this.request.responseXML.querySelectorAll(this.settings.container)[0],
+                    i = this.request.responseXML.querySelectorAll(this.settings.pagination)[0];
+                  this.containerElement.insertAdjacentHTML('beforeend', e.innerHTML),
+                    (this.paginationElement.innerHTML = i.innerHTML),
+                    this.settings.callback &&
+                      'function' == typeof this.settings.callback &&
+                      this.settings.callback(this.request.responseXML),
+                    this.initialize();
+                }
+              }.bind(this)),
+              this.request.open('GET', this.nextPageUrl),
+              (this.request.responseType = 'document'),
+              this.request.send();
+          }),
+          (Ajaxinate.prototype.removeClickListener = function t() {
+            this.nextPageLinkElement.removeEventListener('click', this.stopMultipleClicks);
+          }),
+          (Ajaxinate.prototype.removeScrollListener = function t() {
+            document.removeEventListener('scroll', this.checkIfPaginationInView),
+              window.removeEventListener('resize', this.checkIfPaginationInView),
+              window.removeEventListener('orientationchange', this.checkIfPaginationInView);
+          }),
+          (Ajaxinate.prototype.destroy = function t() {
+            return { click: this.removeClickListener, scroll: this.removeScrollListener }[this.settings.method](), this;
+          });
+      </script>
+      <script>
+        var endlessScroll = new Ajaxinate({
+          container: '#AjaxinateContainer',
+          pagination: '#AjaxinatePagination',
+          method: 'scroll',
+          loadingText: '<span class="button-loading"></span>',
+          offset: 100,
+          callback: function () {
+            if(document.querySelector('.product-card-wrapper').classList.contains('col-12')){
+                document.querySelectorAll('.product-card-wrapper:not(.col-12)').forEach(elem => {
+                    elem.classList.add('col-12');
+                });
+            }else{
+
+            }
+            if(document.querySelector('.fade')) {
+                document.querySelectorAll('.fade:not(.animated)').forEach(function(el) {
+                    new Waypoint({
+                        element: el,
+                        handler: function(direction) {
+                            this.element.classList.add('animated')
+                        },
+                        offset: '75%',
+                    });
+                });
+            }
+            
+            var lazyLoadInstance = new LazyLoad({
+              elements_selector: '.lazy',
+              callback_loaded: function (el) {
+              },
+            });
+            //console.log("calling back swiper ajaxinate");
+            {% comment %} document.querySelector("#AjaxinateContainer").querySelectorAll(".product-card-wrapper .swiper").forEach(elem => {
+                if(!elem.classList.contains('swiper-initialized')){
+                    let string_id = elem.getAttribute('data-string');
+                    new Swiper(`#slider-${string_id}`, {
+            
+                        slidesPerView: 1,
+                        loop: false,
+                        a11y: false,
+                        navigation: {
+                            nextEl: `#product-card${string_id} .swiper-slider-arrow.right`,
+                            prevEl: `#product-card${string_id} .swiper-slider-arrow.left`
+                        }
+                    });
+                    //console.log("new swiper!");
+                }
+            }); {% endcomment %}
+          },
+        });
+    </script>
+    {% endif %}
+
+{%- else -%}
+    {%if template == "search" %}
+        <div class="container empty-result-container tc pt-45 d-pt-75">
+            <div class="h2">No result found for '{{ search.terms }}'</div>
+            <a href="/" class="link3 mt-20 d-mt-30">Return to homepage</a>
+        </div>
+        <script>
+            window.addEventListener("DOMContentLoaded", (event) => {
+                document.querySelector('.empty-result-container').style.height = (window.innerHeight - document.querySelector('header').offsetHeight - document.querySelector('footer').offsetHeight) + "px"
+            });
+          </script>
+    {%endif %}
+{%- endif -%}
+
+{% schema %}
+{
+    "name": "Collection & Search",
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "enable_hero_banner",
+            "label": "Enable Hero Banner"
+        },
+        {
+            "type": "image_picker",
+            "id": "banner_image_desktop",
+            "label": "Banner Image Desktop"
+        },
+        {
+            "type": "image_picker",
+            "id": "banner_image_mobile",
+            "label": "Banner Image Mobile"
+        },
+        {
+            "type": "checkbox",
+            "id": "hide_pagination",
+            "label": "Hide pagination"
+        },
+        {
+            "type": "checkbox",
+            "id": "disable_add_to_cart",
+            "label": "Disable Add to Cart"
+        },
+        {
+            "type": "checkbox",
+            "id": "hide_additional_quick_filter",
+            "label": "Hide Additional Quick Filter"
+        },
+        {
+            "type": "textarea",
+            "id": "hide_specific_filter",
+            "label": "Hide Specific Filter"
+        },
+        {
+            "type": "radio",
+            "id": "pagination_type",
+            "label": "Pagination type",
+            "options": [
+                {
+                    "value": "pagination",
+                    "label": "Normal pagination"
+                },
+                {
+                    "value": "show_more",
+                    "label": "Show more button"
+                },
+                {
+                    "value": "infinite",
+                    "label": "Infinite Loading"
+                }
+            ],
+            "default": "pagination"
+        },
+        {
+            "type": "checkbox",
+            "id": "bipl_enable",
+            "label": "BIPL Enable"
+        },
+        {
+            "type": "video",
+            "id": "bipl_video_desktop",
+            "label": "BIPL Video Desktop"
+        },
+        {
+            "type": "video",
+            "id": "bipl_video_mobile",
+            "label": "BIPL Video Mobile"
+        },
+        {
+            "type": "checkbox",
+            "id": "bipl_video_autoplay",
+            "label": "BIPL Video Autoplay"
+        },
+        {
+            "type": "image_picker",
+            "id": "bipl_image_desktop",
+            "label": "BIPL Image Desktop"
+        },
+        {
+            "type": "image_picker",
+            "id": "bipl_image_mobile",
+            "label": "BIPL Image Mobile"
+        },
+        {
+            "type": "number",
+            "id": "bipl_position",
+            "label": "BIPL Position"
+        },
+        {
+            "type": "textarea",
+            "id": "bipl_title",
+            "label": "BIPL Title"
+        },
+        {
+            "type": "text",
+            "id": "bipl_button_label",
+            "label": "BIPL Button Label"
+        },
+        {
+            "type": "url",
+            "id": "bipl_button_url",
+            "label": "BIPL Button URL"
+        }
+        
+    ],
+    "blocks": [
+        {
+            "type": "quick_filter_custom",
+            "name": "Quick Filter Custom",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "filter_value",
+                    "label": "Filter Value"
+                },
+                {
+                    "type": "text",
+                    "id": "filter_param_name",
+                    "label": "Filter Parameter Name"
+                }
+            ]
+        }
+    ],
+    "presets": [
+        { 
+            "name": "Collection & Search"
+        }
+    ]
+}
+{% endschema %}

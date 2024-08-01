@@ -1,0 +1,231 @@
+{% comment %} IGC Theme - refinements bismocii {% endcomment %}
+{% assign el_id = 'product-recent-' | append: section.id %}
+{% assign ss = section.settings %}
+{% assign sb = section.blocks %}
+{% render 'section-padding', section: section, el_id: el_id %}
+<style>
+  #{{el_id}} .swiper {
+    overflow: visible !important;
+    clip-path: inset(-100vw -100vw -100vw -100vw);
+  }
+
+  #{{el_id}} .swiper-button {
+    position: relative;
+    top: unset;
+    margin-top: unset;
+    left: unset;
+    right: unset;
+    transform: unset;
+    width: 8px;
+    height: 15px;
+  }
+  #{{el_id}} .swiper-button svg {
+    width: 8px;
+    height: 15px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .swiper {
+      overflow: hidden !important;
+    }
+  }
+</style>
+
+<div class="product-recently-viewed overflow hide-m" id="{{el_id}}">
+  <div class="container" id="product-recent">
+    <div class="relative w-full tc">
+      <{{ ss.title_dom_type }} class="{{ ss.title_size }} tc">
+        {{- ss.title -}}
+      </{{ ss.title_dom_type }}>
+    </div>
+
+    <div class="prv-carousel swiper d-mt-30 mt-25">
+      <div class="swiper-wrapper" id="recently-viewed-products"></div>
+    </div>
+  </div>
+</div>
+<script>
+  function initSwiperPrv() {
+    const products_count = document.querySelectorAll('#recently-viewed-products .product-each');
+    let centered = true, loop = true;
+
+    if(products_count.length < 4) {
+      centered = false
+      loop = false
+    }
+    let productRecentlyViewed = new Swiper('#{{ el_id }} .prv-carousel', {
+      slidesPerView: 1.5,
+      spaceBetween: 25,
+      freeMode: false,
+      centeredSlides: centered,
+      loop: loop,
+      breakpoints: {
+        600: {
+          slidesPerView: 2,
+          spaceBetween: 25,
+          centeredSlides: centered,
+          loop: loop
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 50,
+          loop: false,
+          centeredSlides: false
+        }
+      },
+      on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+    });
+  }
+  
+  document.addEventListener("DOMContentLoaded", function() {
+    Shopify.Products.showRecentlyViewed({
+      howManyToShow: 10,
+      wrapperId: 'recently-viewed-products',
+      shown: 0,
+      onComplete: function() {
+        initSwiperPrv();
+        $360.lazyLoadInstance.update();
+
+        /* count products */
+        const products_count = document.querySelectorAll('#recently-viewed-products .product-each');
+        if(products_count.length > 4) {
+          const controls = document.querySelector('.product-recently-viewed .controls-wrapper');
+          if(controls != null) {
+            controls.classList.add('d-flex');
+          }
+        }
+
+        /* init product each swiper */
+        products_count.forEach(function(pro){
+          const swiper_id = pro.querySelector('.swiper').getAttribute('id');
+          new Swiper(`#${swiper_id}`, {
+            slidesPerView: 1,
+            loop: false,
+            a11y: false,
+            navigation: {
+              nextEl: `#${swiper_id} .swiper-slider-arrow.right`,
+              prevEl: `#${swiper_id} .swiper-slider-arrow.left`
+            }
+          });
+        });
+      }
+    });
+  });
+  document.addEventListener('shopify:section:load', () => { initSwiperPrv() });
+</script>
+
+{% schema %}
+{
+  "name": "PDP - Recently Viewed",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Padding Settings"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top Padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom Padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_hd",
+      "label": "Top Padding (HD)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_hd",
+      "label": "Bottom Padding (HD)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_hhd",
+      "label": "Top Padding (HHD)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom Padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" },
+        { "value": "h8", "label": "H8" },
+        { "value": "h9", "label": "H9" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    }
+  ],
+  "blocks": [
+  ],
+  "presets": [
+    {
+      "name": "PDP - Recently Viewed",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

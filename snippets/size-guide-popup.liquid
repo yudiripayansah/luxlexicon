@@ -1,0 +1,49 @@
+<Teleport to="body">
+    <div class="pdp-size-guide-popup" :class="{'active': sizeGuidePopup}">
+        <div @click="toggleSizeGuidePopup($event)" class="overlay zi-1"></div>
+        <div class="popup-content bg-white t-max-400 d-max-450 w-full absolute right-0 top-0 h-full zi-2 pb-50 d-pb-100">
+            <div class="content-header pl-20 pr-20 d-pl-25 d-pr-25 pt-17 pb-17 bb-1 b-border global-flex ai-center jc-between">
+                <h2 class="h4 uppercase">{{ "products.product.size_guide" | t }}</h2>
+                <a href="#" rel="nofollow" @click="toggleSizeGuidePopup($event)" class="popup-close flex ai-center jc-center">
+                    {{ settings.icon_close }}
+                </a>
+            </div>
+
+            <div class="container mt-20 d-mt-30">
+                {%- assign size_guide_obj = product.metafields.custom.size_guide.value -%}
+
+                {%- for i in (1..2) -%}
+                    {%- assign table_title = 'table_title_' | append: i  -%}
+                    {%- assign in_cm_selector = 'enable_in_cm_selector_' | append: i  -%}
+                    {%- assign table_code = 'table_code_' | append: i  -%}
+                    {%- assign table_desc = 'table_description_' | append: i  -%}
+
+                    {%- if size_guide_obj[table_title].value != blank -%}
+                        <div class="table-wrapper {% unless forloop.first %} mt-30 d-mt-50 {% endunless %}">
+                            <div class="table-title global-flex ai-center jc-between">
+                                <h3 class="h4 uppercase">{{ size_guide_obj[table_title].value }}</h4>
+
+                                {%- if size_guide_obj[in_cm_selector].value != blank -%}
+                                    <div class="selector">
+                                        <a href="#" @click="setTableMetric('in',$event)" rel="nofollow" class="h4 uppercase hover-underline active show-m-inline-block mr-20">IN</a>
+                                        <a href="#" @click="setTableMetric('cm',$event)" rel="nofollow" class="h4 uppercase hover-underline show-m-inline-block">CM</a>
+                                    </div>
+                                {%- endif -%}
+                            </div>
+
+                            {%- if size_guide_obj[table_code].value != blank -%}
+                                <div class="table-code-wrapper rte p2 mt-15 d-mt-20">
+                                    {{ size_guide_obj[table_code].value }}
+                                </div>
+                            {%- endif -%}
+
+                            {%- if size_guide_obj[table_desc].value != blank -%}
+                                <p class="p2 c-grey mt-20">{{ size_guide_obj[table_desc].value | newline_to_br }}</p>
+                            {%- endif -%}
+                        </div>
+                    {%- endif -%}
+                {%- endfor -%}
+            </div>
+        </div>
+    </div>
+</Teleport>

@@ -1,0 +1,207 @@
+{%- assign el_id = 'image-text-multi-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{%- render 'image-text-multi',
+	el_id: el_id,
+	background: section.settings.bg_color,
+	image_position: section.settings.image_position,
+	link_url: section.settings.link_url,
+	link_label: section.settings.link_label,
+	title: section.settings.title,
+	text: section.settings.text,
+	text_style: section.settings.text_style,
+    blocks: section.blocks,
+	heading_size: section.settings.heading_size,
+    heading: section.settings.heading,
+    description: section.settings.description,
+	label: section.settings.label,
+	url:section.settings.url,
+	slide_mobile: section.settings.slide_mobile,
+	text_position: section.settings.text_position
+-%}
+{% schema %}
+{
+	"name": "Image + Text Multi",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		},
+		{
+			"type": "header",
+			"content": "Content Settings"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background Color"
+		},
+		{
+			"type": "textarea",
+			"id": "heading",
+			"label": "Heading"
+		},
+		{
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Heading DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"}
+            ],
+            "default": "h2"
+        },
+        {
+            "type": "select",
+            "id": "heading_size",
+            "label": "Heading Size",
+            "options": [
+				{
+                    "value": "smaller",
+                    "label": "Smaller"
+                },
+                {
+                    "value": "normal",
+                    "label": "Normal"
+                },
+                {
+                    "value": "big",
+                    "label": "Big"
+                }
+            ],
+            "default": "normal"
+        },
+        {
+			"type": "textarea",
+			"id": "description",
+			"label": "Description"
+		},
+		{
+			"type": "text",
+			"id": "label",
+			"label": "Button label"
+		},
+		{
+			"type": "url",
+			"id": "url",
+			"label": "Button URL"
+		},
+		{
+			"type": "radio",
+			"id": "image_position",
+			"label": "Image Position",
+			"options":[
+				{"value": "left", "label": "Left"},
+				{"value": "right", "label": "Right"}
+			]
+		},
+		{
+			"type": "radio",
+			"id": "text_position",
+			"label": "Title & text Position (Mobile)",
+			"options":[
+				{"value": "top", "label": "Top of images"},
+				{"value": "bottom", "label": "Bottom of images"}
+			],
+			"default": "bottom"
+		},
+		{
+			"type": "checkbox",
+			"id": "slide_mobile",
+			"label": "Enable Slider in Mobile",
+			"default": true
+		},
+		{
+			"type" : "textarea",
+			"id" : "title",
+			"label" : "Title"
+		},
+		{
+			"type": "select",
+			"id": "text_style",
+			"label": "Text Style",
+			"options":[
+				{"value": "plain", "label": "Plain"},
+				{"value": "html", "label": "HTML"}
+			],
+			"default": "plain"
+		},
+		{
+			"type" : "textarea",
+			"id" : "text",
+			"label" : "Text"
+		},
+		{
+			"type" : "text",
+			"id" : "link_label",
+			"label" : "Button label"
+		},
+		{
+			"type" : "url",
+			"id" : "link_url",
+			"label" : "URL"
+		}
+	],
+    "blocks": [
+        {
+            "type": "image",
+			"name": "Image",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image for Desktop"
+				},
+				{
+					"type": "image_picker",
+					"id": "image_mobile",
+					"label": "Image for Mobile"
+				},
+				{
+					"type" : "textarea",
+					"id" : "info",
+					"label" : "Info for image"
+				}
+            ]
+        }
+    ],
+	"presets": [
+		{
+			"name": "Image + Text Multi",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

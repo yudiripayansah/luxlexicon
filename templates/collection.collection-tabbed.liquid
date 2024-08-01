@@ -1,0 +1,6 @@
+{% layout none %}
+{% for pro in collection.products limit: 8 %}
+    <div class="product-tabbed-list-wrapper">
+        {% render 'product-each', product:pro %}
+    </div>
+{% endfor %}

@@ -1,0 +1,273 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{%- assign variant = product.selected_or_first_available_variant -%}
+{%- assign one_variant = false -%}
+{% if product.variants.size == 1 and product.variants[0].title == "Default Title" %}
+    {%- assign one_variant = true -%}
+{% endif %}
+
+<div id="instore-availability-popup">
+    <teleport to="body">
+        <div id="" class="ia-popup-wrapper" @click="hidePopup($event)" v-if="showInStoreAvailability" :class="{ 'show': showInStoreAvailabilityFade }">
+            <div class="popup-inner-wrapper relative width-100 p-25 t-p-30">
+                <a href="javascript:void(0)" @click="togglePopup" rel="nofollow" class="icon-close">{{ settings.icon_close }}</a>
+                <h6 class="h9">In-store availability</h6>
+
+                <div class="product-form mt-20 t-mt-30">
+                    <div {% if product.variants.size == 1 and product.variants[0].title == "Default Title" %}class="hide-m"{% endif %}>
+                        {%- for option in product.options_with_values -%}
+                            {%- assign index = forloop.index -%}
+                            {%- assign option_id = "select-" | append: product.id | append: '-' | append: index -%}
+                            
+                            <div data-index="{{ index }}" class="variant-each {% unless forloop.last %} mb-20 d-mb-25 {% endunless %}"> 
+                                <div class="option-wrapper">
+                                    <div class="global-flex ai-center jc-between mb-5">
+                                        <p class="p3 bold-600 spacing-2 uppercase c-darkgreen">Select a {{ option.name }}:</p>
+                                    </div>
+            
+                                    {%- if option.name == 'Colour' or option.name == 'Color' -%}
+                                        <div class="swatch-wrapper variant-each-wrapper mt-10">
+                                            {%- assign current_option = 'option' | append: index -%}
+                                            {%- for option in option.values -%}
+                                                <div @click="changeVariantValue($event)" class="swatch variant-each-button {% if product.options_with_values.size > 1 %}{% if variant[current_option] == option and index == 1 %} active {% endif %}{% endif %}" data-value="{{ option }}">
+                                                    <div class="swatch-inner swatch-{{ option | handleize }}"></div>
+                                                </div>
+                                            {%- endfor -%} 
+            
+                                            <div class="swatch-label variant-each-label p2 bold-500 show-d-inline-flex">
+                                                {%- if index == 1 -%}
+                                                    {{ variant[current_option] }}
+                                                {%- endif -%}
+                                            </div>
+                                        </div>
+                                    {%- else -%}
+                                        <div class="variant-each-wrapper">
+                                            {%- assign current_option = 'option' | append: index -%}
+                                            {%- for option in option.values -%}
+                                                <div @click="changeVariantValue($event)" class="pointer variant-each-button p2 bold-500 box mt-10 mr-10 pt-10 pb-10 pl-15 pr-15 b-1 b-silver show-m-inline-block {% if product.options_with_values.size > 1 %}{% if variant[current_option] == option and index == 1 %} active {% endif %}{% endif %}" data-value="{{ option }}">
+                                                    {{ option }}
+                                                </div>
+                                            {%- endfor -%}
+                                        </div>
+                                    {%- endif -%}
+                                </div>
+                                <select class="hide-m" name="{{ option_id }}" id="{{ option_id }}">
+                                    {%- for option in option.values -%}
+                                        {%- assign option_value = option -%}
+                                        <option value="{{ option_value | escape }}" {% if product.options_with_values.size > 1 %}{% if variant[current_option] == option and index == 1 %} selected="selected" {% endif %}{% endif %}>{{ option }}</option>
+                                    {%- endfor -%}
+                                </select>
+                            </div>
+                        {%- endfor -%}
+                    </div>
+                </div>
+
+                <div class="stores-container mt-30 pb-20 bb-1 b-silver">
+                    <div class="accordion-wrapper">
+                        {%- for variant in product.variants -%}
+                            <div data-option1="{{ variant.option1 }}" data-option2="{{ variant.option2 }}" data-option3="{{ variant.option3 }}" class="variant-store-wrapper {% unless one_variant %} hide-m {% endunless %}" data-availability="{{ variant.metafields.custom.availability }}" data-variant-id="{{ variant.id }}">
+                                {%- if variant.metafields.custom.inventory != blank -%}
+                                    {%- assign inventories = variant.metafields.custom.inventory -%}
+
+                                    {%- for inv in inventories.value -%}
+                                        {%- assign title = inv.name -%}
+
+                                        {%- unless title contains 'Jurong' -%}
+                                            {%- if inv.qty -%}
+                                                {%- assign title = title | append: '<span class="availability true p4 uppercase bold-500">available</span>' -%}
+                                            {%- else -%}
+                                                {%- assign title = title | append: '<span class="availability false p4 uppercase bold-500">out of stock</span>' -%}
+                                            {%- endif -%}
+
+                                            {%- assign wrapper_class = 'bt-1 b-silver' -%}
+                                            {%- unless forloop.first -%}
+                                                {%- assign wrapper_class = 'bt-1 b-silver mt-20' -%}
+                                            {%- endunless -%}
+
+                                            {%- render 'accordion',
+                                                wrapper_class: wrapper_class,
+                                                title_class: 'p2 bold-500',
+                                                title_wrapper_class: 'stores-accordion-title',
+                                                title_no_pb: true,
+                                                desc_no_pt: true,
+                                                desc_no_pb: true,
+                                                desc_class: 'p2 c-grey pt-10 max-230',
+                                                open_one_at_a_time: true,
+                                                title: title,
+                                                description: inv.address
+                                            -%}
+                                        {%- endunless -%}
+                                    {%- endfor -%}
+                                {%- endif -%}
+                            </div>
+                        {%- endfor -%}
+                    </div>
+                </div>
+
+                {%- if product.tags contains 'category:Rings' and settings.ia_message_ring != blank -%}
+                    <p class="mt-15 width-100 p4 c-grey">
+                        {{ settings.ia_message_ring | newline_to_br }}
+                    </p>
+                {%- else -%}
+                    {%- if settings.ia_message_general != blank -%}
+                        <p class="mt-15 width-100 p4 c-grey">
+                            {{ settings.ia_message_general | newline_to_br }}
+                        </p>
+                    {%- endif -%}
+                {%- endif -%}
+            </div>
+        </div>
+    </teleport>
+</div>
+
+<script>
+    const inStoreAvailabilityVue = Vue.createApp({
+        delimiters: ['${','}'],
+        data() {
+            return {
+                product: {{ product | json }},
+                variantId: null,
+                showInStoreAvailability: false,
+                showInStoreAvailabilityFade: false
+            }
+        },
+        mounted() {
+            
+        },
+        methods: {
+            hidePopup(e) {
+                if(e.target.classList.contains('ia-popup-wrapper')) {
+                    this.togglePopup();
+                }
+            },
+            setDefaultValue() {
+                const variant_each_buttons = document.querySelectorAll('.product-info .variant-each-button');
+
+                variant_each_buttons.forEach(function(variant_each_button) {
+                    if(variant_each_button.classList.contains('active')) {
+                        const this_val = variant_each_button.getAttribute('data-value');
+                        document.querySelector(`.ia-popup-wrapper .variant-each-button[data-value="${this_val}"]`).click();
+                    }
+                });
+            },
+            togglePopup() {
+                const this_obj = this;
+
+                if(!this_obj.showInStoreAvailability) {
+                    this_obj.showInStoreAvailability = true;
+
+                    setTimeout(() => {
+                        this_obj.showInStoreAvailabilityFade = true;
+                        this_obj.checkAvailability(); 
+
+                    }, 100);
+                } else {
+                    this_obj.showInStoreAvailabilityFade = false;
+
+                    setTimeout(() => {
+                        this_obj.showInStoreAvailability = false;
+                    }, 500);
+                }
+            },
+            checkAvailability() {
+                {%- if product.options_with_values.size == 2 -%}
+                    const selected_option_1 = document.querySelector(`.ia-popup-wrapper #select-{{ product.id }}-1`).value;
+                    const variant_divs = document.querySelectorAll(`.ia-popup-wrapper .variant-store-wrapper[data-option1="${selected_option_1}"]`);
+
+                    //-- add disabled
+                    const all_option_buttons = document.querySelectorAll(`.ia-popup-wrapper .variant-each[data-index="2"] .variant-each-button`);
+                    all_option_buttons.forEach(function(all_option_button){
+                        all_option_button.classList.add('disabled');
+                    });
+
+                    variant_divs.forEach(function(variant_div){
+                        let availability = variant_div.getAttribute('data-availability');
+                        let option_2 = variant_div.getAttribute('data-option2');
+
+                        if(availability != 'false') {
+                            document.querySelector(`.ia-popup-wrapper .variant-each-button[data-value="${option_2}"]`).classList.remove('disabled');
+                        } else {
+                            document.querySelector(`.ia-popup-wrapper .variant-each-button[data-value="${option_2}"]`).classList.remove('active');
+                            
+                            let parent = document.querySelector(`.ia-popup-wrapper .variant-each-button[data-value="${option_2}"]`).closest('.variant-each');
+                            if(parent.querySelector('.swatch-label') != null) {
+                                parent.querySelector('.swatch-label').innerHTML = '';
+                            }
+                        }
+                    });
+                {%- endif -%}
+            },
+            changeVariantValue(e) {
+                const this_obj = this;
+				const clicked_variant_each = e.target.closest('.variant-each-button');
+				const active_variant_each = e.target.closest('.variant-each-wrapper').querySelector('.variant-each-button.active');
+				const variant_each_label = e.target.closest('.variant-each-wrapper').querySelector('.variant-each-label');
+				const active_value = clicked_variant_each.getAttribute('data-value');
+				const variant_each_select = e.target.closest('.variant-each').querySelector('select.hide-m');
+
+                if(active_variant_each != null) {
+                    active_variant_each.classList.remove('active');
+                }
+				
+				clicked_variant_each.classList.add('active');
+				variant_each_select.value = active_value;
+				
+				if(variant_each_label !== null) {
+					variant_each_label.innerHTML = active_value;
+				}
+
+                //-- find variant id
+                let opt1;
+                if(document.querySelector(`.ia-popup-wrapper #select-{{ product.id }}-1`) != null) {
+                    opt1 = document.querySelector(`.ia-popup-wrapper #select-{{ product.id }}-1`).value;
+                }
+
+                let opt2;
+                if(document.querySelector(`.ia-popup-wrapper #select-{{ product.id }}-2`) != null) {
+                    opt2 = document.querySelector(`.ia-popup-wrapper #select-{{ product.id }}-2`).value;
+
+                    if(!document.querySelector(`.ia-popup-wrapper .variant-each-button[data-value="${opt2}"]`).classList.contains("active")) {
+                        opt2 = '';
+                    }
+                }
+
+                let opt3;
+                if(document.querySelector(`.ia-popup-wrapper #select-{{ product.id }}-3`) != null) {
+                    opt3 = document.querySelector(`.ia-popup-wrapper #select-{{ product.id }}-3`).value;
+
+                    if(!document.querySelector(`.ia-popup-wrapper .variant-each-button[data-value="${opt3}"]`).classList.contains("active")) {
+                        opt3 = '';
+                    }
+                }
+
+                let variant;
+				const allVariants = this_obj.product.variants;
+				const variants = allVariants.filter((v) => v.option1 == opt1 && v.option2 == opt2 && v.option3 == opt3);
+				if(variants.length) {
+					variant = variants[0];
+					this_obj.variantId = variant.id;
+				} else {
+                    this_obj.variantId = 0;
+                }
+
+                const var_wrapper_all = document.querySelectorAll('.ia-popup-wrapper .variant-store-wrapper');
+                var_wrapper_all.forEach(function(each){
+                    each.classList.add('hide-m');
+
+                    if((each.getAttribute('data-variant-id') == this_obj.variantId) && each.getAttribute('data-availability') != 'false') {
+                        each.classList.remove('hide-m')
+                    }
+                });
+
+                this_obj.checkAvailability();
+			}
+        },
+    }).mount('#instore-availability-popup');
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const findInStoreButton = document.querySelector('#find-in-store-button');
+
+        findInStoreButton.addEventListener('click', function(e){
+            inStoreAvailabilityVue.togglePopup();
+        });
+    });
+</script>

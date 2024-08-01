@@ -1,0 +1,106 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "information_DqcHDC": {
+      "type": "information",
+      "blocks": {
+        "entry_MEKGAL": {
+          "type": "entry",
+          "settings": {
+            "title": "What payment options do you accept?",
+            "description": "We accept all VISA, MASTERCARD and AMEX credit cards as well as Apple Pay and Google Pay payments via Stripe.\n<br><br>\nAll payments will be made in Singapore Dollars (SGD)."
+          }
+        },
+        "entry_dRwCD7": {
+          "type": "entry",
+          "settings": {
+            "title": "What are your delivery options in Singapore?",
+            "description": "We offer complimentary door-to-door courier delivery within Singapore with a minimum spend of SGD 50.\n\nOrders below SGD 50 will be delivered at a charge of SGD 4.99.\n\nYou may also choose to pick up your order at our ION Orchard store by selecting the 'Self Collect' option at checkout. An email notification will be sent to you within 2 to 4 working days once the order is ready for collection at the store."
+          }
+        },
+        "entry_QppJJU": {
+          "type": "entry",
+          "settings": {
+            "title": "Do you ship internationally and how much does it cost?",
+            "description": "Yes, we offer complimentary worldwide shipping via DHL with a minimum spend of SGD 250.\n<p>\nDo note that we ship Delivery Duty Unpaid (DDU), which does not include applicable duties and taxes that may be levied by the country you are shipping to.\n<\/p><p><\/p><p>\nFor orders less than SGD 250, the respective shipping costs will apply:\n<\/p><p><\/p><p>\n<b>Zone A : SGD 10<\/b><br>\nMalaysia\n<\/p><p><\/p><p>\n<b>Zone B : SGD 15<\/b><br>\nBrunei \/ Indonesia \/ Philipines \/ Thailand \/ Vietnam\n<\/p><p><\/p><p>\n<b>Zone C : SGD 20<\/b><br>\nChina \/ Hong Kong \/ India \/ Japan \/ Korea \/ Macau \/ Taiwan\n<\/p><p><\/p><p>\nZone D : SGD 25\nAustralia \/ New Zealand\n<\/p><p><\/p><p>\n<b>Zone E : SGD 30<\/b><br>\nCambodia \/ Canada \/ France \/ Italy \/ Maldives \/ Mexico \/ Myanmar \/ Netherlands \/ Pakistan \/ Sri Lanka \/ United Kingdom \/ United States of America\n<\/p><p><\/p><p>\n<b>Zone F : SGD 35<\/b><br>\nAustria \/ Belgium \/ Bulgaria \/ Cyprus \/ Czech Republic \/ Denmark \/ Finland \/ Germany \/ Greece \/ Hungary \/ Ireland \/ Monaco \/ Norway \/ Portugal \/ Romania \/ Spain \/ Sweden \/ Switzerland\n<\/p><p><\/p><p>\nIf your country is not listed above, the shipping cost will be calculated automatically at checkout.<\/p>"
+          }
+        },
+        "entry_P3YqEJ": {
+          "type": "entry",
+          "settings": {
+            "title": "Am I liable for customs and duties on my international order?",
+            "description": "We ship Delivery Duty Unpaid (DDU); shipping fees displayed are not inclusive of the duties and taxes that may be levied by the country you are shipping to.\n\nThe amount of duties and taxes vary by country - you may click on the link here or on the country flag icon at the bottom right-hand corner to get an estimation of the duties and taxes that may be applicable to your country.\n\nPlease note that by placing an order online, you have agreed to be responsible for all duties, taxes and custom charges. IN GOOD COMPANY cannot be held liable for any shipment and custom charges should the order be refused by the recipient."
+          }
+        },
+        "entry_gVaWy8": {
+          "type": "entry",
+          "settings": {
+            "title": "How long will my order take to arrive?",
+            "description": "For orders within Singapore, we will do our best to ensure that you receive your order within 3 business days from the date of purchase.\n<p><\/p><p>\nInternational orders are delivered via DHL Economy and can take up to 3-7 business days — depending on your country zone.\n<\/p><p><\/p><p>\nThis may be subject to change during sale periods or peak festive seasons where there is a high volume of orders.<\/p>"
+          }
+        },
+        "entry_qhPDzq": {
+          "type": "entry",
+          "settings": {
+            "title": "How do I track my order?",
+            "description": "An email with a shipment tracking link will be sent to you as soon as your order is being dispatched from our warehouse."
+          }
+        },
+        "entry_abFm9X": {
+          "type": "entry",
+          "settings": {
+            "title": "Can I edit\/change my order or change my delivery address?",
+            "description": "You may email us at <u><a href=\"mailto:customerservice@ingoodcompany.asia\">customerservice@ingoodcompany.asia<\/a><\/u> with your Order Number as soon as possible.\n<p>\nWe will do our best to accommodate your request. However, we are unable to make any changes once the order has been shipped out.\n<\/p><p>\nOur Customer Service Desk is open from Mon - Fri (SGT 9.30am - 6.30pm).<\/p>"
+          }
+        },
+        "entry_ptzNJw": {
+          "type": "entry",
+          "settings": {
+            "title": "Do you offer gift wrapping or gift messages?",
+            "description": "We do offer gift wrapping at a flat fee of $5 as an option when you check-out.\n<p>\nYour items will be wrapped in crisp tissue paper and placed in our signature gift box. You may also choose to include a gift message, which will be handwritten for you in an IN GOOD COMPANY note card.\n<\/p><p>\nOur gift boxes are finished with a cotton ribbon and can be reused again for gifting or storage.<\/p>"
+          }
+        },
+        "entry_CmdMtB": {
+          "type": "entry",
+          "settings": {
+            "title": "Are there any ongoing promotions online?",
+            "description": "You may find out more about our Citibank promotion here.\n\nDo note that this cannot be used in conjunction with other discounts\/shopping perks, and will not be applicable on shipping fees."
+          }
+        }
+      },
+      "block_order": [
+        "entry_MEKGAL",
+        "entry_dRwCD7",
+        "entry_QppJJU",
+        "entry_P3YqEJ",
+        "entry_gVaWy8",
+        "entry_qhPDzq",
+        "entry_abFm9X",
+        "entry_ptzNJw",
+        "entry_CmdMtB"
+      ],
+      "settings": {
+        "top_padding_m": 30,
+        "bottom_padding_m": 0,
+        "top_padding_t": 30,
+        "bottom_padding_t": 0,
+        "top_padding": 50,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "title": "Information",
+        "title_size": "h2",
+        "title_dom_type": "h1",
+        "menu_1": "dev-side-menu-1",
+        "menu_2": "dev-side-menu-2",
+        "accordion_bb": true,
+        "accordion_ttl_space": true
+      }
+    }
+  },
+  "order": [
+    "information_DqcHDC"
+  ]
+}

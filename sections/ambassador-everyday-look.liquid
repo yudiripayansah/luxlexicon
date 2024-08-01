@@ -1,0 +1,285 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+<style>
+    #shopify-section-{{ section.id }} {
+        background-color: {{ section.settings.bg_color }};
+    }
+    #shopify-section-{{ section.id }} .circle-arrow {
+        position: relative;
+        display: flex;
+        width: 22px;
+        flex: 0 0 22px;
+        height: 22px;
+        font-size: 0;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1px solid var(--grey);
+    }
+    #shopify-section-{{ section.id }} .circle-arrow svg {
+        display: block;
+        width: 4px;
+        height: 7px;
+    }
+
+    #shopify-section-{{ section.id }} .look-each .image-container .product-container {
+        width: 240px;
+    }
+    #shopify-section-{{ section.id }} .look-each {
+        flex-direction: column-reverse;
+    }
+
+    {% comment %} #shopify-section-{{ section.id }} .product-container .global-image-wrapper{
+        padding-bottom:100% !important;
+        background:none;
+    }
+    #shopify-section-{{ section.id }} .product-container .global-image-wrapper .image{
+        height:100%;
+        object-fit:cover;
+    } {% endcomment %}
+
+    @media screen and (min-width: 768px) {
+        
+        #shopify-section-{{ section.id }} .circle-arrow {
+            width: 30px;
+            flex: 0 0 30px;
+            height: 30px;
+        }
+        #shopify-section-{{ section.id }} .circle-arrow svg {
+            width: 5px;
+            height: 9px;
+        }
+        #shopify-section-{{ section.id }} .look-each .image-container {
+            width: 100%;
+        }
+        #shopify-section-{{ section.id }} .look-each .image-container .image-big {
+            width: 72.5%;
+        }
+        #shopify-section-{{ section.id }} .look-each .image-container .product-container {
+            width: 45%;
+        }
+        #shopify-section-{{ section.id }} .look-each .image-container .product-container.t-ab-bottom-right {
+            left: unset;
+        }
+        #shopify-section-{{ section.id }} .look-each .text-container {
+            width: 100%;
+        }
+        
+        #shopify-section-{{ section.id }} .look-each.image-right .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+    }
+
+    @media screen and (min-width: 1024px) {
+        #shopify-section-{{ section.id }} .look-each {
+            flex-direction: unset;
+        }
+        #shopify-section-{{ section.id }} .look-each.image-right {
+            flex-direction: row-reverse;
+        }
+        #shopify-section-{{ section.id }} .look-each .image-container {
+            width: 58%;
+        }
+        #shopify-section-{{ section.id }} .look-each .text-container {
+            width: 42%;
+        }
+    }
+</style>
+
+<section class="ambassador-everyday-look">
+    <div class="container">
+        {%- if section.settings.small_title != blank -%}
+            <h6 class="c-darkgreen p3 uppercase spacing-2 bold-600 mb-25 t-mb-30 d-mb-40 tc">{{ section.settings.small_title }}</h6>
+        {%- endif -%}
+
+        {%- for block in section.blocks -%}
+            <div class="look-each global-flex flex-wrap ai-center jc-center d-jc-start {% unless forloop.first %}mt-60 t-mt-100 d-mt-60{% endunless %} image-{{ block.settings.image_pos }}">
+                <div class="image-container col-12 pl-0 pr-0 pb-160 d-pb-135">
+                    <div class="image-big">
+                        {%- render 'global-image-wrapper',
+                            image: block.settings.image
+                        -%}
+
+                        <style>
+                            #shopify-section-{{ section.id }} .diamond-{{ block.id }} {
+                                width: {{ block.settings.diamond_image_width }}px;
+                                position: absolute;
+                                z-index: 2;
+                                top: {{ block.settings.diamond_image_pos_y }};
+                                right: {{ block.settings.diamond_image_pos_x }};
+                            }
+                        </style>
+                        <div class="diamond-image diamond-{{ block.id }} hide-m show-d">
+                            {%- render 'global-image-wrapper',
+                                additional_class: 'no-bg',
+                                image: block.settings.diamond_image
+                            -%}
+                        </div>
+                    </div>
+                    <div class="product-container ab-bottom {% if block.settings.image_pos == 'right' %} t-ab-bottom-left {% else %} t-ab-bottom-right {% endif %}">
+                        <div class="wrapper">
+                            {%- assign pro = block.settings.product -%}
+                            {%- render 'global-image-wrapper',
+                                image: pro.featured_image
+                            -%}
+                            <div class="pro-text-container ab-bottom width-100 p-15 t-p-20 d-pl-25 d-pr-25 hd-pl-30 hd-pr-30 hd-pb-25">
+                                <a href="{{ pro.url }}" class="global-flex jc-between ai-center">
+                                    <span class="p3 uppercase spacing-2 bold-600 pr-15">{{ pro.title }}</span>
+                                    <span class="circle-arrow">{{ settings.icon_slide_right }}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-container mb-25 t-mb-30 tc d-tl {% if block.settings.image_pos == 'right' %} d-pr-100 {% else %} d-pl-100 {% endif %}">
+                    <{{ block.settings.title_dom_type }} class="h7">{{ block.settings.title }}</{{ block.settings.title_dom_type }}>
+                    {%- if block.settings.text != blank -%}
+                        <p class="p2 c-grey mt-10 max-300 t-max-450 ml-auto mr-auto d-ml-0 d-mr-0 d-max-370">{{ block.settings.text | newline_to_br }}</p>
+                    {%- endif -%}
+                </div>
+            </div>
+        {%- endfor -%}
+    </div>
+</section>
+
+{% schema %}
+    {
+        "name": "Ambassador Everyday Look",
+        "settings": [
+            {
+                "type": "color",
+                "id": "bg_color",
+                "label": "Background Color"
+            },
+            {
+                "type": "text",
+                "id": "small_title",
+                "label": "Small Title"
+            },
+            {
+                "type": "header",
+                "content": "Section Padding"
+            },
+            {
+                "type": "text",
+                "id": "top_padding_m",
+                "label": "Top padding (Mobile)"
+            },
+            {
+                "type": "text",
+                "id": "bottom_padding_m",
+                "label": "Bottom padding (Mobile)"
+            },
+            {
+                "type": "text",
+                "id": "top_padding_t",
+                "label": "Top padding (Tablet)"
+            },
+            {
+                "type": "text",
+                "id": "bottom_padding_t",
+                "label": "Bottom padding (Tablet)"
+            },
+            {
+                "type": "text",
+                "id": "top_padding",
+                "label": "Top padding (Desktop)"
+            },
+            {
+                "type": "text",
+                "id": "bottom_padding",
+                "label": "Bottom padding (Desktop)"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "entry",
+                "name": "Entry",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "select",
+                        "id": "title_dom_type",
+                        "label": "Title DOM Type",
+                        "options": [
+                            {"value":"h1","label":"H1"},
+                            {"value":"h2","label":"H2"},
+                            {"value":"h3","label":"H3"},
+                            {"value":"h4","label":"H4"},
+                            {"value":"h5","label":"H5"}
+                        ],
+                        "default": "h3"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "text",
+                        "label": "Text"
+                    },
+                    {
+                        "type": "product",
+                        "id": "product",
+                        "label": "Product"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Image"
+                    },
+                    {
+                        "type": "select",
+                        "id": "image_pos",
+                        "label": "Image Position",
+                        "options": [
+                            {
+                                "value": "left",
+                                "label": "Left"
+                            },
+                            {
+                                "value": "right",
+                                "label": "Right"
+                            }
+                        ],
+                        "default": "left"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "diamond_image",
+                        "label": "Diamond Image"
+                    },
+                    {
+                        "type": "number",
+                        "id": "diamond_image_width",
+                        "label": "Diamond Image Width",
+                        "info": "in px"
+                    },
+                    {
+                        "type": "text",
+                        "id": "diamond_image_pos_x",
+                        "label": "Diamond Image Position X",
+                        "info": "e.g. -100px or 10%"
+                    },
+                    {
+                        "type": "text",
+                        "id": "diamond_image_pos_y",
+                        "label": "Diamond Image Position Y",
+                        "info": "e.g. -100px or 10%"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Ambassador Everyday Look",
+                "blocks": []
+            }
+        ]
+    }
+{% endschema %}

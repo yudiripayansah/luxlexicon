@@ -1,0 +1,347 @@
+{% comment %}
+Description:
+Snippet for displaying fabric details popup
+
+Variables:
+- el_id: String. The element id
+- collection: Object. The collection object
+- group_name: String. The fabric group name
+{% endcomment %}
+<style>
+#{{ el_id }}-popup {
+    width: 90%;
+	height: calc(100% - 40px);
+	right: -90%;
+	top: 50%;
+    transform: translateY(-50%);
+	transition: all 0.3s linear;
+}
+#{{ el_id }}-popup.active {
+    right: 50%;
+    transform: translate(50%, -50%);
+}
+#{{ el_id }}-popup .close {
+    width: 12px;
+    height: 12px;
+}
+#{{ el_id }}-popup .inner {
+    height: calc(100% - 52px);
+    overflow-y: scroll;
+    overflow-x: visible;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+#{{ el_id }}-popup .inner::-webkit-scrollbar {
+    display: none;
+}
+#{{ el_id }}-popup .inner .main-image .thumb-images .each {
+    width: 40px;
+    height: 40px;
+}
+#{{ el_id }}-popup .inner .main-image .thumb-images .each img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#{{ el_id }}-popup .inner .fabrics-list label {
+    width: 65px;
+    height: 65px;
+    padding: 3px;
+    border: 2px solid transparent;
+    line-height: 1;
+}
+#{{ el_id }}-popup .inner .fabrics-list label.active {
+    border: 2px solid var(--comfort-orange);
+}
+#{{ el_id }}-popup .inner .fabrics-list label .text {
+    line-height: 0;
+}
+#{{ el_id }}-popup .inner .features-icon .each {
+    width: 100px;
+}
+#{{ el_id }}-popup .inner .features-icon .each .icon {
+    height: 35px;
+}
+
+@media only screen and (min-width: 768px) {
+    #{{ el_id }}-popup {
+        width: 460px;
+		right: -480px;
+    }
+    #{{ el_id }}-popup.active {
+        right: 20px;
+        transform: translate(0,-50%);
+    }
+}
+</style>
+
+<div id="{{ el_id }}">
+    <Teleport to="body">
+        {%- assign first_prod = collection.products[0] -%}
+        <div @click="showFabricDetailsPopup = false" class="page-overlay zi-6 fabric-popup-overlay" :class="{active: showFabricDetailsPopup}">&nbsp;</div>
+        <div id="{{ el_id }}-popup" class="fabric-popup-con fixed top-20 rounded-15 bg-white zi-7 p-20 relative" :class="{active: showFabricDetailsPopup}">
+            <div class="flex jc-end mb-20">
+                <button @click="showFabricDetailsPopup = false" type="button" class="close flex ai-center jc-center">{{ settings.icon_close }}</button>
+            </div>
+            <div class="inner">
+                <div v-if="fabric.imageUrls[0] != ''" class="main-image mb-25 relative">
+                    <div class="big-image" ref="fabric-big-image">
+                        <template v-for="(img, i) in fabric.imageUrls">
+                            <div :key="i" v-if="i == activeImage" class="rounded-14" >
+                                <img :src="img" class="image">
+                            </div>
+                        </template>
+                    </div>
+                    <div class="thumb-images flex flex-wrap absolute bottom-20 left-20 zi-1" ref="fabric-thumb-images">
+                        <button v-for="(img, i) in fabric.imageUrls" :key="i" type="button" @click="activeImage = i" class="each rounded-5 mr-10" :class="{'b-2 b-comfort-orange': i == activeImage, 'b-1 b-border-orange': i != activeImage}">
+                            <img :src="img" class="image">
+                        </button>
+                    </div>
+                </div>
+                <p class="p3 c-grey mb-5">{{ group_name }}</p>
+                <h4 class="h4 mb-15 d-mb-5">${fabric.name}</h4>
+                <p class="p1 bold-700 mb-10">Colours:</p>
+                <div class="fabrics-list flex flex-wrap mb-30">
+                    {%- assign fabric_names = '' -%}
+                    {%- assign image_urls = '' -%}
+                    {%- assign details_title = '' -%}
+                    {%- assign details_description = '' -%}
+                    {%- assign others_title = '' -%}
+                    {%- assign others_description = '' -%}
+                    {%- for product in collection.products -%}
+                        {%- assign fabric_name = product.title | replace: group_name, '' | strip -%}
+                        {% capture fabric_names %}{{ fabric_names }}||{{ fabric_name }}{% endcapture %}
+
+                        {% capture image_urls %}{{ image_urls }}||{% endcapture %}
+                        {%- for image in product.images -%}
+                            {%- unless forloop.first -%}
+                                {%- assign image_url = image | image_url: width: 800 -%}
+                                {% capture image_urls %}{{ image_urls }},{{ image_url }}{% endcapture %}
+                            {%- endunless -%}
+                        {%- endfor -%}
+
+                        {% capture details_title %}{{ details_title }}||{% endcapture %}
+                        {% capture details_description %}{{ details_description }}||{% endcapture %}
+                        {%- for num in (1..5) -%}
+                            {%- assign title_setting = 'title_' | append: num -%}
+                            {%- assign description_setting = 'description_' | append: num -%}
+                            {%- if product.metafields.fabric_details[title_setting] != blank -%}
+                                {% capture details_title %}{{ details_title }}//{{ product.metafields.fabric_details[title_setting] }}{% endcapture %}
+                                {% capture details_description %}{{ details_description }}//{{ product.metafields.fabric_details[description_setting] }}{% endcapture %}
+                            {%- endif -%}
+                        {%- endfor -%}
+
+                        {% capture others_title %}{{ others_title }}||{% endcapture %}
+                        {% capture others_description %}{{ others_description }}||{% endcapture %}
+                        {%- for num in (1..5) -%}
+                            {%- assign title_setting = 'title_' | append: num -%}
+                            {%- assign description_setting = 'description_' | append: num -%}
+                            {%- if first_prod.metafields.fabric_others[title_setting] != blank %}
+                                {% capture others_title %}{{ others_title }}//{{ product.metafields.fabric_others[title_setting] }}{% endcapture %}
+                                {% capture others_description %}{{ others_description }}//<div class="rte p2">{{ product.metafields.fabric_others[description_setting] }}</div>{% endcapture %}
+                            {%- endif -%}
+                        {%- endfor -%}
+
+                        <label class="radio-cb-btn-container tc rounded-13" :class="{active: fabricIndex == {{ forloop.index0 }}}">
+                            <input type="radio" name="{{ el_id }}-fabric" v-model="fabricIndex" value="{{ forloop.index0 }}" />
+                            <div class="text flex ai-center jc-center w-full h-full">
+                                {%- if product.featured_image == blank -%}
+                                    <span class="p4 tc">{{ product.title }}</span>
+                                {%- else -%}
+                                    {%- render 'global-image-wrapper', image: product.featured_image, additional_class: 'no-bg rounded-9' -%}
+                                {%- endif -%}
+                            </div>
+                        </label>
+                    {%- endfor -%}
+
+                    {%- assign fabric_names = fabric_names | remove_first: '||' -%}
+                    {%- assign image_urls = image_urls | remove_first: '||' -%}
+                    {%- assign details_title = details_title | remove_first: '||' -%}
+                    {%- assign details_description = details_description | remove_first: '||' -%}
+                    {%- assign others_title = others_title | remove_first: '||' -%}
+                    {%- assign others_description = others_description | remove_first: '||' -%}
+                </div>
+                <div class="features-icon flex mb-35">
+                    <div class="each flex flex-column ai-center mr-10">
+                        <div class="icon flex ai-center jc-center mb-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="39.52" height="23.077" viewBox="0 0 39.52 23.077">
+                                <g id="Layer_3" transform="translate(0.5 0.317)">
+                                    <g id="Group_15252" data-name="Group 15252">
+                                        <line id="Line_1175" data-name="Line 1175" x2="33.24" transform="translate(0 22.26)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                        <path id="Path_559" data-name="Path 559" d="M15.21,31.82a40.683,40.683,0,0,1,4.1-6.98c3.65-4.85,7.04-7.5,12.79-9.12,1.76-.5,15.41-2.13,16.34-.59l3.6,9.32s-3.57,3.47-3.57,7.26C36.65,31.73,27.02,31.55,15.21,31.82Z" transform="translate(-14.24 -12.37)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                        <path id="Path_560" data-name="Path 560" d="M50.25,18.73l-.72-2.46,2.5-.73.73,2.37Z" transform="translate(-14.24 -12.37)" fill="#181818" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                        <path id="Path_561" data-name="Path 561" d="M20.81,22.52l-1.83-1.95,3.55-3.34,1.87,1.86" transform="translate(-14.24 -12.37)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                        <g id="Group_15250" data-name="Group 15250" transform="translate(0.05)">
+                                        <line id="Line_1176" data-name="Line 1176" x1="3.99" y1="4.49" transform="translate(1.09 0.19)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" stroke-dasharray="2"/>
+                                        <line id="Line_1177" data-name="Line 1177" x1="1.12" y1="3.28" transform="translate(5.93)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" stroke-dasharray="2"/>
+                                        <line id="Line_1178" data-name="Line 1178" x1="3.3" y1="1.05" transform="translate(0 5.23)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" stroke-dasharray="2"/>
+                                        </g>
+                                        <g id="Group_15251" data-name="Group 15251" transform="translate(20.27 12.01)">
+                                        <circle id="Ellipse_10" data-name="Ellipse 10" cx="1.02" cy="1.02" r="1.02" transform="translate(0 2.91)" fill="#181818" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                        <line id="Line_1179" data-name="Line 1179" y1="3.94" transform="translate(0.93)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                        </g>
+                                        <path id="Path_562" data-name="Path 562" d="M44.9,28.35H42.75a8.25,8.25,0,0,0-16.29-.5,8.609,8.609,0,0,1,3.9-6.96,8.743,8.743,0,0,1,9.7-.34A9.914,9.914,0,0,1,44.9,28.35Z" transform="translate(-14.24 -12.37)" fill="#181818" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <p class="p3 tc">Iron medium heat</p>
+                    </div>
+                    <div class="each flex flex-column ai-center mr-10">
+                        <div class="icon flex ai-center jc-center mb-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28.41" height="34.88" viewBox="0 0 28.41 34.88">
+                                <g id="Layer_3" transform="translate(0.5)">
+                                    <g id="Group_15254" data-name="Group 15254">
+                                        <path id="Path_563" data-name="Path 563" d="M47.2,40.69H19.8V19.1a.749.749,0,0,1,.75-.75H46.46a.749.749,0,0,1,.75.75V40.69Z" transform="translate(-19.8 -6.31)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                        <line id="Line_1180" data-name="Line 1180" x2="26.86" transform="translate(0.33 18.48)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75"/>
+                                        <circle id="Ellipse_11" data-name="Ellipse 11" cx="4.89" cy="4.89" r="4.89" transform="translate(8.81 21.35)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                        <circle id="Ellipse_12" data-name="Ellipse 12" cx="1.04" cy="1.04" r="1.04" transform="translate(22.49 14.13)" fill="#181818"/>
+                                        <circle id="Ellipse_13" data-name="Ellipse 13" cx="1.04" cy="1.04" r="1.04" transform="translate(18.13 14.13)" fill="#181818"/>
+                                        <path id="Path_564" data-name="Path 564" d="M35.74,28.68a2.826,2.826,0,0,1,.04,2.89c-.95,1.45-2.91,1.08-4.28,1.75-.65.32-1.7,1.2-1.45,2.04" transform="translate(-19.8 -6.31)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75"/>
+                                        <g id="Group_15253" data-name="Group 15253" transform="translate(0.13)">
+                                        <path id="Path_565" data-name="Path 565" d="M20.38,10.97l3.85-1.72a.582.582,0,0,1,.19-.03.488.488,0,0,1,.21.93L21.2,11.66l3.43,1.51a.475.475,0,0,1,.28.44.491.491,0,0,1-.49.49.406.406,0,0,1-.19-.04l-3.85-1.72a.746.746,0,0,1,0-1.37Z" transform="translate(-19.93 -6.31)" fill="#181818"/>
+                                        <path id="Path_566" data-name="Path 566" d="M26.78,12.85a.615.615,0,0,1,.61.55,1.328,1.328,0,0,0,1.29,1.15c.77,0,1.34-.51,1.34-1.61,0-1.13-.54-1.64-1.35-1.64a1.18,1.18,0,0,0-.37.05.683.683,0,0,1-.22.05.51.51,0,0,1-.52-.52.566.566,0,0,1,.13-.36l1.78-2.19H26.86a.551.551,0,0,1-.54-.54.544.544,0,0,1,.54-.54h3.47a.658.658,0,0,1,.67.67.728.728,0,0,1-.18.46l-1.71,2.1c1.28.01,2.11.93,2.11,2.49a2.429,2.429,0,0,1-2.54,2.67,2.391,2.391,0,0,1-2.48-1.98,1.108,1.108,0,0,1-.02-.19A.613.613,0,0,1,26.78,12.85Z" transform="translate(-19.93 -6.31)" fill="#181818"/>
+                                        <path id="Path_567" data-name="Path 567" d="M32.42,9.95c0-1.79.99-2.84,2.54-2.84S37.5,8.16,37.5,9.95V12.8c0,1.79-.99,2.84-2.54,2.84s-2.54-1.05-2.54-2.84Zm1.2,2.69c0,1.48.59,1.92,1.34,1.92s1.34-.44,1.34-1.92V10.1c0-1.48-.59-1.92-1.34-1.92s-1.34.44-1.34,1.92Z" transform="translate(-19.93 -6.31)" fill="#181818"/>
+                                        <path id="Path_568" data-name="Path 568" d="M38.29,7.16a.881.881,0,0,1,1.76,0v.45a.881.881,0,0,1-1.76,0Zm.42.37c0,.38.21.56.46.56s.46-.18.46-.56V7.25c0-.38-.21-.56-.46-.56s-.46.18-.46.56Z" transform="translate(-19.93 -6.31)" fill="#181818"/>
+                                        <path id="Path_569" data-name="Path 569" d="M40.82,10.36a2.963,2.963,0,0,1,2.97-3.25,2.807,2.807,0,0,1,2.73,1.84.783.783,0,0,1,.07.31.638.638,0,0,1-.64.64.648.648,0,0,1-.62-.48,1.6,1.6,0,0,0-1.54-1.15c-1.05,0-1.7.84-1.7,2.32v1.6c0,1.48.65,2.32,1.7,2.32a1.6,1.6,0,0,0,1.54-1.15.667.667,0,0,1,.62-.48.638.638,0,0,1,.64.64,1.076,1.076,0,0,1-.07.31,2.807,2.807,0,0,1-2.73,1.84,2.963,2.963,0,0,1-2.97-3.25Z" transform="translate(-19.93 -6.31)" fill="#181818"/>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <p class="p3 tc">Machine washable</p>
+                    </div>
+                    <div class="each flex flex-column ai-center mr-10">
+                        <div class="icon flex ai-center jc-center mb-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="33.86" height="33.86" viewBox="0 0 33.86 33.86">
+                                <g id="Layer_3" transform="translate(0.5 0.5)">
+                                    <g id="Group_15229" data-name="Group 15229">
+                                        <circle id="Ellipse_7" data-name="Ellipse 7" cx="16.43" cy="16.43" r="16.43" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                        <circle id="Ellipse_8" data-name="Ellipse 8" cx="1.79" cy="1.79" r="1.79" transform="translate(7.7 15.72)" fill="#181818" stroke="#181818" stroke-width="0.25"/>
+                                        <circle id="Ellipse_9" data-name="Ellipse 9" cx="1.79" cy="1.79" r="1.79" transform="translate(21.46 15.72)" fill="#181818" stroke="#181818" stroke-width="0.25"/>
+                                        <path id="Path_544" data-name="Path 544" d="M29.07,8.18s2.66,6.35,9.32,7.65" transform="translate(-17.07 -7.07)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                        <path id="Path_545" data-name="Path 545" d="M24.01,10.36s3.45,8.89,13.17,9.79" transform="translate(-17.07 -7.07)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                        <path id="Path_546" data-name="Path 546" d="M27.91,31s5.52,4.01,11.05,0" transform="translate(-17.07 -7.07)" fill="none" stroke="#181818" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <p class="p3 tc">Kid-friendly</p>
+                    </div>
+                </div>
+
+                <p v-if="fabric.details.length" class="p1 bold-700 mb-15">Details:</p>
+                <div v-if="fabric.details.length" class="fabric-details mb-35">
+                    <div v-for="(detail, i) in fabric.details" :key="i" class="bb-1 b-border-orange pt-15 pb-15" :class="{'bt-1': i == 0}">
+                        <div class="row">
+                            <div class="col-5"><span class="p2">${detail.title}</span></div>
+                            <div class="col-7"><span class="p2">${detail.description}</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <p v-if="fabric.others.length" class="p1 bold-700 mb-15">Others:</p>
+                <div v-if="fabric.others.length" class="fabric-others">
+                    <div v-for="(other, i) in fabric.others" :key="i" class="accordion bb-1 b-border-orange icon-rotate" :class="{'bt-1': i == 0}">
+                        <div class="title-icon accordion-title relative cursor flex ai-center jc-between pt-15 pb-15" onclick="$360.accordionToggle(event)">
+                            <div class="title p2 bold-700">${other.title}</div>
+                            <div class="icon-wrapper">
+                                <div class="icon icon-plus ai-center jc-center">{{ settings.icon_plus }}</div>
+                                <div class="icon icon-minus ai-center jc-center">{{ settings.icon_minus }}</div>
+                            </div>
+                        </div>
+                        <div class="description hide-m pb-25" v-html="other.description"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Teleport>
+</div>
+
+{%- assign varName = el_id | replace: '-', '_' | append: 'Vue' -%}
+<script>
+const {{ varName }} = Vue.createApp({
+    delimiters: ['${', '}'],
+    data() {
+        let fabricNames = '{{ fabric_names }}';
+        fabricNames = fabricNames.split('||');
+        
+        let imageUrls = '{{ image_urls }}';
+        imageUrls = imageUrls.split('||');
+        
+        let detailsTitle = '{{ details_title }}';
+        detailsTitle = detailsTitle.split('||');
+        
+        let detailsDesc = '{{ details_description }}';
+        detailsDesc = detailsDesc.split('||');
+        
+        let othersTitle = '{{ others_title }}';
+        othersTitle = othersTitle.split('||');
+        
+        let othersDesc = '{{ others_description }}';
+        othersDesc = othersDesc.split('||');
+
+        const fabrics = [];
+        for (let i = 0; i < fabricNames.length; i++) {
+            const details = [];
+            const dTitleArr = detailsTitle[i].substring(2).split('//');
+            const dDescArr = detailsDesc[i].substring(2).split('//');
+            for (let ii = 0; ii < dTitleArr.length; ii++) {
+                if(dTitleArr[ii] != '') {
+                    details.push({
+                        title: dTitleArr[ii],
+                        description: dDescArr[ii]
+                    });
+                }
+            }
+
+            const others = [];
+            const oTitleArr = othersTitle[i].substring(2).split('//');
+            const oDescArr = othersDesc[i].substring(2).split('//');
+            for (let ii = 0; ii < oTitleArr.length; ii++) {
+                if(oTitleArr[ii] != '') {
+                    others.push({
+                        title: oTitleArr[ii],
+                        description: oDescArr[ii]
+                    });
+                }
+            }
+
+            fabrics.push({
+                name: fabricNames[i],
+                imageUrls: imageUrls[i].substring(1).split(','),
+                details: details,
+                others: others
+            })
+        }
+
+        return {
+            fabrics: fabrics,
+            fabric: fabrics[0],
+            fabricIndex: 0,
+            activeImage: 0,
+            showFabricDetailsPopup: false
+        }
+    },
+    methods: {
+        openInfo(fabricName) {
+            const fabricIndex = this.fabrics.findIndex(fabric => fabric.name == fabricName);
+            if(fabricIndex > -1) {
+                this.fabricIndex = fabricIndex;
+                this.showFabricDetailsPopup = true;
+            }
+        }
+    },
+    watch: {
+        fabricIndex: {
+            handler(newValue, oldValue) {
+                this.fabric = this.fabrics[newValue];
+                this.activeImage = 0;
+                setTimeout(function() {
+                    $360.lazyLoadInstance.update();
+                }, 500);
+            }
+        }
+    }
+}).mount('#{{ el_id }}');
+</script>

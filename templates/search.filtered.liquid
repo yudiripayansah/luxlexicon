@@ -1,0 +1,53 @@
+{% layout none %}
+<style>
+  .smsr-wrap .swiper-slide .details-con .p2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @media screen and (min-width: 1024px) {
+    .smsr-wrap .swiper-slide .details-con .p2 {
+      -webkit-line-clamp: 1;
+    }
+  }
+</style>
+{%- paginate search.results by 9000 -%}
+<div class="search-result-wrapper w-full relative flex flex-wrap mt-36">
+    <div class="container">
+        <div class="row">
+            <div class="global-flex flex-wrap">
+                {% comment %} product result {% endcomment %}
+                <div class="product-result">
+                    {% if search.results == blank %}
+                        <div class="p2 c-black">{{ 'general.search.no_results_html' | t }}</div>
+                    {% endif %}
+
+                    <div class="search-product-wrapper flex flex-wrap">
+                        {% assign product_search_limit = 8 %}
+                        {%- for res in search.results -%}
+                            {%if res.object_type == "product"%}
+                                {%assign product_search_limit = product_search_limit | minus: 1%}
+                                <div class="col-6 col-d-3">
+                                    <div class="search-product-each-wrapper w-full">
+                                        {%- render 'product-each', product: res -%}
+                                    </div>
+                                </div>
+                            {%endif%}
+                            {%if product_search_limit == 0%}{%break%}{%endif%}
+                        {%- endfor -%}
+
+                        {%- if search.results.size > 0 -%}
+                            <div class="search-product-each-wrapper col-12 w-full jc-center">
+                                <a href="#" rel="nofollow" class="btn1 search-view-all tc">View all {{ search.results_count }} results</a>
+                            </div>
+                        {%- endif -%}
+                    </div>
+                </div>
+                {% comment %} end product result {% endcomment %}
+            </div>
+        </div>
+    </div>
+</div>
+{%- endpaginate -%}

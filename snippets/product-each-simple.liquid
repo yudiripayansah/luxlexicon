@@ -1,0 +1,23 @@
+{%- comment -%}
+Love&Co Theme
+
+Description:
+Snippet for displaying product card
+
+Variables:
+- product. Object. the product object
+{%- endcomment -%}
+
+<div class="product-each-simple">
+    <div class="image-container">
+        <a href="{{ product.url }}" class="show-m">
+            {%- render 'global-image-wrapper',
+                image: product.featured_image,
+                size: '300x'
+            -%}
+        </a>
+    </div>
+    <div class="text-container mt-10">
+        <a href="{{ product.url }}" class="show-m p2 bold-500">{{ product.title }}</a>
+    </div>
+</div>

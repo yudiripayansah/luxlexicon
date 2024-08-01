@@ -1,0 +1,33 @@
+    <Teleport to="body">
+		<div class="pdp-oos-popup zi-7 fixed top-0 left-0 w-full h-full flex ai-center jc-center">
+			<div @click="hideOosPopup($event)" class="overlay absolute w-full h-full top-0 left-0 zi-1"></div>
+			<div class="content-wrapper ab-bottom-right zi-2 bg-white pt-25 pb-25 pl-20 pr-20 t-pl-25 t-pr-25 d-p-30">
+	  			<a @click="hideOosPopup($event)" href="#" rel="nofollow" class="close-icon ab-top-right global-flex ai-center jc-center">{{ settings.icon_close }}</a>
+
+				<h2 class="h2 oos-popup-title">{{ settings.pro_oos_title }}</h2>
+	  			{%- if settings.pro_oos_desc != blank -%}
+					<p class="p1 mt-10">{{ settings.pro_oos_desc }}</p>
+				{%- endif -%}
+
+				<div class="form-wrapper">
+					<div class="form-each relative width-100">
+						<div class="relative overflow mt-15 d-mt-20 pb-1">
+							<input
+								type="email"
+								v-model="oosForm.email"
+								name="contact[email]"
+								placeholder="{{ 'contact.form.email' | t }}"
+								class="global-input bb-1 b-b-black pr-35 p1"
+							>
+							<div class="global-placeholder absolute right-0 bottom-0 pb-8">{{ 'contact.form.email' | t }}</div>
+						</div>
+						<div v-if="oosForm.email_error" class="p2 light-300 mt-5 c-red">
+							{{ 'customer.register.error_email' | t }}
+						</div>
+					</div>
+					<a href="#" rel="nofollow" @click="oosSubmit($event)" class="btn1 w-full tc mt-25">{{ settings.pro_oos_button_label }}</a>
+					<p v-if="oosForm.success" class="p2 mt-10">{{ settings.pro_oos_success_message }}</p>
+				</div>
+			</div>
+		</div>
+	</Teleport>

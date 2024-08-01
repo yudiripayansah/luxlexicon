@@ -1,0 +1,32 @@
+<div class="header-account">
+	{% if customer %}
+	<div class="h4 tc mb-20">Hi, <span class="color-teal">{{ customer.last_name }}</span></div>
+	<div class="mb-20">
+		<a href="/account" class="button-2">Order History ({{ customer.orders_count }})</a>
+	</div>
+	<div class="mb-30">
+		<a href="/account/addresses" class='button-2'>Address Book ({{ customer.addresses_count }})</a>
+	</div>
+	<div class="">
+		<a href="/account/logout" class="link1">Log out</a>
+	</div>
+	{% else %}
+	{% form 'customer_login' %}
+	<h4 class="h4 mb-20">Sign In</h4>
+	<div class="mb-20">
+		<input type="email" id="email" name="customer[email]" class="form-input" placeholder="Email">
+	</div>
+	<div class="mb-30">
+		<input type="password" id="password" name="customer[password]" class="form-input" placeholder="Password">
+		<div class="text-right mt-5">
+			<a href="/account/login#recover-password" id="header-forgot-link" class="p3">Forgot password?</a>
+		</div>
+	</div>
+	<div class=" tc mb-30">
+		<button class="btn1" type="submit">Sign In</button>
+	</div>
+	<input type="hidden" name="return_to" value="{{ canonical_url | replace:'https://www.wanderlustandco.com','' }}" />
+	<a href="/account/register" class="link1">Create an account</a>
+	{% endform %}
+	{% endif %}
+</div>

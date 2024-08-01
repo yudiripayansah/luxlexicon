@@ -1,0 +1,66 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{%- if product.metafields.complete.enable != blank -%}
+    <div class="complete-the-look pt-30 t-pt-40 bt-1 b-silver mt-30 t-mt-40">
+        <h6 class="h11 bold-600 uppercase spacing-1">{{ product.metafields.complete.section_title }}</h6>
+
+        <div class="carousel-container relative width-100 mt-15">
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    {%- for i in (1..10) -%}
+                        {%- assign pro = "product_" | append: i -%}
+                        {%- assign pro = product.metafields.complete[pro].value -%}
+
+                        {%- if pro != blank -%}
+                            <div class="swiper-slide">
+                                {%- render 'product-each-simple', product: pro -%}
+                            </div>
+                        {%- endif -%}
+                    {%- endfor -%}
+                </div>
+            </div>
+
+            <div class="swiper-custom-arrow left">{{ settings.icon_slide_left }}</div>
+            <div class="swiper-custom-arrow right">{{ settings.icon_slide_right }}</div>
+        </div>
+    </div>
+
+    <script>
+        function initSwiperCtl(){
+            //-- init swiper
+            let complete_look_carousel = new Swiper(".complete-the-look .swiper", {
+                direction: 'horizontal',
+                slidesPerView: 'auto',
+                watchSlidesProgress: true,
+                loop: false,
+                navigation: {
+                    nextEl: '.complete-the-look .swiper-custom-arrow.right',
+                    prevEl: '.complete-the-look .swiper-custom-arrow.left'
+                },
+                on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            initSwiperCtl()
+            //-- set arrow position
+            const image_height = document.querySelector('.complete-the-look .global-image-wrapper').clientHeight;
+            const arrow_height = document.querySelector('.complete-the-look .swiper-custom-arrow').clientHeight;
+            const arrows = document.querySelectorAll('.complete-the-look .swiper-custom-arrow');
+            const top = (image_height-arrow_height)/2;
+            arrows.forEach(elem => {
+                elem.style.transform = 'unset';
+                elem.style.top = top + 'px';
+            });
+        });
+        document.addEventListener('shopify:section:load', () => { initSwiperCtl() });
+    </script>
+{%- endif -%}

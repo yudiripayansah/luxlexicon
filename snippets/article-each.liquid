@@ -1,0 +1,33 @@
+{%liquid 
+	assign image = article.image
+	assign acc = false
+	if article.metafields.custom.gird_image != blank
+	assign image = article.metafields.custom.gird_image
+	assign acc = false
+	endif
+%}
+<div class="w-full article-each" data-image="{{image}}" data-image-metafields="{{article.metafields.custom.gird_image}}">
+	<a href="{{article.url}}">
+		{%- render 'global-image-wrapper', image: image, additional_class: '', acc: acc %}
+	</a>
+	<div class="article-box pt-20 d-pt-0 pl-20 d-pl-0 pr-20 d-pr-0">
+		{%- if article.tags[0] != blank -%}
+			<div class="d-mt-25">
+				<a href="{{ blog.url }}/tagged/{{ article.tags[0] | handle }}#all-articles" class="h4 medium-500 c-grey uppercase spacing-1">{{ article.tags[0] }}</a>
+			</div>
+		{%- endif -%}
+		<h6 class="{% if article.tags[0] != blank %} mt-10 {% endif %}">
+			<a href="{{article.url}}" class="h2 medium-500 hover-underline">{{ article.title }}</a>
+		</h6>
+
+		{%- if article.excerpt_or_content != blank -%}
+			<div class="p1 medium-500 mt-15">{{ article.excerpt_or_content | strip_html | truncate: 200, '...' }}</div>
+		{%- endif -%}
+		
+		{% if read_more == true %}
+			<div class="hide-d mt-10">
+				<a href="{{article.url}}" class="link3">{{'blogs.article.read_more' | t}}</a>
+			</div>
+		{% endif %}
+	</div>
+</div>

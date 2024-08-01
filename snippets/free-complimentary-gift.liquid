@@ -1,0 +1,25 @@
+{% comment %}
+Love&Co Theme
+Description:
+Snippet for displaying free gift information
+
+Variables:
+wrapper_class: String, class for the wrapper
+text_class: String, class for the text
+{% endcomment %}
+{%- if settings.cart_enable_cg_info -%}
+    <div class="free-cg-info {{ wrapper_class }} {%unless settings.cart_enable_fs_info %}pt-20 t-pt-25{%endunless%}">
+        {%- assign cf = settings.cart_cg_free | times: 100 -%}
+        {%- if cart.total_price >= cf -%}
+            {%- assign text = settings.cart_cg_after -%}
+        {%- else -%}
+            {%- assign current = cf | minus: cart.total_price | money_with_currency -%}
+            {%- assign text = settings.cart_cg_before | replace: "[amount]", current -%}
+        {%- endif -%}
+        <p class="{{ text_class }}">{{ text }}</p>
+        <div class="overflow" style="background: #d8e2de;height:4px;position:relative;">
+            <div style="position:absolute;background:#93D0B3;top:0;left:0;height:4px;width:{{ cart.total_price | divided_by:settings.cart_cg_free | round:2 }}%;"></div>
+        </div>
+    </div>
+{%- endif -%}
+<!-- end free cg info -->

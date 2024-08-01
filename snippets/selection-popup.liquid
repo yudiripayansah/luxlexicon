@@ -1,0 +1,50 @@
+{% comment %}
+  section: section
+  type: popup type
+{% endcomment %}
+{% liquid
+    assign ss = section.settings
+    assign sb = section.blocks
+    assign image_desktop = 'image_desktop'
+    assign image_mobile = 'image_mobile'
+    assign title_dom_type = 'title_dom_type'
+    assign title_size = 'title_size'
+    assign title = 'title'
+    assign text = 'text'
+    assign button_label = ss.button_label
+  %}
+  <div class="zi-7 sp-wrap fixed top-0 left-0 w-full h-full flex ai-center jc-center" id="sp-wrap">
+    <div class="container w-full">
+      <div class="sp-overlay absolute w-full h-full top-0 left-0 zi-1"></div>
+      
+      <div class="sp-box w-full hhd-max-1000 d-max-660 flex jc-between bg-white relative zi-2 ml-auto mx-auto">
+        <a href="#" rel="nofollow" class="close-popup zi-1" data-value="announcementContinue" onclick="setSelection(event)">
+            {{ settings.icon_close }}
+        </a>
+        <div class="spb-image">
+          {%- assign image_id = 'selection-popup-image-salon-' | append: section.id -%}
+          {%- render 'global-image-wrapper-responsive',
+            image_id: image_id,
+            desktop_image: ss[image_desktop],
+            mobile_image: ss[image_mobile]
+          %}
+        </div>
+        <div class="spb-text tl t-tl pt-24 pb-24 pl-20 pr-20 d-pt-36 d-pb-36 d-pl-28 d-pr-28 p-25 d-pt-0 d-pb-0">
+          <{{ ss[title_dom_type] }} class="{{ss[title_size]}}">
+            {{ ss[title] }}
+          </{{ ss[title_dom_type] }}>
+          <div class="spbt-text mt-12 p2 c-grey60">
+            {{ ss[text] }}
+          </div>
+          <div
+            class="btn1 spbto-item flex ai-center jc-center p-18 mt-20 d-mt-24 bg-background w-full" data-value="announcementContinue"
+            onclick="setSelection(event)"
+          >
+            {{ button_label }}
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,212 @@
+{% comment %} IGC - Yudi {% endcomment %}
+{%- assign ss = section.settings %}
+{%- assign el_id = 'blog-list-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+<style>
+  #{{el_id}} .bl-items {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  #{{el_id}} .bl-item {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  #{{el_id}} .bl-item:first-child {
+    margin-top: 0;
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .bl-item:first-child {
+      margin-top: 100px;
+    }
+    #{{el_id}} .bl-items {
+      margin-left: -25px;
+      margin-right: -25px;
+    }
+    #{{el_id}} .bl-item {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+  }
+</style>
+<div id="{{el_id}}">
+  <div class="container mt-25 d-mt-0">
+    {%- paginate blog.articles by ss.article_per_page -%}
+      <div class="row bl-items flex flex-wrap" id="AjaxinateContainer">
+        {%- for article in blog.articles -%}
+          <div class="col-12 col-d-4 bl-item d-mt-100 mt-60">
+            {% render 'article-each', article: article %}
+          </div>
+        {%- endfor -%}
+      </div>
+      <div id="AjaxinatePagination">
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}"></a>
+        {% endif %}
+      </div>
+    {% endpaginate %}
+  </div>
+</div>
+<script>
+  'use strict';
+  var Ajaxinate = function t(e) {
+    (this.settings = Object.assign(
+      {
+        method: 'scroll',
+        container: '#AjaxinateContainer',
+        pagination: '#AjaxinatePagination',
+        offset: 0,
+        loadingText: 'Loading',
+        callback: null,
+      },
+      e || {}
+    )),
+      (this.addScrollListeners = this.addScrollListeners.bind(this)),
+      (this.addClickListener = this.addClickListener.bind(this)),
+      (this.checkIfPaginationInView = this.checkIfPaginationInView.bind(this)),
+      (this.stopMultipleClicks = this.stopMultipleClicks.bind(this)),
+      (this.removeClickListener = this.removeClickListener.bind(this)),
+      (this.removeScrollListener = this.removeScrollListener.bind(this)),
+      (this.destroy = this.destroy.bind(this)),
+      (this.containerElement = document.querySelector(this.settings.container)),
+      (this.paginationElement = document.querySelector(this.settings.pagination)),
+      this.initialize();
+  };
+  (Ajaxinate.prototype.initialize = function t() {
+    this.containerElement && { click: this.addClickListener, scroll: this.addScrollListeners }[this.settings.method]();
+  }),
+    (Ajaxinate.prototype.addScrollListeners = function t() {
+      this.paginationElement &&
+        (document.addEventListener('scroll', this.checkIfPaginationInView),
+        window.addEventListener('resize', this.checkIfPaginationInView),
+        window.addEventListener('orientationchange', this.checkIfPaginationInView));
+    }),
+    (Ajaxinate.prototype.addClickListener = function t() {
+      this.paginationElement &&
+        ((this.nextPageLinkElement = this.paginationElement.querySelector('a')),
+        (this.clickActive = !0),
+        void 0 !== this.nextPageLinkElement &&
+          null !== this.nextPageLinkElement &&
+          this.nextPageLinkElement.addEventListener('click', this.stopMultipleClicks));
+    }),
+    (Ajaxinate.prototype.stopMultipleClicks = function t(e) {
+      e.preventDefault(),
+        this.clickActive &&
+          ((this.nextPageLinkElement.innerHtml = this.settings.loadingText),
+          (this.nextPageUrl = this.nextPageLinkElement.href),
+          (this.clickActive = !1),
+          this.loadMore());
+    }),
+    (Ajaxinate.prototype.checkIfPaginationInView = function t() {
+      var e = this.paginationElement.getBoundingClientRect().top - this.settings.offset,
+        i = this.paginationElement.getBoundingClientRect().bottom + this.settings.offset;
+      e <= window.innerHeight &&
+        i >= 0 &&
+        ((this.nextPageLinkElement = this.paginationElement.querySelector('a')),
+        this.removeScrollListener(),
+        this.nextPageLinkElement &&
+          ((this.nextPageLinkElement.innerHtml = this.settings.loadingText),
+          (this.nextPageUrl = this.nextPageLinkElement.href),
+          this.loadMore()));
+    }),
+    (Ajaxinate.prototype.loadMore = function t() {
+      (this.request = new XMLHttpRequest()),
+        (this.request.onreadystatechange = function t() {
+          if (4 === this.request.readyState && 200 === this.request.status) {
+            var e = this.request.responseXML.querySelectorAll(this.settings.container)[0],
+              i = this.request.responseXML.querySelectorAll(this.settings.pagination)[0];
+            this.containerElement.insertAdjacentHTML('beforeend', e.innerHTML),
+              (this.paginationElement.innerHTML = i.innerHTML),
+              this.settings.callback &&
+                'function' == typeof this.settings.callback &&
+                this.settings.callback(this.request.responseXML),
+              this.initialize();
+          }
+        }.bind(this)),
+        this.request.open('GET', this.nextPageUrl),
+        (this.request.responseType = 'document'),
+        this.request.send();
+    }),
+    (Ajaxinate.prototype.removeClickListener = function t() {
+      this.nextPageLinkElement.removeEventListener('click', this.stopMultipleClicks);
+    }),
+    (Ajaxinate.prototype.removeScrollListener = function t() {
+      document.removeEventListener('scroll', this.checkIfPaginationInView),
+        window.removeEventListener('resize', this.checkIfPaginationInView),
+        window.removeEventListener('orientationchange', this.checkIfPaginationInView);
+    }),
+    (Ajaxinate.prototype.destroy = function t() {
+      return { click: this.removeClickListener, scroll: this.removeScrollListener }[this.settings.method](), this;
+    });
+</script>
+<script>
+  var endlessScroll = new Ajaxinate({
+    container: '#AjaxinateContainer',
+    pagination: '#AjaxinatePagination',
+    method: 'scroll',
+    loadingText: '<span class="button-loading"></span>',
+    offset: 100,
+    callback: function () {
+      var lazyLoadInstance = new LazyLoad({
+        elements_selector: '.lazy',
+        callback_loaded: function (el) {
+        },
+      });
+    },
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Blog List",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "number",
+      "id": "article_per_page",
+      "label": "Article per page"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog List"
+    }
+  ]
+}
+{% endschema %}

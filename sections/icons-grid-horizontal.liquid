@@ -1,0 +1,364 @@
+{% comment %} Luxlexicon - Yudi {% endcomment %}
+{% liquid
+  assign fn = section.id | replace: '-', ''
+  assign el_id = 'icons-grid-horizontal-' | append: section.id
+  assign ss = section.settings
+  assign sb = section.blocks
+  render 'section-padding', el_id: el_id, section: section
+%}
+<style>
+  #{{el_id}} {
+    background-color: {{ ss.bg_color }};
+  }
+  #{{el_id}} .flex-wrapper{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: center;
+  }
+  #{{el_id}} .flex-wrapper-each{
+    width:100%;
+    flex-direction: column;
+  }
+  #{{el_id}} .text-container{
+    width: 100%;
+  }
+  {% if ss.title_text_color != blank %}
+    #{{el_id}} .section-title {
+      color: {{ ss.title_text_color }};
+    }
+  {% endif %}
+  #{{el_id}} .text-container > .h3 {
+    {% if ss.title_text_color != blank %}
+      color: {{ ss.title_text_color }};
+    {% endif %}
+  }
+  #{{el_id}} .igh-row {
+    flex-direction: column;
+  }
+  #{{el_id}} .igh-swiper-pagination {
+    background-color: #ccc;
+    height: 1px;
+    position: absolute;
+    bottom: 0px;
+    top: unset;
+  }
+  #{{el_id}} .swiper-pagination-progressbar-fill {
+    background-color: #000;
+  }
+  #{{el_id}} .icon-container{
+    width: 28px;
+    font-size: 0;
+  }
+  #{{el_id}} .swiper {
+    overflow: visible !important;
+    clip-path: inset(-100vw -100vw -100vw -100vw);
+  }
+  @media(min-width: 768px) {
+  }
+
+  @media(min-width: 1024px) {
+    #{{el_id}} .igh-row {
+      flex-direction: row;
+    }
+  }
+</style>
+
+<section id="{{el_id}}" class="icons-grid-horizontal overflow">
+  <div class="container">
+    <div class="row igh-row flex ai-start">
+      <div class="col-d-2 col-12">
+        {% if ss.title != blank %}
+          <{{ ss.title_dom_type }} class="section-title {{ ss.title_size }} tl">
+            {{- ss.title -}}
+          </{{ ss.title_dom_type }}>
+        {% endif %}
+      </div>
+      {% assign loop = 2 %}
+      {% for block in sb %}
+        <div class="hide-m show-d col-d-2 push-d-{{loop}}">
+          <div class="flex-wrapper-each flex align-start jc-start tl">
+            {% if block.settings.icon_image != blank %}
+              <div class="icon-container">
+                {% if block.settings.icon_image != blank %}
+                  {%- assign image_id = 'homepage-icon-' | append: block.id -%}
+                  {%- render 'global-image-wrapper',
+                    image_id: image_id,
+                    image: block.settings.icon_image,
+                    additional_class: 'no-bg'
+                  %}
+                {% endif %}
+              </div>
+            {% endif %}
+            <div class="text-container d-mt-16 mt-16">
+              {%- if block.settings.title != blank -%}
+                <div class="h3 {{ block.settings.title_weight }} c-black">{{ block.settings.title }}</div>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div class="p2 d-mt-8 mt-8 c-grey">{{ block.settings.text }}</div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+        {% assign loop = loop | plus: 1 %}
+      {% endfor %}
+      <div class="col-12 hide-d mt-32">
+        <div class="swiper pb-56 relative">
+          <div class="swiper-wrapper">
+            {% for block in sb %}
+              <div class="swiper-slide">
+                <div class="igh-item">
+                  {% if block.settings.icon_image != blank %}
+                    <div class="icon-container">
+                      {% if block.settings.icon_image != blank %}
+                        {%- assign image_id = 'homepage-icon-' | append: block.id -%}
+                        {%- render 'global-image-wrapper',
+                          image_id: image_id,
+                          image: block.settings.icon_image,
+                          additional_class: 'no-bg'
+                        %}
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                  <div class="text-container d-mt-16 mt-16">
+                    {%- if block.settings.title != blank -%}
+                      <div class="h3 {{ block.settings.title_weight }} c-black">{{ block.settings.title }}</div>
+                    {%- endif -%}
+                    {%- if block.settings.text != blank -%}
+                      <div class="p2 d-mt-8 mt-8 c-grey">{{ block.settings.text }}</div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="igh-swiper-pagination"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  function initSwiperIgh{{fn}}() {
+    new Swiper('#{{ el_id }} .swiper', {
+      slidesPerView: 1.5,
+      slidesPerColumn: 1.5,
+      spaceBetween: 16,
+      loop: false,
+      pagination: {
+          el: "#{{ el_id }} .igh-swiper-pagination",
+          type: 'progressbar'
+      },
+      on: {
+        init: function () {
+          $360.lazyLoadInstance.update();
+        },
+        slideChange: function () {
+          $360.lazyLoadInstance.update();
+        },
+        resize: function () {
+          $360.lazyLoadInstance.update();
+        },
+      },
+    });
+  }
+  initSwiperIgh{{fn}}()
+</script>
+{% schema %}
+{
+  "name": "Icons Grid Horizontal",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "default": "h3",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "default": "h3",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "color",
+      "id": "title_text_color",
+      "label": "Title Text Color"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon (Image)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icons Grid Horizontal",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

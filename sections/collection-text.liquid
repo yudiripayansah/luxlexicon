@@ -1,0 +1,133 @@
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #shopify-section-{{ section.id }} .description-text.cut{
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #shopify-section-{{ section.id }} .icon,
+  #shopify-section-{{ section.id }} .icon svg{
+    width:10px;
+    height:10px;
+  }
+
+    #shopify-section-{{ section.id }} .hidden{
+        display:none !important;
+    }
+
+  @media(min-width: 1024px) {
+  }
+</style>
+
+<section id="{{ section.id }}" class="collection-text">
+    <div class="container tc">
+        <div class="p3 bold-500 spacing-1">{{ section.settings.title }}</div>
+        <div class="p3 pt-10 d-max-600 hd-max-700 hhd-max-900 mx-auto description-text" :class="{ 'cut': shorten_text }" >{{ section.settings.description }}</div>
+        <div class="flex jc-center mt-10" :class="{ 'hidden': !shorten_text }">
+            <div class="icon cursor" @click="toggleText()">{{ settings.icon_plus }}</div>
+        </div>
+    </div>
+</section>
+
+{%- assign varName = section.id | replace: '-', '_' | append: 'Vue' -%}
+<script>
+    const {{ varName }} = Vue.createApp({
+        delimiters: ['${','}'],
+        data() {
+            return {
+                shorten_text: true
+            }
+        },
+        mounted() {
+            
+        },
+        methods: {
+            toggleText() {
+                this.shorten_text = !this.shorten_text;
+            }
+        }
+    }).mount('#{{ section.id }}');
+</script>
+
+{% schema %}
+{
+  "name": "Collection Text",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Text",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

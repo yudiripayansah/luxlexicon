@@ -1,0 +1,17 @@
+{% comment %}
+    This snippet will show the In stock / out of stock indicator above the add to cart button
+    Show / hide mechanism code is inside product-variants.liquid
+    The ships in label data will be taken from metafields
+{% endcomment %}
+
+<div id="stock-indicators" class="relative width-100 mt-15 d-mt-20">
+    <div class="low-stock hide-m flex-wrap ai-center w-full" data-threshold="{{ settings.si_low_stock_threshold }}">
+        <span class="dots mr-7 y1" style="background: {{ settings.si_low_stock_color }};"></span><p class="p5 light-300">{{ settings.si_low_stock_label }}{% if product.metafields.general.ships_in_text != blank %}, {{ product.metafields.general.ships_in_text }}{% endif %}</p>
+    </div>
+    <div class="in-stock global-flex flex-wrap ai-center w-full">
+        <span class="dots mr-7 y1" style="background: {{ settings.si_in_stock_color }};"></span><p class="p5 light-300">{{ settings.si_in_stock_label }}{% if product.metafields.general.ships_in_text != blank %}, {{ product.metafields.general.ships_in_text }}{% endif %}</p>
+    </div>
+    <div class="out-stock hide-m flex-wrap ai-center w-full">
+        <span class="dots mr-7 y1" style="background: {{ settings.si_oos_color }};"></span><p class="p5 light-300">{{ settings.si_oos_label }}</p>
+    </div>
+</div>

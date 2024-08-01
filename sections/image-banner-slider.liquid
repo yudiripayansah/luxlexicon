@@ -1,0 +1,285 @@
+{%- assign el_id = 'img-banner-slider-' | append: section.id -%}
+
+{%- assign image_urls = '' -%}
+{%- assign widths = '' -%}
+{%- assign heights = '' -%}
+{%- assign image_urls_mobile = '' -%}
+{%- assign widths_mobile = '' -%}
+{%- assign heights_mobile = '' -%}
+{%- assign links = '' -%}
+{%- assign notes = '' -%}
+{%- assign descriptions = '' -%}
+{%- for block in section.blocks -%}
+	{% capture image_urls %}{{ image_urls }}||{{ block.settings.image | image_url: width: 2000 }}{% endcapture %}
+	{% capture widths %}{{ widths }}||{{ block.settings.image.width }}{% endcapture %}
+	{% capture heights %}{{ heights }}||{{ block.settings.image.height }}{% endcapture %}
+
+	{% capture image_urls_mobile %}{{ image_urls_mobile }}||{{ block.settings.image_mobile | image_url: width: 1000 }}{% endcapture %}
+	{% capture widths_mobile %}{{ widths_mobile }}||{{ block.settings.image_mobile.width }}{% endcapture %}
+	{% capture heights_mobile %}{{ heights_mobile }}||{{ block.settings.image_mobile.height }}{% endcapture %}
+
+	{% capture links %}{{ links }}||{{ block.settings.url }}{% endcapture %}
+
+	{% capture notes %}{{ notes }}||{{ block.settings.note }}{% endcapture %}
+	{% capture descriptions %}{{ descriptions }}||{{ block.settings.description }}{% endcapture %}
+{%- endfor -%}
+
+{%- assign image_urls = image_urls | remove_first: '||' -%}
+{%- assign image_urls = image_urls | split: '||' -%}
+{%- assign widths = widths | remove_first: '||' -%}
+{%- assign widths = widths | split: '||' -%}
+{%- assign heights = heights | remove_first: '||' -%}
+{%- assign heights = heights | split: '||' -%}
+
+{%- assign image_urls_mobile = image_urls_mobile | remove_first: '||' -%}
+{%- assign image_urls_mobile = image_urls_mobile | split: '||' -%}
+{%- assign widths_mobile = widths_mobile | remove_first: '||' -%}
+{%- assign widths_mobile = widths_mobile | split: '||' -%}
+{%- assign heights_mobile = heights_mobile | remove_first: '||' -%}
+{%- assign heights_mobile = heights_mobile | split: '||' -%}
+
+{%- assign links = links | remove_first: '||' -%}
+{%- assign links = links | split: '||' -%}
+
+{%- assign notes = notes | remove_first: '||' -%}
+{%- assign notes = notes | split: '||' -%}
+
+{%- assign descriptions = descriptions | remove_first: '||' -%}
+{%- assign descriptions = descriptions | split: '||' -%}
+
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{%- render 'image-banner-slider',
+    el_id: el_id,
+	background: section.settings.bg_color,
+    image_urls: image_urls,
+    widths: widths,
+    heights: heights,
+	image_urls_mobile: image_urls_mobile,
+    widths_mobile: widths_mobile,
+    heights_mobile: heights_mobile,
+	links: links,
+	descriptions: descriptions,
+	notes: notes,
+	container: section.settings.container,
+    navigation: section.settings.navigation,
+    pagination: section.settings.pagination,
+    interval: section.settings.interval,
+    peek_style: section.settings.peek_style,
+	description: section.settings.description,
+	overlay: section.settings.overlay,
+	note: section.settings.note,
+	heading_size: section.settings.heading_size,
+    heading: section.settings.heading,
+    heading_desc: section.settings.heading_desc,
+	heading_label: section.settings.heading_label,
+	heading_url:section.settings.heading_url
+-%}
+
+{% schema %}
+{
+	"name": "Image Banner Slider",
+	"max_blocks": 5,
+	"settings": [
+		{
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		},
+		{
+			"type": "header",
+			"content": "Banner Settings"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background Color"
+		},
+		{
+			"type": "textarea",
+			"id": "heading",
+			"label": "Heading"
+		},
+		{
+            "type": "select",
+            "id": "title_dom_type",
+            "label": "Heading DOM Type",
+            "options": [
+                {"value":"h1","label":"H1"},
+                {"value":"h2","label":"H2"},
+                {"value":"h3","label":"H3"},
+                {"value":"h4","label":"H4"},
+                {"value":"h5","label":"H5"}
+            ],
+            "default": "h2"
+        },
+        {
+            "type": "select",
+            "id": "heading_size",
+            "label": "Heading Size",
+            "options": [
+				{
+                    "value": "smaller",
+                    "label": "Smaller"
+                },
+                {
+                    "value": "normal",
+                    "label": "Normal"
+                },
+                {
+                    "value": "big",
+                    "label": "Big"
+                }
+            ],
+            "default": "normal"
+        },
+        {
+			"type": "textarea",
+			"id": "heading_desc",
+			"label": "Heading Description"
+		},
+		{
+			"type": "text",
+			"id": "heading_label",
+			"label": "Heading Button label"
+		},
+		{
+			"type": "url",
+			"id": "heading_url",
+			"label": "Heading Button URL"
+		},
+		{
+			"type": "range",
+			"id": "interval",
+			"min": 1,
+			"max": 20,
+			"step": 1,
+			"unit": "sc",
+			"label": "Slider Interval",
+			"default": 5
+		},
+		{
+			"type": "checkbox",
+			"id": "overlay",
+			"label": "Enable Overlay",
+			"default": false,
+			"info": "Add overlay on image slider"
+		},
+		{
+			"type": "checkbox",
+			"id": "navigation",
+			"label": "Slider Navigation",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "pagination",
+			"label": "Slider Pagination",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "peek_style",
+			"label": "Peek Style",
+			"default": false,
+			"info": "The slider will have peek at left and right side"
+		},
+		{
+			"type": "radio",
+			"id": "container",
+			"label": "Container",
+			"options": [
+				{
+					"value": "full-width",
+					"label": "Full Width"
+				},
+				{
+					"value": "container",
+					"label": "Contained"
+				}
+			]
+		},
+		{
+			"type": "textarea",
+			"id": "description",
+			"label": "Description",
+			"info": "Text below slider"
+		},
+		{
+			"type": "textarea",
+			"id": "note",
+			"label": "Note",
+			"info": "Text infront of slider"
+		}
+	],
+	"blocks" : [
+		{
+			"type": "image",
+			"name": "Image",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image for Desktop"
+				},
+				{
+					"type": "image_picker",
+					"id": "image_mobile",
+					"label": "Image for Mobile"
+				},
+				{
+					"type" : "url",
+					"id" : "url",
+					"label" : "URL"
+				},
+				{
+					"type": "textarea",
+					"id": "description",
+					"label": "Description",
+					"info": "Text below slider"
+				},
+				{
+					"type": "textarea",
+					"id": "note",
+					"label": "Note",
+					"info": "Text infront of slider"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Image Banner Slider",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

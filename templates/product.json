@@ -1,0 +1,75 @@
+{
+  "wrapper": "section.global-content-top-margin.product-page",
+  "sections": {
+    "product-top": {
+      "type": "pdp-product-top",
+      "settings": {
+        "top_padding_m": 0,
+        "bottom_padding_m": 0,
+        "top_padding_t": 0,
+        "bottom_padding_t": 0,
+        "top_padding": 0,
+        "bottom_padding": 0
+      }
+    },
+    "pdp_recommendation_PLzRRW": {
+      "type": "pdp-recommendation",
+      "settings": {
+        "top_padding_m": 60,
+        "top_padding": 100,
+        "title": "RECOMMENDED",
+        "title_size": "h4",
+        "title_dom_type": "h2"
+      }
+    },
+    "pdp_recently_viewed_YwUeTE": {
+      "type": "pdp-recently-viewed",
+      "settings": {
+        "top_padding_m": 60,
+        "top_padding": 100,
+        "title": "RECENTLY VIEWED",
+        "title_size": "h4",
+        "title_dom_type": "h2"
+      }
+    },
+    "pdp_testimonial_eqGk7L": {
+      "type": "pdp-testimonial",
+      "settings": {
+        "top_padding_m": "nopadding",
+        "bottom_padding_m": "nopadding",
+        "top_padding_t": "nopadding",
+        "bottom_padding_t": "nopadding",
+        "top_padding": "nopadding",
+        "bottom_padding": "nopadding",
+        "top_padding_hd": "nopadding",
+        "bottom_padding_hd": "nopadding",
+        "top_padding_hhd": "nopadding",
+        "bottom_padding_hhd": "nopadding",
+        "background_color": "#8a8264",
+        "max_m": "270",
+        "max_t": "",
+        "max_d": "890",
+        "max_hd": "",
+        "max_hhd": ""
+      }
+    },
+    "breadcrumbs_f39fiQ": {
+      "type": "breadcrumbs",
+      "settings": {
+        "top_padding_m": 60,
+        "top_padding": 100,
+        "bg_color": "#ffffff",
+        "first_text": "",
+        "first_url": "",
+        "text_align": "jc-center"
+      }
+    }
+  },
+  "order": [
+    "product-top",
+    "pdp_recommendation_PLzRRW",
+    "pdp_recently_viewed_YwUeTE",
+    "pdp_testimonial_eqGk7L",
+    "breadcrumbs_f39fiQ"
+  ]
+}

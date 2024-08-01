@@ -1,0 +1,418 @@
+{% comment %} IGC - Yudi {% endcomment %}
+{%- assign el_id = 'change-password-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{% if customer %}
+  {{ 'jquery-ajax-module.js' | asset_url | script_tag }}
+  <style>
+    #{{el_id}} .account-menu {
+      flex-direction: row;
+    }
+    #{{el_id}} .b-transparent {
+      border-color: transparent;
+    }
+    #{{el_id}} .account-menu-mobile {
+      margin-left: -20px;
+      margin-right: -20px;
+    }
+    #{{el_id}} .poo-mobile > div div > div {
+      width: 30%;
+    }
+    #{{el_id}} .poo-mobile > div div > div.order-item-right {
+      width: 70%;
+    }
+    #{{el_id}} .icon-back {
+      margin-top: -4px;
+    }
+    #{{el_id}} .icon-back,
+    #{{el_id}} .icon-back svg {
+      width: 10px;
+      height: 10px;
+    }
+    #{{el_id}} .ln-image {
+      width: 55px;
+    }
+    #{{el_id}} .table-online-order-details td {
+      vertical-align: top;
+    }
+    #{{el_id}} .account-menu-mobile .icon {
+      max-width: 8.31px;
+    }
+    @media screen and (min-width: 1024px) {
+      #{{el_id}} .icon-back {
+        margin-top: -5px;
+      }
+      #{{el_id}} .account-menu-mobile {
+        margin-left: 0px;
+        margin-right: 0px;
+      }
+      #{{el_id}} .account-menu {
+        flex-direction: column;
+      }
+      #{{el_id}} .ln-image {
+        width: 60px;
+      }
+    }
+  </style>
+  <div id="{{ el_id }}">
+    <div class="container">
+      <div class="row">
+        <div class="col-d-3 col-12">
+          {% render 'account-title' %}
+        </div>
+        {% render 'account-menu' %}
+        <div class="col-d-5 col-12 mt-30 d-mt-0">
+          <div id="page-online-order" class="account-page hide-m">
+            <div class="poo-desktop hide-m show-d">
+              <div class="p1">{{ 'customer.orders.title_online' | t }}</div>
+              <table class="d-mt-30 w-full">
+                <thead>
+                  <tr class="">
+                    <th class="tl p2 d-pb-15">{{ 'customer.orders.order_no' | t }}</th>
+                    <th class="tl p2 d-pb-15">{{ 'customer.orders.date' | t }}</th>
+                    <th class="tl p2 d-pb-15">{{ 'customer.orders.order_value' | t }}</th>
+                    <th class="tl p2 d-pb-15">{{ 'customer.orders.status' | t }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for order in customer.orders limit: account-orders %}
+                    <tr class="">
+                      <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">
+                        <a href="{{ order.customer_url }}" class="link3">
+                          {{ order.name }}
+                        </a>
+                      </td>
+                      <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">{{ order.created_at | date: '%d %b %Y' }}</td>
+                      <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">{{ order.total_price | money_with_currency }}</td>
+                      <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">{{ order.financial_status | camelcase }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="poo-mobile hide-d">
+              {% for order in customer.orders limit: account-orders %}
+                <div class="pb-20 mb-20 bb-1 b-border">
+                  <div class="flex ai-center">
+                    <div class="p2">{{ 'customer.orders.order_number' | t }}</div>
+                    <div class="p2">
+                      <a href="{{ order.customer_url }}" class="link3">{{ order.name }}</a>
+                    </div>
+                  </div>
+                  <div class="flex ai-center mt-8">
+                    <div class="p2">{{ 'customer.orders.date' | t }}</div>
+                    <div class="p2">
+                      {{ order.created_at | date: '%d %b %Y' }}
+                    </div>
+                  </div>
+                  <div class="flex ai-center mt-8">
+                    <div class="p2">{{ 'customer.orders.order_value' | t }}</div>
+                    <div class="p2">
+                      {{ order.total_price | money_with_currency }}
+                    </div>
+                  </div>
+                  <div class="flex ai-center mt-8">
+                    <div class="p2">{{ 'customer.orders.status' | t }}</div>
+                    <div class="p2">
+                      {{ order.financial_status | camelcase }}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div id="page-offline-order" class="account-page hide-m">
+            <div class="poo-desktop hide-m show-d">
+              <div class="p1">{{ 'customer.orders.title_offline' | t }}</div>
+              <table class="d-mt-30 w-full">
+                <thead>
+                  <tr class="">
+                    <th class="tl p2 d-pb-15">{{ 'customer.orders.order_no' | t }}</th>
+                    <th class="tl p2 d-pb-15">{{ 'customer.orders.date' | t }}</th>
+                    <th class="tl p2 d-pb-15">{{ 'customer.orders.order_value' | t }}</th>
+                    <th class="tl p2 d-pb-15">{{ 'customer.orders.status' | t }}</th>
+                  </tr>
+                </thead>
+                <tbody class="poom-list">
+                </tbody>
+              </table>
+            </div>
+            <div class="poo-mobile poomm-list hide-d">
+              
+            </div>
+          </div>
+          <div id="page-offline-order-details" class="account-page hide-m">
+            <a href="#page-offline-order" class="p2 flex ai-center" onclick="changePage('page-offline-order',event)">
+              <span class="icon-back mr-5">
+                {{ settings.icon_btn_left }}
+              </span>
+              {{ 'customer.orders.back_label' | t }}
+            </a>
+            <div class="poo-desktop hide-m show-d">
+              <table class="d-mt-30 w-full">
+                <thead>
+                  <tr class="">
+                    <th class="tl p2 d-pb-15">{{ 'customer.order.item' | t }}</th>
+                    <th class="tl p2 d-pb-15">{{ 'customer.order.colour' | t }}</th>
+                    <th class="tl p2 d-pb-15">{{ 'customer.order.size' | t }}</th>
+                    <th class="tl p2 d-pb-15">{{ 'customer.order.quantity' | t }}</th>
+                  </tr>
+                </thead>
+                <tbody class="pood-list">
+                  <tr class="">
+                    <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">Cotton Gabardine Jasper Pants</td>
+                    <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">Smoke</td>
+                    <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">S</td>
+                    <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="poo-mobile poodm-list hide-d mt-20">
+              <div class="pb-20 bb-1 b-border">
+                <div class="flex ai-center">
+                  <div class="p2">{{ 'customer.order.item' | t }}</div>
+                  <div class="p2 order-item-right">Cotton Gabardine Jasper Pants</div>
+                </div>
+                <div class="flex ai-center mt-8">
+                  <div class="p2">{{ 'customer.order.colour' | t }}</div>
+                  <div class="p2 order-item-right">Smoke</div>
+                </div>
+                <div class="flex ai-center mt-8">
+                  <div class="p2">{{ 'customer.order.size' | t }}</div>
+                  <div class="p2 order-item-right">S</div>
+                </div>
+                <div class="flex ai-center mt-8">
+                  <div class="p2">{{ 'customer.order.quantity' | t }}</div>
+                  <div class="p2 order-item-right">1</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.ShopifyCurrency = {
+        money_format: "{{ shop.money_format | escape }}",
+        money_with_currency_format: "{{ shop.money_with_currency_format | escape }}"
+    };
+    function offlineOrder() {
+      {% assign customer_id = customer.id %}
+      {% assign customer_email = customer.email %}
+      {% assign hash = customer_id | append: customer_email | append: '7cc090ddd87c27a41ae47e9d88f51df2' | md5 %}
+      {% assign hash = hash | md5 %}
+      {% assign hash = hash | md5 %}
+      let tbody = document.querySelector('.poom-list')
+      let tMbody = document.querySelector('.poomm-list')
+      let tdbody = document.querySelector('.pood-list')
+      let tdMbody = document.querySelector('.poodm-list')
+      let tRow = `<tr class="">
+                    <td class="p2 d-pt-15 d-pb-15 bt-1 b-border tl" colspan="4">Loading...</td>
+                  </tr>`
+      let tMRow = `<div class="pb-20 bb-1 b-border">
+                    <div class="flex ai-center mt-8">
+                      <div class="p2">Loading...</div>
+                    </div>
+                  </div>`
+      tbody.innerHTML = tRow
+      tMbody.innerHTML = tMRow
+      $.ajax({
+        type: "POST",
+        url: "/apps/integration",
+        dataType: "json",
+        data: "action=offline-order&customer={{hash}}",
+        success: function(res) {
+          tRow = ''
+          tMRow = ''
+          tDRow = ''
+          tDMRow = ''
+          let {data, api, msg} = res;
+          if(data.length > 0){
+            data.forEach((item) => {
+              let order_no = item.order_no,
+                  date = item.order_date,
+                  order_value = formatCurrency(item.order_value,true),
+                  status = item.status;
+                  item.items.forEach((iItem) => {
+                    let color = iItem.color
+                    let name = iItem.name
+                    let qty = iItem.qty
+                    let size = iItem.size
+                    tDRow += `<tr class="hide-m odRow order-${order_no}">
+                              <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">${name}</td>
+                              <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">${color}</td>
+                              <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">${size}</td>
+                              <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">${qty}</td>
+                            </tr>`
+                    tDMRow += `<div class="pb-20 bb-1 b-border hide-m odRow order-${order_no}">
+                                <div class="flex ai-center">
+                                  <div class="p2">{{ 'customer.order.item' | t }}</div>
+                                  <div class="p2 order-item-right">${name}</div>
+                                </div>
+                                <div class="flex ai-center mt-8">
+                                  <div class="p2">{{ 'customer.order.colour' | t }}</div>
+                                  <div class="p2 order-item-right">${color}</div>
+                                </div>
+                                <div class="flex ai-center mt-8">
+                                  <div class="p2">{{ 'customer.order.size' | t }}</div>
+                                  <div class="p2 order-item-right">${size}</div>
+                                </div>
+                                <div class="flex ai-center mt-8">
+                                  <div class="p2">{{ 'customer.order.quantity' | t }}</div>
+                                  <div class="p2 order-item-right">${qty}</div>
+                                </div>
+                              </div>`
+                  })
+                  tRow += `<tr class="">
+                            <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">
+                              <a
+                                href="#page-offline-order-details"
+                                class="link3"
+                                onclick="changePage('page-offline-order-details',event);openDetails('${order_no}',event)"
+                              >
+                                ${order_no}
+                              </a>
+                            </td>
+                            <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">${date}</td>
+                            <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">${order_value}</td>
+                            <td class="p2 d-pt-15 d-pb-15 bt-1 b-border">${status}</td>
+                          </tr>`
+                  tMRow += `<div class="pb-20 bb-1 b-border">
+                            <div class="flex ai-center">
+                              <div class="p2">{{ 'customer.orders.order_number' | t }}</div>
+                              <div class="p2">
+                                <a
+                                  href="#page-offline-order-details"
+                                  class="link3"
+                                  onclick="changePage('page-offline-order-details',event);openDetails('${order_no}',event)"
+                                  >${order_no}</a
+                                >
+                              </div>
+                            </div>
+                            <div class="flex ai-center mt-8">
+                              <div class="p2">{{ 'customer.orders.date' | t }}</div>
+                              <div class="p2">${date}</div>
+                            </div>
+                            <div class="flex ai-center mt-8">
+                              <div class="p2">{{ 'customer.orders.order_value' | t }}</div>
+                              <div class="p2">${order_value}</div>
+                            </div>
+                            <div class="flex ai-center mt-8">
+                              <div class="p2">{{ 'customer.orders.status' | t }}</div>
+                              <div class="p2">${status}</div>
+                            </div>
+                          </div>`
+            })
+          } else {
+            tRow = `<tr class="">
+                    <td class="p2 d-pt-15 d-pb-15 bt-1 b-border tc" colspan="4">No data to show.</td>
+                  </tr>`
+            tMRow = `<div class="pb-20 bb-1 b-border">
+                          <div class="flex ai-center mt-8">
+                            <div class="p2">No data to show.</div>
+                          </div>
+                        </div>`
+          }
+          tbody.innerHTML = tRow
+          tMbody.innerHTML = tMRow
+          tdbody.innerHTML = tDRow
+          tdMbody.innerHTML = tDMRow
+        },
+        error: function() {
+          tRow = `<tr class="">
+                    <td class="p2 d-pt-15 d-pb-15 bt-1 b-border tc" colspan="4">No data to show.</td>
+                  </tr>`
+          tMRow = `<div class="pb-20 bb-1 b-border">
+                        <div class="flex ai-center mt-8">
+                          <div class="p2">No data to show.</div>
+                        </div>
+                      </div>`
+          tbody.innerHTML = tRow
+          tMbody.innerHTML = tMRow
+          console.error("Error fetching offline order data");
+        }
+      });
+    }
+    function openDetails(orderNo,e){
+      e.preventDefault();
+      let detailsRow = document.querySelectorAll('.odRow')
+      let detailRow = document.querySelectorAll(`.order-${orderNo}`)
+      detailsRow.forEach((i) => {
+        i.classList.add('hide-m')
+      })
+      detailRow.forEach((i) => {
+        i.classList.remove('hide-m')
+      })
+    }
+    function formatCurrency(amount, withCurrency = false) {
+      const moneyFormat = withCurrency ? window.ShopifyCurrency.money_with_currency_format : window.ShopifyCurrency.money_format;
+      const regex = /\{\{\s*(\w+)\s*\}\}/;
+
+      function format(template, amount) {
+          return template.replace(regex, (match, p1) => {
+              switch (p1) {
+                  case 'amount':
+                      return (amount / 100).toFixed(2);
+                  case 'amount_no_decimals':
+                      return (amount / 100).toFixed(0);
+                  case 'amount_with_comma_separator':
+                      return (amount / 100).toFixed(2).replace(/\./, ',');
+                  case 'amount_no_decimals_with_comma_separator':
+                      return (amount / 100).toFixed(0).replace(/\./, ',');
+                  default:
+                      return amount;
+              }
+          });
+      }
+
+      return format(moneyFormat, amount);
+    }
+    offlineOrder();
+  </script>
+{% else %}
+  <script>
+    window.location.href = '/account';
+  </script>
+{% endif %}
+{% schema %}
+{
+  "name": "Account Orders",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    }
+  ]
+}
+{% endschema %}

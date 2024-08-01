@@ -1,0 +1,18 @@
+{% comment %} love and co {% endcomment %}
+<style>
+    .product-reviews .okeReviews {
+        padding: 0 !important;
+    }
+</style>
+
+<section class="product-reviews pt-40 pb-40 t-pt-60 t-pb-60 d-pt-80 d-pb-80 bb-1 b-silver {% if product.metafields.testimonial.enable == blank %} bt-1 {% endif %}">
+    <div class="container">
+        {% if product != blank %} 
+            {% capture product_data_attribute %}data-oke-reviews-product-id="shopify-{{ product.id }}"{% endcapture %} 
+        {% endif %} 
+        {% if shop.metafields.okendo.WidgetPreRenderBodyStyleTags != blank %}
+        {{- shop.metafields.okendo.WidgetPreRenderBodyStyleTags }}
+        {% endif %} 
+        <div data-oke-widget {{ product_data_attribute }}>{{ product.metafields.okendo.ReviewsWidgetSnippet }}</div>
+    </div>
+</section>

@@ -1,0 +1,91 @@
+{%- comment -%}
+Love&Co Theme
+
+Description:
+Snippet for displaying product card
+
+Variables:
+- product. Object. the product object 
+{%- endcomment -%}
+{%- assign variant = product.selected_or_first_available_variant -%}
+{%- assign s = product.images | size -%}
+<div class="product-each lookbook overflow relative">
+	<div class="mb-15 d-mb-0 relative">
+		<a href="{{ product.url }}" class="image-link">
+			<div class="primary">
+				{%- render 'global-image-wrapper', image:product.featured_image -%}
+			</div>
+		</a>
+
+        {%- comment -%} wishlist button {%- endcomment -%}
+        <a href="javascript:void(0)" 
+			class="wishlist-handler-p-each swym-button {% if wishlist_page %} swym-added {% endif %} swym-add-to-wishlist-view-product product_{{product.id}}"
+			data-with-epi="true"
+			data-swaction="addToWishlist" 
+			data-product-id="{{product.id | json}}" 
+			data-variant-id="{{product.variants[0].id}}" 
+			data-product-url="{{ shop.url }}{{ product.url }}"
+			data-product-name="{{ product.title }}"
+			data-product-price="{{ product.variants[0].price | money_without_currency }}"
+			data-product-vendor="{{ product.vendor }}"
+			data-product-category="{{ product.collections[0].title }}"
+			data-product-category-2="{{ product.collections[1].title }}"
+			data-product-variant="{{ product.variants[0].title }}"
+			data-product-variant-id="{{ product.variants[0].id }}"
+		>
+			{{ settings.icon_heart }}
+		</a>
+
+		{%- comment -%} product tags {%- endcomment -%}
+		{%- if settings.pg_enable_labels and settings.pg_tag_1 != blank -%}
+			<div class="pro-tags-container">
+				{%- for i in (1..10) -%}
+					{%- assign tag = "pg_tag_" | append: i -%}
+					{%- assign bg_color = "pg_tag_bg_" | append: i -%}
+					{%- assign text_color = "pg_tag_color_" | append: i -%}
+
+					{%- if product.tags contains settings[tag] -%}
+						{%- assign tag_text = settings[tag] | split: ':' | last -%}
+						<div class="tag-each p4 uppercase spacing-1" style="color: {{ settings[text_color] }}; background-color: {{ settings[bg_color] }}">{{ tag_text }}</div>
+					{%- endif -%}
+				{%- endfor -%}
+			</div>
+		{%- endif -%}
+
+		<div class="hover-content p-20">
+			<a href="{{ product.url }}" class="p2 bold-500 width-100" title="{{ product.title | escape }}">{{ product.title }}</a>
+			<div class="price-container mt-10 tl width-100 global-flex flex-wrap ai-center jc-between">
+				<div>
+					{%- if product.price_min < product.price_max -%}
+						<span class="p2 bold-500 c-grey">{{ product.price_min | money_with_currency }}</span>
+						<span class="p2 bold-500 c-grey second-price">- {{ product.price_max | money_with_currency }}</span>
+					{%- else -%}
+						<span class="p2 bold-500 c-grey">{{ product.price | money_with_currency }}</span>
+						{%- if product.price < product.compare_at_price -%}
+							<span class="p2 bold-500 c-grey second-price opacity-5 ml-5"><strike>{{ product.compare_at_price | money_with_currency }}</strike></span>
+						{%- endif -%}
+					{%- endif -%}
+				</div>
+			</div>
+		</div>
+	</div>
+    <div class="details-con show-m hide-d">
+		<div class="global-flex flex-wrap jc-between">
+			<a href="{{ product.url }}" class="p2 bold-500 width-100" title="{{ product.title | escape }}">{{ product.title }}</a>
+
+			<div class="price-container mt-10 tl width-100 global-flex flex-wrap ai-center jc-between">
+				<div>
+					{%- if product.price_min < product.price_max -%}
+						<span class="p2 bold-500 c-grey">{{ product.price_min | money_with_currency }}</span>
+						<span class="p2 bold-500 c-grey second-price">- {{ product.price_max | money_with_currency }}</span>
+					{%- else -%}
+						<span class="p2 bold-500 c-grey">{{ product.price | money_with_currency }}</span>
+						{%- if product.price < product.compare_at_price -%}
+							<span class="p2 bold-500 c-grey second-price opacity-5 ml-5"><strike>{{ product.compare_at_price | money_with_currency }}</strike></span>
+						{%- endif -%}
+					{%- endif -%}
+				</div>
+			</div>
+		</div>
+    </div>
+</div>

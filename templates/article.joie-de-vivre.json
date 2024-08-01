@@ -1,0 +1,685 @@
+{
+  "wrapper": ".global-content-top-margin",
+  "sections": {
+    "article_heading_qPqmFk": {
+      "type": "article-heading",
+      "settings": {
+        "top_padding_m": 30,
+        "bottom_padding_m": 25,
+        "top_padding_t": 30,
+        "bottom_padding_t": 30,
+        "top_padding": 50,
+        "bottom_padding": 44,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "title_size": "h1",
+        "title_dom_type": "h1",
+        "subtitle": "HOLIDAY’23 BAGS",
+        "title": "Joie De Vivre"
+      }
+    },
+    "article_main_banner_VkRKKL": {
+      "type": "article-main-banner",
+      "blocks": {
+        "entry_QfcgJD": {
+          "type": "entry",
+          "settings": {
+            "text_color": "#FFFFFF",
+            "text_align": "jc-center tc",
+            "text_align_d": "d-jc-center d-tc",
+            "title": "",
+            "title_dom_type": "h1",
+            "title_size": "h1",
+            "text": "",
+            "text_max_width_mobile": 450,
+            "text_max_width_tablet": 450,
+            "text_max_width_desktop": 450,
+            "text_max_width_hd": 450,
+            "text_max_width_fullhd": 450,
+            "button_label": "",
+            "button_url": "",
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-1.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-1.jpg",
+            "autoplay": false,
+            "youtube_embed_code": ""
+          }
+        }
+      },
+      "block_order": [
+        "entry_QfcgJD"
+      ],
+      "settings": {
+        "bg_color": "",
+        "disable_lazyload": false,
+        "text_over_image": false,
+        "enable_parallax": false,
+        "section_width": "container",
+        "section_width_percentage_d": 1088,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "article_content_dGEAiz": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "<p>A bag often makes the finishing touch of every look. It’s how you make a statement – bold or subtle with every<br\/>space in your personal collection. Ever since the introduction of the POUF bag, each IN GOOD COMPANY look<br\/>can now be complete with its clutch, crossbody and wristlet style-trifecta. This holiday season, the addition of<br\/>three new bags makes it a lot easier to create the final look you want.<br\/><br\/>The Holiday Collection for 2023 is complete with this season’s bags and its repertoire includes a bag to suit<br\/>every style – functional elegance with a flair and a touch of panache.<br\/><\/p><p>Discover what inspired co-founder and creative director, Sven Tan for the new PIXEL, PARACHUTE &<br\/>PENNY bags.<br\/><\/p>"
+      }
+    },
+    "article_image_caption_gcWViF": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-2.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-2.jpg",
+        "title": ""
+      }
+    },
+    "article_content_XHg3aX": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "<h4>[start:#808080]THE BURNING QUESTION, SVEN: WHY MORE BAGS?<br\/>[end:#808080]<\/h4><p><\/p><p>Ever since we launched the POUF, we received numerous requests from our customers for more bag offerings. I think the audience, in general, has an appetite for day bags that possess a design quality and yet are accessible price-wise.<\/p><p><\/p><h4>[start:#808080]TELL US HOW THE IDEA FOR THE POUF BAG CAME ABOUT.<br\/>[end:#808080]<\/h4><p><\/p><p>Often when I was styling a collection, I often felt certain looks were missing a bag to look complete.<br\/><\/p><p>I’m not a bag designer by training, and for a long time, it never crossed my mind to design one. But I was<br\/>introduced to a friend who runs a bag factory producing for brands and he encouraged me to sample a bag. So<br\/>I did, although I really didn’t expect we would produce it. You can almost say it’s an accident that POUF came<br\/>about.<br\/><br\/><\/p>"
+      }
+    },
+    "article_two_cols_image_XPFpKt": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_miXqfK": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-3.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-3.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_wCy4UN": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-4.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-4.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_miXqfK",
+        "entry_wCy4UN"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_content_BHtBx3": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "<h4>[start:#808080]THAT’S SERENDIPITOUS! WHAT WAS YOUR THOUGHT PROCESS FOR POUF THOUGH?[end:#808080]<\/h4><p><\/p><p><\/p><p>Naturally, when I approached this, I was thinking of a bag that would be a perfect accompaniment to our ready-<br\/>to-wear pieces.<br\/>I imagined something modern yet reassuringly effortless - a bag that would go perfectly with our dressier styles<br\/>and the pieces with a bolder silhouette. Those were the looks I often found incomplete - like a bag was needed.<br\/><\/p><p>Eventually, Kane, our artisanal director and I really got into it during sampling, I think it’s because we have been<br\/>designing clothes so much that a new product just brings about a new sense of excitement and freshness. For<br\/>our first POUF, we used a corrugated fabric that we had recently developed then, and subsequently made a<br\/>mini version in Nappa leather.<br\/><\/p>"
+      }
+    },
+    "article_two_cols_image_W8MLy7": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_7rAKB6": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-5.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-5.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_GrRgXi": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-6.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-6.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_7rAKB6",
+        "entry_GrRgXi"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_content_aQ7zGX": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "<h4>[start:#808080]SO... WE HEAR THAT THERE’S A LIMITED HOLIDAY EDITION FOR POUF. TELL US ABOUT IT![end:#808080]<\/h4><p><\/p><p><\/p><p>Yes, this one is a personal favourite. Our holiday mini leather POUF bag pays homage to artisanal craftwork and<br\/>comes adorned with a delectable charm inspired by the botanical photography of Karl Blossfeldt, a German<br\/>sculptor and photographer from the early 1900s. He started taking close-ups of plants in order to teach his<br\/>students. To do this, he used a method called “microphotography” to capture the shapes of the botanical plant<br\/>forms while keeping the plant details in focus.<br\/><\/p><p>Taking a note from there, we painstakingly created this charm with fine crafting techniques, in order to translate<br\/>the wondrous forms, shapes and textures of our natural world onto leather.<\/p>"
+      }
+    },
+    "article_image_caption_mMdb3Q": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-7.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-7.jpg",
+        "title": ""
+      }
+    },
+    "article_content_Gg8Hjt": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 632,
+        "text": "<h4>[start:#808080]YOU’VE COINED THE HOLIDAY THEME JOIE DE VIVRE. WHY SO?[end:#808080]<\/h4><p><\/p><p>Well, we wanted this Holiday 2023 campaign to feel youthful, modern and spirited! The idea was mostly about<br\/>subverting the classics with playful shapes, highlighting details and textures with exclusive materials that radiate<br\/>modernity.<\/p><p><\/p><p><\/p><h4>[start:#808080]HOW DID DESIGNING THESE NEW BAGS FOR THE HOLIDAY 2023 COLLECTION COME ABOUT?[end:#808080]<\/h4><p><\/p><p>The theme for the Holiday collection this year is Joie De Vivre. It’s perfect because the new bags have a<br\/>cheerful vibe. We shot the campaign for both our Ready-to-Wear and Bags in that holiday spirit with<br\/>photographer Stefan Khoo. We also collaborated with paper artist Diana Beltran, who is a long-time friend of IN<br\/>GOOD COMPANY on the Holiday campaign series.<br\/><\/p><p>We planned for the bags to front the store with a special installation. I think of the bags in the collection as<br\/>playful accomplices to suit any look. I also thought they would make a perfect gift.<br\/><\/p>"
+      }
+    },
+    "article_two_cols_image_eXHjkx": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_P8zcAQ": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-8.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-8.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_c4Aj4b": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-9.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-9.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_P8zcAQ",
+        "entry_c4Aj4b"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_content_multiple_L8Pm9j": {
+      "type": "article-content-multiple",
+      "blocks": {
+        "entry_WHJLxJ": {
+          "type": "entry",
+          "settings": {
+            "top_padding_m": 60,
+            "bottom_padding_m": 0,
+            "top_padding_t": 60,
+            "bottom_padding_t": 0,
+            "top_padding": 100,
+            "bottom_padding": 0,
+            "top_padding_hd": "",
+            "bottom_padding_hd": "",
+            "top_padding_hhd": "",
+            "bottom_padding_hhd": "",
+            "text": "<h2>“The idea was mostly about subverting the classics with playful shapes, highlighting details and textures with exclusive materials that radiate modernity.”<\/h2><h4>— SVEN, ON JOIE DE VIVRE<\/h4>",
+            "mw_tablet": 360,
+            "mw_desktop": 400
+          }
+        },
+        "entry_xAmW7B": {
+          "type": "entry",
+          "settings": {
+            "top_padding_m": 60,
+            "bottom_padding_m": 0,
+            "top_padding_t": 60,
+            "bottom_padding_t": 0,
+            "top_padding": 50,
+            "bottom_padding": 0,
+            "top_padding_hd": "",
+            "bottom_padding_hd": "",
+            "top_padding_hhd": "",
+            "bottom_padding_hhd": "",
+            "text": "<h4>[start:#808080]SHARE MORE ABOUT THE DESIGN PHILOSOPHY FOR THE HOLIDAY 2023 COLLECTION.[end:#808080]<\/h4><p><\/p><p>I always think about the personality of the bags before actually designing them. That’s the fun of designing bags for me. It’s as if I’m envisioning the personality of the person carrying each bag as I start the design process.<\/p><p>With POUF, our mainstay, I wanted it to be a little more sophisticated. It’s a bag that can be styled with the<br\/>dressier looks from the collection, this explains why we did a Nappa version.<\/p>",
+            "mw_desktop": 650
+          }
+        }
+      },
+      "block_order": [
+        "entry_WHJLxJ",
+        "entry_xAmW7B"
+      ],
+      "settings": {}
+    },
+    "article_image_caption_6a9Ntr": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-10.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-10.jpg",
+        "title": ""
+      }
+    },
+    "article_content_jt7yqU": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_mobile": 0,
+        "mw_desktop": 650,
+        "text": "<p>A new addition is PIXEL, which I imagined to be a little more feminine. So I applied the shirring texture that we<br\/>used a lot from the Ready-to-Wear collection. Texture is an important part of my design process. It evokes a<br\/>sense of sensuality and yet, it can also alter our perception on how we feel towards a design.<\/p>"
+      }
+    },
+    "article_image_caption_nAE7rr": {
+      "type": "article-image-caption",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-11.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-11.jpg",
+        "title": ""
+      }
+    },
+    "article_quote_QkAayN": {
+      "type": "article-quote",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_tablet": 360,
+        "mw_desktop": 400,
+        "text": "<h2>“Texture is an important part of my design process. It evokes a sense of sensuality and yet, it can also alter our perception on how we feel towards a design.”<\/h2><h4>— SVEN, ON THE PIXEL BAG<\/h4>"
+      }
+    },
+    "article_two_cols_image_XJAE8q": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_y9gcrB": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-12.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-12.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_GfRYFg": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-13.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-13.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_y9gcrB",
+        "entry_GfRYFg"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_content_multiple_iTHiNB": {
+      "type": "article-content-multiple",
+      "blocks": {
+        "entry_iXp8KQ": {
+          "type": "entry",
+          "settings": {
+            "top_padding_m": 60,
+            "bottom_padding_m": 0,
+            "top_padding_t": 60,
+            "bottom_padding_t": 0,
+            "top_padding": 100,
+            "bottom_padding": 0,
+            "top_padding_hd": "",
+            "bottom_padding_hd": "",
+            "top_padding_hhd": "",
+            "bottom_padding_hhd": "",
+            "text": "<p>For PARACHUTE, I was inspired by athleisure. This is a bag that suits the mobile, urban lifestyle of today. A sporty, off-duty look that’s still stylish. We played with hardware and included plenty of customisable features.You can carry the Parachute bag comfortably in several ways.<\/p>",
+            "mw_mobile": 0,
+            "mw_desktop": 650
+          }
+        }
+      },
+      "block_order": [
+        "entry_iXp8KQ"
+      ],
+      "settings": {}
+    },
+    "article_two_cols_image_jFtnJX": {
+      "type": "article-two-cols-image",
+      "blocks": {
+        "entry_kxdRwq": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-14.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-14.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        },
+        "entry_qRAmRT": {
+          "type": "entry",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-15.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/IGC_Shopify_Blog_Spotlight_JoieDeVivre-15.jpg",
+            "caption": "",
+            "text_align": "left",
+            "text_color": "black",
+            "text_position": "outside"
+          }
+        }
+      },
+      "block_order": [
+        "entry_kxdRwq",
+        "entry_qRAmRT"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 1080,
+        "bg_color": "",
+        "container_setting": "container"
+      }
+    },
+    "article_content_GD8JpX": {
+      "type": "article-content",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "<p>Our final bag in this collection is PENNY. Every collection needs a tote bag to complete the range! Because<br\/>totes are a sac de jour for many women. There’ll always be someone in a group who is a tote bag person!<br\/><br\/>So for this, I was thinking of something playful but I wanted to retain the functional element of the bag. What’s<br\/>more, we also added a fun design element – creating a zipper feature that allows the shape of the bag to be<br\/>customised or extended.<br\/><\/p>"
+      }
+    },
+    "article_footer_XFNrfV": {
+      "type": "article-footer",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_desktop": 650,
+        "text": "WORDS BY CHARLEN CHAN. PHOTOGRAPHY BY STEFAN KHOO."
+      }
+    },
+    "article_related_articles_hcQNnH": {
+      "type": "article-related-articles",
+      "blocks": {
+        "entry_3qNTRx": {
+          "type": "entry",
+          "settings": {
+            "article": ""
+          }
+        },
+        "entry_fcDJzk": {
+          "type": "entry",
+          "settings": {
+            "article": ""
+          }
+        },
+        "entry_pEzkre": {
+          "type": "entry",
+          "settings": {
+            "article": ""
+          }
+        }
+      },
+      "block_order": [
+        "entry_3qNTRx",
+        "entry_fcDJzk",
+        "entry_pEzkre"
+      ],
+      "disabled": true,
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "article_breadcrumbs_YCHHea": {
+      "type": "article-breadcrumbs",
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 40,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "mw_mobile": 320,
+        "mw_tablet": 320,
+        "mw_desktop": 0
+      }
+    }
+  },
+  "order": [
+    "article_heading_qPqmFk",
+    "article_main_banner_VkRKKL",
+    "article_content_dGEAiz",
+    "article_image_caption_gcWViF",
+    "article_content_XHg3aX",
+    "article_two_cols_image_XPFpKt",
+    "article_content_BHtBx3",
+    "article_two_cols_image_W8MLy7",
+    "article_content_aQ7zGX",
+    "article_image_caption_mMdb3Q",
+    "article_content_Gg8Hjt",
+    "article_two_cols_image_eXHjkx",
+    "article_content_multiple_L8Pm9j",
+    "article_image_caption_6a9Ntr",
+    "article_content_jt7yqU",
+    "article_image_caption_nAE7rr",
+    "article_quote_QkAayN",
+    "article_two_cols_image_XJAE8q",
+    "article_content_multiple_iTHiNB",
+    "article_two_cols_image_jFtnJX",
+    "article_content_GD8JpX",
+    "article_footer_XFNrfV",
+    "article_related_articles_hcQNnH",
+    "article_breadcrumbs_YCHHea"
+  ]
+}

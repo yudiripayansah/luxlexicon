@@ -1,0 +1,134 @@
+<style>
+  .accordion-title.active .title {
+    font-weight: 500;
+  }
+</style>
+{%- if section.blocks.size > 0 -%}
+  {%- assign el_id = 'accordion-' | append: section.id -%}
+  {%- render 'section-padding', el_id: el_id, section: section -%}
+  <div id="{{ el_id }}">
+    <div class="container">
+        <div class="acc-wrap ml-auto mr-auto max-{{section.settings.max_width}}">
+            <div class="p6 spacing-1 medium-500">
+                {{section.settings.title}}
+            </div>
+            <div class="accordion d-mt-60 mt-40">
+                {%- for block in section.blocks -%}
+                  {%- assign wrapper_class = 'bt-1 b-border' -%}
+                  {%- if forloop.last -%}
+                    {%- assign wrapper_class = 'bt-1 bb-1 b-border' -%}
+                  {%- endif -%}
+                  {%- render 'accordion',
+                    wrapper_class: wrapper_class,
+                    title: block.settings.title,
+                    title_class: 'p2',
+                    desc_no_pt: true,
+                    description: block.settings.description,
+                    desc_class: 'rte p3'
+                  -%}
+                {%- endfor -%}
+            </div>
+        </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Accordion",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "number",
+      "id": "max_width",
+      "label": "Max Width"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hd",
+        "label": "Top padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hd",
+        "label": "Bottom padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hhd",
+        "label": "Top padding (HHD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hhd",
+        "label": "Bottom padding (HHD)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "accordion",
+      "name": "Accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Accordion",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

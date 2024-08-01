@@ -1,0 +1,8 @@
+<div class="icon-box">
+    <div class="icon pointer" :class="{ active: cols3}" @click="switchGrid('cols3')">
+        {{ settings.icon_3cols }}
+    </div>
+    <div class="icon pointer" :class="{ active: cols2}" @click="switchGrid('cols2')">
+        {{ settings.icon_2cols }}
+    </div>
+</div>

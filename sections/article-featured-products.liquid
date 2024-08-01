@@ -1,0 +1,223 @@
+{% comment %} in-good-company {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  {%- if section.settings.mw_mobile != blank and section.settings.mw_mobile != 0 -%}
+    #{{el_id}} .article-content-wrapper {
+      margin: 0 auto;
+      max-width: {{ section.settings.mw_mobile }}px;
+    }
+  {%- endif -%}
+  #{{el_id}} .article-content .container-mobile {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  #{{el_id}} .article-content-wrapper .acf-row .ac-featured-item:nth-child(odd) .details-con{
+      padding-left: 15px;
+  }
+  #{{el_id}} .article-content-wrapper .acf-row .ac-featured-item:nth-last-child(-n+2) {
+    margin-bottom: 0;
+  }
+  @media screen and (min-width: 600px) {
+    {%- if section.settings.mw_tablet != blank and section.settings.mw_tablet != 0  -%}
+      #{{el_id}} .article-content-wrapper {
+        margin: 0 auto;
+        max-width: {{ section.settings.mw_tablet }}px;
+      }
+    {%- endif -%}
+  }
+  @media screen and (min-width: 1024px) {
+    {%- if section.settings.mw_desktop != blank and section.settings.mw_desktop != 0  -%}
+      #{{el_id}} .article-content-wrapper {
+        margin: 0 auto;
+        max-width: {{ section.settings.mw_desktop }}px;
+      }
+    {%- else -%}
+      #{{el_id}} .article-content-wrapper {
+        max-width: 100%;
+      }
+    {%- endif -%}
+    #{{el_id}} .article-content .container-mobile {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+    #{{el_id}} .article-content-wrapper .acf-row .ac-featured-item:nth-child(odd) .details-con{
+        padding-left: 0;
+    }
+    #{{el_id}} .article-content-wrapper .acf-row .ac-featured-item:nth-last-child(-n+4) {
+      margin-bottom: 0;
+    }
+  }
+</style>
+
+<div class="article-content overflow">
+  <div class="container container-mobile">
+    <div class="article-content-wrapper">
+      <div class="ac-featured">
+        <h4 class="h4 medium-500 uppercase tc">{{ 'blogs.article.featured' | t }}</h4>
+        <div class="row acf-row d-mt-30 mt-25">
+          {% comment %}
+            {% for block in section.blocks %}
+              <div class="col-d-3 col-6 d-mb-50 mb-30 ac-featured-item {% if forloop.index > 4 %}hide-m show-d{% endif %}">
+                {%- assign image_id = 'article-featured-product-image-' | append: product.id -%}
+                {%- assign preload = '' -%}
+                {%- if section.index == 1 -%}
+                  {%- assign preload = true -%}
+                {%- endif -%}
+
+                {%- if block.settings.link_url != blank -%}<a href="{{block.settings.link_url}}">{%- endif -%}
+                {%- render 'global-image-wrapper-responsive',
+                  image_id: image_id,
+                  desktop_image: block.settings.desktop_image,
+                  mobile_image: block.settings.mobile_image,
+                  additional_class: 'no-bg',
+                  preload: preload
+                %}
+                <div class="pt-10 global-flex d-jc-between flex-column d-flex-row">
+                  <p class="p2">{{ block.settings.title }}</p>
+                  <div class="global-flex ai-center pt-5 d-pt-0">
+                    <p class="p2">{{ block.settings.price }}</p>
+                    {%- if block.settings.price_before != blank -%}
+                      <p class="c-grey p2 ml-3">
+                        <strike>{{ block.settings.price_before }}</strike>
+                      </p>
+                    {%- endif -%}
+                  </div>
+                </div>
+                {%- if block.settings.link_url != blank -%}</a>{%- endif -%}
+              </div>
+            {% endfor %}
+          {% endcomment %}
+          <div class="global-flex flex-wrap">
+            {% for product in section.blocks %}
+              <div class="col-d-3 col-6 d-mb-50 mb-30 ac-featured-item {% if forloop.index > 4 %}hide-m show-d{% endif %}">
+                {% render 'product-each', product: product.settings.featured_products %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="tc hide-d">
+          <a href="#" rel="nofollow" class="link1" onclick="loadMore(event)">{{ 'blogs.article.load_more' | t }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function loadMore(e) {
+    e.preventDefault();
+    let clicked = e.target;
+    let acHidden = document.querySelectorAll('.ac-featured-item.hide-m');
+    acHidden.forEach(function (item) {
+      item.classList.remove('hide-m');
+    });
+    clicked.closest('.tc').classList.add('hide-m');
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Article-Featured Products",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "number",
+      "id": "mw_mobile",
+      "label": "Max width mobile"
+    },
+    {
+      "type": "number",
+      "id": "mw_tablet",
+      "label": "Max width tablet"
+    },
+    {
+      "type": "number",
+      "id": "mw_desktop",
+      "label": "Max width desktop"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "product",
+          "id": "featured_products",
+          "label": "Featured products"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article-Featured Products"
+    }
+  ]
+}
+{% endschema %}

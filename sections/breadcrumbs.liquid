@@ -1,0 +1,137 @@
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% assign ss = section.settings %}
+{% assign sb = section.blocks %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+{%- render 'breadcrumbs',
+	first_text: section.settings.first_text,
+	first_url: section.settings.first_url,
+	bg_color: section.settings.bg_color,
+	blocks: section.blocks,
+	text_align: section.settings.text_align
+-%}
+{% schema %}
+{
+	"name": "Breadcrumbs",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Padding Settings"
+		},
+		{
+			"type": "number",
+			"id": "top_padding_m",
+			"label": "Top Padding (Mobile)"
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding_m",
+			"label": "Bottom Padding (Mobile)"
+		},
+		{
+			"type": "number",
+			"id": "top_padding_t",
+			"label": "Top Padding (Tablet)"
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding_t",
+			"label": "Bottom Padding (Tablet)"
+		},
+		{
+			"type": "number",
+			"id": "top_padding",
+			"label": "Top Padding (Desktop)"
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding",
+			"label": "Bottom Padding (Desktop)"
+		},
+		{
+			"type": "number",
+			"id": "top_padding_hd",
+			"label": "Top Padding (HD)"
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding_hd",
+			"label": "Bottom Padding (HD)"
+		},
+		{
+			"type": "number",
+			"id": "top_padding_hhd",
+			"label": "Top Padding (HHD)"
+		},
+		{
+			"type": "number",
+			"id": "bottom_padding_hhd",
+			"label": "Bottom Padding (HHD)"
+		},
+		{
+			"type": "header",
+			"content": "General Settings"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background Color",
+			"default": "#ffffff"
+		},
+        {
+			"type": "text",
+			"id": "first_text",
+			"label": "First Text"
+		},
+        {
+			"type": "url",
+			"id": "first_url",
+			"label": "First URL"
+		},
+		{
+			"type": "select",
+			"id": "text_align",
+			"label": "Text Align",
+			"options": [
+				{
+					"value": "jc-start",
+					"label": "Left"
+				},
+				{
+					"value": "jc-center",
+					"label": "Center"
+				},
+				{
+					"value": "jc-end",
+					"label": "Right"
+				}
+			],
+			"default": "jc-center"
+		}
+	],
+	"blocks" : [
+		{
+			"type": "text",
+			"name": "Breadcrumb",
+			"settings": [
+				{
+					"type": "text",
+					"id": "text",
+					"label": "Text"
+				},
+				{
+					"type": "url",
+					"id": "url",
+					"label": "URL"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Breadcrumbs",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,442 @@
+{% comment %} JCO Theme - Yudi {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #{{el_id}} .flex-wrapper{
+      display:flex;
+      flex-wrap:wrap;
+  }
+  #{{el_id}} .article-each{
+      width:100%;
+  }
+  #{{el_id}} .pagination .icon,
+  #{{el_id}} .pagination .icon svg {
+    width: 5px;
+    height: 10px;
+  }
+  #{{el_id}} .aa-link {
+    display: inline-block;
+  }
+  #{{el_id}} .mobile-tag {
+    top: 50px
+  }
+  #{{el_id}} .desktop-tag {
+    top: 68px;
+  }
+  @media screen and (min-width: 600px) {
+    #{{el_id}} .flex-wrapper{
+        margin:0 -5px;
+    }
+    #{{el_id}} .article-each{
+      width:calc(100% / 2);
+      padding-left:5px;
+      padding-right:5px;
+    }
+    #{{el_id}} .global-select-div {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+  }
+  @media screen and (max-width: 1023px){
+    #{{el_id}} .article-each .global-image-wrapper {
+      padding-bottom: 0 !important;
+      height: auto !important;
+    }
+    #{{el_id}} .article-each .global-image-wrapper img {
+      height: 260px !important;
+      position: relative;
+      object-fit: cover;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+      #{{el_id}} .flex-wrapper{
+          margin:0 -5px;
+      }
+      #{{el_id}} .article-each{
+          width:calc(100% / 3);
+          padding-left:5px;
+          padding-right:5px;
+      }
+      #{{el_id}} .baa-tags a:not(.active){
+          opacity:0.4;
+      }
+      #{{el_id}} .baa-tags a:not(.active):hover{
+          opacity:1;
+      }
+      #{{el_id}} .article-each .global-image-wrapper {
+        padding-bottom: 76% !important;
+        height: auto !important;
+      }
+      #{{el_id}} .article-each .global-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* position: relative; */
+      }
+  }
+  @media screen and (min-width: 1400px) {
+    #{{el_id}} .desktop-tag {
+      top: 68px;
+    }
+  }
+  @media screen and (min-width: 1800px) {
+    #{{el_id}} .desktop-tag {
+      top: 68px;
+    }
+  }
+</style>
+
+<section id="{{ section.id }}" class="blog-all-articles">
+  <div class="hide-d mb-20 sticky zi-7 bg-white top-87 mobile-tag">
+    {%- assign select_id = "tag-picker-" | append: section.id -%}
+    {% assign values = empty %}
+    {% assign values = values | append: 'blogs.article.all' | t | append: "," %}
+    {% comment %} {% assign option_values = empty %}
+    {% assign option_values = option_values | append: "all,"%} {% endcomment %}
+    {%for tag in blog.all_tags%}
+        {% assign values = values | append: tag | append:","%}
+        {% comment %} {% assign option_values = option_values | append: tag | handle | append:","%} {% endcomment %}
+    {%endfor%}
+    {% assign values = values | split: "," %}
+    {% comment %} {% assign option_values = option_values | split: "," %} {% endcomment %}
+    {% if current_tags != blank %}
+        {% assign default_text = current_tags %}
+    {%else%}
+        {% assign default_text = 'blogs.article.all' | t %}
+    {%endif%}
+    {%- render 'global-select-href',
+        default_value: "",
+        default_text: default_text,
+        values: values,
+        id: select_id,
+        selected_text_class: 'p1',
+        label_class: 'p1',
+        select_icon: 'caret'
+        vue_onchange: '',
+        anchor:""
+    -%}
+  </div>
+  <div class="hide-m show-d pt-15 pb-17 bb-1 b-border baa-tags bg-white sticky desktop-tag zi-7">
+    <div class="container">
+      <a href="{{ blog.url }}" class="p2 {% if current_tags == blank %}active{% endif %}">{{ 'blogs.article.all' | t }}</a>
+      {% for tag in blog.all_tags %}
+        <a
+          href="{{ blog.url }}/tagged/{{ tag | handle }}#all-articles"
+          class="p2 article-tag ml-25 {% if current_tags contains tag %}active{% endif %}"
+        >
+          {{- tag -}}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="container hhd-mt-90 hd-mt-70 d-mt-60 t-mt-60 mt-50" id="all-articles">
+    {%- paginate blog.articles by section.settings.article_per_page -%}
+      <div class="flex-wrapper">
+        {%- for article in blog.articles -%}
+          <div class="article-each d-mt-10 t-mb-50 hhd-mb-60 d-mb-50 mb-40">
+            <a href="{{article.url}}">
+              {%- render 'global-image-wrapper', image: article.image, additional_class: '' %}
+              <div class="medium-500 p5 uppercase mt-15 spacing-1">{{ article.tags[0] }}</div>
+              <div class="p1 mt-7 d-max-380 hhd-max-550">{{ article.title }}</div>
+              <div class="p3 light-300 mt-6 d-max-380 hhd-max-550">{{ article.excerpt_or_content | strip_html | truncate: 200, '...' }}</div>
+              <span class="p5 uppercase mt-10 bb-1 aa-link spacing-1">{{ 'blogs.article.read_more' | t }}</span>
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <nav role="navigation">
+          <ol class="pagination flex jc-center ai-center">
+            {%- if paginate.previous %}
+              <li class="mr-15">
+                <a class="nav-btn ai-center" href="{{ paginate.previous.url }}">
+                  <span aria-hidden="true" class="icon">{{ settings.icon_slide_left }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+            <div class="pagination-number flex">
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <li class="p3 {% unless forloop.last == true %}mr-15{% endunless %} opacity-4">
+                    <a href="{{ part.url }}">
+                      {{ part.title }}
+                    </a>
+                  </li>
+                {%- else -%}
+                  {%- if part.title == paginate.current_page -%}
+                    <li class="active regular-400 p3 {% unless forloop.last == true %}mr-15{% endunless %}" aria-current="page">
+                      {{ part.title }}
+                    </li>
+                  {%- else -%}
+                    <li class="{% unless forloop.last == true %}mr-15{% endunless %} opacity-4">
+                      {{ part.title }}
+                    </li>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- if paginate.next -%}
+              <li class="ml-15">
+                <a class="nav-btn ai-center" href="{{ paginate.next.url }}">
+                  <span aria-hidden="true" class="icon">{{ settings.icon_slide_right }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+          </ol>
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+<script>
+  {% comment %} check if sticky elem reach the bottom of the parent {% endcomment %}
+  function isStickyAtBottom(element) {
+      const bounding = element.getBoundingClientRect();
+      const parentBounding = element.parentElement.getBoundingClientRect();
+      const headerHeight = document.querySelector('.header-con-outer').offsetHeight;
+
+      // Check if the element is at the bottom of its parent
+      console.log(bounding.bottom,parentBounding.bottom);
+      return bounding.bottom >= (parentBounding.bottom-headerHeight);
+  }
+
+  const stickyElements = document.querySelectorAll('#{{el_id}} .sticky');
+  window.addEventListener('scroll', function() {
+    stickyElements.forEach(function(sticky_elem){
+      if(isStickyAtBottom(sticky_elem)) {
+        sticky_elem.classList.remove('zi-7');
+        sticky_elem.classList.add('zi-2');
+      } else {
+        sticky_elem.classList.remove('zi-2');
+        sticky_elem.classList.add('zi-7');
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Blog - All Articles",
+  "class": "relative has-sticky-elem",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_border_top",
+      "label": "Enable Border Top"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_border_bottom",
+      "label": "Enable Border Bottom"
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ],
+      "default": "h3"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "load_more_button_label",
+      "label": "Load More Button Label"
+    },
+    {
+      "type": "number",
+      "id": "article_per_page",
+      "label": "Article Per Page"
+    },
+    {
+      "type": "header",
+      "content": "Padding Settings"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top Padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom Padding (Desktop)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hd",
+        "label": "Top padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hd",
+        "label": "Bottom padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hhd",
+        "label": "Top padding (HHD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hhd",
+        "label": "Bottom padding (HHD)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog - All Articles"
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  'use strict';
+  var Ajaxinate = function t(e) {
+    (this.settings = Object.assign(
+      {
+        method: 'scroll',
+        container: '#AjaxinateContainer',
+        pagination: '#AjaxinatePagination',
+        offset: 0,
+        loadingText: 'Loading',
+        callback: null,
+      },
+      e || {}
+    )),
+      (this.addScrollListeners = this.addScrollListeners.bind(this)),
+      (this.addClickListener = this.addClickListener.bind(this)),
+      (this.checkIfPaginationInView = this.checkIfPaginationInView.bind(this)),
+      (this.stopMultipleClicks = this.stopMultipleClicks.bind(this)),
+      (this.removeClickListener = this.removeClickListener.bind(this)),
+      (this.removeScrollListener = this.removeScrollListener.bind(this)),
+      (this.destroy = this.destroy.bind(this)),
+      (this.containerElement = document.querySelector(this.settings.container)),
+      (this.paginationElement = document.querySelector(this.settings.pagination)),
+      this.initialize();
+  };
+  (Ajaxinate.prototype.initialize = function t() {
+    this.containerElement && { click: this.addClickListener, scroll: this.addScrollListeners }[this.settings.method]();
+  }),
+    (Ajaxinate.prototype.addScrollListeners = function t() {
+      this.paginationElement &&
+        (document.addEventListener('scroll', this.checkIfPaginationInView),
+        window.addEventListener('resize', this.checkIfPaginationInView),
+        window.addEventListener('orientationchange', this.checkIfPaginationInView));
+    }),
+    (Ajaxinate.prototype.addClickListener = function t() {
+      this.paginationElement &&
+        ((this.nextPageLinkElement = this.paginationElement.querySelector('a')),
+        (this.clickActive = !0),
+        void 0 !== this.nextPageLinkElement &&
+          null !== this.nextPageLinkElement &&
+          this.nextPageLinkElement.addEventListener('click', this.stopMultipleClicks));
+    }),
+    (Ajaxinate.prototype.stopMultipleClicks = function t(e) {
+      e.preventDefault(),
+        this.clickActive &&
+          ((this.nextPageLinkElement.innerHtml = this.settings.loadingText),
+          (this.nextPageUrl = this.nextPageLinkElement.href),
+          (this.clickActive = !1),
+          this.loadMore());
+    }),
+    (Ajaxinate.prototype.checkIfPaginationInView = function t() {
+      var e = this.paginationElement.getBoundingClientRect().top - this.settings.offset,
+        i = this.paginationElement.getBoundingClientRect().bottom + this.settings.offset;
+      e <= window.innerHeight &&
+        i >= 0 &&
+        ((this.nextPageLinkElement = this.paginationElement.querySelector('a')),
+        this.removeScrollListener(),
+        this.nextPageLinkElement &&
+          ((this.nextPageLinkElement.innerHtml = this.settings.loadingText),
+          (this.nextPageUrl = this.nextPageLinkElement.href),
+          this.loadMore()));
+    }),
+    (Ajaxinate.prototype.loadMore = function t() {
+      (this.request = new XMLHttpRequest()),
+        (this.request.onreadystatechange = function t() {
+          if (4 === this.request.readyState && 200 === this.request.status) {
+            var e = this.request.responseXML.querySelectorAll(this.settings.container)[0],
+              i = this.request.responseXML.querySelectorAll(this.settings.pagination)[0];
+            this.containerElement.insertAdjacentHTML('beforeend', e.innerHTML),
+              (this.paginationElement.innerHTML = i.innerHTML),
+              this.settings.callback &&
+                'function' == typeof this.settings.callback &&
+                this.settings.callback(this.request.responseXML),
+              this.initialize();
+          }
+        }.bind(this)),
+        this.request.open('GET', this.nextPageUrl),
+        (this.request.responseType = 'document'),
+        this.request.send();
+    }),
+    (Ajaxinate.prototype.removeClickListener = function t() {
+      this.nextPageLinkElement.removeEventListener('click', this.stopMultipleClicks);
+    }),
+    (Ajaxinate.prototype.removeScrollListener = function t() {
+      document.removeEventListener('scroll', this.checkIfPaginationInView),
+        window.removeEventListener('resize', this.checkIfPaginationInView),
+        window.removeEventListener('orientationchange', this.checkIfPaginationInView);
+    }),
+    (Ajaxinate.prototype.destroy = function t() {
+      return { click: this.removeClickListener, scroll: this.removeScrollListener }[this.settings.method](), this;
+    });
+</script>
+
+<script>
+  var endlessScroll = new Ajaxinate({
+    container: '#AjaxinateContainer',
+    pagination: '#AjaxinatePagination',
+    method: 'click',
+    loadingText: '<span class="button-loading"></span>',
+    offset: 100,
+    callback: function () {
+      //changeImages();
+      var lazyLoadInstance = new LazyLoad({
+        elements_selector: '.lazy',
+        callback_loaded: function (el) {
+          //if($(el).parent().hasClass('is-png')) {
+          //$(el).parent().css({
+          //    'background': 'transparent'
+          //});
+          //}
+        },
+      });
+    },
+  });
+</script>

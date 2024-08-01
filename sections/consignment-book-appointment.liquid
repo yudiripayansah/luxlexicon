@@ -1,0 +1,260 @@
+{% comment %} Luxlexicon - Yudi {% endcomment %}
+{% liquid
+  assign el_id = 'icons-grid-' | append: section.id
+  assign ss = section.settings
+  assign sb = section.blocks
+  render 'section-padding', el_id: el_id, section: section
+%}
+<style>
+  #{{el_id}} .cba-wrap {
+    flex-direction: column;
+  }
+  #{{el_id}} .cbaa-icon,
+  #{{el_id}} .cbaa-icon svg {
+    width: 12px;
+    height: 12px;
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .cba-wrap {
+      flex-direction: row;
+    }
+    #{{el_id}} .cba-text-container {
+      max-width: 436px;
+    }
+  }
+</style>
+<section id="{{ el_id }}" class="bt-1 b-border d-bt-0">
+  <div class="cba-wrap flex ai-center jc-between">
+    <div class="col-d-6 col-12 cba-left pl-0 pr-0 d-pl-0 d-pr-0">
+      <div class="container d-pr-0">
+        <div class="cba-text-container">
+          <{{ ss.title_dom_type }} class="cba-title {{ ss.title_size }}">
+            {{- ss.title -}}
+          </{{ ss.title_dom_type }}>
+          {% if ss.text != blank %}
+          <div class="p1 cba-text c-grey60 mt-12">{{ss.text}}</div>
+          {% endif %}
+          <div class="cba-address mt-24 flex ai-start">
+            <div class="cbaa-icon mr-8 font-0 mt-5">
+              {{settings.icon_map_point}}
+            </div>
+            <div class="cbaa-text">
+              <div class="p1">{{ss.address_title}}</div>
+              <div class="p2 c-grey60">{{ss.address_text}}</div>
+            </div>
+          </div>
+          {% if ss.btn_label != blank %}
+          <a class="btn4 cba-btn mt-24" href="{{ss.btn_url}}">{{ss.btn_label}}</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-d-6 col-12 cba-right pl-0 pr-0 d-pl-0 d-pr-0 mt-36 d-mt-0">
+      <div class="container d-pl-0 d-pr-0">
+        {%assign image_id = "cba-image" | append: section.id%}
+        {%- render 'global-image-wrapper-responsive',
+            image_id: image_id,
+            desktop_image: ss.image,
+            mobile_image: ss.image_m,
+            additional_class: 'no-bg'
+        %}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Book Appointment",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "default": "h3",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "default": "h3",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" }
+      ]
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "textarea",
+      "id": "address_title",
+      "label": "Address Title"
+    },
+    {
+      "type": "textarea",
+      "id": "address_text",
+      "label": "Address Text"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button Label"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button Url"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_m",
+      "label": "Image (Mobile)"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    }
+  ],
+  "presets": [{ "name": "Book Appointment", "blocks": [] }]
+}
+{% endschema %}

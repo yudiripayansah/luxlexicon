@@ -1,0 +1,46 @@
+{% layout none %}
+
+<div class="product-results-inner">
+    {%- paginate collection.products by 1000 -%}
+        {%- for product in collection.products -%}
+            <div class="result-each" data-tags="{{ product.tags }}">
+                <div class="gallery-wrapper">
+                    <div class="swiper">
+                        <div class="swiper-wrapper">
+                            {%- for image in product.images -%}
+                                <div class="swiper-slide">
+                                    {%- render 'global-image-wrapper', 
+                                        additional_class: 'no-bg', 
+                                        image: image, 
+                                        size: '2000x'
+                                    -%}
+                                </div>
+                            {%- endfor -%}
+                        </div>
+
+                        <div class="swiper-pagination ab-bottom-center pb-30 width-100"></div>
+                        <div class="swiper-custom-arrow hide-m show-d-flex left">{{ settings.icon_slide_left }}</div>
+                        <div class="swiper-custom-arrow hide-m show-d-flex right">{{ settings.icon_slide_right }}</div>
+                    </div>
+                </div>
+
+                <div data-price-min="{{ product.price_min }}" data-price-max="{{ product.price_max }}" class="products-wrapper">
+                    {%- for var in product.variants -%}
+                        <span class="pro-variant"
+                            data-product-name="{{ product.title }}"
+                            data-product-id="{{ product.id }}"
+                            data-product-category="{{ product.collections[0].title }}"
+                            data-product-category-2="{{ product.collections[1].title }}"
+                            data-product-vendor="{{ product.vendor }}"
+                            data-variant-id="{{ var.id }}"
+                            data-ring-size="{{ var.option1 }}"
+                            data-carat-size="{{ var.option2 }}"
+                            data-price="{{ var.price }}"
+                            data-compare-price="{{ var.compare_at_price }}"
+                        ></span>
+                    {%- endfor -%}
+                </div>
+            </div>
+        {%- endfor -%}
+    {%- endpaginate -%}
+</div>

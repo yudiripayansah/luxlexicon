@@ -1,0 +1,282 @@
+{% comment %} in-good-company {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  .material-overlay {
+    position: fixed;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    z-index: 200000000;
+    top: 0;
+    left: 0;
+    background: rgba(43, 43, 43, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s ease all;
+  }
+  .material-overlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  .material-overlay .material-overlay-wrapper {
+    width: 100%;
+    transform: translateY(100%);
+    transition: 0.5s ease all;
+    height: max-content;
+  }
+  .material-overlay .material-overlay-wrapper span {
+    cursor: pointer;
+  }
+  .material-overlay .material-overlay-wrapper.material-overlay-wrapper-show {
+    transform: translateY(0);
+  }
+  #{{el_id}} .material-guide-single:nth-last-child(-n+2) {
+    padding-bottom: 0;
+  }
+  @media (min-width: 1024px) {
+    .material-overlay {
+      flex-direction: row;
+    }
+    .material-overlay .material-overlay-wrapper {
+      width: 443px;
+      transform: translateX(100%);
+      transition: 0.5s ease all;
+      height: 100%;
+    }
+    .material-overlay .material-overlay-wrapper.material-overlay-wrapper-show {
+      transform: translateX(0);
+    }
+    #{{el_id}} .material-guide-single:nth-last-child(-n+4) {
+      padding-bottom: 0;
+    }
+  }
+</style>
+
+<div class="material-guide">
+  <div class="container">
+    <div class="row">
+      <div class="global-flex flex-wrap">
+        {%- for block in section.blocks -%}
+          <div class="col-6 col-d-3 material-guide-single pb-30 d-pb-50">
+            {%- assign image_id = 'image-material-guide-' | append: block.id -%}
+            {%- assign preload = '' -%}
+            {%- if section.index == 1 -%}
+              {%- assign preload = true -%}
+            {%- endif -%}
+
+            {%- render 'global-image-wrapper-responsive',
+              image_id: image_id,
+              desktop_image: block.settings.desktop_image,
+              mobile_image: block.settings.mobile_image,
+              additional_class: 'no-bg',
+              preload: preload,
+              image_change_breakpoint: 'desktop',
+              load_inside_vue: true
+            %}
+            <p class="p2 pt-15">{{ block.settings.title }}</p>
+            <p class="p2 pt-8">{{ block.settings.caption }}</p>
+            {%- if block.settings.link_direction == 'redirect'
+              and block.settings.link_url != blank
+              and block.settings.link_label != blank
+            -%}
+              <a href="{{ block.settings.link_url }}" class="link3 mt-8">{{ block.settings.link_label }}</a>
+            {%- elsif block.settings.link_direction == 'drawer' and block.settings.link_label != blank -%}
+              <a
+                href="#"
+                rel="nofollow"
+                class="link3 mt-8"
+                @click.prevent="openPersonalisationPanel('{{block.settings.drawer_title}}', '{{block.settings.drawer_content}}')"
+              >
+                {{- block.settings.link_label -}}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+  <Teleport to="body">
+    <div class="material-overlay zi-4" @click="closePersonalisationPanel($event)">
+      <div class="material-overlay-wrapper h-full bg-white" @click="stopProp($event)">
+        <div class="bb-1 b-border global-flex jc-between p-20 d-p-25 ai-center">
+          <p class="h4 uppercase">${ drawer_title }</p>
+          <span class="icon" @click="closePersonalisationPanel($event)">{{ settings.icon_close }}</span>
+        </div>
+        <div class="rte p2 p-20 d-pt-30 d-pl-25 d-pr-25 d-pb-30 material-overlay-content"></div>
+      </div>
+    </div>
+  </Teleport>
+</div>
+
+<script>
+  var materialGuideVue = null;
+  function initmaterialGuideVue() {
+    materialGuideVue = Vue.createApp({
+      delimiters: ['${', '}'],
+      data() {
+        return {
+          drawer_title: '',
+        };
+      },
+      methods: {
+        openPersonalisationPanel(material_catch, material_catch_content) {
+          const this_obj = this;
+          this.drawer_title = material_catch;
+          document.querySelector('.material-overlay-content').innerHTML = material_catch_content;
+          document.querySelector('.material-overlay').classList.add('show');
+          document.querySelector('.material-overlay-wrapper').classList.add('material-overlay-wrapper-show');
+          document.querySelector('body').classList.add('nooverflow');
+        },
+        closePersonalisationPanel() {
+          document.querySelector('.material-overlay').classList.remove('show');
+          document.querySelector('.material-overlay-wrapper').classList.remove('material-overlay-wrapper-show');
+          document.querySelector('body').classList.remove('nooverflow');
+        },
+        stopProp(event) {
+          event.stopPropagation();
+        },
+      },
+    }).mount('#{{el_id}} .material-guide');
+  }
+  initmaterialGuideVue();
+  document.addEventListener('shopify:section:load', () => {
+    initmaterialGuideVue();
+
+    $360.lazyLoadInstance.update();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Material Guide",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "caption",
+          "label": "Caption"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link Label"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link Url"
+        },
+        {
+          "type": "radio",
+          "id": "link_direction",
+          "label": "Link Direction",
+          "options": [
+            { "value": "redirect", "label": "Redirect" },
+            { "value": "drawer", "label": "Drawer" }
+          ],
+          "default": "redirect"
+        },
+        {
+          "type": "textarea",
+          "id": "drawer_title",
+          "label": "Drawer title"
+        },
+        {
+          "type": "richtext",
+          "id": "drawer_content",
+          "label": "Drawer content"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Material Guide"
+    }
+  ]
+}
+{% endschema %}

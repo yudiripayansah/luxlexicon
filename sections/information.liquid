@@ -1,0 +1,382 @@
+{% comment %} in-good-company {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% assign ss = section.settings %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #{{el_id}} .information-side-links:last-child {
+    margin-bottom: 0;
+  }
+  #{{el_id}} .information-side-links a.active:before {
+    transform: scaleX(1);
+  }
+  #{{el_id}} .information-select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #{{el_id}} .information-nav {
+    background-color: var(--white);
+    transition: all 0.3s ease 0s;
+  }
+  #{{el_id}} .information-nav .information-select-title {
+    transform: translateY(1px);
+  }
+  #{{el_id}} .information-nav .icons {
+    width: 8px;
+    height: 4px;
+  }
+  #{{el_id}} .information-nav .icons .icon {
+    display: flex;
+    width: 8px;
+    height: 4px;
+  }
+  #{{el_id}} .information-nav .icons svg {
+    width: 8px;
+    height: 4px;
+  }
+  .information-overlay {
+    position: fixed;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    z-index: 200000000;
+    top: 0;
+    left: 0;
+    background: rgba(43, 43, 43, .6);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s ease all;
+  }
+  .information-overlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  .information-overlay .information-dropdown {
+    background-color: var(--white);
+    transform: translateY(100%);
+    transition: 0.5s ease all;
+    height: max-content;
+  }
+  .information-overlay .information-dropdown.information-dropdown-show {
+    transform: translateY(0);
+  }
+  .information-overlay .information-dropdown li a.active {
+    border-bottom: 1px solid var(--black);
+  }
+</style>
+
+<div class="information">
+  <div class="w-full {% if ss.accordion_ttl_space %}pb-30 {% endif %}d-pb-0 pl-20 pr-20 hide-d">
+    {%- if ss.title != blank -%}
+      <{{ ss.title_dom_type }} class="{{ ss.title_size }}">
+        {{- ss.title | newline_to_br -}}
+      </{{ ss.title_dom_type }}>
+    {%- endif -%}
+  </div>
+  {%- if ss.menu_1 != blank -%}
+    <div class="w-full pl-0 pr-0 zi-7 has-sticky-elem information-nav hide-d">
+      <div class="information-select bb-1 bt-1 b-border pt-17 pb-17 pr-20 pl-20" @click="openPersonalisationPanel($event)">
+        <p class="h4 uppercase information-select-title">{{ page.title }}</p>
+        <div class="icons">
+          <div class="icon icon-caret">{{ settings.icon_select }}</div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+  <Teleport to="body">
+    <div class="information-overlay zi-4" @click="closePersonalisationPanel($event)">
+      <div class="information-dropdown w-full relative" @click="stopProp($event)">
+        {%- for i in (1..2) -%}
+          {%- assign menuList = 'menu_' | append: i -%}
+          <ul
+            {% unless forloop.last %}
+              class="mt-25 mb-18"
+            {% endunless %}
+            {% unless forloop.first %}
+              class="mb-25"
+            {% endunless %}
+          >
+            {% assign page_url = request.path %}
+            {%- for link in ss[menuList].links -%}
+              <li class="{% unless forloop.last %}mb-18{% endunless %} pl-20 pr-20 information-side-links">
+                <a class="h4 pb-3{% if page_url == link.url %} active{% endif %}" href="{{ link.url }}">
+                  {{- link.title -}}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endfor -%}
+      </div>
+    </div>
+  </Teleport>
+  <div class="container">
+    <div class="row">
+      <div class="global-flex flex-wrap">
+        <div class="col-12 col-d-3 pb-30 d-pb-0 hide-m show-d">
+          {%- if ss.title != blank -%}
+            <{{ ss.title_dom_type }} class="{{ ss.title_size }}">
+              {{- ss.title | newline_to_br -}}
+            </{{ ss.title_dom_type }}>
+          {%- endif -%}
+        </div>
+        {% assign page_url = request.path %}
+        <div class="col-12 col-d-3 hide-m show-d">
+          {%- for i in (1..2) -%}
+            {%- assign menuList = 'menu_' | append: i -%}
+            <ul
+              {% unless forloop.last %}
+                class="mb-40"
+              {% endunless %}
+            >
+              {%- for link in ss[menuList].links -%}
+                <li class="mb-10 information-side-links">
+                  <a class="h4 hover-underline{% if page_url == link.url %} active{% endif %}" href="{{ link.url }}">
+                    {{- link.title -}}
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endfor -%}
+        </div>
+        <div class="col-12 col-d-5 col-hhd-4">
+          <div class="faq-content-content">
+            {% for question in section.blocks %}
+              {%- if ss.accordion_bb -%}
+                {%- assign wrapper_class = 'bb-1 b-border' -%}
+              {%- else -%}
+                {%- if forloop.last -%}
+                  {%- assign wrapper_class = '' -%}
+                {%- else -%}
+                  {%- assign wrapper_class = 'bb-1 b-border' -%}
+                {%- endif -%}
+              {%- endif -%}
+              {%- if forloop.first -%}
+                {%- assign title_wrapper_class = 'd-pt-0 pt-30 d-pb-18' -%}
+              {%- else -%}
+                {%- assign title_wrapper_class = 'pt-18 pb-18 d-pt-18 d-pb-18' -%}
+              {%- endif -%}
+              {%- assign title_class = 'p1' -%}
+              {% capture desc_html %}<div class="p1 pb-18">{{ question.settings.description }}</div>{% endcapture %}
+              {%- render 'accordion-mobile-dropdown',
+                icon_rotate: false,
+                wrapper_class: wrapper_class,
+                title_wrapper_class: title_wrapper_class,
+                title_class: title_class,
+                desc_no_pt: true,
+                title: question.settings.title,
+                desc_html: desc_html
+              -%}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const informationVue = Vue.createApp({
+    delimiters: ['${', '}'],
+    data() {
+      return {
+        scrollPosition: 0,
+        tabTopPosition: 0,
+        headerheight: 0,
+        prevScrollPos: 0,
+      };
+    },
+    mounted() {
+      window.addEventListener('scroll', this.handleScroll);
+      const tab_mobile = document.querySelector(`#{{el_id}} .information-nav`);
+      this.tabTopPosition = tab_mobile.offsetTop;
+      this.headerheight = document.querySelector('.header-con-outer').offsetHeight;
+    },
+    methods: {
+      openPersonalisationPanel() {
+        const this_obj = this;
+        document.querySelector('.information-overlay').classList.add('show');
+        document.querySelector('.information-dropdown').classList.add('information-dropdown-show');
+        document.querySelector('body').classList.add('nooverflow');
+      },
+      closePersonalisationPanel() {
+        document.querySelector('.information-overlay').classList.remove('show');
+        document.querySelector('.information-dropdown').classList.remove('information-dropdown-show');
+        document.querySelector('body').classList.remove('nooverflow');
+      },
+      stopProp(event) {
+        event.stopPropagation();
+      },
+      handleScroll() {
+        const doc = document.documentElement;
+        const body = document.body;
+        const currentScrollPosition = Math.max(doc.scrollTop, body.scrollTop);
+        const scrollDirection = currentScrollPosition > this.prevScrollPos ? 'down' : 'up';
+
+        let tab = document.querySelector(`#{{el_id}} .information-nav`);
+        if (currentScrollPosition < this.scrollPosition) {
+          tab.style.top = this.headerheight + 'px';
+        } else {
+          tab.style.top = '-1px';
+        }
+        this.scrollPosition = currentScrollPosition;
+
+        if (screen.width < 1024) {
+          if (scrollDirection == 'down' && currentScrollPosition >= this.tabTopPosition) {
+            tab.classList.add('sticky');
+          } else if (scrollDirection == 'up' && currentScrollPosition + this.headerheight < this.tabTopPosition) {
+            tab.classList.remove('sticky');
+          }
+        }
+        this.prevScrollPos = currentScrollPosition;
+      },
+    },
+  }).mount('#{{el_id}} .information');
+</script>
+
+{% schema %}
+{
+  "name": "Information",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "p1", "label": "P1" },
+        { "value": "p2", "label": "P2" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Side Menu list 1"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Side Menu list 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "accordion_bb",
+      "label": "Accordion last border bottom",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "accordion_ttl_space",
+      "label": "Add space after accordion title (Mobile)",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "html",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Information"
+    }
+  ]
+}
+{% endschema %}

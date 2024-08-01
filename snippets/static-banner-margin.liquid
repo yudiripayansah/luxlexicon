@@ -1,0 +1,65 @@
+{%- comment -%}
+Description:
+Snippet for add margin into section element
+
+Variables:
+- el_id: String. element id
+- section: Section object. Pass section object if want to use data from section setting
+- no_section: Boolean. If margin is not from section settings
+- top_margin_m : Numeric. If section is blank. Top margin mobile
+- bottom_margin_m : Numeric. If section is blank. Bottom margin mobile
+- top_margin_t : Numeric. If section is blank. Top margin tablet
+- bottom_margin_t : Numeric. If section is blank. Bottom margin tablet
+- top_margin : Numeric. If section is blank. Top margin desktop
+- bottom_margin : Numeric. If section is blank. Bottom margin desktop
+{%- endcomment -%}
+{%- if type != blank -%}
+    {%- if type == 'title' -%}
+        {%- assign top_margin_m = section.settings.title_top_margin_m -%}
+        {%- assign bottom_margin_m = section.settings.title_bottom_margin_m -%}
+        {%- assign top_margin_t = section.settings.title_top_margin_t -%}
+        {%- assign bottom_margin_t = section.settings.title_bottom_margin_t -%}
+        {%- assign top_margin = section.settings.title_top_margin -%}
+        {%- assign bottom_margin = section.settings.title_bottom_margin -%}
+    {%- elsif type == 'subtitle' -%}
+        {%- assign top_margin_m = section.settings.subtitle_top_margin_m -%}
+        {%- assign bottom_margin_m = section.settings.subtitle_bottom_margin_m -%}
+        {%- assign top_margin_t = section.settings.subtitle_top_margin_t -%}
+        {%- assign bottom_margin_t = section.settings.subtitle_bottom_margin_t -%}
+        {%- assign top_margin = section.settings.subtitle_top_margin -%}
+        {%- assign bottom_margin = section.settings.subtitle_bottom_margin -%}
+    {%- elsif type == 'text' -%}
+        {%- assign top_margin_m = section.settings.text_top_margin_m -%}
+        {%- assign bottom_margin_m = section.settings.text_bottom_margin_m -%}
+        {%- assign top_margin_t = section.settings.text_top_margin_t -%}
+        {%- assign bottom_margin_t = section.settings.text_bottom_margin_t -%}
+        {%- assign top_margin = section.settings.text_top_margin -%}
+        {%- assign bottom_margin = section.settings.text_bottom_margin -%}
+    {%- else -%}
+        {%- assign top_margin_m = section.settings.btn_top_margin_m -%}
+        {%- assign bottom_margin_m = section.settings.btn_bottom_margin_m -%}
+        {%- assign top_margin_t = section.settings.btn_top_margin_t -%}
+        {%- assign bottom_margin_t = section.settings.btn_bottom_margin_t -%}
+        {%- assign top_margin = section.settings.btn_top_margin -%}
+        {%- assign bottom_margin = section.settings.btn_bottom_margin -%}
+    {%- endif -%}
+{%- endif -%}
+
+<style>
+    #{{ el_id }} {
+        {% if top_margin_m != blank %}margin-top: {{ top_margin_m }}px;{% endif %}
+        {% if bottom_margin_m != blank %}margin-bottom: {{ bottom_margin_m }}px;{% endif %}
+    }
+    @media only screen and (min-width: 768px) {
+        #{{ el_id }} {
+            {% if top_margin_t != blank %}margin-top: {{ top_margin_t }}px;{% endif %}
+            {% if bottom_margin_t != blank %}margin-bottom: {{ bottom_margin_t }}px;{% endif %}
+        }
+    }
+    @media only screen and (min-width: 1024px) {
+        #{{ el_id }} {
+            {% if top_margin != blank %}margin-top: {{ top_margin }}px;{% endif %}
+            {% if bottom_margin != blank %}margin-bottom: {{ bottom_margin }}px;{% endif %}
+        }
+    }
+</style>

@@ -1,0 +1,234 @@
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+<style>
+	#shopify-section-{{ section.id }} {
+		background: {{ section.settings.section_bg }};
+	}
+	#shopify-section-{{ section.id }} a::before {
+		display: none;
+	}
+	#shopify-section-{{ section.id }} .swiper-slide {
+		width: 110px;
+        border-right: 1px solid #EDEDEE;
+	}
+    #shopify-section-{{ section.id }} .swiper-slide .collection-small-each {
+        padding: 0 15px;
+    }
+    #shopify-section-{{ section.id }} .swiper-slide:last-child {
+        border-right: 0;
+	}
+	#shopify-section-{{ section.id }} .swiper-slide:first-child {
+		margin-left: 15px;
+	}
+	#shopify-section-{{ section.id }} .swiper {
+		width: calc(100% - 15px);
+    	overflow: visible;
+		margin-left: 0;
+	}
+    #shopify-section-{{ section.id }} .breadcrumbs-wrapper * {
+        color: #787A7C;
+        opacity: 1;
+    }
+	
+	@media screen and (min-width: 768px) {
+		#shopify-section-{{ section.id }} .swiper-slide {
+			width: 145px;
+		}
+        #shopify-section-{{ section.id }} .swiper-slide .collection-small-each {
+            padding: 0 30px;
+        }
+	}
+	@media screen and (min-width: 1024px) {
+		#shopify-section-{{ section.id }} .swiper-wrapper {
+			justify-content: center;
+		}
+		#shopify-section-{{ section.id }} .swiper-slide:first-child {
+			margin-left: 0;
+		}
+		#shopify-section-{{ section.id }} .swiper {
+			width: 100%;
+    		overflow: hidden;
+		}
+	}
+</style>
+
+<section class="collection-type-banner bion-theme relative overflow">
+    <div class="container">
+        {% comment %} <div class="breadcrumbs-wrapper">
+            {%- render 'breadcrumbs' -%}
+        </div> {% endcomment %}
+
+        {%- assign col_title = collection.title -%}
+        {%- if section.settings.section_title != blank -%}
+            {%- assign col_title = section.settings.section_title -%}
+        {%- endif -%}
+
+        {% capture wildlight %}{{ search.terms | escape | replace: '*', '' | replace: 'title:', '' | strip | append:'"' | prepend: '"' }}{% endcapture %}
+		<{{ section.settings.title_dom_type }} class="h2 tc mb-10 mt-20 d-mt-25">{{ col_title }}<br>{{ wildlight }}</{{ section.settings.title_dom_type }}>
+	</div>
+
+    {%- if section.blocks.size > 0 -%}
+        <div class="carousel-outer mt-25 d-mt-45">
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    {%- for block in section.blocks -%}
+                        <div class="swiper-slide">
+                            <div class="collection-small-each tc">
+                                {%- if block.settings.url != blank -%}
+                                    <a href="{{ block.settings.url }}" class="show-m">
+                                {%- endif -%}
+
+                                <div class="image-container">
+                                    {%- render 'global-image-wrapper',
+                                        image: block.settings.image,
+                                        size: '360x',
+										additional_class: 'no-bg'
+                                    -%}
+                                </div>
+                                <p class="p2 mt-5 t-mt-10">{{ block.settings.title }}</p>
+
+                                {%- if block.settings.url != blank -%}
+                                    </a>
+                                {%- endif -%}
+                            </div>
+                        </div>
+                    {%- endfor -%}
+                </div>
+            </div>
+        </div>
+    {%- endif -%}
+</section>
+
+<script>
+	function initSwiperSmb(){
+		const swiper_index_collections = new Swiper('#shopify-section-{{ section.id }} .swiper', {
+			direction: 'horizontal',
+			slidesPerView: 'auto',
+			watchSlidesProgress: true,
+			freeMode: {
+				enabled: true,
+				sticky: true,
+				momentumRatio: 0.5,
+				momentumVelocityRatio: 0.5
+			},
+			loop: false,
+			navigation: {
+				nextEl: '#shopify-section-{{ section.id }} .carousel-container .swiper-button-next',
+				prevEl: '#shopify-section-{{ section.id }} .carousel-container .swiper-button-prev'
+			},
+			on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+		});
+	}
+	$(document).ready(function(){
+		if($(window).width() < 1024) {
+			initSwiperSmb()
+			document.addEventListener('shopify:section:load', () => { initSwiperSmb() });
+		}
+	});
+</script>
+
+{% schema %}
+  {
+    "name": "Search - Main Banner",
+    "settings": [
+		{
+			"type": "color",
+            "id": "section_bg",
+            "label": "Section Background"
+		},
+		{
+			"type": "text",
+            "id": "section_title",
+            "label": "Section Title"
+		},
+		{
+			"type": "select",
+			"id": "title_dom_type",
+			"label": "Title DOM Type",
+			"options": [
+				{"value":"h1","label":"H1"},
+				{"value":"h2","label":"H2"},
+				{"value":"h3","label":"H3"},
+				{"value":"h4","label":"H4"},
+				{"value":"h5","label":"H5"}
+			],
+			"default": "h1"
+		},
+	  {
+		"type": "header",
+		"content": "Padding Settings"
+	  },
+	  {
+		"type": "text",
+		"id": "top_padding_m",
+		"label": "Top padding (Mobile)"
+	  },
+	  {
+		"type": "text",
+		"id": "bottom_padding_m",
+		"label": "Bottom padding (Mobile)"
+	  },
+	  {
+		"type": "text",
+		"id": "top_padding_t",
+		"label": "Top padding (Tablet)"
+	  },
+	  {
+		"type": "text",
+		"id": "bottom_padding_t",
+		"label": "Bottom padding (Tablet)"
+	  },
+	  {
+		"type": "text",
+		"id": "top_padding",
+		"label": "Top padding (Desktop)"
+	  },
+	  {
+		"type": "text",
+		"id": "bottom_padding",
+		"label": "Bottom padding (Desktop)"
+	  }
+	],
+	"blocks" : [
+	{
+		"type": "category",
+		"name": "Category",
+		"settings": [
+		{
+			"type": "image_picker",
+			"id": "image",
+			"label": "Image",
+			"info":"Dimension: 360x360"
+		},
+		{
+			"type" : "textarea",
+			"id" : "title",
+			"label" : "Title"
+		},
+		{
+			"type" : "url",
+			"id" : "url",
+			"label" : "URL"
+		}
+		]
+	}
+    ],
+    "presets": [
+        {
+            "name": "Search - Main Banner",
+            "blocks": []
+        }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,176 @@
+
+{% comment %} JCO - Adi on progress {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% assign ss = section.settings %}
+{% assign sb = section.blocks %}
+{% render 'section-padding', section: section, el_id: el_id %}
+<style>
+  #{{el_id}} .clbb-title {
+    {% if ss.color != blank %}
+      color: {{ss.color}};
+    {% endif %}
+  }
+  #{{el_id}} .clbl-wrap {
+    overflow: visible !important;
+    clip-path: inset(-100vw -100vw -100vw -100vw);
+    white-space: nowrap;
+  }
+  #{{el_id}} .clb-links .container {
+    overflow-x: auto;
+  }
+  #{{el_id}} .clb-links .container::-webkit-scrollbar {
+    width: 0; /* Remove scrollbar width */
+    height: 0; /* Remove scrollbar height */
+    display: none; /* Hide scrollbar */
+  }
+</style>
+<div class="collection-landing-banner overflow">
+  <div class="clb-banner relative">
+    <div class="clbb-image">
+      {% assign image_id = 'clb-image' | append: forloop.index %}
+      {%- render 'global-image-wrapper-responsive',
+        image_id: image_id,
+        desktop_image: ss.desktop_image,
+        mobile_image: ss.mobile_image
+      %}
+    </div>
+    <div class="clbb-caption absolute d-bottom-30 bottom-20">
+      <div class="container">
+        <div class="t-max-380">
+          <{{ ss.title_dom_type }} class="{{ ss.title_size }} clbb-title">
+            {{- ss.title -}}
+          </{{ ss.title_dom_type }}>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clb-links bb-1 b-border">
+    <div class="container">
+      <div class="clbl-wrap pt-12 pb-12 t-pt-15 t-pb-15 d-pt-18 d-pb-18 hd-pt-20 hd-pb-20 hhd-pt-25 hhd-pb-25">
+        {% for block in sb %}
+          {% assign bs = block.settings %}
+          {%- if bs.link_label != blank -%}
+            <a href="{{bs.link_url}}" class="p5 regular-400 spacing-1 {% if forloop.last == true %}t-mr-35 mr-15{% else %}mr-20 d-mr-25 hd-mr-30 hhd-mr-35{% endif %}">{{bs.link_label}}</a>
+          {%- endif -%}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Collection Landing Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Padding Settings"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom Padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom Padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top Padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom Padding (Desktop)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" },
+        { "value": "h8", "label": "H8" },
+        { "value": "h9", "label": "H9" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Text Color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "links",
+      "name": "Links",
+      "settings": [
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link Url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Landing Banner",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

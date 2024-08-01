@@ -1,0 +1,423 @@
+{% comment %} Luxlexicon Theme - Adi {% endcomment %}
+{%- assign el_id = 'login-' | append: section.id -%}
+{% assign ss = section.settings %}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+<style>
+  #{{el_id}} .account-menu {
+    flex-direction: row;
+  }
+  #{{el_id}} .b-transparent {
+    border-color: transparent;
+  }
+  #{{el_id}} .global-input {
+    display: flex;
+    height: 43px;
+    padding: 0px 16px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+  }
+  #{{el_id}} .global-select-div .icons .icon svg {
+    width: 8px;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0px 1000px white inset;
+      box-shadow: 0 0 0px 1000px white inset;
+  }
+  #{{el_id}} .hover-underline-grey:before, .hover-underline:before {
+    bottom: -4px;
+  }
+  #{{el_id}} .pb-36 {
+    padding-bottom: 36px;
+  }
+  #{{el_id}} .right-16 {
+    right: 16px;
+  }
+  #{{el_id}} .submit-btn {
+    width: 100%;
+  }
+  #{{el_id}} .link1:before {
+    height: 0;
+  }
+  #{{el_id}} .link2 {
+    color: #666;
+  }
+  #{{el_id}} .mt-165 {
+    margin-top: 165px;
+  }
+  #{{el_id}} .mb-165 {
+    margin-bottom: 165px;
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .account-menu {
+      flex-direction: row;
+    }
+    #{{el_id}} .d-max-438 {
+      max-width: 438px;
+    }
+    #{{el_id}} .submit-btn {
+      width: unset;
+    }
+    #{{el_id}} .d-mt-165 {
+      margin-top: 165px;
+    }
+    #{{el_id}} .d-mb-165 {
+      margin-bottom: 165px;
+    }
+  }
+</style>
+<div id="{{ el_id }}">
+  <div class="">
+    <div class="flex flex-column d-flex-row">
+      <div class="col-d-6 col-12 pl-0 pr-0 d-pl-0 d-pr-0 image-login">
+        {%- assign image_id = 'selection-popup-image-salon-' | append: section.id -%}
+          {%- render 'global-image-wrapper-responsive',
+            image_id: image_id,
+            desktop_image: ss.image_desktop,
+            mobile_image: ss.image_mobile
+          %}
+        
+      </div>
+      
+      <div class="col-d-6 col-12 pl-20 pr-20 d-pl-0 d-pr-0 mt-36 d-mt-0 mb-36 d-mb-0 flex flex-column ai-center jc-center ml-auto mr-auto">
+        <div class="d-max-438 w-full">
+          <div class="content-login">
+            <h1 class="h1 medium-500 pb-12">{{ 'layout.customer.log_in' | t }}</h1>
+            <div class="p1 c-grey60 pb-36">{{ 'customer.login.desc' | t }}</div>
+            <div class="mt-30 d-mt-0 mb-24 link-box">
+              <ul class="account-menu flex">
+                <li class="mr-16">
+                  <a href="#" rel="nofollow" class="pb-4 p2 bb-1 c-black b-black signin-btn" onclick="showForm('login',event)">{{ 'customer.account.sign_in' | t }}</a>
+                </li>
+                <li class="">
+                  <a href="{{ routes.account_register_url }}" class="hover-underline p2 c-grey40">{{ 'customer.login.register_label' | t }}</a>
+                </li>
+              </ul>
+            </div>
+          
+            <div class="form-login">
+              {%- form 'customer_login', id:'form-login', onsubmit:'return validate(event)' -%}
+                <div class="w-full">
+                  <div class="relative overflow pb-1">
+                    <input
+                      type="email"
+                      name="customer[email]"
+                      id="email"
+                      class="global-input w-full b-1 b-border p1 c-black"
+                      placeholder="{{ 'customer.login.email' | t }}"
+                    >
+                      {% comment %}
+                    <div class="global-placeholder absolute right-0 bottom-0 pb-8">{{ 'customer.login.email' | t }}</div>
+                    {% endcomment %}
+                  </div>
+                  <div class="mt-5 p3 c-red hide-m error error-email"></div>
+                </div>
+                <div class="w-full mt-12 mb-16">
+                  <div class="relative overflow pb-1">
+                    <input
+                        type="password"
+                        name="customer[password]"
+                        id="password"
+                        class="global-input w-full b-1 b-border p1 c-black"
+                        placeholder="{{ 'customer.login.password' | t }}"
+                    >
+                    
+                    <div onclick="togglePassword()" class="pointer absolute right-16 bottom-0 h-full flex ai-center" id="toggleIcon">
+                        {{ settings.icon_show_password }}
+                    </div>
+                  </div>
+                
+                  <div class="mt-5 p3 c-red hide-m error error-password"></div>
+                </div>
+                <a href="#" onclick="showForm('forgot',event)" rel="nofollow" class="link2">
+                  {{- 'customer.login.forgot_password' | t -}}
+                </a>
+                <div>
+                <button type="button" class="mt-24 submit-btn btn6" onclick="validate(event,true)">{{ 'layout.customer.log_in' | t }}</button>
+                </div>
+                <p class="p2 error-message c-red mt-10 hide-m"></p>
+
+                
+              {%- endform -%}
+            </div>
+          </div>
+          <div class="form-forgot mt-165 mb-165 d-mt-165 d-mb-165 hide-m">
+            {%- form 'recover_customer_password', id: 'recover-password' -%}
+              <h1 class="h1 medium-500 pb-12">{{ 'customer.reset_password.title' | t }}</h1>
+              <div class="p1 c-grey60">{{ 'customer.reset_password.desc' | t }}</div>
+              <div class="mt-36">
+                <div class="relative overflow pb-1">
+                  <input
+                    type="email"
+                    v-model="resetForm.email"
+                    name="email"
+                    id="email-reset-pass"
+                    class="global-input w-full b-1 b-border p1 c-black"
+                    placeholder="{{ 'customer.recover_password.email' | t }}"
+                  >
+                    {% comment %}
+                  <div class="global-placeholder absolute right-0 bottom-0 pb-8">{{ 'customer.recover_password.email' | t }}</div>
+                  {% endcomment %}
+                </div>
+                <div class="mt-5 p5 c-red hide-m error error-email"></div>
+              </div>
+              <button type="button" class="mt-12 submit-btn btn6" onclick="validateForgot(event,true)">{{ 'customer.reset_password.submit' | t }}</button>
+              <p class="p2 error-message-forgot c-red mt-10 hide-m"></p>
+              {% comment %}
+              <div>
+                <div class="p4 mt-10 d-mt-10">
+                  <a href="{{ routes.account_login_url }}" class="link3">{{ 'customer.recover_password.back_to_login' | t }}</a>
+                </div>
+              </div>
+              {% endcomment %}
+              <input type="hidden" name="return_to" value="{{ routes.account_login_url }}#recover-success">
+            {%- endform -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{ 'jquery-ajax-module.js' | asset_url | script_tag }}
+<script>
+  function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggleIcon');
+    const passwordType = passwordInput.type === 'password' ? 'text' : 'password';
+    passwordInput.type = passwordType;
+    
+    const iconShowPassword = `{{ settings.icon_show_password }}`;
+    const iconHidePassword = `{{ settings.icon_hide_password }}`;
+    
+    toggleIcon.innerHTML = passwordType === 'password' ? iconShowPassword : iconHidePassword;
+  }
+
+
+
+  function showForm(target,e) {
+    e.preventDefault();
+    let loginForm = document.querySelector('.content-login')
+    let loginImg = document.querySelector('.image-login')
+    let forgotForm = document.querySelector('.form-forgot')
+    let loginBtn = document.querySelector('.signin-btn')
+    let linkBox = document.querySelector('.link-box')
+    if(target == 'login'){
+      loginForm.classList.remove('hide-m')
+      loginImg.classList.remove('hide-m')
+      forgotForm.classList.add('hide-m')
+      loginBtn.classList.remove('b-transparent')
+      loginBtn.classList.add('b-black')
+      linkBox.classList.remove('hide-m')
+    } else {
+      linkBox.classList.add('hide-m')
+      loginForm.classList.add('hide-m')
+      loginImg.classList.add('hide-m')
+      forgotForm.classList.remove('hide-m')
+      loginBtn.classList.add('b-transparent')
+      loginBtn.classList.remove('b-black')
+    }
+  }
+  function validateEmail(email) {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
+  }
+  function validate(e,submit = false) {
+    e.preventDefault()
+    let form = e.target.closest('form')
+    let error_email = "{{ 'customer.register.required_field' | t }}"
+    let error_password = "{{ 'customer.register.required_field' | t }}"
+    let email = form.querySelector('input[name="customer[email]"]')
+    let password = form.querySelector('input[name="customer[password]"]')
+    let elErroremail = form.querySelector('.error-email')
+    let elErrorpassword = form.querySelector('.error-password')
+    let submitBtn = form.querySelector('.submit-btn')
+
+    if(email.value) {
+      if(!validateEmail(email.value)) {
+        error_email = "{{ 'customer.register.error_valid_email' | t }}"
+        elErroremail.innerText = error_email
+        elErroremail.classList.remove('hide-m')
+      }
+    }
+
+    if(email.value && password.value) {
+      if(validateEmail(email.value)) {
+        elErroremail.classList.add('hide-m');
+        elErrorpassword.classList.add('hide-m');
+
+        let prevText = submitBtn.innerHTML;
+        const btnLoading = '<span class="btn-loading"></span>';
+        //submitBtn.style.height = `${submitBtn.offsetHeight}px`;
+        //submitBtn.style.width = `${submitBtn.offsetWidth}px`;
+        //submitBtn.innerHTML = btnLoading;
+        submitBtn.setAttribute('disabled', true);
+        
+        if(submit){
+          {% comment %} start BE integration {% endcomment %}
+            $.ajax({
+              type: "POST",
+              url: "/apps/integration",
+              data: `action=login-customer&customer[email]=${email.value}&customer[password]=${password.value}`,
+              dataType: "json",
+              success: function(data) {
+                submitBtn.removeAttribute('disabled');
+                submitBtn.innerHTML = prevText;
+
+                const error_message_elem = document.querySelector('.error-message');
+                if(error_message_elem != null) {
+                  if(!data.api) {
+                    error_message_elem.classList.remove('hide-m');
+                    error_message_elem.innerHTML = data.msg;
+                  } else {
+                    window.location = data.url;
+                  }
+                }
+              }, 
+              error: function(e) {
+                submitBtn.removeAttribute('disabled');
+                submitBtn.innerHTML = prevText;
+                console.log(e);
+              }
+            });
+          {% comment %} end start BE integration {% endcomment %}
+        }
+      } else {
+        error_email = "{{ 'customer.register.error_valid_email' | t }}"
+        elErroremail.innerText = error_email
+        elErroremail.classList.remove('hide-m')
+      }
+    } else {
+      if(!email.value){
+        elErroremail.innerText = error_email
+        elErroremail.classList.remove('hide-m')
+      } else {
+        elErroremail.classList.add('hide-m')
+      }
+      if(!password.value){
+        elErrorpassword.innerText = error_password
+        elErrorpassword.classList.remove('hide-m')
+      } else {
+        elErrorpassword.classList.add('hide-m')
+      }
+    }
+  }
+  function validateForgot(e,submit = false) {
+    e.preventDefault()
+    let form = e.target.closest('form')
+    let error_email = "{{ 'customer.register.required_field' | t }}"
+    let error_password = "{{ 'customer.register.required_field' | t }}"
+    let email = form.querySelector('.form-forgot input[name="email"]')
+    let elErroremail = form.querySelector('.error-email')
+    let submitBtn = form.querySelector('.submit-btn')
+    if(email.value) {
+      if(validateEmail(email.value)) {
+        elErroremail.classList.add('hide-m')
+        if(submit){
+          let prevText = submitBtn.innerHTML;
+          const btnLoading = '<span class="btn-loading"></span>';
+          //submitBtn.style.height = `${submitBtn.offsetHeight}px`;
+          //submitBtn.style.width = `${submitBtn.offsetWidth}px`;
+          //submitBtn.innerHTML = btnLoading;
+          //submitBtn.setAttribute('disabled', true);
+          {% comment %} start BE integration {% endcomment %}
+            $.ajax({
+              type: "POST",
+              url: "/apps/integration",
+              data: `action=forget-password-customer&customer[email]=${email.value}`,
+              dataType: "json",
+              success: function(data) {
+                submitBtn.removeAttribute('disabled');
+                submitBtn.innerHTML = prevText;
+                const error_message_elem = document.querySelector('.error-message-forgot');
+                if(error_message_elem != null) {
+                  error_message_elem.classList.remove('hide-m');
+                  error_message_elem.innerHTML = data.msg;
+
+                  if(data.api) {
+                    email.value = '';
+                    error_message_elem.classList.add('c-green');
+                    error_message_elem.classList.remove('c-red');
+                  } else {
+                    error_message_elem.classList.remove('c-green');
+                    error_message_elem.classList.add('c-red');
+                  }
+                }
+              }, 
+              error: function(e) {
+                submitBtn.removeAttribute('disabled');
+                submitBtn.innerHTML = prevText;
+                console.log(e);
+              }
+            });
+          {% comment %} end start BE integration {% endcomment %}
+        }
+      } else {
+        error_email = "{{ 'customer.register.error_valid_email' | t }}"
+        elErroremail.innerText = error_email
+        elErroremail.classList.remove('hide-m')
+      }
+    } else {
+      if(!email.value){
+        elErroremail.innerText = error_email
+        elErroremail.classList.remove('hide-m')
+      } else {
+        elErroremail.classList.add('hide-m')
+      }
+    }
+  }
+</script>
+{% schema %}
+{
+  "name": "Login",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image (Mobile)"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    }
+  ]
+}
+{% endschema %}

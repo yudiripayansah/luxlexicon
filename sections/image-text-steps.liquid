@@ -1,0 +1,215 @@
+{% comment %} JCO Theme {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #shopify-section-{{ section.id }} .flex-wrapper{
+      display:flex;
+      flex-wrap:wrap;
+  }
+  #shopify-section-{{ section.id }} .image-container{
+    width:100%;
+  }
+  #shopify-section-{{ section.id }} .top-container{
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 0;
+      background-color: #FDF1F0;
+  }
+  #shopify-section-{{ section.id }} .text-content{
+    display: flex;
+    width:100%;
+  }
+
+  @media(min-width: 1024px) {
+    #shopify-section-{{ section.id }} .flex-wrapper{
+      align-items: flex-start;
+      margin-left: -5px;
+      margin-right: -5px;
+    }
+    #shopify-section-{{ section.id }} .image-container{
+      display: flex;
+      flex-direction: column-reverse;
+      width:calc(33.33333333% - 10px);
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  }
+</style>
+
+<section id="{{ section.id }}" class="homepage-category overflow">
+  <div class="container overflow">
+    <div class="flex-wrapper">
+      {% for block in section.blocks %}
+        <div class="image-container relative {% unless forloop.last %} mb-30 {% endunless %} d-mb-0">
+          <div class="text-content pb-20 d-pb-0 d-pt-20 d-pr-10 hhd-pt-25">
+            <p class="p4 y1 regular-400 mr-10 hhd-mr-15">0{{ forloop.index }}</p>
+            <div>
+              <p class="h5 medium-500 spacing-2 mb-8 hhd-mb-15">
+                {{ block.settings.title }}
+              </p>
+              <p class="p3 light-300">
+                {{ block.settings.subtitle }}
+              </p>
+            </div>
+          </div>
+          {% assign image_id = 'ring-size-category' | append: forloop.index %}
+          {%- render 'global-image-wrapper-responsive',
+            image_id: image_id,
+            desktop_image: block.settings.desktop_image,
+            mobile_image: block.settings.mobile_image
+          %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image + Text Steps",
+  "settings": [
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "p1", "label": "P1" },
+        { "value": "p2", "label": "P2" },
+        { "value": "p3", "label": "P3" },
+        { "value": "p4", "label": "P4" },
+        { "value": "p5", "label": "P5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_spacing",
+      "label": "Title spacing",
+      "options": [
+        { "value": "spacing-1", "label": "Spacing 1" },
+        { "value": "spacing-2", "label": "Spacing 2" },
+        { "value": "spacing-3", "label": "Spacing 3" }
+      ],
+      "default": "spacing-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hd",
+        "label": "Top padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hd",
+        "label": "Bottom padding (HD)"
+    },
+    {
+        "type": "text",
+        "id": "top_padding_hhd",
+        "label": "Top padding (HHD)"
+    },
+    {
+        "type": "text",
+        "id": "bottom_padding_hhd",
+        "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image + Text Steps",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

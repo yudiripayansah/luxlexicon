@@ -1,0 +1,24 @@
+<style>
+.stars-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.stars-box .star {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('{{ 'gold-star.svg' | asset_url }}');
+    max-width: 20px;
+    max-height: 20px;
+}
+</style>
+<div class="stars-box">
+    {% for i in (1..num) %}
+        <div class="star">&nbsp;</div>
+    {% endfor %}
+</div>

@@ -1,0 +1,23 @@
+<div class="content-image-slider-each overflow relative">
+	<div class="relative mb-15 t-mb-15 pb-25 t-pb-25 bb-1 b-border-orange">
+		{% comment %} {%- render 'global-image-wrapper-responsive', desktop_image: block.settings.image, mobile_image: block.settings.image_mobile, additional_class: 'no-bg rounded-20 t-rounded-24' -%} {% endcomment %}
+		<div class="hide-t">
+			<img src="{{ block.settings.image_mobile | image_url: width: '800x' }}" alt="{{ block.settings.headline | escape }}" class="image lazy rounded-20 t-rounded-24">
+		</div>
+		<div class="hide-m show-t">
+			<img src="{{ block.settings.image | image_url: width: '2000x' }}" alt="{{ block.settings.headline | escape }}" class="image lazy rounded-20 t-rounded-24">
+		</div>
+	</div>
+	<div class="tl">
+		{%- if block.settings.headline -%}
+		<h6 class="h6 c-comfort-black mb-10">{{ block.settings.headline }}</h6>
+		{%- endif -%}
+		{%- if block.settings.subheadline != blank-%}
+			{%- if block.settings.url != blank -%}
+				<a href="{{ block.settings.url }}" class="p1 c-comfort-black">{{ block.settings.subheadline }}</a>
+			{%- else -%}
+				<p class="p1 c-comfort-black">{{ block.settings.subheadline }}</p>
+			{%- endif -%}
+		{% endif %}
+	</div>
+</div>

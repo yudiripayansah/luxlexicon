@@ -1,0 +1,279 @@
+{%  comment  %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+<style>
+    #shopify-section-{{ section.id }} {
+        {% if section.settings.advanced_background_color %}
+            background: {{ section.settings.advanced_background_color }};
+        {% endif %}
+    }
+  #shopify-section-{{ section.id }} .store-detail {
+    display: flex;
+    flex-direction: column-reverse;
+    position: relative;
+
+  }
+  #shopify-section-{{ section.id }} .store-detail:before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: .2;
+    content: " ";
+    display: block;
+    z-index: 1;
+    {% if section.settings.bg_color %}
+    background-color: {{ section.settings.bg_color }};
+    {% endif %}
+  }
+  #shopify-section-{{ section.id }} .sd-left {
+    position: relative;
+    z-index: 2;
+  }
+  #shopify-section-{{ section.id }} .sd-right {
+    position: relative;
+    z-index: 2;
+  } 
+  #shopify-section-{{ section.id }} .sd-left .sdl-box {
+    display: flex;
+    flex-direction: column;
+    max-width: 325px;
+  }
+  #shopify-section-{{ section.id }} .sd-left .sdl-box > a {
+    text-align: center;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .sd-left .sdl-box .p2 {
+    display: inline-flex;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .sd-left .sdl-box .p2.address {
+    align-items: flex-start;
+  }
+  #shopify-section-{{ section.id }} .sd-left .sdl-box .p2 img {
+    height: 25px;
+    width: auto;
+  }
+  #shopify-section-{{ section.id }} .swiper-custom-arrow.left {
+    left: 10px;
+  }
+  #shopify-section-{{ section.id }} .swiper-custom-arrow.right {
+    right: 10px;
+  }
+  @media screen and (min-width: 768px){
+  }
+  @media screen and (min-width: 1024px){
+    #shopify-section-{{ section.id }} .store-detail {
+      flex-direction: row;
+      align-items: center;
+    }
+    #shopify-section-{{ section.id }} .sd-left {
+      width: 45%;
+    }
+    #shopify-section-{{ section.id }} .sd-right {
+      width: 55%;
+    }
+    #shopify-section-{{ section.id }} .sd-left .sdl-box {
+      max-width: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+    #shopify-section-{{ section.id }} .swiper-custom-arrow.left {
+      left: 50px;
+    }
+    #shopify-section-{{ section.id }} .swiper-custom-arrow.right {
+      right: 50px; 
+    }
+  }
+  @media screen and (min-width: 1366px){
+  }
+</style>
+<div class="store-detail" id="store-detail-{{ section.id }}">
+  <div class="sd-left d-pl-100 d-pr-100 pl-25 pr-25 pt-40 pb-40">
+    <div class="sdl-box">
+      <{{ section.settings.title_dom_type }} class="h7">{{ section.settings.title }}</{{ section.settings.title_dom_type }}>
+      <div class="p2 mt-20 d-mt-25 address">
+        <a class="flex ai-center" href="{{ section.settings.google_map_link}}" target="_blank">
+        <img src="{{ 'map-point.png' | asset_url }}" alt="" class="mr-5"> {{ section.settings.address }}
+        </a>
+      </div>
+      <div class="p2 mt-15 phone">
+        <a class="flex ai-center" href="tel:{{ section.settings.phone | replace: ' ', ''}}">
+        <img src="{{ 'phone.png' | asset_url }}" alt="" class="mr-5"> {{ section.settings.phone }}
+        </a>
+      </div>
+      <div class="p2 mt-15 open-hours">
+        <img src="{{ 'time.png' | asset_url }}" alt="" class="mr-5"> {{ section.settings.open_hours }}
+      </div>
+      {%- if section.settings.btn_label != blank -%}
+        <a href="{{ section.settings.btn_url }}" class="mt-25 d-mt-30 p3 bold-600 bg-lightgreen pt-20 pb-20 pl-20 pr-20 text-center spacing-2">{{ section.settings.btn_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+  <div class="sd-right">
+    <div class="swiper">
+      <div class="swiper-wrapper ">
+        {% for block in section.blocks %}
+          <div class="sdr-items swiper-slide">
+            <div class="sdr-box">
+              {%- assign image_id = "sdr-image-" | append: block.id -%}
+              {%- render 'global-image-wrapper-responsive',
+                image_id: image_id,
+                desktop_image: block.settings.desktop_image,
+                mobile_image: block.settings.mobile_image,
+                load_inside_vue: true
+              %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="swiper-control">
+        <div class="swiper-custom-arrow left">{{ settings.icon_slide_left }}</div>
+        <div class="swiper-custom-arrow right">{{ settings.icon_slide_right }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    const storedetail = Vue.createApp({
+        delimiters: [
+            '${', '}'
+        ],
+        data() {
+            return {
+              
+            }
+        },
+        mounted() {
+          this.initSwiper()
+          document.addEventListener('shopify:section:load', () => { this.initSwiper() });
+        },
+        created() {
+          window.addEventListener("resize", this.initSwiper)
+        },
+        methods: {
+          initSwiper() {
+            this.product_rec_carousel = new Swiper(".sd-right .swiper", {
+              direction: 'horizontal',
+              slidesPerView: 'auto',
+              watchSlidesProgress: true,
+              loop: false,
+              navigation: {
+                nextEl: '.sd-right .swiper-custom-arrow.right',
+                prevEl: '.sd-right .swiper-custom-arrow.left'
+              },
+              on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+            });
+            //-- set arrow position
+            const image_height = document.querySelector('.sd-right .swiper .global-image-wrapper').clientHeight;
+            const arrow_height = document.querySelector('.sd-right .swiper .swiper-custom-arrow').clientHeight;
+            const arrows = document.querySelectorAll('.sd-right .swiper .swiper-custom-arrow');
+            const top = (image_height-arrow_height)/2;
+            arrows.forEach(elem => {
+              elem.style.transform = 'unset';
+              elem.style.top = top + 'px';
+            });
+          },
+        }
+    }).mount('#store-detail-{{ section.id }}');
+</script> 
+{% schema %}
+  {
+    "name": "Store Details",
+    "settings": [
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color"
+      },
+      {
+        "type": "text",
+        "id": "advanced_background_color",
+        "label": "Advanced Background Color"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "select",
+        "id": "title_dom_type",
+        "label": "Title DOM Type",
+        "options": [
+          {"value":"h1","label":"H1"},
+          {"value":"h2","label":"H2"},
+          {"value":"h3","label":"H3"},
+          {"value":"h4","label":"H4"},
+          {"value":"h5","label":"H5"},
+          {"value":"h6","label":"H6"}
+        ],
+        "default": "h1"
+      },
+      {
+        "type": "textarea",
+        "id": "address",
+        "label": "Address"
+      },
+      {
+        "type": "textarea",
+        "id": "google_map_link",
+        "label": "Google Map Link"
+      },
+      {
+        "type": "textarea",
+        "id": "phone",
+        "label": "Phone"
+      },
+      {
+        "type": "textarea",
+        "id": "open_hours",
+        "label": "Open Hours"
+      },
+      {
+        "type": "text",
+        "id": "btn_label",
+        "label": "Button Label"
+      },
+      {
+        "type": "url",
+        "id": "btn_url",
+        "label": "Button Url"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Images",
+        "type": "images",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "desktop_image",
+            "label": "Desktop Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_image",
+            "label": "Mobile Image"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Store Details"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,69 @@
+{%- assign has_pb = false -%}
+{% if perrow == 'three' %}
+    {% assign perrow_class = 'col-12 col-t-4' %}
+    {%- assign last_three = total | minus: 3 -%}
+    {%- if total > 3 and index <= last_three -%}
+        {%- assign has_pb = true -%}
+    {%- endif -%}
+{% elsif perrow == 'four' %}
+    {% assign perrow_class = 'col-12 col-t-3' %}
+    {%- assign last_four = total | minus: 4 -%}
+    {%- if total > 4 and index <= last_four -%}
+        {%- assign has_pb = true -%}
+    {%- endif -%}
+{% else %}
+    {% assign perrow_class = 'col-12 col-t-6' %}
+    {%- assign last_two = total | minus: 2 -%}
+    {%- if total > 2 and index <= last_two -%}
+        {%- assign has_pb = true -%}
+    {%- endif -%}
+{% endif %}
+
+<div class="{{ perrow_class }} tl {% if has_pb %} pb-30 t-pb-30 d-pb-40 {% else %} pb-30 t-pb0 d-pb-0 {% endif %} {{ additional_class }}">
+    {%- if block.settings.url != blank and block.settings.btn_enable == false -%}
+    <a href="{{ block.settings.url }}" title="{{ block.settings.title | escape }}">
+    {%- endif -%}
+        {%- if block.settings.image != blank or block.settings.image_mobile != blank -%}
+        <div class="w-full">
+            {%- if block.settings.image_mobile == blank -%}
+                {%- render 'global-image-wrapper', image: block.settings.image, additional_class: 'no-bg rounded-20 t-rounded-24' -%}
+            {%- else -%}
+                {%- render 'global-image-wrapper-responsive',
+                    desktop_image: block.settings.image,
+                    mobile_image: block.settings.image_mobile,
+                    image_id: image_id,
+                    additional_class: 'no-bg rounded-20 t-rounded-24'
+                -%}
+            {%- endif -%}
+        </div>
+        {%- endif -%}
+        {%- if block.settings.title != blank -%}
+        <h5 class="w-full h5 c-greenb2 pt-20 t-pt-20 d-pt-20">{{ block.settings.title }}</h5>
+        {%- endif -%}
+        {%- if block.settings.subtitle != blank -%}
+        <div class="p1 c-comfort-black bold-700 pt-10 t-pt-10 d-pt-10">{{ block.settings.subtitle }}</div>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+        <div class="w-full p1 c-comfort-black rte pt-10 t-pt-10 d-pt-10">{{ block.settings.text }}</div>
+        {%- endif -%}
+        {%- if block.settings.info != blank -%}
+        <div class="w-full p2 tc c-grey rte pt-15 t-pt-15 d-pt-20">{{ block.settings.info }}</div>
+        {%- endif -%}
+        {%- if block.settings.author_enable and block.settings.author_name != blank -%}
+        <div class="rte w-full p1 c-comfort-orange pt-10 t-pt-10 d-pt-10">
+            {%- if block.settings.author_url != blank -%}
+                <a href="{{ block.settings.author_url }}">{{ block.settings.author_name }}</a>
+            {%- else -%}
+                {{ block.settings.author_name }}
+            {%- endif -%}
+        </div>
+        {%- endif -%}
+        {%- if block.settings.btn_enable and block.settings.btn_label != blank and block.settings.url != blank -%}
+        <div class="w-full pt-20 t-pt-20 d-pt-20">
+            <a href="{{ block.settings.url }}" class="btn1" title="{{ block.settings.btn_label | escape }}">{{ block.settings.btn_label }}</a>
+        </div>
+        {%- endif -%}
+    {%- if block.settings.url != blank and block.settings.btn_enable == false -%}
+    </a>
+    {%- endif -%}
+</div>

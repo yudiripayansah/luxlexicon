@@ -1,0 +1,115 @@
+{%- assign el_id = 'image-text-accordion-' | append: section.id -%}
+{%- render 'section-padding', el_id: el_id, section: section -%}
+{%- render 'image-text-accordion',
+	el_id: el_id,
+	background: section.settings.bg_color,
+	image_mobile: section.settings.image_mobile,
+	image: section.settings.image,
+	image_position: section.settings.image_position,
+	title: section.settings.title,
+	text: section.settings.text,
+    blocks: section.blocks
+-%}
+{% schema %}
+{
+	"name": "Image + Text Accordion",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Section Padding"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_m",
+			"label": "Top padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_m",
+			"label": "Bottom padding (Mobile)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding_t",
+			"label": "Top padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding_t",
+			"label": "Bottom padding (Tablet)"
+		},
+		{
+			"type": "text",
+			"id": "top_padding",
+			"label": "Top padding (Desktop)"
+		},
+		{
+			"type": "text",
+			"id": "bottom_padding",
+			"label": "Bottom padding (Desktop)"
+		},
+		{
+			"type": "header",
+			"content": "Content Settings"
+		},
+		{
+			"type": "image_picker",
+			"id": "image",
+			"label": "Image for Desktop"
+		},
+		{
+			"type": "image_picker",
+			"id": "image_mobile",
+			"label": "Image for Mobile"
+		},
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background Color"
+		},
+		{
+			"type": "radio",
+			"id": "image_position",
+			"label": "Image Position",
+			"options":[
+				{"value": "left", "label": "Left"},
+				{"value": "right", "label": "Right"}
+			]
+		},
+		{
+			"type" : "textarea",
+			"id" : "title",
+			"label" : "Title"
+		},
+		{
+			"type" : "textarea",
+			"id" : "text",
+			"label" : "Text"
+		}
+	],
+    "blocks": [
+        {
+            "type": "entry",
+			"name": "Entry",
+			"settings": [
+				{
+					"type": "textarea",
+					"id": "title",
+					"label": "Title"
+				},
+				{
+					"type": "textarea",
+					"id": "text",
+					"label": "Text"
+				}
+            ]
+        }
+    ],
+	"presets": [
+		{
+			"name": "Image + Text Accordion",
+			"blocks": []
+		}
+	]
+}
+{% endschema %}

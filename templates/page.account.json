@@ -1,0 +1,108 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "information_DqcHDC": {
+      "type": "information",
+      "blocks": {
+        "entry_MEKGAL": {
+          "type": "entry",
+          "settings": {
+            "title": "Why should I create an account?",
+            "description": "Upon successful activation of your account, you will receive a $20 Welcome Voucher from us — which you can utilise on your next purchase with a minimum spend of SGD 100 on regular-priced items.\n\n\nYou will also enjoy a one-time 15% off during your Birthday Month!\n\n\nCreating an IN GOOD COMPANY customer account with us also puts you on the fast track to becoming a Frequent Shopper with us for life; simply accumulate your spend to SGD 1,000 (no time limit) and you’ll be entitled to enjoy even more benefits under our Frequent Shopper Program.\n\n\nWith a registered and activated profile, you can keep track of your spend, order history, and be the first to get notified of our new collections or events."
+          }
+        },
+        "entry_dRwCD7": {
+          "type": "entry",
+          "settings": {
+            "title": "How do I activate my account?",
+            "description": "If you have created a profile with us, the activation link will be sent to your registered email to activate your account before you can login for the first time.\n\n\nShould you have trouble accessing your account, please contact us at customerservice@ingoodcompany.asia for us to assist you further."
+          }
+        },
+        "entry_QppJJU": {
+          "type": "entry",
+          "settings": {
+            "title": "How do I become a Frequent Shopper?",
+            "description": "You’ll automatically join our Frequent Shopper community when you reach an accumulated spend of SGD 1,000 on your registered account.\n\n\nUpon reaching Frequent Shopper status, a $50 Welcome Voucher will be credited to your account for use. Subsequently, for every SGD 500 you spend with us, you’ll receive yet another $50 Voucher for use in-stores and online.\n\n\nTo top it all off — your account will be upgraded to enjoy a one-time 20% off during your Birthday Month!"
+          }
+        },
+        "entry_P3YqEJ": {
+          "type": "entry",
+          "settings": {
+            "title": "I forgot my password. What should I do?",
+            "description": "Enter your email address here, and you will receive a link to reset your password.\n\n\nHowever, if you are still unable to recover your password, kindly drop us a message at customerservice@ingoodcompany.asia."
+          }
+        },
+        "entry_gVaWy8": {
+          "type": "entry",
+          "settings": {
+            "title": "How do I update my profile details (e.g. address\/phone number)?",
+            "description": "After you have registered for an account, you may manage your personal details under 'Account Settings'.\n\nYou can also watch an instructional video <a href=\"https:\/\/player.vimeo.com\/video\/706852753\">here<\/a>.\n\n\nHowever, if you need to update your email address and\/or date of birth, kindly drop us a message at customerservice@ingoodcompany.asia."
+          }
+        },
+        "entry_qhPDzq": {
+          "type": "entry",
+          "settings": {
+            "title": "How do I check my order history?",
+            "description": "<li>Login to your account via the utility bar on Desktop or navigation menu on Mobile.\n<\/li><li>Scroll down to 'History' &gt; 'Orders'. This provides a history of your orders and invoices.<\/li>"
+          }
+        },
+        "entry_abFm9X": {
+          "type": "entry",
+          "settings": {
+            "title": "How can I use my Shopping Perks (i.e. Welcome \/ Birthday \/ Frequent Shopper Vouchers)?",
+            "description": "You may choose to utilize your Shopping Perks on our E-store or standalone store at ION Orchard.\n\nFor online purchases, simply login to your account before checking out your bag.\n\nYour Shopping Perks will be available via a drop-down list at checkout - simply select the one you want to apply on your order."
+          }
+        },
+        "entry_ptzNJw": {
+          "type": "entry",
+          "disabled": true,
+          "settings": {
+            "title": "Do you offer gift wrapping or gift messages?",
+            "description": "We do offer gift wrapping at a flat fee of $5 as an option when you check-out.\n<p>\nYour items will be wrapped in crisp tissue paper and placed in our signature gift box. You may also choose to include a gift message, which will be handwritten for you in an IN GOOD COMPANY note card.\n<\/p><p>\nOur gift boxes are finished with a cotton ribbon and can be reused again for gifting or storage.<\/p>"
+          }
+        },
+        "entry_CmdMtB": {
+          "type": "entry",
+          "disabled": true,
+          "settings": {
+            "title": "Are there any ongoing promotions online?",
+            "description": "You may find out more about our Citibank promotion here.\n\nDo note that this cannot be used in conjunction with other discounts\/shopping perks, and will not be applicable on shipping fees."
+          }
+        }
+      },
+      "block_order": [
+        "entry_MEKGAL",
+        "entry_dRwCD7",
+        "entry_QppJJU",
+        "entry_P3YqEJ",
+        "entry_gVaWy8",
+        "entry_qhPDzq",
+        "entry_abFm9X",
+        "entry_ptzNJw",
+        "entry_CmdMtB"
+      ],
+      "settings": {
+        "top_padding_m": 30,
+        "bottom_padding_m": 60,
+        "top_padding_t": 30,
+        "bottom_padding_t": 60,
+        "top_padding": 50,
+        "bottom_padding": 100,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "title": "Information",
+        "title_size": "h2",
+        "title_dom_type": "h1",
+        "menu_1": "dev-side-menu-1",
+        "menu_2": "dev-side-menu-2",
+        "accordion_bb": true,
+        "accordion_ttl_space": true
+      }
+    }
+  },
+  "order": [
+    "information_DqcHDC"
+  ]
+}

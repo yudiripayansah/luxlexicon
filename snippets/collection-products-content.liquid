@@ -1,0 +1,9 @@
+{% if collection.products_count == 0 %}
+<div class="rte mb-20">
+	<p>No products found.</p>
+</div>
+{% else %}
+<ul class="products">
+	{% for product in collection.products %}<li class="mb-20 grid-2 grid-t-3 grid-d-3 each">{% render 'product-each', product:product %}</li>{% endfor %}
+</ul>
+{% endif %}

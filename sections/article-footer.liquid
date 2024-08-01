@@ -1,0 +1,168 @@
+{% comment %} in-good-company {% endcomment %}
+{% assign el_id = 'shopify-section-' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  {%- if section.settings.mw_mobile != blank and section.settings.mw_mobile != 0 -%}
+    #{{el_id}} .article-content-wrapper {
+      margin: 0 auto;
+      max-width: {{ section.settings.mw_mobile }}px;
+    }
+  {%- endif -%}
+  #{{el_id}} .article-content-wrapper .ac-social svg {
+    height: 15px;
+  }
+  #{{el_id}} .ac-social a {
+    height: 13px;
+    width: auto;
+  }
+
+  @media screen and (min-width: 600px) {
+    {%- if section.settings.mw_tablet != blank and section.settings.mw_tablet != 0  -%}
+      #{{el_id}} .article-content-wrapper {
+        margin: 0 auto;
+        max-width: {{ section.settings.mw_tablet }}px;
+      }
+    {%- endif -%}
+  }
+  @media screen and (min-width: 1024px) {
+    {%- if section.settings.mw_desktop != blank and section.settings.mw_desktop != 0  -%}
+      #{{el_id}} .article-content-wrapper {
+        margin: 0 auto;
+        max-width: {{ section.settings.mw_desktop }}px;
+      }
+    {%- else -%}
+      #{{el_id}} .article-content-wrapper {
+        max-width: 100%;
+      }
+    {%- endif -%}
+    #{{el_id}} .article-content-wrapper .ac-social svg {
+      height: 13px;
+    }
+  }
+</style>
+
+<div class="article-content">
+  <div class="container">
+    <div class="article-content-wrapper">
+      <p class="h4">
+        {{ section.settings.text | newline_to_br }}
+      </p>
+      <div class="ac-social global-flex mt-20">
+        <p class="h4 uppercase mr-15">{{ 'blogs.article.share_only' | t }}</p>
+        <a
+          href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url | url_encode }}{{ article.url | url_encode }}"
+          target="_blank"
+          class="mr-20 show-m-inline-block"
+        >
+          {{ settings['facebook-icon'] }}
+        </a>
+        <a
+          class="show-m-inline-block"
+          href="http://pinterest.com/pin/create/link/?url={{ shop.url | url_encode }}{{ article.url | url_encode }}&description={{article.title}}"
+          target="_blank"
+          style="width: 11px;"
+        >
+          {{ settings['pinterest-icon'] }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Article - Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)"
+    },
+    {
+      "type": "text",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)"
+    },
+    {
+      "type": "text",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "number",
+      "id": "mw_mobile",
+      "label": "Max width mobile"
+    },
+    {
+      "type": "number",
+      "id": "mw_tablet",
+      "label": "Max width tablet"
+    },
+    {
+      "type": "number",
+      "id": "mw_desktop",
+      "label": "Max width desktop"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article - Footer"
+    }
+  ]
+}
+{% endschema %}

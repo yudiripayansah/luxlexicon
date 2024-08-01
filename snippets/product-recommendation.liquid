@@ -1,0 +1,123 @@
+{% comment %} Love&Co Theme {% endcomment %}
+<section id="product-recommendation" class="product-recommendation pt-40 pb-40 t-pt-60 t-pb-60 d-pt-80 d-pb-80 bg-white">
+    <div class="container">
+        <div class="title-container global-flex flex-wrap jc-between ai-center">
+            <h5 class="h5">You May Also Like</h5>
+        </div>
+
+        <div class="outer-wrapper mt-25 d-mt-40">
+            <div class="product-recommendation-wrapper">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        {%- for pro in product.collections[0].products limit: 10 -%}
+                            <div class="swiper-slide">
+                                <div class="product-each-wrapper">
+                                    {%- render 'product-each', product: pro -%}
+                                </div>
+                            </div>
+                        {%- endfor -%}
+                    </div>
+
+                    <div class="swiper-custom-arrow left">{{ settings.icon_slide_left }}</div>
+                    <div class="swiper-custom-arrow right">{{ settings.icon_slide_right }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const productRecommendationVue = Vue.createApp({
+        delimiters: ['${', '}'],
+        data() {
+            return {
+                product_rec_carousel: null
+            }
+        },
+        mounted() {
+            this.getRecommendation();
+        },
+        methods: {
+            initSwiper() {
+                this.product_rec_carousel = new Swiper(".product-recommendation .swiper", {
+                    direction: 'horizontal',
+                    slidesPerView: 'auto',
+                    watchSlidesProgress: true,
+                    loop: false,
+                    navigation: {
+                        nextEl: '.product-recommendation .swiper-custom-arrow.right',
+                        prevEl: '.product-recommendation .swiper-custom-arrow.left'
+                    },
+                    on: {
+          init: function() {
+              $360.lazyLoadInstance.update();
+          },
+          slideChange: function() {
+              $360.lazyLoadInstance.update();
+          },
+          resize: function() {
+              $360.lazyLoadInstance.update();
+          }
+        }
+                });
+
+                //-- set arrow position
+                const image_height = document.querySelector('.product-recommendation .swiper .global-image-wrapper').clientHeight;
+                const arrow_height = document.querySelector('.product-recommendation .swiper .swiper-custom-arrow').clientHeight;
+                const arrows = document.querySelectorAll('.product-recommendation .swiper .swiper-custom-arrow');
+                const top = (image_height-arrow_height)/2;
+                arrows.forEach(elem => {
+                    elem.style.transform = 'unset';
+                    elem.style.top = top + 'px';
+                });
+            },
+            async getRecommendation() {
+                this.initSwiper();
+                document.addEventListener('shopify:section:load', () => { this.initSwiper() });
+                const this_obj = this;
+
+                try {
+                    const {data} = await axios.get('/recommendations/products.json?product_id={{ product.id }}&limit=10');
+                    if(data.products.length > 0) {
+                        const products = data.products;
+                        let index = 0;
+                        const swiper_parent = document.querySelector('.product-recommendation .swiper .swiper-wrapper');
+                        swiper_parent.innerHTML = "";
+
+                        products.forEach(pro => {
+                            axios.get(`/products/${pro.handle}?view=recommendation`)
+                            .then(function (response) {
+                                index += 1;
+
+                                const slide_parent = document.createElement('div');
+                                slide_parent.classList.add("swiper-slide");
+
+                                const slide_wrapper = document.createElement('div');
+                                slide_wrapper.classList.add("product-each-wrapper");
+                                slide_wrapper.innerHTML = response.data;
+
+                                slide_parent.appendChild(slide_wrapper);
+                                swiper_parent.appendChild(slide_parent);
+                                $360.lazyLoadInstance.update();
+
+                                if(index == data.products.length) {
+                                    const delay = setTimeout(function(){
+                                        this_obj.initSwiper();
+                                        this_obj.product_rec_carousel.update();
+                                        _swat.initializeActionButtons('.product-recommendation-wrapper');
+
+                                        clearTimeout(delay);
+                                    }, 1500)
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                        });
+                    } 
+                } catch(error) {
+                };
+            }
+        }
+    }).mount('#product-recommendation');    
+</script>

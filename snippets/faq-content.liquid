@@ -1,0 +1,63 @@
+{% if section.settings.enable_faq == true %}
+<style>
+  #shopify-section-{{ section.id }} {
+    margin: 0;
+  }
+</style>
+<section class="d-pt-56" id="{{ section.settings.id_faq }}">
+  <h6 class="h2 d-pb-40 pb-15 pl-20 pr-20 t-pl-30 t-pr-30 d-pr-0 d-pl-0 hide-m show-d">{{ section.settings.title }}</h6>
+  <div class="faq-wrapper bb-1 b-border">
+    {% for block in section.blocks %}
+      {%liquid 
+        assign description = block.settings.text
+        assign desc_html = block.settings.text
+        if block.settings.title contains 'What other sources of Stem Cells are there and how do they compare?' or block.settings.title contains 'How much CALECIM Serum should i apply with each treatment?'
+          assign description = blank
+        else 
+          assign desc_html = blank
+        endif
+      %}
+      {% if forloop.first == true %}
+        {% assign wrapper_class = 'd-bt-1 b-border mb-24' %}
+      {% else %}
+        {% assign wrapper_class = 'bt-1 b-border mb-24' %}
+      {% endif %}
+      {%- render 'accordion',
+        wrapper_class: wrapper_class,
+        title: block.settings.title,
+        description: description,
+        desc_html: desc_html,
+        title_class: "p1 relative semibold-600",
+        title_wrapper_class: "pt-24 pl-20 pr-20 t-pl-30 t-pr-30 d-pl-0 d-pr-0",
+        title_no_pb: true,
+        title_no_pt: true,
+        icon_rotate: false,
+        desc_class: "p1 c-grey pt-24 pl-20 pr-20 t-pl-30 t-pr-30 d-pl-0 d-pr-0",
+        description_class: "p1",
+        default_active: false,
+        desc_no_pt: true, 
+        desc_no_pb: true
+      -%} 
+    {% endfor %}
+  </div>
+</section>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "FAQPage",
+  "@id": "{{ store.url }}",
+  "mainEntity": [
+  {% for block in section.blocks %}
+      {
+      "@type": "Question",
+      "name": "{{ block.settings.title | escape }}",
+      "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{{ block.settings.text | escape }}"
+      }
+      }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+  ]
+}
+</script>
+{% endif %}

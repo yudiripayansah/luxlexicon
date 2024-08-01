@@ -1,0 +1,430 @@
+{% comment %} Luxlexicon Theme - Adi done {% endcomment %}
+{% assign el_id = 'image-text-section' | append: section.id %}
+{% render 'section-padding', section: section, el_id: el_id %}
+
+<style>
+  #{{el_id}} {
+    scroll-margin-top: 100px;
+    {% if section.settings.background_color != blank %}
+    background-color: {{section.settings.background_color}};
+    {% endif %}
+  }
+  #{{el_id}} .image-container, #{{el_id}} .text-container{
+    width:100%;
+  }
+  
+  #{{el_id}} .usp-each .usp-icon, #{{el_id}} .usp-each .global-image-wrapper img {
+    width: 28px;
+    height: 28px;
+  }
+
+  {%- if section.settings.image_position_mobile == 'image-first' -%}
+      #{{el_id}} .flex-wrapper{
+          flex-direction: row;
+      }
+  {%- endif -%}
+  {%- if section.settings.image_position_mobile == 'text-first' -%}
+    #{{el_id}} .flex-wrapper{
+        flex-direction: column-reverse;
+    }
+  {%- endif -%}
+  {%- if section.settings.image_position_mobile == 'follow-desktop' -%}
+    {%if section.settings.image_position == "row-reverse"%}
+      #{{el_id}} .flex-wrapper{
+        flex-direction:column-reverse;
+      }
+    {%endif%}
+    {%if section.settings.image_position == "row"%}
+      #{{el_id}} .flex-wrapper{
+        flex-direction:row;
+      }
+    {%endif%}
+  {%- endif -%}
+
+  #{{el_id}} .swiper-pagination-progressbar {
+      background: #ccc;
+      position: relative;
+
+  }
+  #{{el_id}} .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+    background: #0D0D0D;
+  }
+  #{{el_id}} .swiper-horizontal>.swiper-pagination-progressbar {
+      height: 1px;
+  }
+  #{{el_id}} .swiper-wrapper {
+    height: unset;
+  }
+  @media screen and (max-width: 1023px) {
+    #{{el_id}}.image-text > .container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+  @media screen and (min-width: 600px) {
+    #{{el_id}} .text-wrapper {
+      max-width: unset;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} {
+        scroll-margin-top: 120px;
+    }
+    #{{el_id}} .flex-wrapper{
+        {% if section.settings.image_position == "row-reverse" %}
+        flex-direction:column-reverse;
+        {% endif %}
+    }
+    #{{el_id}} .image-container{
+        width:calc(50% - 0px);
+    }
+    #{{el_id}} .image-container .global-image-wrapper {
+      height: 100%;
+    }
+    #{{el_id}} .image-container .global-image-wrapper .image {
+      height: 100%;
+      object-fit: cover;
+    }
+    #{{el_id}} .text-wrapper{
+      width:calc(50% - 0px);
+      padding: 80px var(--container_padding_d);
+    }
+    #{{el_id}} .text-container{
+        max-width:{% if section.settings.content_max_width != blank and section.settings.content_max_width != 0 %}{{section.settings.content_max_width}}px{% else %}100%{% endif %};
+        margin: 0 auto;
+        padding: 0;
+        row-gap: 60px;
+        column-gap: 48px;
+    }
+
+    #{{el_id}} .flex-wrapper{
+        flex-direction:{{section.settings.image_position}};
+    }
+    #{{el_id}} .usp-each {
+      width: calc(50% - 24px);
+    }
+  }
+  @media screen and (min-width: 1440px) {
+    
+    #{{el_id}} .text-container{
+      max-width:{% if section.settings.content_max_width_hd != blank and section.settings.content_max_width_hd != 0 %}{{section.settings.content_max_width_hd}}px{% else %}100%{% endif %};
+      margin: 0 auto;
+      padding: 0;
+    }
+    #{{el_id}} .text-wrapper {
+       padding: 80px var(--container_padding_hd);
+    }
+    
+  }
+  @media screen and (min-width: 1920px) {
+    #{{el_id}} .text-wrapper{
+      width: 100%;
+      max-width: 600px;
+    }
+  }
+  {%- if section.settings.custom_lh_mobile != blank -%}
+      #{{el_id}} .text-container .title {
+          line-height: {{ section.settings.custom_lh_mobile }};
+      }
+      #{{el_id}} .text-container .title .h7{
+          line-height: 0.9;
+      }
+  {%- endif -%}
+  {%- if section.settings.custom_lh_tablet != blank -%}
+      @media screen and (min-width: 600px) {
+          #{{el_id}} .text-container .title {
+              line-height: {{ section.settings.custom_lh_tablet }};
+          }
+          #{{el_id}} .text-container .title .h7{
+              line-height: 0.9;
+          }
+      }
+  {%- endif -%}
+  {%- if section.settings.custom_lh_desktop != blank -%}
+      @media screen and (min-width: 1024px) {
+          #{{el_id}} .text-container .title {
+              line-height: {{ section.settings.custom_lh_desktop }};
+          }
+          #{{el_id}} .text-container .title .h7{
+              line-height: 0.9;
+          }
+      }
+  {%- endif -%}
+
+  @media screen and (min-width: 1920px) {
+    {% if section.settings.content_max_width_hhd != blank and section.settings.content_max_width_hhd != 0 %}
+    #{{el_id}} .text-container{
+      max-width:{{section.settings.content_max_width_hhd}}px;
+      margin: 0 auto;
+      padding: 0;
+    }
+    #{{el_id}} .text-wrapper {
+      max-width: {{section.settings.content_max_width_hhd}}px;
+    }
+    {% endif %}
+  }
+</style>
+
+<section id="{{ el_id }}" class="image-text">
+  <div class="{{section.settings.section_width}}">
+    <div class="flex flex-wrap flex-wrapper">
+      <div class="image-container {%if section.settings.image_position == "row-reverse"%}d-ml-0{% else %}d-mr-0{% endif %}">
+        
+        {% assign image_id = 'image-text-image-' | append: section.id %}
+        {%- render 'global-image-wrapper-responsive',
+          image_id: image_id,
+          desktop_image: section.settings.desktop_image,
+          mobile_image: section.settings.mobile_image
+        %}
+      
+      </div>
+      <div class="text-wrapper container d-flex flex-column jc-center swiper {{section.settings.section_width}} ml-auto mr-auto d-pl-0 d-pr-0 d-pt-80 d-pb-80">
+        <div
+          data-image-pos="{{ section.settings.image_position }}"
+          class="swiper-wrapper text-container d-flex d-flex-wrap {{section.settings.text_align}} {% if section.settings.image_position_mobile == 'image-first' %}pt-60 pb-60{% endif %} {% if section.settings.image_position_mobile == 'text-first' %}pt-60 pb-60{% endif %}{% if section.settings.image_position_mobile == 'follow-desktop' %}{%if section.settings.image_position == "row"%}pt-60 pb-60{% endif %}{%if section.settings.image_position == "row-reverse"%}pt-60 pb-60{% endif %}{% endif %} d-pt-0 d-pb-0"
+        >
+        {%- for block in section.blocks -%}
+          {%- assign bs = block.settings -%}
+          <div class="swiper-slide usp-each">
+            <div class="usp-icon mb-20">
+            {% assign image_id = 'image-usp-each-' | append: section.id %}
+            {%- render 'global-image-wrapper-responsive',
+              image_id: image_id,
+              desktop_image: bs.desktop_image,
+              mobile_image: bs.mobile_image,
+              additional_class: 'no-bg'
+            %}
+            </div>
+            <{{ section.settings.title_dom_type }} class="{{section.settings.title_size}} pb-16 c-black title">
+              {{- bs.title -}}
+            </{{ section.settings.title_dom_type }}>
+
+            <div class="text-desc">
+              {%- if section.settings.text_style == 'html' -%}
+                {{ bs.text }}
+              {%- else -%}
+                <div class="p2">
+                  {{ bs.text | newline_to_br }}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+        
+        </div>
+        <div class="{{ el_id }}-pagination swiper-pagination show-m hide-d mb-20"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  let uspSwiper = null;
+
+  function initSwiperUSP() {
+    uspSwiper = new Swiper('#{{ el_id }} .text-wrapper', {
+      slidesPerView: 1.50,
+      slidesPerColumn: 1.50,
+      spaceBetween: 16,
+      breakpoints: {
+        430: {
+          slidesPerView: 2.50,
+          freeMode: false,
+        }
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        type: "progressbar",
+      }
+    });
+  }
+
+  function initSwiperOnMobile() {
+    if (window.innerWidth <= 600) { 
+      initSwiperUSP();
+    }
+  }
+
+  initSwiperOnMobile();
+  window.addEventListener('resize', () => {
+    if (window.innerWidth <= 600 && !uspSwiper) {
+      initSwiperUSP();
+    } else if (window.innerWidth > 600 && uspSwiper) {
+      uspSwiper.destroy(true, true);
+      uspSwiper = null;
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Image + USP",
+  "settings": [
+    {
+      "type": "radio",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "", "label": "Full Width" },
+        { "value": "container", "label": "Contained" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "number",
+      "id": "content_max_width",
+      "label": "Content Max Width (desktop)",
+      "info": "input on (px)",
+      "default": 500
+    },
+    {
+      "type": "number",
+      "id": "content_max_width_hd",
+      "label": "Content Max Width (1440)",
+      "info": "input on (px)"
+    },
+    {
+      "type": "number",
+      "id": "content_max_width_hhd",
+      "label": "Content Max Width (1920)",
+      "info": "input on (px)"
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" },
+        { "value": "h7", "label": "H7" }
+      ],
+      "default": "h2"
+    },
+   
+    {
+      "type": "select",
+      "id": "text_style",
+      "label": "Text Style",
+      "options": [
+        { "value": "plain", "label": "Plain" },
+        { "value": "html", "label": "HTML" }
+      ],
+      "default": "plain"
+    },
+    
+    {
+      "type": "text",
+      "id": "custom_lh_mobile",
+      "label": "Custom Heading Line Height (mobile)",
+      "info": "Leave it empty for default. Input example: 1.2 or 40px"
+    },
+    {
+      "type": "text",
+      "id": "custom_lh_tablet",
+      "label": "Custom Heading Line Height (tablet)",
+      "info": "Leave it empty for default. Input example: 1.2 or 40px"
+    },
+    {
+      "type": "text",
+      "id": "custom_lh_desktop",
+      "label": "Custom Heading Line Height (desktop)",
+      "info": "Leave it empty for default. Input example: 1.2 or 40px"
+    },
+    {
+      "type": "radio",
+      "id": "text_align",
+      "label": "Text Align",
+      "options": [
+        { "value": "tc", "label": "Center" },
+        { "value": "tl", "label": "Left" },
+        { "value": "tr", "label": "Right" }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "radio",
+      "id": "image_position",
+      "label": "Image Position (Desktop)",
+      "options": [
+        { "value": "row", "label": "Left" },
+        { "value": "row-reverse", "label": "Right" }
+      ]
+    },
+    {
+      "type": "radio",
+      "id": "image_position_mobile",
+      "label": "Image Position (Mobile)",
+      "options": [
+        { "value": "image-first", "label": "Image First" },
+        { "value": "follow-desktop", "label": "Follow Desktop" },
+        { "value": "text-first", "label": "Text First" }
+      ],
+      "default": "follow-desktop"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image + USP",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

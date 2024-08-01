@@ -1,0 +1,168 @@
+{% comment %}
+Description:
+Snippet for displaying collection and search result product list
+
+Variables:
+section: section object
+{% endcomment %}
+
+{% comment %} {%- assign bipl = collection.metafields.info.banner_in_product_list -%} {% endcomment %}
+
+
+{%- if collection.metafields.banner_in_product_list.enable and show_more != true -%}
+    {% comment %} {%- assign bipl_position = collection.metafields.info.banner_in_product_list_position | times: 1 -%} {% endcomment %}
+    {%- assign bipl_position = collection.metafields.banner_in_product_list.position | times: 1 -%}
+    {% comment %} {%- assign bipl = bipl.value -%} {% endcomment %}
+    {% capture banner_html %}
+        <div class="bipl-banner relative d-h-full container-max">
+            {%assign image_id = "banner-in-product-list" %}
+            {% render 'global-image-wrapper-responsive', 
+                image_id: image_id,
+                desktop_image: collection.metafields.banner_in_product_list.image_desktop[0], 
+                mobile_image: collection.metafields.banner_in_product_list.image_mobile[0],
+                overlay: true, 
+                desktop_acc: true,
+                mobile_acc: true,
+                load_inside_vue: load_inside_vue %}
+            <div class="text-con ab-middle-left d-ab-top-left" style="z-index:2">
+                <div class="p-25 t-p-35 d-p-45 hhd-pt-65 hhd-pl-65">
+					<h4 class="the-text h2 c-white max-245 t-max-450 d-max-1000">{{ collection.metafields.banner_in_product_list.title }}</h4>
+					{% comment %} <div class="the-text rte p2">{{ bipl.text | metafield_tag }}</div> {% endcomment %}
+					{% comment %} {%- if bipl.link_url != blank and bipl.link_label != blank -%}
+						<div class="mt-15 d-mt-15 hide-d">
+							{%- render 'link-icon',
+								wrapper_class: 'link2',
+								url: bipl.link_url,
+								label: bipl.link_label,
+							-%}
+						</div>
+						<div class="mt-10 d-mt-15 hide-m show-d">
+							{%- render 'link-icon',
+								wrapper_class: 'link1',
+								url: bipl.link_url,
+								label: bipl.link_label,
+							-%}
+						</div>
+					{%- endif -%} {% endcomment %}
+
+                    {%if collection.metafields.banner_in_product_list.button_label != blank and collection.metafields.banner_in_product_list.button_url != blank%}
+                        <div class="mt-20">
+                            <a href="{{collection.metafields.banner_in_product_list.button_url}}" class="btn1">{{collection.metafields.banner_in_product_list.button_label}}</a>
+                        </div>
+                    {%endif%}
+				</div>
+            </div>
+        </div>
+    {% endcapture %}
+{%- endif -%}
+
+{%- if section.settings.bipl_enable -%}
+    {%- assign bipl_position = section.settings.bipl_position -%}
+    {% capture banner_html %}
+        <div class="bipl-banner relative d-h-full container-max">
+            {%assign image_id = "banner-in-product-list" %}
+            {% render 'global-image-wrapper-responsive', 
+                image_id: image_id,
+                desktop_image: section.settings.bipl_image_desktop, 
+                mobile_image: section.settings.bipl_image_mobile,
+                overlay: true,
+                load_inside_vue: load_inside_vue %}
+            <div class="text-con ab-bottom-left" style="z-index:10">
+                <div class="pl-15 pr-15 pt-20 pb-20 t-p-35 hhd-pt-45 hhd-pb-45 hhd-pl-45 hhd-pr-45">
+					<h4 class="the-text h2 c-white max-245 t-max-450 d-max-1000">{{ section.settings.bipl_title }}</h4>
+					{% comment %} <div class="the-text rte p2">{{ bipl.text | metafield_tag }}</div> {% endcomment %}
+					{% comment %} {%- if bipl.link_url != blank and bipl.link_label != blank -%}
+						<div class="mt-15 d-mt-15 hide-d">
+							{%- render 'link-icon',
+								wrapper_class: 'link2',
+								url: bipl.link_url,
+								label: bipl.link_label,
+							-%}
+						</div>
+						<div class="mt-10 d-mt-15 hide-m show-d">
+							{%- render 'link-icon',
+								wrapper_class: 'link1',
+								url: bipl.link_url,
+								label: bipl.link_label,
+							-%}
+						</div>
+					{%- endif -%} {% endcomment %}
+
+                    {%if section.settings.bipl_button_label != blank and section.settings.bipl_button_url != blank%}
+                        <div class="mt-20">
+                            {% assign text_class = 'link2 c-white' %}
+                            {% render 'link-icon', 
+                                id: "bipl-banner-link",
+                                label: section.settings.bipl_button_label, 
+                                url: section.settings.bipl_button_url,
+                                text_class: text_class,
+                                icon_svg: settings.icon_btn_right,
+                                right_icon: true,
+                                icon_width: 8,
+                                icon_height: 9
+                            %}
+                        </div>
+                    {%endif%}
+				</div>
+            </div>
+        </div>
+    {% endcapture %}
+{%- endif -%}
+
+{%- assign block_position = 0 -%}
+{%- assign item_per_page = settings.collection_products_number -%}
+{%- if collection.metafields.banner_in_product_list.enable and show_more != true -%}
+	{%- assign item_per_page = settings.collection_products_number | plus: 2 -%}{% comment %} because banner took 2 panel, plus 1 if only 1 {% endcomment %}
+{%- endif  -%}
+{%- if section.settings.bipl_enable -%}
+	{%- assign item_per_page = settings.collection_number | plus: 2 -%}{% comment %} because banner took 2 panel, plus 1 if only 1 {% endcomment %}
+{%- endif  -%}
+
+{%- assign item_per_page = 11 -%}
+<!--item_per_page-->
+<!--{{ item_per_page }}-->
+{%- if request.page_type == 'collection' -%}
+    {%- paginate collection.products by item_per_page -%}
+        {%- for product in collection.products -%}
+            {%- assign block_position = block_position | plus: 1 -%}
+
+            <div class="product-card-wrapper col-6 col-d-4 col-hhd-3 {% if full_grid %}col-12{% endif %}" data-total-products="{{ collection.products_count }}" data-position="{{ block_position }}" data-bipl-position="{{ bipl_position }}">
+                {% comment %} {%- render 'product-card', product: product -%} {% endcomment %}
+                {%- render 'product-each', product: product, disable_atc: disable_atc -%}
+            </div>
+
+            {% comment %} BIPL content {% endcomment %}
+            {%- assign next_block_position = block_position | plus: 1 -%}
+            {%- if next_block_position == bipl_position -%}
+                <div class="banner-wrapper col-12 col-d-4 col-hhd-3 mb-40 d-mb-56">{{ banner_html }}</div>
+                
+                {%- assign block_position = block_position | plus: 1 -%}{% comment %} because banner took 2 panel, remove if only 1 {% endcomment %}
+
+            {%- endif -%}
+            {% comment %} End BIPL content {% endcomment %}
+        {%- endfor -%}
+        <!--PAGINATE HERE-->
+        <!--{{ paginate.pages }}-->
+        <!--{{ section.settings.pagination_type }}-->
+        {%- if paginate.pages > 1 -%}
+			<div class="pagination-wrapper col-12 mb-60 d-mb-120">
+				{%- render 'global-pagination', paginate: paginate -%}
+			</div>
+		{%- endif -%}
+    {%- endpaginate -%}
+{%- else -%}
+    {%- paginate search.results by settings.search_products_number -%}
+        {%- for product in search.results -%}
+            <div class="product-card-wrapper col-6 col-d-4 " data-total-products="{{ search.results_count }}">
+                {% comment %} {%- render 'product-card', product: product -%} {% endcomment %}
+                {%- render 'product-each', product: product, disable_atc: disable_atc -%}
+            </div>
+        {%- endfor -%}
+
+        {%- if paginate.pages > 1 -%}
+			<div class="pagination-wrapper col-12 mb-60 d-mb-120">
+				{%- render 'global-pagination', paginate: paginate -%}
+			</div>
+		{%- endif -%}
+    {%- endpaginate -%}
+{%- endif -%}

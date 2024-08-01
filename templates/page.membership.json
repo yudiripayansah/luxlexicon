@@ -1,0 +1,229 @@
+{
+  "wrapper": "div.global-content-top-margin",
+  "sections": {
+    "heading_text_KxTyh8": {
+      "type": "heading-text",
+      "settings": {
+        "max-width-d": 0,
+        "bg_color": "",
+        "heading_color": "",
+        "text_color": "",
+        "heading": "Frequent Shopper",
+        "title_text_element": "h1",
+        "title_text_size": "h2",
+        "text": "<p>Enjoy perks including shopping vouchers, birthday treats and exclusive previews of new arrivals, events and sales.<\/p>",
+        "link_label": "Join Now",
+        "link_url": "https:\/\/www.google.com",
+        "link_label2": "Sign In",
+        "link_url2": "https:\/\/www.google.com",
+        "link_gap_pc": "d-mt-20",
+        "link_gap_mobile": "mt-15",
+        "top_padding_m": 30,
+        "bottom_padding_m": 0,
+        "top_padding_t": 30,
+        "bottom_padding_t": 0,
+        "top_padding": 50,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": ""
+      }
+    },
+    "membership_how_it_works_g9HbCy": {
+      "type": "membership-how-it-works",
+      "blocks": {
+        "entry_MmqJUq": {
+          "type": "entry",
+          "settings": {
+            "title": "Join",
+            "text": "Receive a $20 Welcome Voucher",
+            "icon": "shopify:\/\/shop_images\/Group_20526.svg"
+          }
+        },
+        "entry_Ubghdh": {
+          "type": "entry",
+          "settings": {
+            "title": "Accumulate",
+            "text": "Spend more to receive vouchers",
+            "icon": "shopify:\/\/shop_images\/Group_20526.svg"
+          }
+        },
+        "entry_eATFXB": {
+          "type": "entry",
+          "settings": {
+            "title": "Upgrade",
+            "text": "Become a Frequent Shopper and enjoy more perks!",
+            "icon": "shopify:\/\/shop_images\/Group_20526.svg"
+          }
+        }
+      },
+      "block_order": [
+        "entry_MmqJUq",
+        "entry_Ubghdh",
+        "entry_eATFXB"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 60,
+        "top_padding_t": 60,
+        "bottom_padding_t": 60,
+        "top_padding": 100,
+        "bottom_padding": 60,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "title_dom_type": "h2",
+        "title_size": "h2",
+        "title": "How It Works",
+        "desktop_image": "shopify:\/\/shop_images\/dummy_632x474_ffffff_cccccc.png",
+        "mobile_image": "shopify:\/\/shop_images\/dummy_334x250_ffffff_cccccc.png"
+      }
+    },
+    "membership_tiers_piPzLR": {
+      "type": "membership-tiers",
+      "blocks": {
+        "entry_kadadz": {
+          "type": "entry",
+          "settings": {
+            "title": "Customer",
+            "content": "<ul><li>Sign up to become a member<\/li><li>Receive a $20 Welcome Voucher<\/li><li>Receive a $20 Voucher with every $500 accumulated spend<\/li><li>15% off your Birthday Month<\/li><\/ul>"
+          }
+        },
+        "entry_7chRNA": {
+          "type": "entry",
+          "settings": {
+            "title": "Frequent Shopper",
+            "content": "<ul><li>Accumulated spending of $1000 to become a member<\/li><li>Receive a $20 Welcome Voucher<\/li><li>Receive a $50 Voucher with every $500 accumulated spend<\/li><li>20% off your Birthday Month<\/li><\/ul>"
+          }
+        }
+      },
+      "block_order": [
+        "entry_kadadz",
+        "entry_7chRNA"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 60,
+        "top_padding_t": 60,
+        "bottom_padding_t": 60,
+        "top_padding": 100,
+        "bottom_padding": 100,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "title_dom_type": "h2",
+        "title_size": "h2",
+        "title": "Explore Tier Benefits",
+        "bg_color": "#f0f0f0",
+        "disc": "*The accumulated spend gets reset to $0, unless there is at least one transaction within 12 months from their last purchase"
+      }
+    },
+    "information_Qn3FFj": {
+      "type": "information",
+      "blocks": {
+        "entry_dB4EGq": {
+          "type": "entry",
+          "settings": {
+            "title": "Why should I create an account?",
+            "description": "Upon successful activation of your account, you will receive a $20 Welcome Voucher from us — which you can utilise on your next purchase with a minimum spend of SGD 100 on regular-priced items. You will also enjoy a one-time 15% off during your Birthday Month! Creating an IN GOOD COMPANY customer account with us also puts you on the fast track to becoming a Frequent Shopper with us for life; simply accumulate your spend to SGD 1,000 (no time limit) and you’ll be entitled to enjoy even more benefits under our Frequent Shopper Program. With a registered and activated profile, you can keep track of your spend, order history, and be the first to get notified of our new collections or events."
+          }
+        },
+        "entry_TpRdaT": {
+          "type": "entry",
+          "settings": {
+            "title": "How do I activate my account?",
+            "description": "Upon successful activation of your account, you will receive a $20 Welcome Voucher from us — which you can utilise on your next purchase with a minimum spend of SGD 100 on regular-priced items. You will also enjoy a one-time 15% off during your Birthday Month! Creating an IN GOOD COMPANY customer account with us also puts you on the fast track to becoming a Frequent Shopper with us for life; simply accumulate your spend to SGD 1,000 (no time limit) and you’ll be entitled to enjoy even more benefits under our Frequent Shopper Program. With a registered and activated profile, you can keep track of your spend, order history, and be the first to get notified of our new collections or events."
+          }
+        },
+        "entry_YmqE6J": {
+          "type": "entry",
+          "settings": {
+            "title": "How do I become a Frequent Shopper?",
+            "description": "Upon successful activation of your account, you will receive a $20 Welcome Voucher from us — which you can utilise on your next purchase with a minimum spend of SGD 100 on regular-priced items. You will also enjoy a one-time 15% off during your Birthday Month! Creating an IN GOOD COMPANY customer account with us also puts you on the fast track to becoming a Frequent Shopper with us for life; simply accumulate your spend to SGD 1,000 (no time limit) and you’ll be entitled to enjoy even more benefits under our Frequent Shopper Program. With a registered and activated profile, you can keep track of your spend, order history, and be the first to get notified of our new collections or events."
+          }
+        },
+        "entry_Hrf4Y6": {
+          "type": "entry",
+          "settings": {
+            "title": "I forgot my password. What should I do?",
+            "description": "Upon successful activation of your account, you will receive a $20 Welcome Voucher from us — which you can utilise on your next purchase with a minimum spend of SGD 100 on regular-priced items. You will also enjoy a one-time 15% off during your Birthday Month! Creating an IN GOOD COMPANY customer account with us also puts you on the fast track to becoming a Frequent Shopper with us for life; simply accumulate your spend to SGD 1,000 (no time limit) and you’ll be entitled to enjoy even more benefits under our Frequent Shopper Program. With a registered and activated profile, you can keep track of your spend, order history, and be the first to get notified of our new collections or events."
+          }
+        },
+        "entry_PTmVUA": {
+          "type": "entry",
+          "settings": {
+            "title": "How do I update my profile details (e.g. address\/phone number)?",
+            "description": "Upon successful activation of your account, you will receive a $20 Welcome Voucher from us — which you can utilise on your next purchase with a minimum spend of SGD 100 on regular-priced items. You will also enjoy a one-time 15% off during your Birthday Month! Creating an IN GOOD COMPANY customer account with us also puts you on the fast track to becoming a Frequent Shopper with us for life; simply accumulate your spend to SGD 1,000 (no time limit) and you’ll be entitled to enjoy even more benefits under our Frequent Shopper Program. With a registered and activated profile, you can keep track of your spend, order history, and be the first to get notified of our new collections or events."
+          }
+        },
+        "entry_JzVnQP": {
+          "type": "entry",
+          "settings": {
+            "title": "How do I check my order history?",
+            "description": "Upon successful activation of your account, you will receive a $20 Welcome Voucher from us — which you can utilise on your next purchase with a minimum spend of SGD 100 on regular-priced items. You will also enjoy a one-time 15% off during your Birthday Month! Creating an IN GOOD COMPANY customer account with us also puts you on the fast track to becoming a Frequent Shopper with us for life; simply accumulate your spend to SGD 1,000 (no time limit) and you’ll be entitled to enjoy even more benefits under our Frequent Shopper Program. With a registered and activated profile, you can keep track of your spend, order history, and be the first to get notified of our new collections or events."
+          }
+        },
+        "entry_LWUQh4": {
+          "type": "entry",
+          "settings": {
+            "title": "How do I check on my accumulated spend?",
+            "description": "Upon successful activation of your account, you will receive a $20 Welcome Voucher from us — which you can utilise on your next purchase with a minimum spend of SGD 100 on regular-priced items. You will also enjoy a one-time 15% off during your Birthday Month! Creating an IN GOOD COMPANY customer account with us also puts you on the fast track to becoming a Frequent Shopper with us for life; simply accumulate your spend to SGD 1,000 (no time limit) and you’ll be entitled to enjoy even more benefits under our Frequent Shopper Program. With a registered and activated profile, you can keep track of your spend, order history, and be the first to get notified of our new collections or events."
+          }
+        },
+        "entry_LYHdit": {
+          "type": "entry",
+          "settings": {
+            "title": "How do I check for the Shopping Perks in my account?",
+            "description": "Upon successful activation of your account, you will receive a $20 Welcome Voucher from us — which you can utilise on your next purchase with a minimum spend of SGD 100 on regular-priced items. You will also enjoy a one-time 15% off during your Birthday Month! Creating an IN GOOD COMPANY customer account with us also puts you on the fast track to becoming a Frequent Shopper with us for life; simply accumulate your spend to SGD 1,000 (no time limit) and you’ll be entitled to enjoy even more benefits under our Frequent Shopper Program. With a registered and activated profile, you can keep track of your spend, order history, and be the first to get notified of our new collections or events."
+          }
+        },
+        "entry_49eew4": {
+          "type": "entry",
+          "settings": {
+            "title": "How can I use my Shopping Perks (i.e. Welcome \/ Birthday \/ Frequent Shopper Vouchers)?",
+            "description": "Upon successful activation of your account, you will receive a $20 Welcome Voucher from us — which you can utilise on your next purchase with a minimum spend of SGD 100 on regular-priced items. You will also enjoy a one-time 15% off during your Birthday Month! Creating an IN GOOD COMPANY customer account with us also puts you on the fast track to becoming a Frequent Shopper with us for life; simply accumulate your spend to SGD 1,000 (no time limit) and you’ll be entitled to enjoy even more benefits under our Frequent Shopper Program. With a registered and activated profile, you can keep track of your spend, order history, and be the first to get notified of our new collections or events."
+          }
+        }
+      },
+      "block_order": [
+        "entry_dB4EGq",
+        "entry_TpRdaT",
+        "entry_YmqE6J",
+        "entry_Hrf4Y6",
+        "entry_PTmVUA",
+        "entry_JzVnQP",
+        "entry_LWUQh4",
+        "entry_LYHdit",
+        "entry_49eew4"
+      ],
+      "settings": {
+        "top_padding_m": 60,
+        "bottom_padding_m": 0,
+        "top_padding_t": 60,
+        "bottom_padding_t": 0,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "top_padding_hd": "",
+        "bottom_padding_hd": "",
+        "top_padding_hhd": "",
+        "bottom_padding_hhd": "",
+        "title": "Frequently Asked Questions",
+        "title_size": "h2",
+        "title_dom_type": "h2",
+        "menu_1": "",
+        "menu_2": "",
+        "accordion_bb": false,
+        "accordion_ttl_space": false
+      }
+    }
+  },
+  "order": [
+    "heading_text_KxTyh8",
+    "membership_how_it_works_g9HbCy",
+    "membership_tiers_piPzLR",
+    "information_Qn3FFj"
+  ]
+}

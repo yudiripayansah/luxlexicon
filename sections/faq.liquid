@@ -1,0 +1,258 @@
+{% comment %} Luxlexicon - Yudi {% endcomment %}
+{% liquid
+  assign el_id = 'icons-grid-' | append: section.id
+  assign ss = section.settings
+  assign sb = section.blocks
+  render 'section-padding', el_id: el_id, section: section
+%}
+<style>
+  #{{el_id}} .faq-wrap {
+    {% if ss.max_width != 0 and ss.max_width > 0 %}
+      max-width: {{ss.max_width}}px;
+    {% endif %}
+  }
+  #{{el_id}} .btn-faq {
+    width: 100%;
+    text-align: center;
+  }
+  @media screen and (min-width: 1024px) {
+    #{{el_id}} .btn-faq {
+      width: auto;
+    }
+  }
+</style>
+<section id="{{ el_id }}">
+  <div class="container">
+    <div class="faq-wrap ml-auto mr-auto">
+      <{{ ss.title_dom_type }} class="section-title {{ ss.title_size }} mr-auto ml-auto d-tc tl">
+        {{- ss.title -}}
+      </{{ ss.title_dom_type }}>
+      <div class="faq-wrapper bb-1 b-border d-mt-56 mt-36">
+        {% for block in sb %}
+          {% liquid
+            assign desc_html = block.settings.text
+          %}
+          {% if forloop.first == true %}
+            {% assign wrapper_class = 'd-bt-1 b-border mb-24' %}
+          {% else %}
+            {% assign wrapper_class = 'bt-1 b-border mb-24' %}
+          {% endif %}
+          {%- render 'accordion',
+            wrapper_class: wrapper_class,
+            title: block.settings.title,
+            desc_html: desc_html,
+            title_class: 'p1 relative semibold-600',
+            title_wrapper_class: 'pt-24',
+            title_no_pb: true,
+            title_no_pt: true,
+            icon_rotate: false,
+            desc_class: 'p1 c-grey pt-24',
+            description_class: 'p1',
+            default_active: false,
+            desc_no_pt: true,
+            desc_no_pb: true
+          -%}
+        {% endfor %}
+      </div>
+      {% if ss.btn_label != blank %}
+      <div class="flex ai-center jc-center d-mt-36 mt-32">
+        <a class="btn1 btn-faq" href="{{ss.btn_url}}">{{ss.btn_label}}</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    {
+      "type": "number",
+      "id": "max_width",
+      "label": "Max Width"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "default": "h3",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_dom_type",
+      "label": "Title DOM Type",
+      "default": "h3",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button Label"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button Url"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_m",
+      "label": "Top padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_m",
+      "label": "Bottom padding (Mobile)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_t",
+      "label": "Top padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_t",
+      "label": "Bottom padding (Tablet)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding",
+      "label": "Top padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding",
+      "label": "Bottom padding (Desktop)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hd",
+      "label": "Top padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hd",
+      "label": "Bottom padding (HD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "top_padding_hhd",
+      "label": "Top padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "bottom_padding_hhd",
+      "label": "Bottom padding (HHD)",
+      "options": [
+        { "value": "nopadding", "label": "No padding" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "qna",
+      "name": "Q & A",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Question"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Answer"
+        }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FAQ", "blocks": [] }]
+}
+{% endschema %}

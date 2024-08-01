@@ -1,0 +1,35 @@
+{% comment %}
+Description:
+Snippet for displaying product card style 2
+
+Variables:
+- product: Object. The product object.
+- preload_img: Boolean. If true, image is not using lazyload
+- h_on_mobile: Boolean. If true the display would be horizontal on mobile
+{% endcomment %}
+{%- if preload_img == blank -%}
+    {%- assign preload_img = false -%}
+{%- endif -%}
+<div class="product-card-2 rounded-12 b-1 b-border-orange p-10 {% if h_on_mobile == true %}h-on-mobile{% endif %}">
+    <a href="{{ product.url }}" title="{{ product.title | escape }}" class="block">
+        <div class="image-con mb-10">
+            {%- if product.featured_image == blank -%}
+                <img src="{{ product.featured_image | img_url: '300x' }}" alt="{{ product.featured_image.alt | escape }}" class="image">
+            {%- else -%}
+                {%- render 'global-image-wrapper', 
+                    image: product.featured_image, 
+                    preload: preload_img 
+                    size: 300
+                -%}
+            {%- endif -%}
+        </div>
+        <div class="details-con">
+            <p class="p2 bold-700">{{ product.title }}</p>
+            <p><span class="p2">from</span> <span class="p2 bold-700">{{ product.price_min | money_with_currency }}</span></p>
+        </div>
+    </a>
+    {%- assign variant = product.selected_or_first_available_variant -%}
+        <button type="button" class="atc-button bg-comfort-orange flex ai-center jc-center right" onclick="$360.addToCart({qty: 1, variantId: {{ variant.id }}{% if product.type == 'Fabric' %}, fabric: true{% endif %}})">
+        <span class="icon flex ai-center jc-center">{{ settings.icon_plus }}</span>
+    </button>
+</div>

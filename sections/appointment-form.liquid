@@ -1,0 +1,576 @@
+{% comment %} Love&Co Theme {% endcomment %}
+{% assign el_id = "shopify-section-" | append: section.id%}
+{% render 'section-padding', section:section , el_id : el_id%}
+
+{% comment %} import datepicker {% endcomment %}
+{{ 'datepicker.min.css' | asset_url | stylesheet_tag: preload: true }}
+{{ 'datepicker.min.js' | asset_url | script_tag }}
+
+{% comment %} import input with country flag {% endcomment %}
+{{ 'intl-tel-input.min.css' | asset_url | stylesheet_tag: preload: true }}
+{{ 'intl-tel-input.min.js' | asset_url | script_tag }}
+
+<style>
+    {%if section.settings.enable_border_top%}
+    #shopify-section-{{ section.id }}{
+        border-top:1px solid #DBDBDB;
+    }
+    {%endif%}
+    {%if section.settings.enable_border_bottom%}
+    #shopify-section-{{ section.id }}{
+        border-bottom:1px solid #DBDBDB;
+    }
+    {%endif%}
+
+    
+    #shopify-section-{{ section.id }} .flex-wrapper{
+        display:flex;
+        flex-wrap:wrap;
+    }
+    #shopify-section-{{ section.id }} .form-input{
+        width: 100%;
+        padding: 15px 15px;
+        border: 1px solid #dbdbdb;;
+    }
+    #shopify-section-{{ section.id }} select{
+        font-family:'Inter', sans-serif;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10.707' height='6.061' viewBox='0 0 10.707 6.061'%3E%3Cpath d='M0,0,5,5,0,10' transform='translate(10.354 0.354) rotate(90)' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position-x: calc(100% - 20px);
+        background-position-y: center;
+    }
+
+    #shopify-section-{{ section.id }} .datepicker-dropdown {
+        width: 400px;
+        position: relative;
+        margin: 0 auto;
+        padding: 0;
+        max-width: 100%;
+    }
+    #shopify-section-{{ section.id }} .datepicker-dropdown * {
+        font-size: 12px !important;
+    }
+    #shopify-section-{{ section.id }} .datepicker-dropdown .datepicker-main {
+        padding: 0;
+    }
+    #shopify-section-{{ section.id }} .datepicker-dropdown .datepicker-view {
+        width: 100%;
+    }
+    #shopify-section-{{ section.id }} .datepicker-picker {
+        box-shadow: unset;
+        border: 1px solid #DBDBDB;
+        border-radius: 0;
+    }
+    #shopify-section-{{ section.id }} .datepicker {
+        left: 0 !important;
+        top: 0 !important;
+    }
+    #shopify-section-{{ section.id }} .datepicker-header {
+        background: #C8E7D9;
+    }
+    #shopify-section-{{ section.id }} .datepicker-header .datepicker-controls {
+        margin: 0;
+        padding: 0;
+    }
+    #shopify-section-{{ section.id }} .datepicker-header .datepicker-controls button {
+        background: transparent;
+        font-weight: 500;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border: unset;
+        border-radius: unset;
+        height: auto;
+    }
+    #shopify-section-{{ section.id }} .datepicker-header .datepicker-controls button svg {
+        width: 6px;
+        height: 10px;
+    }
+    #shopify-section-{{ section.id }} .datepicker-cell.focused:not(.selected) {
+        background: unset;
+    }
+    #shopify-section-{{ section.id }} .days {
+        padding-bottom: 10px;
+    }
+    #shopify-section-{{ section.id }} .days-of-week {
+        margin-top: 25px;
+        margin-bottom: 10px;
+    }
+    #shopify-section-{{ section.id }} .days-of-week span {
+        font-weight: normal;
+    }
+    #shopify-section-{{ section.id }} .day {
+        border-radius: 0;
+        height: 2.5rem;
+    }
+    #shopify-section-{{ section.id }} .day.selected {
+        color: var(--black);
+        border: 1px solid var(--black);
+        background: #fff;
+        font-weight: normal;
+    }
+
+    #shopify-section-{{ section.id }} .time-wrapper .inner-wrapper {
+        row-gap: 10px;
+    }
+    #shopify-section-{{ section.id }} .time-wrapper .inner-wrapper .time-each {
+        display: inline-flex;
+        flex-basis: 33.3333%;
+        text-align: center;
+        justify-content: center;
+        font-weight: 500;
+        cursor: pointer;
+    }
+    #shopify-section-{{ section.id }} .time-wrapper .inner-wrapper .time-each span {
+        padding: 10px 15px;
+        border: 1px solid transparent;
+        width: 92px;
+        white-space: nowrap;
+        transition: 0.3s ease all;
+    }
+    #shopify-section-{{ section.id }} .time-wrapper .inner-wrapper .time-each:hover span,
+    #shopify-section-{{ section.id }} .time-wrapper .inner-wrapper .time-each.active span {
+        border: 1px solid var(--black);
+    }
+
+    #shopify-section-{{ section.id }} .iti {
+        width: 100%;
+        margin-top: 10px;
+    }
+    #shopify-section-{{ section.id }} .iti input {
+        padding-left: 70px;
+    }
+    #shopify-section-{{ section.id }} .iti__selected-flag {
+        padding-left: 20px;
+        padding-right: 15px;
+    }
+    #shopify-section-{{ section.id }} select.form-input {
+        background-color: #fff;
+        color: var(--black);
+    }
+
+    @media(min-width: 768px) {
+        #shopify-section-{{ section.id }} .time-wrapper .inner-wrapper .time-each {
+            flex-basis: 25%;
+        }
+    }
+
+    @media(min-width: 1024px) {
+        #shopify-section-{{ section.id }} .time-wrapper .inner-wrapper .time-each {
+            flex-basis: 16.667%;
+        }
+        #shopify-section-{{ section.id }} .datepicker-dropdown * {
+            font-size: 13px !important;
+        }
+        #shopify-section-{{ section.id }} .form-input{
+            padding: 18px 20px;
+        }
+    }
+
+</style>
+
+<section id="{{ section.id }}" class="appointment-form">
+    <div class="container tc" id="appointment-form">
+        <div class="max-595 t-max-450 d-max-595 ml-auto mr-auto">
+            <{{ section.settings.title_dom_type }} class="h5">{{section.settings.title}}</{{ section.settings.title_dom_type }}>
+            <div class="p2 c-grey pt-15 max-500 ml-auto mr-auto">{{section.settings.text}}</div>
+
+            <form id="booking-form" action="" method="POSt">
+                {% comment %} <input type="hidden" name="action" value="booking-form"> {% endcomment %}
+                <div class="h11 pt-30 d-pt-45">STORE DETAIL</div>
+                <div class="flex-wrapper mt-15">
+                    <select name="store" class="form-input p2" id="">
+                        <option value="" selected>Select Store</option>
+                        <option value="Tampines Mall, #01 - 15A">Tampines Mall, #01 - 15A</option>
+                        <option value="VivoCity, #01-125/126">VivoCity, #01-125/126</option>
+                        <option value="JEM, #01-24">JEM, #01-24</option>
+                        <option value="Northpoint City (South Wing), #01-187/188">Northpoint City (South Wing), #01-187/188</option>
+                        <option value="Plaza Singapura, #01-07">Plaza Singapura, #01-07</option>
+                        {% comment %} <option value="Jurong Point">Jurong Point</option> {% endcomment %}
+                        <option value="ION Orchard, #B2-64">ION Orchard, #B2-64</option>
+                    </select>
+                </div>
+
+                <div class="date-wrapper mt-25 d-mt-45">
+                    <p class="p2 tc bold-500">Select Date</p>
+
+                    <div class="datepicker-wrapper mt-20">
+                        <input type="hidden" name="date" class="" />
+                    </div>
+                </div>
+
+                <div class="time-wrapper mt-25 d-mt-45">
+                    <p class="p2 tc bold-500">Select Time</p>
+                    <input type="hidden" name="time" />
+
+                    <div class="inner-wrapper global-flex flex-wrap mt-20">
+                        <div data-time="12:00 PM" onclick="apptSetTime(event)" class="time-each"><span>12:00 PM</span></div>
+                        <div data-time="12:30 PM" onclick="apptSetTime(event)" class="time-each"><span>12:30 PM</span></div>
+                        <div data-time="1:00 PM" onclick="apptSetTime(event)" class="time-each"><span>1:00 PM</span></div>
+                        <div data-time="1:30 PM" onclick="apptSetTime(event)" class="time-each"><span>1:30 PM</span></div>
+                        <div data-time="2:00 PM" onclick="apptSetTime(event)" class="time-each"><span>2:00 PM</span></div>
+                        <div data-time="2:30 PM" onclick="apptSetTime(event)" class="time-each"><span>2:30 PM</span></div>
+
+                        <div data-time="3:00 PM" onclick="apptSetTime(event)" class="time-each"><span>3:00 PM</span></div>
+                        <div data-time="3:30 PM" onclick="apptSetTime(event)" class="time-each"><span>3:30 PM</span></div>
+                        <div data-time="4:00 PM" onclick="apptSetTime(event)" class="time-each"><span>4:00 PM</span></div>
+                        <div data-time="4:30 PM" onclick="apptSetTime(event)" class="time-each"><span>4:30 PM</span></div>
+                        <div data-time="5:00 PM" onclick="apptSetTime(event)" class="time-each"><span>5:00 PM</span></div>
+                        <div data-time="5:30 PM" onclick="apptSetTime(event)" class="time-each"><span>5:30 PM</span></div>
+
+                        <div data-time="6:00 PM" onclick="apptSetTime(event)" class="time-each"><span>6:00 PM</span></div>
+                        <div data-time="6:30 PM" onclick="apptSetTime(event)" class="time-each"><span>6:30 PM</span></div>
+                        <div data-time="7:00 PM" onclick="apptSetTime(event)" class="time-each"><span>7:00 PM</span></div>
+                        <div data-time="7:30 PM" onclick="apptSetTime(event)" class="time-each"><span>7:30 PM</span></div>
+                        <div data-time="8:00 PM" onclick="apptSetTime(event)" class="time-each"><span>8:00 PM</span></div>
+                        <div data-time="8:30 PM" onclick="apptSetTime(event)" class="time-each"><span>8:30 PM</span></div>
+                    </div>
+                </div>
+                
+                <div class="h11 pt-30 d-pt-45">PERSONAL INFORMATION</div>
+                <input type="text" placeholder="Name" class="form-input mt-15 d-mt-20 p1" name="first_name" id="">
+                <input type="email" placeholder="Email" class="form-input mt-10 p1" name="email" id="">
+                <input type="tel" placeholder="Phone Number e.g. +6512345678" class="form-input mt-10 p1" name="mobile_number" id="tel-input">
+                
+                {%- unless section.settings.hide_krisflyer != blank -%}
+                    <input type="text" placeholder="KrisFlyer ID" class="form-input mt-15 d-mt-20" name="krisflyerid" id="">
+                {%- endunless -%}
+                
+                <div class="h11 pt-30 d-pt-45">YOUR INTEREST</div>
+                <select name="interest" class="form-input mt-15 d-mt-20 p2" id=""> 
+                    <option value="Engagement Rings">Engagement Rings</option>
+                    <option value="Wedding Bands">Wedding Bands</option>
+                    <option value="Gifting">Gifting</option>
+                    <option value="Fancy Shape Diamond Rings">Fancy Shape Diamond Rings</option>
+                    {% comment %} <option value="Others">Others</option> {% endcomment %}
+                </select>
+
+                <div class="mt-30 fail-text hide-m">
+                    <div class="p2 c-red tc"></div>
+                </div>
+
+                <div class="mt-30">
+                    <button type="submit" class="btn1 submit-btn">Submit</button>
+                </div>
+
+                <div class="mt-30 success-text hide-m">
+                    <div class="p2 tc">Thank you for booking a time with us. We will be contacting you shortly.</div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+{{ 'jquery-ajax-module.js' | asset_url | script_tag }}
+<script>
+    /* init datepicker */
+    const elem = document.querySelector('#shopify-section-{{ section.id }} input[name="date"]');
+    const current_date = new Date();
+    current_date.setMonth(current_date.getMonth() + 1);
+
+    // Format the future date as "yyyy-mm-dd"
+    const futureYear = current_date.getFullYear();
+    const futureMonth = (current_date.getMonth() + 1).toString().padStart(2, '0');
+    const futureDay = current_date.getDate().toString().padStart(2, '0');
+
+    const future_date = `${futureYear}-${futureMonth}-${futureDay}`;
+
+    const datepicker = new Datepicker(elem, {
+        format: 'yyyy-mm-dd',
+        nextArrow: '{{ settings.icon_slide_right }}',
+        prevArrow: '{{ settings.icon_slide_left }}',
+        datesDisabled: function(date, viewId, rangeEnd) {
+            const currentDate = new Date();
+            // Compare the provided date to the current date
+            if (date < currentDate) {
+                return true;
+            }
+
+            return false;
+        },
+        maxDate: future_date
+    }); 
+
+    /* init phone input with flag */
+    const tel_input = document.querySelector('input[name="mobile_number"]');
+    const iti = intlTelInput(tel_input,{
+        autoInsertDialCode: true,
+        nationalMode: false,
+        initialCountry: "SG"
+    });
+    tel_input.addEventListener('blur', function(){
+        if(tel_input.value == '') {
+            tel_input.value = '+' + iti.getSelectedCountryData().dialCode;
+        } 
+    });
+
+    /* time click event */
+    function apptSetTime(e) {
+        const elem = e.target.closest('.time-each');
+        const this_time = elem.getAttribute('data-time');
+        const active_time = elem.closest('.inner-wrapper').querySelector('.time-each.active');
+
+        if(active_time != null) {
+            active_time.classList.remove('active');
+        }
+        
+        elem.classList.add('active');
+
+        const time_input = document.querySelector('input[name="time"]');
+        time_input.value = this_time;
+
+        console.log(time_input.value)
+    }
+
+    const datepicker_dropdown = document.querySelector('#shopify-section-{{ section.id }} .datepicker-dropdown');
+    datepicker_dropdown.classList.add('active');
+
+    $(document).ready(function() {
+        $(document).on("submit", "#booking-form", function(e) {
+            e.preventDefault();
+            let listfields = $(this).serializeArray();
+
+            let month = $("#month").val();
+            let day = $("#day").val();
+            let appointmentday = $("#year").val()+'-'+month+'-'+day;
+            
+            const tel_input = document.querySelector('input[name="mobile_number"]');
+            if(tel_input.value == '') {
+                tel_input.value = '+' + iti.getSelectedCountryData().dialCode;
+            }
+
+            if(validateForm()) {
+                sendBookingForm(listfields);
+            }
+
+            return false;
+        });
+    });
+
+    let error_msgs = "";
+    let can_submit = true;
+    function validateForm() {
+        can_submit = true;
+        error_msgs = '';
+
+        //-- store
+        const store_val = document.querySelector('#shopify-section-{{ section.id }} select[name="store"]').value;
+        if(store_val == '') {
+            can_submit = false;
+            error_msgs += '<br>Please select a store';
+        }
+
+        //-- date
+        const date_val = document.querySelector('#shopify-section-{{ section.id }} input[name="date"]').value;
+        if(date_val == '') {
+            can_submit = false;
+            error_msgs += '<br>Please select a date';
+        }
+
+        //-- time
+        const time_val = document.querySelector('#shopify-section-{{ section.id }} input[name="time"]').value;
+        if(time_val == '') {
+            can_submit = false;
+            error_msgs += '<br>Please select a time';
+        }
+
+        //-- name
+        const name_val = document.querySelector('#shopify-section-{{ section.id }} input[name="first_name"]').value;
+        if(name_val == '') {
+            can_submit = false;
+            error_msgs += '<br>Please input your name';
+        }
+
+        //-- email
+        const email_val = document.querySelector('#shopify-section-{{ section.id }} input[name="email"]').value;
+        if(email_val == '') {
+            can_submit = false;
+            error_msgs += '<br>Please input your email address';
+        } else {
+            if(!validateEmail(email_val)) {
+                can_submit = false;
+                error_msgs += '<br>Please input a valid email address';
+            }
+        }
+
+        //-- phone
+        const phone_val = document.querySelector('#shopify-section-{{ section.id }} input[name="mobile_number"]').value;
+        if(phone_val == '') {
+            can_submit = false;
+            error_msgs += '<br>Please include the full country code including the + etc';
+        } else {
+            if(phone_val == '+65') {
+                can_submit = false;
+                error_msgs += '<br>Please include the full 8 digits for Singapore contacts';
+            } else {
+                const current_dial_code = '+' + iti.getSelectedCountryData().dialCode;
+                if(phone_val == current_dial_code) {
+                    can_submit = false;
+                    error_msgs += '<br>Please input a valid phone number';
+                }
+            }
+        }
+
+        if(error_msgs != '') {
+            error_msgs = error_msgs.replace('<br>', '');
+            $(".fail-text .c-red").html(error_msgs);
+            document.querySelector(".success-text").style.display = "none";
+            document.querySelector(".fail-text").style.display = "block";
+        } else {
+            document.querySelector(".fail-text").style.display = "none";
+        }
+
+        return can_submit;
+    }
+
+    function validateEmail(email) {
+        const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return pattern.test(email);
+    }
+  
+      function sendBookingForm(listfields){
+          listfields.push({name: "action", value:"booking-form"});
+            let form = document.querySelector('#booking-form')
+            let submitBtn = form.querySelector('.submit-btn')
+            let prevText = submitBtn.innerHTML;
+            const btnLoading = '<span class="btn-loading"></span>';
+            submitBtn.style.height = `${submitBtn.offsetHeight}px`;
+            submitBtn.style.width = `${submitBtn.offsetWidth}px`;
+            submitBtn.innerHTML = btnLoading;
+            submitBtn.setAttribute('disabled', true);
+          $.ajax({
+              type: "POST",
+              url: "/apps/integration",
+              data: listfields,
+              dataType: "json",
+              success: function(data) {
+                    submitBtn.removeAttribute('disabled');
+                    submitBtn.innerHTML = prevText;
+                  if (data.api == true) {
+                        let myForm = document.getElementById("booking-form");
+
+                        for (var i = 0; i < myForm.elements.length; i++) {
+                            if (myForm.elements[i].type !== "button" && myForm.elements[i].type !== "submit" && myForm.elements[i].name !== "interest") {
+                                myForm.elements[i].value = "";
+                            }
+                        }
+
+                        document.querySelector(".success-text").style.display = "block";
+                        document.querySelector(".fail-text").style.display = "none";
+                        
+                  } else {
+                        //Failed
+                        //alert(data.msg);
+                        let msg = data.msg;
+
+                        const phone_field = document.querySelector('input[name="mobile_number"]');
+                        if(phone_field != null) {
+                            const curr_val = phone_field.value;
+
+                            if(curr_val.indexOf('+65') >= 0) {
+                                msg = 'Please include the full 8 digits for Singapore contacts';
+                            } else {
+                                if(curr_val.indexOf('+') < 0) {
+                                    msg = 'Please include the full country code including the + etc';
+                                }
+                            }
+                        }
+
+                        $(".fail-text .c-red").html(msg)
+                        document.querySelector(".success-text").style.display = "none";
+                        document.querySelector(".fail-text").style.display = "block";
+                  }
+              },
+              error: function(){
+                submitBtn.removeAttribute('disabled');
+                submitBtn.innerHTML = prevText;
+              }
+          });
+      }
+</script>
+
+{% schema %}
+    {
+        "name": "Appointment Form",
+        "settings": [
+            {
+                "type": "checkbox",
+                "id": "hide_krisflyer",
+                "label": "Hide KrisFlyer ID Field"
+            },
+            {
+                "type": "checkbox",
+                "id": "enable_border_top",
+                "label": "Enable Border Top"
+            },
+            {
+                "type": "checkbox",
+                "id": "enable_border_bottom",
+                "label": "Enable Border Bottom"
+            },
+            {
+                "type": "select",
+                "id": "title_dom_type",
+                "label": "Title DOM Type",
+                "options": [
+                    {"value":"h1","label":"H1"},
+                    {"value":"h2","label":"H2"},
+                    {"value":"h3","label":"H3"},
+                    {"value":"h4","label":"H4"},
+                    {"value":"h5","label":"H5"}
+                ],
+                "default": "h3"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            },
+            {
+                "type": "textarea",
+                "id": "text",
+                "label": "Text"
+            },
+            {
+                "type": "header",
+                "content": "Section Padding"
+            },
+            {
+                "type": "text",
+                "id": "top_padding_m",
+                "label": "Top padding (Mobile)"
+            },
+            {
+                "type": "text",
+                "id": "bottom_padding_m",
+                "label": "Bottom padding (Mobile)"
+            },
+            {
+                "type": "text",
+                "id": "top_padding_t",
+                "label": "Top padding (Tablet)"
+            },
+            {
+                "type": "text",
+                "id": "bottom_padding_t",
+                "label": "Bottom padding (Tablet)"
+            },
+            {
+                "type": "text",
+                "id": "top_padding",
+                "label": "Top padding (Desktop)"
+            },
+            {
+                "type": "text",
+                "id": "bottom_padding",
+                "label": "Bottom padding (Desktop)"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Appointment Form",
+                "blocks": []
+            }
+        ]
+    }
+{% endschema %}
